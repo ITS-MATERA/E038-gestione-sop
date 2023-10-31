@@ -86,48 +86,22 @@
         "controlId": "app",
         "controlAggregation": "pages",
         "bypassed": {
-          "target": [
-            "notFound"
-          ]
+          "target": ["notFound"]
         },
         "async": true
       },
       "routes": [
         {
           "pattern": "",
-          "name": "worklist",
-          "target": [
-            "worklist"
-          ]
-        },
-        {
-          "pattern": "SopAmministrazioneSet/{objectId}",
-          "name": "object",
-          "target": [
-            "object"
-          ]
+          "name": "home",
+          "target": ["home"]
         }
       ],
       "targets": {
-        "worklist": {
-          "viewName": "Worklist",
-          "viewId": "worklist",
-          "viewLevel": 1,
-          "title": "{i18n>worklistViewTitle}"
-        },
-        "object": {
-          "viewName": "Object",
-          "viewId": "object",
-          "viewLevel": 2,
-          "title": "{i18n>objectViewTitle}"
-        },
-        "objectNotFound": {
-          "viewName": "ObjectNotFound",
-          "viewId": "objectNotFound"
-        },
-        "notFound": {
-          "viewName": "NotFound",
-          "viewId": "notFound"
+        "home": {
+          "viewName": "Home",
+          "viewId": "home",
+          "viewLevel": 1
         }
       }
     },
