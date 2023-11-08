@@ -45,6 +45,31 @@ sap.ui.define(
         oView.setModel(oModelJson, sNameModel);
       },
 
+      hasResponseError: function (oResponse) {
+        var bError = false;
+        if (oResponse?.headers["sap-message"]) {
+          var oMessage = this._getMessage(oResponse);
+
+          switch (oMessage.severity) {
+            case "error":
+              sap.m.MessageBox.error(oMessage.message);
+              bError = true;
+              break;
+            case "success":
+              sap.m.MessageBox.success(oMessage.message);
+              break;
+            case "warning":
+              sap.m.MessageBox.warning(oMessage.message);
+              break;
+          }
+        }
+        return bError;
+      },
+
+      _getMessage: function (oResponse) {
+        return JSON.parse(oResponse.headers["sap-message"]);
+      },
+
       //#region ---------------------GESTIONE VALUE HELP--------------------
 
       onValueHelpChange: function (oEvent) {
@@ -56,7 +81,7 @@ sap.ui.define(
         var qFilters = [];
 
         if (sFilterValueHelp) {
-          oFilter.push(this._createFilterValueHelp(sFilterValueHelp, FilterOperator.CONTAINS, sValue, false));
+          oFilter.push(this._createFilterValueHelp(sFilterValueHelp, FilterOperator.Contains, sValue, false));
           qFilters = new Filter({ filters: oFilter, and: false });
           oSource.getBinding("items").filter(qFilters);
         }
@@ -117,9 +142,15 @@ sap.ui.define(
         }
       },
 
+      setFilterCP: function (aFilters, sPropertyModel, sValue) {
+        if (sValue) {
+          aFilters.push(new Filter(sPropertyModel, FilterOperator.Contains, sValue));
+        }
+      },
+
       //#endregion -------------------GESTIONE FILTRI--------------------- */
 
-      getPermissionSop: function () {
+      getPermissionSop: function (bNavTo = false) {
         var self = this;
         var oAuthModel = this.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
 
@@ -148,7 +179,9 @@ sap.ui.define(
             oAuth.Registra = self._isUserAuthorized(aData, "ACTV_1", "Z01");
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
-            self.getRouter().navTo("amm.home");
+            if (bNavTo) {
+              self.getRouter().navTo("amm.home");
+            }
           },
           error: function (error) {
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");

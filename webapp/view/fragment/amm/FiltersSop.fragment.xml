@@ -22,7 +22,10 @@
                     <l:GridData span="XL2 L3 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>labelEsercizioGestione}:" />
+                    <Label
+                        text="{i18n>labelEsercizioGestione}:"
+                        required="true"
+                    />
                     <ComboBox
                         width="100%"
                         items="{
@@ -71,7 +74,7 @@
                     <Label text="{i18n>labelUfficioOrdinante}:" />
                     <Input
                         maxLength="16"
-                        value="{FiltersSop>ZuffCont}"
+                        value="{FiltersSop>/ZufficioCont}"
                     />
                 </items>
             </VBox>
@@ -83,7 +86,7 @@
                     <Label text="{i18n>labelCapitolo}:" />
                     <Input
                         maxLength="4"
-                        value="{FiltersSop>Capitolo}"
+                        value="{FiltersSop>/Capitolo}"
                     />
                 </items>
             </VBox>
@@ -95,7 +98,7 @@
                     <Label text="{i18n>labelNSopFrom}:" />
                     <Input
                         maxLength="5"
-                        value="{FiltersSop>ZnumsopFrom}"
+                        value="{FiltersSop>/ZnumsopFrom}"
                     />
                 </items>
             </VBox>
@@ -107,7 +110,7 @@
                     <Label text="{i18n>labelNSopTo}:" />
                     <Input
                         maxLength="5"
-                        value="{FiltersSop>ZnumsopTo}"
+                        value="{FiltersSop>/ZnumsopTo}"
                     />
                 </items>
             </VBox>
@@ -322,18 +325,12 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelEnteBeneficiario}:" />
-                    <ComboBox
-                        width="100%"
-                        items="{
-						    path: 'EnteBeneficiario>/'
-                        }"
-                        selectedKey="{FiltersSop>/ZzCeberna}"
-                    >
-                        <c:Item
-                            key="{EnteBeneficiario>ZzCeberna}"
-                            text="{EnteBeneficiario>ZzDescebe}"
-                        />
-                    </ComboBox>
+                    <Input
+                        value="{FiltersSop>/ZzDescebe}"
+                        valueHelpRequest="onValueHelpEnteBeneficiario"
+                        showValueHelp="true"
+                        maxLength="40"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -342,7 +339,17 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelPosizioneFinanziariaFrom}:" />
-                    <Input />
+                    <zcontrol:InputPosizioneFinanziaria
+                        id="iptFiposFrom"
+                        fase="GEST"
+                        spesa="X"
+                        reale="R"
+                        anno="{FiltersSop>/Gjahr}"
+                        versione="D"
+                        maxSuggestionWidth="100%"
+                        width="100%"
+                        value="{FiltersSop>/FiposFrom}"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -351,7 +358,17 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelPosizioneFinanziariaTo}:" />
-                    <Input />
+                    <zcontrol:InputPosizioneFinanziaria
+                        id="iptFiposTo"
+                        fase="GEST"
+                        spesa="X"
+                        reale="R"
+                        anno="{FiltersSop>/Gjahr}"
+                        versione="D"
+                        maxSuggestionWidth="100%"
+                        width="100%"
+                        value="{FiltersSop>/FiposTo}"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -360,7 +377,18 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelStruttAmmResponsabile}:" />
-                    <Input />
+                    <zcontrolMatchSar:GestioneLogUser
+                        eos="S"
+                        fase="GEST"
+                        entrata="X"
+                        reale="R"
+                        anno="{FiltersSop>/Gjahr}"
+                        SEM_OBJ="Z_TEST_LIB"
+                        versione="D"
+                        width="100%"
+                        placeholder="Scegli struttura amministrativa"
+                        value="{FiltersSop>/Fistl}"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -372,7 +400,12 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelNProspettoLiquidazioneFrom}:" />
-                    <Input />
+                    <zcontrolmccross:MatchcodeCross
+                        id="iptNProspLiquidazioneFrom"
+                        viewId="gestionesop.view.amm.Home"
+                        whichMC="ProspettoLiquidazione"
+                        value="{FiltersSop>/ZnumliqFrom}"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -381,7 +414,12 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelNProspettoLiquidazioneTo}:" />
-                    <Input />
+                    <zcontrolmccross:MatchcodeCross
+                        id="iptNProspLiquidazioneTo"
+                        viewId="gestionesop.view.amm.Home"
+                        whichMC="ProspettoLiquidazione"
+                        value="{FiltersSop>/ZnumliqTo}"
+                    />
                 </items>
             </VBox>
             <VBox>
@@ -390,7 +428,10 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelDescProspettoLiquidazione}:" />
-                    <Input />
+                    <Input
+                        value="{FiltersSop>/ZdescProsp}"
+                        maxLength="100"
+                    />
                 </items>
             </VBox>
             <Button

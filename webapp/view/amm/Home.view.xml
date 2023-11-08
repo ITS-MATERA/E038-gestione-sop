@@ -21,5 +21,22 @@
                 />
             </f:DynamicPageHeader>
         </f:header>
+        <f:content>
+            <c:Fragment
+                fragmentName="gestionesop.view.fragment.amm.ListSop"
+                type="XML"
+            />
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnRegisterSop}"
+                    press="onRegisterSop"
+                    enabled="{AuthorityCheck>/Registra}"
+                />
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

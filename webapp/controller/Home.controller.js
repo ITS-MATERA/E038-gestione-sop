@@ -6,10 +6,10 @@ sap.ui.define(["./BaseController"], function (BaseController) {
       this.getRouter().getRoute("home").attachPatternMatched(this._onObjectMatched, this);
     },
 
-    _onObjectMatched: function (oEvent) {
+    _onObjectMatched: function () {
       var self = this;
 
-      self.getPermissionSop();
+      self.getPermissionSop(true);
     },
   });
 });

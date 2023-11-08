@@ -148,6 +148,11 @@
           "pattern": "amm.home",
           "name": "amm.home",
           "target": ["amm.home"]
+        },
+        {
+          "pattern": "amm.selectType/:reload:",
+          "name": "amm.selectType",
+          "target": ["amm.selectType"]
         }
       ],
       "targets": {
@@ -158,8 +163,13 @@
         },
         "amm.home": {
           "viewName": "amm.Home",
-          "viewId": "amm-home",
-          "viewLevel": 1
+          "viewId": "amm.home",
+          "viewLevel": 2
+        },
+        "amm.selectType": {
+          "viewName": "amm.SelectType",
+          "viewId": "amm.selectType",
+          "viewLevel": 3
         }
       }
     },

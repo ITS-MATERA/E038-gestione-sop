@@ -1,0 +1,25 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdEnteBeneficiario"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelEnteBeneficiario}"
+        search="onValueHelpChange"
+        confirm="onValueHelpEnteBeneficiarioClose"
+        cancel="onValueHelpEnteBeneficiarioClose"
+        app:FilterValueHelp="ZzCeberna"
+        items="{
+          path: 'EnteBeneficiario>/'
+        }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{EnteBeneficiario>ZzDescebe}"
+            app:key="{EnteBeneficiario>ZzCeberna}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>
