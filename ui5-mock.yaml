@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
-
 specVersion: "2.6"
 metadata:
   name: gestionesop
@@ -9,7 +7,7 @@ server:
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        ignoreCertError: false
         ui5:
           path:
             - /resources
@@ -18,7 +16,7 @@ server:
         backend:
           - path: /sap
             url: http://l2vs2slass01.mef.gov.it:8000
-            client: '100'
+            client: "100"
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -35,3 +33,16 @@ server:
             mockdataPath: ./webapp/localService/data
             generateMockData: true
         annotations: []
+        service:
+          - urlPath: /sap/opu/odata/sap/ZS4_SOP_SRV
+            generateMockData: true
+            metadataXmlPath: ./webapp/localService/metadata.xml
+            mockdataRootPath: ./webapp/localService/data
+          - urlPath: /sap/opu/odata/sap/ZS4_SOP_SRV/
+            metadataXmlPath: ./webapp/localService/metadata.xml
+            mockdataRootPath: ./webapp/localService/mockdata
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/
+            metadataXmlPath: ./webapp/localService/ZSS4_CA_CONI_VISIBILITA_SRV/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZSS4_CA_CONI_VISIBILITA_SRV/mockdata
+            generateMockData: true

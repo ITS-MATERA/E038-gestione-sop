@@ -1,0 +1,25 @@
+<mvc:View
+    controllerName="gestionesop.controller.amm.Home"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:c="sap.ui.core"
+>
+    <f:DynamicPage
+        showFooter="true"
+        class="sapUiNoContentPadding"
+    >
+        <f:title>
+            <f:DynamicPageTitle />
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader class="noPadding">
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.FiltersSop"
+                    type="XML"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+    </f:DynamicPage>
+</mvc:View>

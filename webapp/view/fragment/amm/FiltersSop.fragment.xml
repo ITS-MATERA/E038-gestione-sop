@@ -1,0 +1,412 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
+    xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+    xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        class="sapUiNoContentPadding"
+    >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            vSpacing="0"
+            class="sapUiSmallMargin"
+        >
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelEsercizioGestione}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/GjahrMcSet'
+                        }"
+                        selectedKey="{FiltersSop>/Gjahr}"
+                    >
+                        <c:Item
+                            key="{Gjahr}"
+                            text="{Gjahr}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>Amministrazione}:" />
+                    <Input
+                        value="{FiltersSop>/Zzamministr}"
+                        maxLength="4"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelRagioneriaDestinataria}:" />
+                    <Input
+                        value="{FiltersSop>/Zragdest}"
+                        valueHelpRequest="onValueHelpRagioneria"
+                        showValueHelp="true"
+                        maxLength="4"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelUfficioOrdinante}:" />
+                    <Input
+                        maxLength="16"
+                        value="{FiltersSop>ZuffCont}"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelCapitolo}:" />
+                    <Input
+                        maxLength="4"
+                        value="{FiltersSop>Capitolo}"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelNSopFrom}:" />
+                    <Input
+                        maxLength="5"
+                        value="{FiltersSop>ZnumsopFrom}"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelNSopTo}:" />
+                    <Input
+                        maxLength="5"
+                        value="{FiltersSop>ZnumsopTo}"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelStatoSop}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/StatoSopMcSet'
+                        }"
+                        selectedKey="{FiltersSop>/ZcodStatosop}"
+                    >
+                        <c:Item
+                            key="{ZcodStatosop}"
+                            text="{Descrizione}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelTipologiaSop}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/TipologiaSopMcSet'
+                        }"
+                        selectedKey="{FiltersSop>/ZztipologiaSop}"
+                    >
+                        <c:Item
+                            key="{ZztipologiaSop}"
+                            text="{Descrizione}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelTipoTitolo}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/TipoTitoloMcSet'
+                        }"
+                        selectedKey="{FiltersSop>/Ztipopag}"
+                    >
+                        <c:Item
+                            key="{Ztipopag}"
+                            text="{Ztipopag}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelSpecieSop}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/SpecieSopMcSet'
+                        }"
+                        selectedKey="{FiltersSop>/ZspecieSop}"
+                    >
+                        <c:Item
+                            key="{ZspecieSop}"
+                            text="{Descrizione}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelRichiestaAnnullamento}:" />
+                    <ComboBox
+                        width="100%"
+                        selectedKey="{FiltersSop>/Zricann}"
+                    >
+                        <c:Item
+                            key="{i18n>itemNo}"
+                            text="{i18n>itemNo}"
+                        />
+                        <c:Item
+                            key="{i18n>itemYes}"
+                            text="{i18n>itemYes}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelDataRegSopFrom}:" />
+                    <DatePicker
+                        valueFormat="yyyy-MM-dd"
+                        displayFormat="dd.MM.yyyy"
+                        value="{
+                            path: 'FiltersSop>/ZdatasopFrom',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                pattern: 'dd.MM.yyyy'
+                            }
+                        }"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelDataRegSopTo}:" />
+                    <DatePicker
+                        valueFormat="yyyy-MM-dd"
+                        displayFormat="dd.MM.yyyy"
+                        value="{
+                            path: 'FiltersSop>/ZdatasopTo',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                pattern: 'dd.MM.yyyy'
+                            }
+                        }"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelDataProtocolloAmm}:" />
+                    <DatePicker
+                        valueFormat="yyyy-MM-dd"
+                        displayFormat="dd.MM.yyyy"
+                        value="{
+                            path: 'FiltersSop>/Zdataprot',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                pattern: 'dd.MM.yyyy'
+                            }
+                        }"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelNProtocolloAmm}:" />
+                    <Input
+                        value="{FiltersSop>/Znumprot}"
+                        maxLength="6"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelBeneficiario}:" />
+                    <zcontrolmccross:MatchcodeCross
+                        id="iptBeneficiario"
+                        whichMC="Beneficiario"
+                        value="{FiltersSop>/Lifnr}"
+                        maxLength="10"
+                    />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelRitenuta}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+                          path: '/RitenutaMCSet'
+                        }"
+                        selectedKey="{FiltersSop>/Witht}"
+                        selectionChange="onRitenutaChange"
+                    >
+                        <c:Item
+                            key="{Witht}"
+                            text="{DescRitenuta}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelEnteBeneficiario}:" />
+                    <ComboBox
+                        width="100%"
+                        items="{
+						    path: 'EnteBeneficiario>/'
+                        }"
+                        selectedKey="{FiltersSop>/ZzCeberna}"
+                    >
+                        <c:Item
+                            key="{EnteBeneficiario>ZzCeberna}"
+                            text="{EnteBeneficiario>ZzDescebe}"
+                        />
+                    </ComboBox>
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelPosizioneFinanziariaFrom}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L3 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelPosizioneFinanziariaTo}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL3 L4 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelStruttAmmResponsabile}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData
+                        span="XL2 L3 M6 S12"
+                        linebreak="true"
+                    />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelNProspettoLiquidazioneFrom}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL2 L4 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelNProspettoLiquidazioneTo}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <VBox>
+                <layoutData>
+                    <l:GridData span="XL3 L4 M6 S12" />
+                </layoutData>
+                <items>
+                    <Label text="{i18n>labelDescProspettoLiquidazione}:" />
+                    <Input />
+                </items>
+            </VBox>
+            <Button
+                text="{i18n>btnStart}"
+                width="100%"
+                type="Emphasized"
+                press="onSearch"
+            >
+                <layoutData>
+                    <l:GridData
+                        linebreak="true"
+                        span="XL1 L1 M1 S12"
+                        indent="XL11 L11 M11"
+                    />
+                </layoutData>
+            </Button>
+        </l:Grid>
+    </Panel>
+</c:FragmentDefinition>

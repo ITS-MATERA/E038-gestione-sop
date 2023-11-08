@@ -24,6 +24,24 @@
           "localUri": "localService/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "ZSS4_CA_CONI_VISIBILITA_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSS4_CA_CONI_VISIBILITA_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/ZSS4_CA_CONI_VISIBILITA_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZSS4_CO_GEST_TIPOLOGICHE_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSS4_CO_GEST_TIPOLOGICHE_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/ZSS4_CO_GEST_TIPOLOGICHE_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
       }
     }
   },
@@ -55,7 +73,14 @@
         "sap.ui.comp": {},
         "sap.ui.generic.app": {},
         "sap.ui.table": {},
-        "sap.ushell": {}
+        "sap.ushell": {},
+        "zsap.com.r3.cobi.s4.custposfin.z_s4_zposfinlink": {},
+        "zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin": {},
+        "custlinksar.custlinksar": {},
+        "zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog": {},
+        "acn.zlibanagrafica": {},
+        "acn.zlibmodpag": {},
+        "acn.zmatchcodecross": {}
       }
     },
     "contentDensities": {
@@ -73,10 +98,33 @@
         "dataSource": "mainService",
         "preload": true,
         "settings": {}
+      },
+      "ZSS4_CA_CONI_VISIBILITA_SRV": {
+        "dataSource": "ZSS4_CA_CONI_VISIBILITA_SRV",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false
+        }
+      },
+      "ZSS4_CO_GEST_TIPOLOGICHE_SRV": {
+        "dataSource": "ZSS4_CO_GEST_TIPOLOGICHE_SRV",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false
+        }
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/style.css",
+          "id": "stylecss"
+        }
+      ]
     },
     "routing": {
       "config": {
@@ -95,12 +143,22 @@
           "pattern": "",
           "name": "home",
           "target": ["home"]
+        },
+        {
+          "pattern": "amm.home",
+          "name": "amm.home",
+          "target": ["amm.home"]
         }
       ],
       "targets": {
         "home": {
           "viewName": "Home",
           "viewId": "home",
+          "viewLevel": 1
+        },
+        "amm.home": {
+          "viewName": "amm.Home",
+          "viewId": "amm-home",
           "viewLevel": 1
         }
       }
