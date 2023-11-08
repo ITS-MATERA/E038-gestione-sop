@@ -1,0 +1,376 @@
+<mvc:View
+    controllerName="gestionesop.controller.amm.InputSop"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
+    xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+>
+    <f:DynamicPage
+        showFooter="true"
+        class="sapUiNoContentPadding "
+    >
+        <f:content>
+            <Panel
+                backgroundDesign="Transparent"
+                class="sapUiNoContentPadding sapUiSmallMarginTop"
+            >
+                <!-- #region Estremi Identificativo SOP -->
+                <Panel backgroundDesign="Transparent">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="{i18n>titleEstremiIdentificativoSop}"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <l:Grid
+                        defaultSpan="XL12 L12 M12 S12"
+                        hSpacing="0.5"
+                    >
+                        <Label
+                            text="{i18n>labelEsercizio}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <ComboBox
+                            width="100%"
+                            items="{
+                          path: '/GjahrMcSet'
+                        }"
+                            selectedKey="{FirstSop>/Gjahr}"
+                        >
+                            <c:Item
+                                key="{Gjahr}"
+                                text="{Gjahr}"
+                            />
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </ComboBox>
+
+                        <Label
+                            text="{i18n>labelRagioneriaDestinataria}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input
+                            value="{FirstSop>/Zragdest}"
+                            valueHelpRequest="onValueHelpRagioneria"
+                            showValueHelp="true"
+                            maxLength="4"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelAmministrazione}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input
+                            editable="false"
+                            value="{FirstSop>/Zzamministr}"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+                    </l:Grid>
+                </Panel>
+                <!-- #endregion -->
+                <!-- #region Imputazione contabile -->
+                <Panel backgroundDesign="Transparent">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>titleImputazioneContabile}" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <l:Grid
+                        defaultSpan="XL12 L12 M12 S12"
+                        hSpacing="0.5"
+                    >
+                        <Label
+                            text="{i18n>labelPosizioneFinanziaria}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <zcontrol:InputPosizioneFinanziaria
+                            fase="GEST"
+                            spesa="X"
+                            reale="R"
+                            anno="{FirstSop>/Gjahr}"
+                            versione="D"
+                            maxSuggestionWidth="100%"
+                            width="100%"
+                            value="{FirstSop>/Fipos}"
+                        >
+                            <zcontrol:layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </zcontrol:layoutData>
+                        </zcontrol:InputPosizioneFinanziaria>
+
+                        <Label
+                            text="{i18n>labelStruttAmmResponsabile}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL3 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <zcontrolMatchSar:GestioneLogUser
+                            eos="S"
+                            fase="GEST"
+                            entrata="X"
+                            reale="R"
+                            anno="{FirstSop>/Gjahr}"
+                            SEM_OBJ="Z_TEST_LIB"
+                            versione="D"
+                            width="100%"
+                            placeholder="Scegli struttura amministrativa"
+                            value="{FirstSop>/Fistl}"
+                        >
+                            <zcontrolMatchSar:layoutData>
+                                <l:GridData span="XL3 L3 M5 S12" />
+                            </zcontrolMatchSar:layoutData>
+                        </zcontrolMatchSar:GestioneLogUser>
+
+                        <Label
+                            text="{i18n>labelIdAutorizzativo}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData
+                                    span="XL2 L3 M5 S12"
+                                    linebreak="true"
+                                />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+                    </l:Grid>
+                </Panel>
+                <!-- #endregion -->
+                <!-- #region Ufficio -->
+                <Panel backgroundDesign="Transparent">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>titleUfficio}" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <l:Grid
+                        defaultSpan="XL12 L12 M12 S12"
+                        hSpacing="0.5"
+                    >
+                        <Label
+                            text="{i18n>labelUfficioOrdinante}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input
+                            editable="false"
+                            value="{FirstSop>/ZufficioCont}"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelDescrizione}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData
+                                    span="XL1 L3 M5 S12"
+                                    indent="XL1"
+                                />
+                            </layoutData>
+                        </Label>
+                        <Input editable="false">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelCodiceFD}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData
+                                    span="XL2 L3 M5 S12"
+                                    linebreak="true"
+                                />
+                            </layoutData>
+                        </Label>
+                        <Input editable="false">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelDescrizione}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData
+                                    span="XL1 L3 M5 S12"
+                                    indent="XL1"
+                                />
+                            </layoutData>
+                        </Label>
+                        <Input editable="false">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+                    </l:Grid>
+                </Panel>
+                <!-- #endregion -->
+                <!-- #region Altri Dati -->
+                <Panel backgroundDesign="Transparent">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>titleAltriDati}" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <l:Grid
+                        defaultSpan="XL12 L12 M12 S12"
+                        hSpacing="0.5"
+                    >
+                        <Label
+                            text="{i18n>labelTipoProvvedimento}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL1 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelAutoritaEmittente}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL1 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelDataProvvedimento}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL1 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelNumProvvedimento}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL1 L3 M5 S12" />
+                            </layoutData>
+                        </Input>
+
+                        <Label
+                            text="{i18n>labelCausale}:"
+                            class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                        >
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M5 S12" />
+                            </layoutData>
+                        </Label>
+                        <Input>
+                            <layoutData>
+                                <l:GridData span="XL4 L6 M12 S12" />
+                            </layoutData>
+                        </Input>
+                    </l:Grid>
+                </Panel>
+                <!-- #endregion -->
+                <!-- #region Scelta operativa -->
+                <Panel backgroundDesign="Transparent">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>titleSceltaOperativa}" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <l:Grid
+                        defaultSpan="XL12 L12 M12 S12"
+                        hSpacing="0.5"
+                    >
+                        <RadioButtonGroup columns="2">
+                            <RadioButton
+                                text="{i18n>labelDocumentiLiquidati}"
+                            />
+                            <RadioButton
+                                text="{i18n>labelDocumentiNonLiquidati}"
+                            />
+                        </RadioButtonGroup>
+                    </l:Grid>
+                </Panel>
+                <!-- #endregion -->
+            </Panel>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnBack}"
+                    press="onNavBack"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

@@ -117,7 +117,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text text="{i18n>labelCausuale}" />
+                                <Text text="{i18n>labelCausale}" />
                             </header>
                         </Column>
                         <Column

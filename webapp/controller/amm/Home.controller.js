@@ -213,7 +213,7 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "ZufficioCont", oFilters.ZufficioCont);
         self.setFilterBT(aFilters, "Znumsop", oFilters.ZnumsopFrom, oFilters.ZnumsopTo);
         self.setFilterEQ(aFilters, "ZcodStatosop", oFilters.ZcodStatosop);
-        self.setFilterEQ(aFilters, "ZztipologiaSop", oFilters.ZcodStatosop);
+        self.setFilterEQ(aFilters, "ZztipologiaSop", oFilters.ZztipologiaSop);
         self.setFilterEQ(aFilters, "Ztipopag", oFilters.Ztipopag);
         self.setFilterEQ(aFilters, "ZspecieSop", oFilters.ZspecieSop);
         if (oFilters.Zricann === "SI") {

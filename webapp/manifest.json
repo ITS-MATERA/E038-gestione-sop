@@ -145,14 +145,19 @@
           "target": ["home"]
         },
         {
-          "pattern": "amm.home",
+          "pattern": "amm.home/:reload:",
           "name": "amm.home",
           "target": ["amm.home"]
         },
         {
-          "pattern": "amm.selectType/:reload:",
+          "pattern": "amm.selectType",
           "name": "amm.selectType",
           "target": ["amm.selectType"]
+        },
+        {
+          "pattern": "amm.inputSop/{type}",
+          "name": "amm.inputSop",
+          "target": ["amm.inputSop"]
         }
       ],
       "targets": {
@@ -170,6 +175,11 @@
           "viewName": "amm.SelectType",
           "viewId": "amm.selectType",
           "viewLevel": 3
+        },
+        "amm.inputSop": {
+          "viewName": "amm.InputSop",
+          "viewId": "amm.inputSop",
+          "viewLevel": 4
         }
       }
     },

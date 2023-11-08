@@ -4,20 +4,20 @@ sap.ui.define(["./BaseAmministrazioneController"], function (BaseAmministrazione
   return BaseAmministrazioneController.extend("gestionesop.controller.amm.SelectType", {
     onNavBack: function () {
       var self = this;
-      self.getRouter().navTo("amm.Home");
+      self.getRouter().navTo("amm.home");
     },
 
     onDocumentiCosto: function () {
       var self = this;
-      self.getRouter().navTo("amm.create.InputSop", {
-        Type: 1,
+      self.getRouter().navTo("amm.inputSop", {
+        type: 1,
       });
     },
 
     onNoDocumentiCosto: function () {
       var self = this;
-      self.getRouter().navTo("amm.create.InputSop", {
-        Type: 2,
+      self.getRouter().navTo("amm.inputSop", {
+        type: 2,
       });
     },
   });

@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
     xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
     xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
-    xmlns:zchiaveautlibrary="custZchiaveaut.zchiaveautlibrary.controls"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <Panel
