@@ -1,0 +1,190 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleRicBeneficiario}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelTipo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+						path: '/TipoBeneficiarioMcSet'
+					}"
+                    selectedKey="{FiltersWizard1>/BuType}"
+                    editable="{= 
+                        ${Sop>/Witht} ||
+						${Sop>/ZzCebenra} ||
+						${FiltersWizard1>/Zquoteesi} === false ||
+						${FiltersWizard1>/ZdatesiFrom} ||
+						${FiltersWizard1>/ZdatesiTo} 
+						? false : true
+					}"
+                >
+                    <c:Item
+                        key="{Type}"
+                        text="{Description}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>labelBeneficiario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptBeneficiario"
+                    whichMC="Beneficiario"
+                    viewId="{Utility>/ViewId}"
+                    value="{FiltersWizard1>/Lifnr}"
+                    maxLength="10"
+                    change="onBeneficiarioChange"
+                    editable="{= 
+                        ${Sop>/Witht} ||
+						${Sop>/ZzCebenra} ||
+						${FiltersWizard1>/Zquoteesi} === false ||
+						${FiltersWizard1>/ZdatesiFrom} ||
+						${FiltersWizard1>/ZdatesiTo} 
+						? false : true
+					}"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/NameFirst}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/NameLast}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelRagSoc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/ZzragSoc}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelCF}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/TaxnumCf}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCFE}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Taxnumxl}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelPIVA}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Taxnum}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

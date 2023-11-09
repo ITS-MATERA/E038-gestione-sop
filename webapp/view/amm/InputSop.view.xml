@@ -34,6 +34,7 @@
                         <Label
                             text="{i18n>labelEsercizio}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -45,6 +46,7 @@
                           path: '/GjahrMcSet'
                         }"
                             selectedKey="{FirstSop>/Gjahr}"
+                            selectionChange="onEsercizioChange"
                         >
                             <c:Item
                                 key="{Gjahr}"
@@ -58,6 +60,7 @@
                         <Label
                             text="{i18n>labelRagioneriaDestinataria}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -77,6 +80,7 @@
                         <Label
                             text="{i18n>labelAmministrazione}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -105,8 +109,9 @@
                         hSpacing="0.5"
                     >
                         <Label
-                            text="{i18n>labelPosizioneFinanziaria}:"
+                            text="{i18n>labelPosFinanziaria}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -128,8 +133,9 @@
                         </zcontrol:InputPosizioneFinanziaria>
 
                         <Label
-                            text="{i18n>labelStruttAmmResponsabile}:"
+                            text="{i18n>labelFistl}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL3 L3 M5 S12" />
@@ -155,6 +161,7 @@
                         <Label
                             text="{i18n>labelIdAutorizzativo}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData
@@ -163,7 +170,10 @@
                                 />
                             </layoutData>
                         </Label>
-                        <Input>
+                        <Input
+                            value="{FirstSop>/Zgeber}"
+                            maxLength="18"
+                        >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
@@ -185,14 +195,15 @@
                         <Label
                             text="{i18n>labelUfficioOrdinante}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
                         <Input
-                            editable="false"
                             value="{FirstSop>/ZufficioCont}"
+                            change="onUfficioChange"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -210,7 +221,10 @@
                                 />
                             </layoutData>
                         </Label>
-                        <Input editable="false">
+                        <Input
+                            editable="false"
+                            value="{FirstSop>/Descufficio}"
+                        >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
@@ -227,7 +241,10 @@
                                 />
                             </layoutData>
                         </Label>
-                        <Input editable="false">
+                        <Input
+                            editable="false"
+                            value="{FirstSop>/Zfunzdel}"
+                        >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
@@ -244,7 +261,10 @@
                                 />
                             </layoutData>
                         </Label>
-                        <Input editable="false">
+                        <Input
+                            editable="false"
+                            value="{FirstSop>/Zdescriz}"
+                        >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
@@ -266,54 +286,101 @@
                         <Label
                             text="{i18n>labelTipoProvvedimento}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input>
+
+                        <ComboBox
+                            id="cbxZtipoprovv"
+                            width="100%"
+                            items="{
+                          path: '/TipoProvvedimentoMcSet'
+                        }"
+                            selectedKey="{FirstSop>/Ztipoprovv}"
+                            selectionChange="onCreateCausale"
+                        >
+                            <c:Item
+                                key="{Ztipoprov}"
+                                text="{Descrizione}"
+                            />
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
                             </layoutData>
-                        </Input>
+                        </ComboBox>
 
                         <Label
                             text="{i18n>labelAutoritaEmittente}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input>
+
+                        <ComboBox
+                            id="cbxZautemit"
+                            width="100%"
+                            items="{
+                          path: '/AutoritaEmittenteMcSet'
+                        }"
+                            selectedKey="{FirstSop>/Zautemit}"
+                            selectionChange="onCreateCausale"
+                        >
+                            <c:Item
+                                key="{Zautemit}"
+                                text="{Descrizione}"
+                            />
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
                             </layoutData>
-                        </Input>
+                        </ComboBox>
 
                         <Label
                             text="{i18n>labelDataProvvedimento}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input>
+                        <DatePicker
+                            id="dtpZdataprovv"
+                            valueFormat="yyyy-MM-dd"
+                            displayFormat="dd.MM.yyyy"
+                            value="{
+                            path: 'FirstSop>/Zdataprovv',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                pattern: 'dd.MM.yyyy'
+                            }
+                            
+                        }"
+                            change="onCreateCausale"
+                        >
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
                             </layoutData>
-                        </Input>
+                        </DatePicker>
 
                         <Label
                             text="{i18n>labelNumProvvedimento}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input>
+                        <Input
+                            maxLength="10"
+                            value="{FirstSop>/Znprovv}"
+                            change="onCreateCausale"
+                        >
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
                             </layoutData>
@@ -322,12 +389,16 @@
                         <Label
                             text="{i18n>labelCausale}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                            required="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input>
+                        <Input
+                            value="{FirstSop>/Zcausale}"
+                            maxLength="255"
+                        >
                             <layoutData>
                                 <l:GridData span="XL4 L6 M12 S12" />
                             </layoutData>
@@ -346,12 +417,17 @@
                         defaultSpan="XL12 L12 M12 S12"
                         hSpacing="0.5"
                     >
-                        <RadioButtonGroup columns="2">
+                        <RadioButtonGroup
+                            id="rbSceltaOperativa"
+                            columns="2"
+                            editable="{= ${FirstSop>/Zfunzdel} !== '' ? false : true}"
+                        >
                             <RadioButton
                                 text="{i18n>labelDocumentiLiquidati}"
                             />
                             <RadioButton
                                 text="{i18n>labelDocumentiNonLiquidati}"
+                                selected="{= ${FirstSop>/Zfunzdel} !== '' ? true : false}"
                             />
                         </RadioButtonGroup>
                     </l:Grid>
@@ -365,6 +441,15 @@
                     type="Emphasized"
                     text="{i18n>btnBack}"
                     press="onNavBack"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnForward}"
+                    press="onNavForward"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />

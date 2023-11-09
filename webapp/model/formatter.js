@@ -15,9 +15,18 @@ sap.ui.define([], function () {
       return parseFloat(sValue).toFixed(2);
     },
 
+    /**
+     *
+     * @param {Date} oDate
+     * @returns {Date}
+     */
     UTCRome: function (oDate) {
       if (!oDate) {
         return null;
+      }
+
+      if (!oDate instanceof Date) {
+        oDate = new Date(oDate);
       }
 
       return new Date(oDate.toLocaleString("it", { timeZone: "Europe/Rome" }));
@@ -29,6 +38,23 @@ sap.ui.define([], function () {
       }
       sValue = sValue.replace(".", ",");
       return sValue.toString().replace(/\B(?<!\,\d*)(?=(\d{3})+(?!\d))/g, ".");
+    },
+
+    /**
+     *
+     * @param {Date} oDate
+     * @returns {string}
+     */
+    dateToString: function (oDate) {
+      if (!oDate) {
+        return "";
+      }
+
+      var sDay = oDate.getDate();
+      var sMonths = oDate.getMonth();
+      var sYear = oDate.getFullYear();
+
+      return sDay + "." + sMonths + "." + sYear;
     },
   };
 });

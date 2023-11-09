@@ -1,0 +1,42 @@
+<mvc:View
+    controllerName="gestionesop.controller.amm.create.Scenary3"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:c="sap.ui.core"
+>
+    <f:DynamicPage
+        showFooter="true"
+        class="sapUiNoContentPadding"
+    >
+        <f:header>
+            <f:DynamicPageHeader
+                class="noPadding"
+                pinnable="false"
+            >
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.HeaderSop"
+                    type="XML"
+                />
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Wizard
+                id="wizScenario3"
+                showNextButton="false"
+            >
+                <WizardStep title="{i18n>titleWizard1ProspLiquidazione}" />
+                <WizardStep title="{i18n>titleWizard2}" />
+                <WizardStep title="{i18n>titleWizard3}" />
+                <WizardStep title="{i18n>titleWizard4}" />
+            </Wizard>
+        </f:content>
+        <f:footer>
+            <c:Fragment
+                fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
+                type="XML"
+            />
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

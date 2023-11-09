@@ -1,9 +1,11 @@
 sap.ui.define(
-  ["./BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel) {
+  ["./BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.InputSop", {
+      formatter: formatter,
+
       onInit: function () {
         this.getRouter().getRoute("amm.inputSop").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -13,9 +15,16 @@ sap.ui.define(
         self.getRouter().navTo("amm.selectType");
       },
 
-      _onObjectMatched: function () {
+      _onObjectMatched: async function (oEvent) {
         var self = this;
         var oModel = self.getModel();
+        var oArguments = oEvent.getParameter("arguments");
+
+        if (!self.getModel("AuthorityCheck")) {
+          self.getPermissionSop();
+        }
+
+        this._sTypeSop = oArguments.type;
 
         var oModelFirstSop = new JSONModel({
           Gjahr: "",
@@ -25,12 +34,12 @@ sap.ui.define(
           Fistl: "",
           Zgeber: "",
           ZufficioCont: "",
-          DescUfficio: "",
+          Descufficio: "",
           Zfunzdel: "",
           Zdescriz: "",
-          Ztipoprov: "",
+          Ztipoprovv: "",
           Zautemit: "",
-          Zdataprovv: "",
+          Zdataprovv: null,
           Znprovv: "",
           Zcausale: "",
         });
@@ -47,18 +56,9 @@ sap.ui.define(
           },
         });
 
-        oModel.read("/UserParamSet('/PRA/PN_DN_FUNC_AREA')", {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            if (self.hasResponseError(oResponse)) return;
-            oModelFirstSop.setProperty("/ZufficioCont", data.Parva);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-
         self.setModel(oModelFirstSop, "FirstSop");
+
+        this._setDataUfficio();
       },
 
       onValueHelpRagioneria: function () {
@@ -120,6 +120,167 @@ sap.ui.define(
 
         FirstSop.setProperty("/Zragdest", self.setBlank(oSelectedItem?.getTitle()));
         self.unloadFragment();
+      },
+
+      onCreateCausale: function () {
+        var self = this;
+        var oModelFirstSop = self.getModel("FirstSop");
+        var oFirstSop = oModelFirstSop.getData();
+
+        var sDescZtipoprovv = self.getView().byId("cbxZtipoprovv")?.getSelectedItem()?.getText();
+        var sDescZautemit = self.getView().byId("cbxZautemit")?.getSelectedItem()?.getText();
+
+        if (oFirstSop.Ztipoprovv && oFirstSop.Zautemit && oFirstSop.Zdataprovv && oFirstSop.Znprovv) {
+          var sZtipoprov = sDescZtipoprovv.slice(0, 4);
+          var sZautemit = sDescZautemit.slice(0, 4);
+          var sZdataprovv = formatter.dateToString(oFirstSop.Zdataprovv);
+
+          oModelFirstSop.setProperty("/Zcausale", sZtipoprov + " " + sZautemit + " " + sZdataprovv + " " + oFirstSop.Znprovv);
+        }
+      },
+
+      onEsercizioChange: function () {
+        this._setDataUfficio();
+      },
+
+      onUfficioChange: function () {
+        this._setDataUfficio();
+      },
+
+      onNavForward: async function () {
+        var self = this;
+        var sSceltaOperativa = self.getView().byId("rbSceltaOperativa").getSelectedIndex();
+        var oFirstSop = self.getModel("FirstSop").getData();
+
+        var oParameters = {
+          Gjahr: oFirstSop.Gjahr,
+          Zragdest: oFirstSop.Zragdest,
+          Zzamministr: oFirstSop.Zzamministr,
+          Fipos: oFirstSop.Fipos,
+          Fistl: oFirstSop.Fistl,
+          Zgeber: oFirstSop.Zgeber,
+          ZufficioCont: oFirstSop.ZufficioCont,
+          Zfunzdel: oFirstSop.Zfunzdel,
+          Ztipoprovv: oFirstSop.Ztipoprovv,
+          Zautemit: oFirstSop.Zautemit,
+          Zdataprovv: oFirstSop.Zdataprovv?.toString(),
+          Znprovv: oFirstSop.Znprovv,
+          Zcausale: oFirstSop.Zcausale,
+          TypeSop: this._sTypeSop,
+        };
+
+        // var bCheck = await this._checkFirstSop();
+
+        // if (!bCheck) {
+        //   return;
+        // }
+
+        if (this._sTypeSop === "1" && sSceltaOperativa === 0) {
+          self.getRouter().navTo("amm.create.scenary1", oParameters);
+        }
+        if (this._sTypeSop === "1" && sSceltaOperativa === 1) {
+          self.getRouter().navTo("amm.create.scenary2", oParameters);
+        }
+        if (this._sTypeSop === "2" && sSceltaOperativa === 0) {
+          self.getRouter().navTo("amm.create.scenary3", oParameters);
+        }
+        if (this._sTypeSop === "2" && sSceltaOperativa === 1) {
+          self.getRouter().navTo("amm.create.scenary4", oParameters);
+        }
+      },
+
+      _setDataUfficio: async function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelFirstSop = self.getModel("FirstSop");
+        var oFirstSop = oModelFirstSop.getData();
+
+        if (!oFirstSop.Gjahr) {
+          return;
+        }
+
+        if (!oFirstSop.ZufficioCont) {
+          oModelFirstSop.setProperty("/ZufficioCont", await this._getUfficio());
+        }
+
+        var sKey = oModel.createKey("/UfficioPreWizardSet", {
+          Gjahr: oFirstSop.Gjahr,
+          ZufficioCont: oModelFirstSop.getProperty("/ZufficioCont"),
+        });
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            oModelFirstSop.setProperty("/Descufficio", self.setBlank(data.Descufficio));
+            oModelFirstSop.setProperty("/Zfunzdel", self.setBlank(data.Zfunzdel));
+            oModelFirstSop.setProperty("/Zdescriz", self.setBlank(data.Zdescriz));
+
+            if (self.hasResponseError(oResponse)) return;
+          },
+        });
+      },
+
+      _getUfficio: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/UserParamSet", {
+          Parid: "/PRA/PN_DN_FUNC_AREA",
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Parva);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
+      _checkFirstSop: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oFirstSop = self.getModel("FirstSop").getData();
+        var oAuthorityCheck = self.getModel("AuthorityCheck").getData();
+
+        var oParameters = {
+          AgrName: oAuthorityCheck.AgrName,
+          Fikrs: oAuthorityCheck.Fikrs,
+          Prctr: oAuthorityCheck.Prctr,
+          Fipos: oFirstSop.Fipos,
+          Fistl: oFirstSop.Fistl,
+          Gjahr: oFirstSop.Gjahr,
+          Zautemit: oFirstSop.Zautemit,
+          Zcausale: oFirstSop.Zcausale,
+          Zdataprovv: oFirstSop.Zdataprovv ? formatter.dateToString(oFirstSop.Zdataprovv) : "",
+          Zfunzdel: oFirstSop.Zfunzdel,
+          Zgeber: oFirstSop.Zgeber,
+          Znprovv: oFirstSop.Znprovv,
+          Zragdest: oFirstSop.Zragdest,
+          Ztipoprovv: oFirstSop.Ztipoprovv,
+          ZufficioCont: oFirstSop.ZufficioCont,
+          Zzamministr: oFirstSop.Zzamministr,
+        };
+
+        return new Promise(async function (resolve, reject) {
+          self.getView().setBusy(true);
+          await oModel.callFunction("/CheckPreWizardAmm", {
+            method: "GET",
+            urlParameters: oParameters,
+            success: function (data) {
+              self.getView().setBusy(false);
+              resolve(self.hasMessageError(data) ? false : true);
+            },
+            error: function (error) {
+              self.getView().setBusy(false);
+              reject(error);
+            },
+          });
+        });
       },
     });
   }

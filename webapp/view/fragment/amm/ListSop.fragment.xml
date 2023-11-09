@@ -91,7 +91,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text text="{i18n>labelPosizioneFinanziaria}" />
+                                <Text text="{i18n>labelPosFinanziaria}" />
                             </header>
                         </Column>
                         <Column
@@ -99,9 +99,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text
-                                    text="{i18n>labelStruttAmmResponsabile}"
-                                />
+                                <Text text="{i18n>labelFistl}" />
                             </header>
                         </Column>
                         <Column
@@ -125,7 +123,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text text="{i18n>labelTipologiaSop}" />
+                                <Text text="{i18n>labelTipoSop}" />
                             </header>
                         </Column>
                         <Column

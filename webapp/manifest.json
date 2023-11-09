@@ -158,6 +158,16 @@
           "pattern": "amm.inputSop/{type}",
           "name": "amm.inputSop",
           "target": ["amm.inputSop"]
+        },
+        {
+          "pattern": "amm.create.scenary1/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop:",
+          "name": "amm.create.scenary1",
+          "target": ["amm.create.scenary1"]
+        },
+        {
+          "pattern": "amm.create.scenary2/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop:",
+          "name": "amm.create.scenary2",
+          "target": ["amm.screate.cenary2"]
         }
       ],
       "targets": {
@@ -180,6 +190,16 @@
           "viewName": "amm.InputSop",
           "viewId": "amm.inputSop",
           "viewLevel": 4
+        },
+        "amm.create.scenary1": {
+          "viewName": "amm.create.Scenary1",
+          "viewId": "amm.create.scenary1",
+          "viewLevel": 5
+        },
+        "amm.create.scenary2": {
+          "viewName": "amm.create.Scenary2",
+          "viewId": "amm.create.scenary2",
+          "viewLevel": 5
         }
       }
     },

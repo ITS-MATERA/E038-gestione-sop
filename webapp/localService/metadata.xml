@@ -290,9 +290,9 @@
             </EntityType>
             <EntityType Name="TipoProvvedimentoMc" sap:content-version="1">
                 <Key>
-                    <PropertyRef Name="Ztipoprov"/>
+                    <PropertyRef Name="Ztipoprovv"/>
                 </Key>
-                <Property Name="Ztipoprov" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ztipoprovv" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Descrizione" Type="Edm.String" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="AutoritaEmittenteMc" sap:content-version="1">

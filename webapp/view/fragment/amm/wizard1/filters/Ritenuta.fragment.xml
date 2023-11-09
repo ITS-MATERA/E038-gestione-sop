@@ -1,0 +1,168 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= ${Sop>/Ztipopag} === '1' || ${Sop>/Ztipopag} === '2' ? true : false}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleRicRitenuta}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelRitenuta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                          path: '/RitenutaMCSet'
+                        }"
+                    selectedKey="{Sop>/Witht}"
+                    selectionChange="onRitenutaChange"
+                    editable="{=
+						${Sop>/Lifnr} ||
+						${FiltersWizard1>/BuType} 
+						? false : true
+					}"
+                >
+                    <c:Item
+                        key="{Witht}"
+                        text="{DescRitenuta}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>labelEnteBeneficiario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZzDescebe}"
+                    valueHelpRequest="onValueHelpEnteBeneficiario"
+                    showValueHelp="true"
+                    maxLength="40"
+                    editable="{=
+						${Sop>/Lifnr} ||
+						${FiltersWizard1>/BuType} 
+						? false : true
+					}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelQuoteEsi}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <CheckBox
+                    selected="{Sop>/Zquoteesi}"
+                    editable="{=
+						${Sop>/Lifnr} ||
+						${FiltersWizard1>/BuType} 
+						? false : true
+					}"
+                    select="onQuoteEsigibiliChange"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L1 M1 S1" />
+                    </layoutData>
+                </CheckBox>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelDataEsiFrom}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd.MM.yyyy"
+                    value="{
+						path: 'FiltersWizard1>/ZdatesiFrom',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+                    editable="{=
+						${Sop>/Zquoteesi} === false ||
+						${Sop>/Lifnr} ||
+						${FiltersWizard1>/BuType}
+						? false : true
+					}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>labelDataEsiTo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd.MM.yyyy"
+                    value="{
+						path: 'FiltersWizard1>/ZdatesiTo',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+                    editable="{=
+						${Sop>/Zquoteesi} === false ||
+						${Sop>/Lifnr} ||
+						${FiltersWizard1>/BuType}
+						? false : true
+					}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

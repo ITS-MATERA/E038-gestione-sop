@@ -6,8 +6,9 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
   ],
-  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel) {
+  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel, MessageBox) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -52,14 +53,14 @@ sap.ui.define(
 
           switch (oMessage.severity) {
             case "error":
-              sap.m.MessageBox.error(oMessage.message);
+              MessageBox.error(oMessage.message);
               bError = true;
               break;
             case "success":
-              sap.m.MessageBox.success(oMessage.message);
+              MessageBox.success(oMessage.message);
               break;
             case "warning":
-              sap.m.MessageBox.warning(oMessage.message);
+              MessageBox.warning(oMessage.message);
               break;
           }
         }
@@ -68,6 +69,19 @@ sap.ui.define(
 
       _getMessage: function (oResponse) {
         return JSON.parse(oResponse.headers["sap-message"]);
+      },
+
+      hasMessageError: function (data) {
+        var aData = data.results[0];
+        var sMessage = aData?.Message;
+        var sMessageType = aData?.Msgty;
+
+        if (sMessageType === "E") {
+          MessageBox.error(sMessage);
+          return true;
+        }
+
+        return false;
       },
 
       //#region ---------------------GESTIONE VALUE HELP--------------------

@@ -1,0 +1,16 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <OverflowToolbar>
+        <Button
+            type="Emphasized"
+            text="{i18n>btnBack}"
+            press="onNavBack"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
+    </OverflowToolbar>
+</c:FragmentDefinition>

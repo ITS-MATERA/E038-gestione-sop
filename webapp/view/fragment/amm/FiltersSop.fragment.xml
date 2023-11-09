@@ -138,7 +138,7 @@
                     <l:GridData span="XL2 L3 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>labelTipologiaSop}:" />
+                    <Label text="{i18n>labelTipoSop}:" />
                     <ComboBox
                         width="100%"
                         items="{
@@ -337,7 +337,7 @@
                     <l:GridData span="XL2 L3 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>labelPosizioneFinanziariaFrom}:" />
+                    <Label text="{i18n>labelPosFinanziariaFrom}:" />
                     <zcontrol:InputPosizioneFinanziaria
                         id="iptFiposFrom"
                         fase="GEST"
@@ -356,7 +356,7 @@
                     <l:GridData span="XL2 L3 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>labelPosizioneFinanziariaTo}:" />
+                    <Label text="{i18n>labelPosFinanziariaTo}:" />
                     <zcontrol:InputPosizioneFinanziaria
                         id="iptFiposTo"
                         fase="GEST"
@@ -375,7 +375,7 @@
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>labelStruttAmmResponsabile}:" />
+                    <Label text="{i18n>labelFistl}:" />
                     <zcontrolMatchSar:GestioneLogUser
                         eos="S"
                         fase="GEST"

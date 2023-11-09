@@ -1,0 +1,26 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Panel
+        class="sapUiNoContentPadding"
+        backgroundDesign="Transparent"
+    >
+        <c:Fragment
+            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Ritenuta"
+            type="XML"
+        />
+        <c:Fragment
+            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Beneficiario"
+            type="XML"
+        />
+        <!-- <c:Fragment
+            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.ProspettiLiquidazione"
+            type="XML"
+        />
+        <c:Fragment
+            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.DocumentiCosto"
+            type="XML"
+        /> -->
+    </Panel>
+</c:FragmentDefinition>
