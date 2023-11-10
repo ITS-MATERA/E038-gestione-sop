@@ -206,6 +206,28 @@ sap.ui.define(
       _isUserAuthorized: function (array, param, value) {
         return array.filter((x) => x[param] === value).length > 0;
       },
+
+      getUfficio: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/UserParamSet", {
+          Parid: "/PRA/PN_DN_FUNC_AREA",
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Parva);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
     });
   }
 );

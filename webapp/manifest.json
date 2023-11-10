@@ -42,6 +42,15 @@
           "localUri": "localService/ZSS4_CO_GEST_TIPOLOGICHE_SRV/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "ZSS4_COSP_CONTRATTO_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSS4_COSP_CONTRATTO_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/ZSS4_COSP_CONTRATTO_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
       }
     }
   },
@@ -115,6 +124,18 @@
           "defaultBindingMode": "OneWay",
           "defaultCountMode": "Inline",
           "refreshAfterChange": false
+        }
+      },
+      "ZSS4_COSP_CONTRATTO_SRV": {
+        "dataSource": "ZSS4_COSP_CONTRATTO_SRV",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false,
+          "metadataUrlParams": {
+            "sap-value-list": "none"
+          }
         }
       }
     },

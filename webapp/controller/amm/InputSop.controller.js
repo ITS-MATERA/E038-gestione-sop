@@ -169,6 +169,7 @@ sap.ui.define(
           TypeSop: this._sTypeSop,
         };
 
+        //TODO - Decommentare
         // var bCheck = await this._checkFirstSop();
 
         // if (!bCheck) {
@@ -200,7 +201,7 @@ sap.ui.define(
         }
 
         if (!oFirstSop.ZufficioCont) {
-          oModelFirstSop.setProperty("/ZufficioCont", await this._getUfficio());
+          oModelFirstSop.setProperty("/ZufficioCont", await self.getUfficio());
         }
 
         var sKey = oModel.createKey("/UfficioPreWizardSet", {
@@ -216,28 +217,6 @@ sap.ui.define(
 
             if (self.hasResponseError(oResponse)) return;
           },
-        });
-      },
-
-      _getUfficio: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var sKey = oModel.createKey("/UserParamSet", {
-          Parid: "/PRA/PN_DN_FUNC_AREA",
-        });
-        self.getView().setBusy(true);
-        return new Promise(async function (resolve, reject) {
-          await oModel.read(sKey, {
-            success: function (data, oResponse) {
-              self.getView().setBusy(false);
-              if (self.hasResponseError(oResponse)) return;
-              resolve(data.Parva);
-            },
-            error: function (e) {
-              self.getView().setBusy(false);
-              reject(e);
-            },
-          });
         });
       },
 

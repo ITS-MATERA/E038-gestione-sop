@@ -1,0 +1,22 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdNRegDocumento"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelBelnr}"
+        search="onValueHelpChange"
+        confirm="onValueHelpNRegDocumentoClose"
+        cancel="onValueHelpNRegDocumentoClose"
+        app:FilterValueHelp="Belnr"
+        items="{path: 'NRegDocumento>/'}"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{NRegDocumento>Belnr}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

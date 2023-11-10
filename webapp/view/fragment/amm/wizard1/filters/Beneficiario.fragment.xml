@@ -37,6 +37,7 @@
 						${FiltersWizard1>/ZdatesiTo} 
 						? false : true
 					}"
+                    selectionChange="onTipoBeneficiarioChange"
                 >
                     <c:Item
                         key="{Type}"

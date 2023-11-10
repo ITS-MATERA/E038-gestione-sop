@@ -1,0 +1,24 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdDescProspettoLiquidazione"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelDescProspettoLiquidazione}"
+        search="onValueHelpChange"
+        confirm="onValueHelpDescProspLiquidazioneClose"
+        cancel="onValueHelpDescProspLiquidazioneClose"
+        app:FilterValueHelp="ZdescProsp"
+        items="{
+          path: 'DescProspettoLiquidazione>/'
+        }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{DescProspettoLiquidazione>ZdescProsp}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

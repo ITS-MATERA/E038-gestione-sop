@@ -10,7 +10,7 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>searchDocumentoCosto}" />
+                <Title text="{i18n>titleRicDocumentoCosto}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>
@@ -19,7 +19,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterUffContabile}"
+                    text="{i18n>labelUffContabile}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -27,17 +27,15 @@
                     </layoutData>
                 </Text>
                 <Input
-                    valueHelpRequest="onValueHelpUffContabile"
-                    showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/UfficioContabile}"
+                    value="{FiltersWizard1>/FkberLong}"
+                    maxLength="16"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>filterUffPagatore}"
+                    text="{i18n>labelUffPagatore}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -45,10 +43,8 @@
                     </layoutData>
                 </Text>
                 <Input
-                    valueHelpRequest="onValueHelpUffPagatore"
-                    showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/UfficioPagatore}"
+                    value="{FiltersWizard1>/ZzuffPag}"
+                    maxLength="16"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -62,7 +58,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterAnnoRegDoc}"
+                    text="{i18n>labelAnnoRegDoc}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -71,9 +67,9 @@
                 </Text>
                 <MultiComboBox
                     items="{
-						path: '/RicercaAnnoRegDocSet'
+						path: '/AnnoRegDocumentoMcSet'
 					}"
-                    selectedKeys="{FilterDocumenti>/AnnoRegDocumento}"
+                    selectedKeys="{FiltersWizard1>/AnnoRegDoc}"
                 >
                     <c:Item
                         key="{Gjahr}"
@@ -84,7 +80,7 @@
                     </layoutData>
                 </MultiComboBox>
                 <Text
-                    text="{i18n>filterNRegDocFrom}"
+                    text="{i18n>labelBelnrFrom}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -94,16 +90,16 @@
                 <Input
                     valueHelpRequest="onValueHelpNRegDocumento"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    app:PropertyModel="NumRegDocFrom"
-                    value="{FilterDocumenti>/NumRegDocFrom}"
+                    app:PropertyModel="BelnrFrom"
+                    value="{FiltersWizard1>/BelnrFrom}"
+                    maxLength="10"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>filterNRegDocTo}"
+                    text="{i18n>labelBelnrTo}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -113,9 +109,9 @@
                 <Input
                     valueHelpRequest="onValueHelpNRegDocumento"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    app:PropertyModel="NumRegDocTo"
-                    value="{FilterDocumenti>/NumRegDocTo}"
+                    app:PropertyModel="BelnrTo"
+                    value="{FiltersWizard1>/BelnrTo}"
+                    maxLength="10"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -129,7 +125,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterAnnoDocBene}"
+                    text="{i18n>labelAnnoDocBen}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -140,7 +136,7 @@
                     items="{
 						path: 'AnnoDocBeneficiario>/'
 					}"
-                    selectedKeys="{FilterDocumenti>/AnnoDocBeneficiario}"
+                    selectedKeys="{FiltersWizard1>/AnnoDocBen}"
                 >
                     <c:Item
                         key="{AnnoDocBeneficiario>Gjahr}"
@@ -151,7 +147,7 @@
                     </layoutData>
                 </MultiComboBox>
                 <Text
-                    text="{i18n>filterNDocBene}"
+                    text="{i18n>labelNDocBeneficiario}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -159,10 +155,9 @@
                     </layoutData>
                 </Text>
                 <MultiInput
-                    valueHelpRequest="onValueHelpNumDocBene"
+                    valueHelpRequest="onValueHelpNDocBene"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/NDocBen}"
+                    value="{FiltersWizard1>/Xblnr}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -176,20 +171,25 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterCIG}"
+                    text="{i18n>labelCig}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input value="{FilterDocumenti>/Cig}">
+                <Input
+                    value="{FiltersWizard1>/Cig}"
+                    maxLength="20"
+                    showValueHelp="true"
+                    valueHelpRequest="onValueHelpCigFilter"
+                >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>filterCUP}"
+                    text="{i18n>labelCup}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -198,7 +198,8 @@
                 </Text>
                 <Input
                     showValueHelp="true"
-                    value="{FilterDocumenti>/Cup}"
+                    value="{FiltersWizard1>/Cup}"
+                    maxLength="15"
                     valueHelpRequest="onValueHelpCupFilter"
                 >
                     <layoutData>
@@ -213,7 +214,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterScadDocFrom}"
+                    text="{i18n>labelScadenzaDocFrom}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -224,7 +225,7 @@
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
                     value="{
-						path: 'FilterDocumenti>/ScadenzaDocFrom',
+						path: 'FiltersWizard1>/NetdtFrom',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'
@@ -236,7 +237,7 @@
                     </layoutData>
                 </DatePicker>
                 <Text
-                    text="{i18n>filterScadDocTo}"
+                    text="{i18n>labelScadenzaDocTo}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -247,7 +248,7 @@
                     valueFormat="yyyy-MM-dd"
                     displayFormat="dd.MM.yyyy"
                     value="{
-						path: 'FilterDocumenti>/ScadenzaDocTo',
+						path: 'FiltersWizard1>/NetdtTo',
 						type: 'sap.ui.model.type.Date',
 						formatOptions: {
 							pattern: 'dd.MM.yyyy'

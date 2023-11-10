@@ -10,7 +10,7 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>searchProspettiLiquidazione}" />
+                <Title text="{i18n>titleRicProspettiLiquidazione}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>
@@ -19,7 +19,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterEseContabile}"
+                    text="{i18n>labelEseContabile}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -29,9 +29,9 @@
                 <ComboBox
                     width="100%"
                     items="{
-						path: '/RicercaEseContabileSet'
+						path: '/GjahrMcSet'
 					}"
-                    selectedKey="{FilterDocumenti>/Gjahr}"
+                    selectedKey="{FiltersWizard1>/Gjahr}"
                 >
                     <c:Item
                         key="{Gjahr}"
@@ -42,7 +42,7 @@
                     </layoutData>
                 </ComboBox>
                 <Text
-                    text="{i18n>filterUffLiquidatore}"
+                    text="{i18n>labelUffLiquidatore}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -52,34 +52,31 @@
                 <MultiInput
                     valueHelpRequest="onValueHelpUffLiquidatore"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/Zuffliq}"
+                    value="{FiltersWizard1>/Zuffliq}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </MultiInput>
                 <Text
-                    text="{i18n>filterZnumliqFrom}"
+                    text="{i18n>labelNProspettoLiquidazioneFrom}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <FlexBox class="flexBoxWitdh">
-                    <items>
-                        <zcontrolmccross:MatchcodeCross
-                            id="iptNProspLiquidazioneFrom"
-                            viewId="{Utility>/ViewId}"
-                            whichMC="ProspettoLiquidazione"
-                            value="{FilterDocumenti>/ZnumliqFrom}"
-                        />
-                    </items>
-                    <layoutData>
+
+                <zcontrolmccross:MatchcodeCross
+                    id="iptNProspLiquidazioneFrom"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="ProspettoLiquidazione"
+                    value="{FiltersWizard1>/ZnumliqFrom}"
+                >
+                    <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </FlexBox>
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
             </l:Grid>
         </content>
         <content>
@@ -88,28 +85,26 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>filterZnumliqTo}"
+                    text="{i18n>labelNProspettoLiquidazioneTo}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <FlexBox class="flexBoxWitdh">
-                    <items>
-                        <zcontrolmccross:MatchcodeCross
-                            id="iptNProspLiquidazioneTo"
-                            viewId="{Utility>/ViewId}"
-                            whichMC="ProspettoLiquidazione"
-                            value="{FilterDocumenti>/ZnumliqTo}"
-                        />
-                    </items>
-                    <layoutData>
+
+                <zcontrolmccross:MatchcodeCross
+                    id="iptNProspLiquidazioneTo"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="ProspettoLiquidazione"
+                    value="{FiltersWizard1>/ZnumliqTo}"
+                >
+                    <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </FlexBox>
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
                 <Text
-                    text="{i18n>filterZdescProsp}"
+                    text="{i18n>labelDescProspettoLiquidazione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -119,8 +114,7 @@
                 <Input
                     valueHelpRequest="onValueHelpDescProspLiquidazione"
                     showValueHelp="true"
-                    valueHelpOnly="true"
-                    value="{FilterDocumenti>/ZdescProsp}"
+                    value="{FiltersWizard1>/ZdescProsp}"
                 >
                     <layoutData>
                         <l:GridData span="XL4 L12 M12 S12" />

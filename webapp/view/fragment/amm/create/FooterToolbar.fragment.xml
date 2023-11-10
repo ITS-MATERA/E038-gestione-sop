@@ -12,5 +12,46 @@
                 <OverflowToolbarLayoutData priority="NeverOverflow" />
             </layoutData>
         </Button>
+        <Button
+            type="Emphasized"
+            text="{i18n>btnForward}"
+            press="onNavForward"
+            visible="{StepScenario>/visibleBtnForward}"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
+        <Button
+            type="Emphasized"
+            text="{i18n>btnLog}"
+            press="onLog"
+            visible="{= ${Log>/Messaggio}.length !== 0 ? true : false}"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
+        <ToolbarSpacer />
+        <Button
+            type="Emphasized"
+            text="{i18n>btnStart}"
+            press="onStart"
+            visible="{StepScenario>/visibleBtnStart}"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
+        <Button
+            type="Emphasized"
+            text="{i18n>btnSaveSoa}"
+            press="onSave"
+            visible="{StepScenario>/visibleBtnSave}"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
     </OverflowToolbar>
 </c:FragmentDefinition>
