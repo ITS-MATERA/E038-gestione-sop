@@ -8,6 +8,7 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
 
     createModelSop: function (sZtipopag) {
       var self = this;
+
       var oModelSop = new JSONModel({
         Bukrs: "",
         Gjahr: "",
@@ -148,6 +149,7 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
         Zautemit: "",
         Zdataprovv: null,
         Znprovv: "",
+        Position: [],
 
         DescZspecieSop: "",
       });
@@ -194,7 +196,7 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
         AnnoRegDoc: [],
         BelnrFrom: "",
         BelnrTo: "",
-        AnnoDocBen: "",
+        AnnoDocBen: [],
         Xblnr: [],
         Zbenalt: "",
         Cig: "",
@@ -221,6 +223,19 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       });
 
       self.setModel(oModelStepScenario, "StepScenario");
+    },
+
+    onCalculate: function () {
+      var self = this;
+      var oModelSop = self.getModel("Sop");
+      var aPosizioni = oModelSop.getProperty("/Position");
+      var fTotal = 0;
+
+      aPosizioni.map((oSelectedItem) => {
+        fTotal += parseFloat(oSelectedItem?.Zimpdaord);
+      });
+
+      oModelSop.setProperty("/Zimptot", fTotal.toFixed(2));
     },
 
     //#region ---------------------VALUE HELP-----------------------------------
@@ -325,7 +340,6 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       var self = this;
       var oDataModel = self.getModel();
       var oModelFilters = self.getModel("FiltersWizard1");
-      var oSop = self.getModel("Sop").getData();
       var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.NRegDocumento");
 
       var oSelectDialog = sap.ui.getCore().byId("sdNRegDocumento");
@@ -337,7 +351,6 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       aGjahr?.map((sGjahr) => {
         self.setFilterEQ(aFilters, "Gjahr", sGjahr);
       });
-      self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
       self.getView().setBusy(true);
 
       oDataModel.read("/NRegDocumentoMcSet", {
@@ -519,6 +532,47 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
           self.getView().setBusy(true);
         },
       });
+    },
+
+    setFiltersWizard1: function () {
+      var self = this;
+      var oFiltersWizard1 = self.getModel("FiltersWizard1").getData();
+      var oSop = self.getModel("Sop").getData();
+      var aFilters = [];
+
+      self.setFilterEQ(aFilters, "Ztipopag", oSop.Ztipopag);
+      self.setFilterEQ(aFilters, "Witht", oSop.Witht);
+      self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
+      self.setFilterEQ(aFilters, "Zquoteesi", oSop.Zquoteesi);
+      self.setFilterBT(aFilters, "Zdateesi", oFiltersWizard1.ZdatesiFrom, oFiltersWizard1.ZdatesiTo);
+      self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
+      self.setFilterEQ(aFilters, "Fipos", oSop.Fipos);
+      self.setFilterEQ(aFilters, "Fistl", oSop.Fistl);
+      self.setFilterEQ(aFilters, "Zgeber", oSop.Zgeber);
+      self.setFilterEQ(aFilters, "EsercizioContabile", oFiltersWizard1.Gjahr);
+      self.setFilterEQ(aFilters, "Zbenalt", oFiltersWizard1.Zbenalt);
+      self.setFilterEQ(aFilters, "ZzuffPag", oFiltersWizard1.ZzuffPag);
+      oFiltersWizard1.Zuffliq?.map((Zuffliq) => {
+        self.setFilterEQ(aFilters, "Zuffliq", Zuffliq);
+      });
+      self.setFilterBT(aFilters, "Znumliq", oFiltersWizard1.ZnumliqFrom, oFiltersWizard1.ZnumliqTo);
+      self.setFilterCP(aFilters, "ZdescProsp", oFiltersWizard1.ZdescProsp);
+      self.setFilterEQ(aFilters, "FkberLong", oFiltersWizard1.FkberLong);
+      oFiltersWizard1.AnnoRegDoc?.map((AnnoRegDoc) => {
+        self.setFilterEQ(aFilters, "AnnoRegDoc", AnnoRegDoc);
+      });
+      self.setFilterBT(aFilters, "Belnr", oFiltersWizard1.BelnrFrom, oFiltersWizard1.BelnrTo);
+      oFiltersWizard1.AnnoDocBen?.map((AnnoDocBen) => {
+        self.setFilterEQ(aFilters, "AnnoDocBen", AnnoDocBen);
+      });
+      oFiltersWizard1.Xblnr?.map((Xblnr) => {
+        self.setFilterEQ(aFilters, "Xblnr", Xblnr);
+      });
+      self.setFilterEQ(aFilters, "Cig", oFiltersWizard1.Cig);
+      self.setFilterEQ(aFilters, "Cup", oFiltersWizard1.Cup);
+      self.setFilterBT(aFilters, "Netdt", oFiltersWizard1.NetdtFrom, oFiltersWizard1.NetdtTo);
+
+      return aFilters;
     },
 
     //#endregion ---------------------METHODS-----------------------------------

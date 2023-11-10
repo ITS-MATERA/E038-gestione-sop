@@ -45,7 +45,7 @@
         </Button>
         <Button
             type="Emphasized"
-            text="{i18n>btnSaveSoa}"
+            text="{i18n>btnSaveSop}"
             press="onSave"
             visible="{StepScenario>/visibleBtnSave}"
         >
