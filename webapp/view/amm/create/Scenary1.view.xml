@@ -58,18 +58,32 @@
                         type="XML"
                     />
                 </WizardStep>
-                <WizardStep
-                    title="{i18n>titleWizard2}"
-                    visible="{StepScenario>/wizard2}"
-                />
-                <WizardStep
-                    title="{i18n>titleWizard3}"
-                    visible="{StepScenario>/wizard3}"
-                />
-                <WizardStep
-                    title="{i18n>titleWizard4}"
-                    visible="{StepScenario>/wizard4}"
-                />
+                <WizardStep title="{i18n>titleWizard2}">
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{StepScenario>/wizard2}"
+                    >
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.Beneficiario"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.ModalitaPagamento"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.Quietanzante"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.Versante"
+                            type="XML"
+                        />
+                    </Panel>
+                </WizardStep>
+                <WizardStep title="{i18n>titleWizard3}" />
+                <WizardStep title="{i18n>titleWizard4}" />
             </Wizard>
         </f:content>
         <f:footer>

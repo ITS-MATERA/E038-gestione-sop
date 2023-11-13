@@ -69,7 +69,7 @@
                     text="{i18n>labelRagioneriaDestinataria}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/ZufficioCont}" />
+                <Text text="{Sop>/Zragdest}" />
                 <layoutData>
                     <l:GridData span="XL2 L4 M6 S12" />
                 </layoutData>

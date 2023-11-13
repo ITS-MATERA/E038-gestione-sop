@@ -56,5 +56,12 @@ sap.ui.define([], function () {
 
       return sDay + "." + sMonths + "." + sYear;
     },
+
+    deleteFirstZeros: function (sValue) {
+      if (parseInt(sValue) === 0 || !sValue) {
+        return "";
+      }
+      return parseInt(sValue).toString();
+    },
   };
 });

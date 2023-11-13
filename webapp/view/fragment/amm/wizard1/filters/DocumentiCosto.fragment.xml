@@ -159,6 +159,7 @@
                     valueHelpRequest="onValueHelpNDocBene"
                     showValueHelp="true"
                     value="{FiltersWizard1>/Xblnr}"
+                    change="onNDocBeneChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

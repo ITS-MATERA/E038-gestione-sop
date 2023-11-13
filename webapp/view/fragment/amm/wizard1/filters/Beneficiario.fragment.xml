@@ -28,7 +28,7 @@
                     items="{
 						path: '/TipoBeneficiarioMcSet'
 					}"
-                    selectedKey="{FiltersWizard1>/BuType}"
+                    selectedKey="{Sop>/BuType}"
                     editable="{= 
                         ${Sop>/Witht} ||
 						${Sop>/ZzCebenra} ||
@@ -44,7 +44,7 @@
                         text="{Description}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L2 M6 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </ComboBox>
                 <Text
@@ -56,7 +56,7 @@
                     </layoutData>
                 </Text>
                 <zcontrolmccross:MatchcodeCross
-                    id="iptBeneficiario"
+                    id="iptBeneficiarioWizard1"
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
                     value="{Sop>/Lifnr}"
@@ -158,7 +158,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input

@@ -10,6 +10,8 @@ sap.ui.define(
         var self = this;
         var oModelUtility = new JSONModel({
           ViewId: "gestionesop.view.amm.create.Scenary1",
+          EnableEdit: true,
+          isQuiet1Prevalorizzato: false,
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -78,6 +80,7 @@ sap.ui.define(
         } else if (bWizard1Step3) {
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard2", true);
+          self.createModelModPagamento();
           oWizard.nextStep();
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/wizard2", false);

@@ -34,7 +34,7 @@
                     selectionChange="onRitenutaChange"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${FiltersWizard1>/BuType} 
+						${Sop>/BuType} 
 						? false : true
 					}"
                 >
@@ -61,7 +61,7 @@
                     maxLength="40"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${FiltersWizard1>/BuType} 
+						${Sop>/BuType} 
 						? false : true
 					}"
                 >
@@ -88,7 +88,7 @@
                     selected="{Sop>/Zquoteesi}"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${FiltersWizard1>/BuType} 
+						${Sop>/BuType} 
 						? false : true
 					}"
                     select="onQuoteEsigibiliChange"
@@ -125,7 +125,7 @@
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
 						${Sop>/Lifnr} ||
-						${FiltersWizard1>/BuType}
+						${Sop>/BuType}
 						? false : true
 					}"
                 >
@@ -154,7 +154,7 @@
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
 						${Sop>/Lifnr} ||
-						${FiltersWizard1>/BuType}
+						${Sop>/BuType}
 						? false : true
 					}"
                 >

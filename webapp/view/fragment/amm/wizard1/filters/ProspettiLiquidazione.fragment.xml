@@ -53,6 +53,7 @@
                     valueHelpRequest="onValueHelpUffLiquidatore"
                     showValueHelp="true"
                     value="{FiltersWizard1>/Zuffliq}"
+                    change="onUffLiquidatoreChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
@@ -108,7 +109,10 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData
+                            span="XL2 L3 M6 S12"
+                            linebreakL="true"
+                        />
                     </layoutData>
                 </Text>
                 <Input
