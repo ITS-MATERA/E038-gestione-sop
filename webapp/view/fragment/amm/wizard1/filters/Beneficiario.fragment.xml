@@ -20,7 +20,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <ComboBox
@@ -44,7 +44,7 @@
                         text="{Description}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L2 M6 S12" />
                     </layoutData>
                 </ComboBox>
                 <Text
@@ -52,7 +52,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <zcontrolmccross:MatchcodeCross
@@ -72,7 +72,7 @@
 					}"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
             </l:Grid>
@@ -87,7 +87,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -95,7 +95,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -103,7 +103,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -111,7 +111,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -119,7 +119,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -127,7 +127,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>
@@ -142,7 +142,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -150,7 +150,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -166,7 +166,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -174,7 +174,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -182,7 +182,7 @@
                     editable="false"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>

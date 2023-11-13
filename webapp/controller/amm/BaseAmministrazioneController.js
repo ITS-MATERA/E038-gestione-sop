@@ -305,6 +305,12 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
 
       oModelSop.setProperty("/ZzDescebe", self.setBlank(oSelectedItem?.getTitle()));
       oModelSop.setProperty("/ZzCebenra", self.setBlank(oSelectedItem?.data("key")));
+      if (!oSelectedItem?.getTitle()) {
+        oModelSop.setProperty("/ZspecieSop", "");
+        oModelSop.setProperty("/DescZspecieSop", "");
+      } else {
+        self._setSpecieSop("2");
+      }
       self.unloadFragment();
     },
 
@@ -508,6 +514,20 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       oModelFilter.setProperty("/ZdatesiTo", null);
     },
 
+    onRitenutaChange: function (oEvent) {
+      var self = this;
+      var oModelSop = self.getModel("Sop");
+
+      if (!oEvent.getParameter("selectedItem").getSelectedKey()) {
+        oModelSop.setProperty("/ZspecieSop", "");
+        oModelSop.setProperty("/DescZspecieSop", "");
+      } else {
+        self._setSpecieSop("2");
+      }
+
+      oModelSop.setProperty("/ZzCeberna", "");
+    },
+
     //#endregion ----------------SELECTION CHANGE-------------------------------
 
     //#region ------------------------METHODS-----------------------------------
@@ -575,6 +595,27 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       return aFilters;
     },
 
+    _setSpecieSop: function (sZspecieSop) {
+      var self = this;
+      var oModel = self.getModel();
+      var oModelSop = self.getModel("Sop");
+      var sKey = oModel.createKey("/SpecieSopMcSet", {
+        ZspecieSop: sZspecieSop,
+      });
+      self.getView().setBusy(true);
+
+      oModel.read(sKey, {
+        success: function (data) {
+          self.getView().setBusy(false);
+          oModelSop.setProperty("/ZspecieSop", sZspecieSop);
+          oModelSop.setProperty("/DescZspecieSop", data?.Descrizione);
+        },
+        error: function () {
+          self.getView().setBusy(false);
+        },
+      });
+    },
+
     //#endregion ---------------------METHODS-----------------------------------
 
     //#endregion -------------------------WIZARD 1------------------------------
@@ -614,7 +655,6 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
           oModelSop.setProperty("/TaxnumCf", data?.TaxnumCf);
           oModelSop.setProperty("/Taxnum", data?.TaxnumPiva);
           oModelSop.setProperty("/Taxnumxl", data?.TaxnumxlCfe);
-          self._createModelAnnoDocBen();
         },
         error: function () {
           self.getView().setBusy(false);
@@ -626,6 +666,13 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       var self = this;
       var oModelSop = self.getModel("Sop");
       oModelSop.setProperty("/Zquoteesi", false);
+      self._createModelAnnoDocBen();
+      if (!oEvent.getParameter("value")) {
+        oModelSop.setProperty("/ZspecieSop", "");
+        oModelSop.setProperty("/DescZspecieSop", "");
+      } else {
+        self._setSpecieSop("1");
+      }
       this.setDataBeneficiario(oEvent.getParameter("value"));
     },
 
@@ -634,7 +681,9 @@ sap.ui.define(["../BaseController", "sap/ui/model/json/JSONModel", "../../model/
       var oModelSop = self.getModel("Sop");
 
       if (obj?.Lifnr) {
+        self._createModelAnnoDocBen();
         oModelSop.setProperty("/Zquoteesi", false);
+        self._setSpecieSop("1");
         this.setDataBeneficiario(obj?.Lifnr);
       }
     },

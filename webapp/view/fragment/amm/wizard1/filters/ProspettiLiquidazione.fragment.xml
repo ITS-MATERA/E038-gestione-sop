@@ -23,7 +23,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <ComboBox
@@ -38,7 +38,7 @@
                         text="{Gjahr}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L2 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </ComboBox>
                 <Text
@@ -46,7 +46,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <MultiInput
@@ -55,7 +55,7 @@
                     value="{FiltersWizard1>/Zuffliq}"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </MultiInput>
                 <Text
@@ -63,7 +63,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
 
@@ -74,7 +74,7 @@
                     value="{FiltersWizard1>/ZnumliqFrom}"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
             </l:Grid>
@@ -89,7 +89,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
 
@@ -100,7 +100,7 @@
                     value="{FiltersWizard1>/ZnumliqTo}"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
                 <Text
@@ -108,7 +108,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L12 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -117,7 +117,7 @@
                     value="{FiltersWizard1>/ZdescProsp}"
                 >
                     <layoutData>
-                        <l:GridData span="XL4 L12 M12 S12" />
+                        <l:GridData span="XL4 L6 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>

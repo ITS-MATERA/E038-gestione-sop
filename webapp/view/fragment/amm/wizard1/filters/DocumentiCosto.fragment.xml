@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -23,7 +24,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -31,7 +32,7 @@
                     maxLength="16"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -39,7 +40,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -47,7 +48,7 @@
                     maxLength="16"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>
@@ -62,7 +63,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <MultiComboBox
@@ -76,7 +77,7 @@
                         text="{Gjahr}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </MultiComboBox>
                 <Text
@@ -84,7 +85,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -95,7 +96,7 @@
                     maxLength="10"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -103,7 +104,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -114,7 +115,7 @@
                     maxLength="10"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>
@@ -129,7 +130,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <MultiComboBox
@@ -143,7 +144,7 @@
                         text="{AnnoDocBeneficiario>Gjahr}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </MultiComboBox>
                 <Text
@@ -151,7 +152,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <MultiInput
@@ -160,9 +161,27 @@
                     value="{FiltersWizard1>/Xblnr}"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </MultiInput>
+                <Text
+                    text="{i18n>labelBenDocCosto}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptBeneficiarioDocCosto"
+                    whichMC="Beneficiario"
+                    value="{FiltersWizard1>/Zbenalt}"
+                    maxLength="10"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
             </l:Grid>
         </content>
         <content>
@@ -175,7 +194,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -185,7 +204,7 @@
                     valueHelpRequest="onValueHelpCigFilter"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text
@@ -193,7 +212,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -203,7 +222,7 @@
                     valueHelpRequest="onValueHelpCupFilter"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Input>
             </l:Grid>
@@ -218,7 +237,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <DatePicker
@@ -233,7 +252,7 @@
 					}"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </DatePicker>
                 <Text
@@ -241,7 +260,7 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <DatePicker
@@ -256,7 +275,7 @@
 					}"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </DatePicker>
             </l:Grid>

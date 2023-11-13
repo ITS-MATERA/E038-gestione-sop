@@ -136,6 +136,8 @@ sap.ui.define(
           var sZdataprovv = formatter.dateToString(oFirstSop.Zdataprovv);
 
           oModelFirstSop.setProperty("/Zcausale", sZtipoprov + " " + sZautemit + " " + sZdataprovv + " " + oFirstSop.Znprovv);
+        } else {
+          oModelFirstSop.setProperty("/Zcausale", "");
         }
       },
 
@@ -169,12 +171,11 @@ sap.ui.define(
           TypeSop: this._sTypeSop,
         };
 
-        //TODO - Decommentare
-        // var bCheck = await this._checkFirstSop();
+        var bCheck = await this._checkFirstSop();
 
-        // if (!bCheck) {
-        //   return;
-        // }
+        if (!bCheck) {
+          return;
+        }
 
         if (this._sTypeSop === "1" && sSceltaOperativa === 0) {
           self.getRouter().navTo("amm.create.scenary1", oParameters);
