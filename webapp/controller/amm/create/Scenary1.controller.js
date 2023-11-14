@@ -8,10 +8,9 @@ sap.ui.define(
 
       onInit: function () {
         var self = this;
+
         var oModelUtility = new JSONModel({
           ViewId: "gestionesop.view.amm.create.Scenary1",
-          EnableEdit: true,
-          isQuiet1Prevalorizzato: false,
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -64,10 +63,11 @@ sap.ui.define(
         }
       },
 
-      onNavForward: function () {
+      onNavForward: async function () {
         var self = this;
         var oWizard = self.getView().byId("wizScenario1");
         var oModelStepScenario = self.getModel("StepScenario");
+        var oModelUtility = self.getModel("Utility");
 
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
         var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
@@ -81,6 +81,10 @@ sap.ui.define(
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard2", true);
           self.createModelModPagamento();
+          self.createModelSedeBeneficiario();
+          self.setIbanQuote();
+          self.setSedeBeneficiario();
+          oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
           oWizard.nextStep();
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/wizard2", false);
@@ -105,6 +109,17 @@ sap.ui.define(
         self.setFirstSopData(oArguments);
         self.createModelFiltersWizard1();
         self.createModelStepScenarioReg();
+
+        var oModelUtility = new JSONModel({
+          ViewId: "gestionesop.view.amm.create.Scenary1",
+          EnableEdit: true,
+          isQuiet1Prevalorizzato: false,
+          isZcoordEsterPrevalorizzato: false,
+          isIbanPrevalorizzato: false,
+          isVersanteEditable: false,
+        });
+
+        self.setModel(oModelUtility, "Utility");
       },
 
       onStart: function (oEvent) {

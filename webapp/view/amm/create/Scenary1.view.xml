@@ -80,6 +80,18 @@
                             fragmentName="gestionesop.view.fragment.amm.wizard2.Versante"
                             type="XML"
                         />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.BancaAccredito"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.Intermediario1"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard2.SedeBeneficiario"
+                            type="XML"
+                        />
                     </Panel>
                 </WizardStep>
                 <WizardStep title="{i18n>titleWizard3}" />

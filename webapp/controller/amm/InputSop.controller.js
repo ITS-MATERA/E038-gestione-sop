@@ -210,13 +210,15 @@ sap.ui.define(
           ZufficioCont: oModelFirstSop.getProperty("/ZufficioCont"),
         });
 
+        self.getView().setBusy(true);
+
         oModel.read(sKey, {
           success: function (data, oResponse) {
+            self.getView().setBusy(false);
             oModelFirstSop.setProperty("/Descufficio", self.setBlank(data.Descufficio));
             oModelFirstSop.setProperty("/Zfunzdel", self.setBlank(data.Zfunzdel));
             oModelFirstSop.setProperty("/Zdescriz", self.setBlank(data.Zdescriz));
-
-            if (self.hasResponseError(oResponse)) return;
+            self.hasResponseError(oResponse);
           },
         });
       },

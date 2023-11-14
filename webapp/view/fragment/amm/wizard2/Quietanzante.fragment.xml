@@ -218,7 +218,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/ZzragSocQuietanzante}"
+                    value="{Sop>/ZqragSoc}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -234,7 +234,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/Land1Quietanzante}"
+                    value="{Sop>/Land1}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -382,7 +382,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/Zqindiriz12}"
+                    value="{Sop>/Zqindiriz2}"
                     visible="{=
                       ${Sop>/Zwels} === 'ID1' &amp;&amp;
                       (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
@@ -406,7 +406,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/Zqcitta12}"
+                    value="{Sop>/Zqcitta2}"
                     visible="{=
                       ${Sop>/Zwels} === 'ID1' &amp;&amp;
                       (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
@@ -431,7 +431,7 @@
                 <Input
                     editable="false"
                     value="{
-                    path: 'Sop>/Zqcap12',
+                    path: 'Sop>/Zqcap2',
                     formatter: '.formatter.deleteFirstZeros'
                   }"
                     visible="{=
@@ -457,7 +457,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/Zqprovincia12}"
+                    value="{Sop>/Zqprovincia2}"
                     visible="{=
                       ${Sop>/Zwels} === 'ID1' &amp;&amp;
                       (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
@@ -485,7 +485,7 @@
                       (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
                     }"
                     editable="false"
-                    value="{Sop>/Land1Quietanzante2}"
+                    value="{Sop>/Land2}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

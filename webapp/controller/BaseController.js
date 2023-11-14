@@ -39,6 +39,15 @@ sap.ui.define(
         return sValue;
       },
 
+      acceptOnlyImport: function (sId) {
+        var oInput = this.getView().byId(sId);
+        oInput.attachBrowserEvent("keypress", function (oEvent) {
+          if (oEvent.key === "." || oEvent.key === "-") {
+            oEvent.preventDefault();
+          }
+        });
+      },
+
       setModelCustom: function (sNameModel, oData) {
         var oView = this.getView();
         var oModelJson = new JSONModel();

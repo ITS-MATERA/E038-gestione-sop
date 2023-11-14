@@ -39,7 +39,7 @@
                     text="{i18n>labelImporto}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text />
+                <Text text="{Sop>/Zimptot}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>

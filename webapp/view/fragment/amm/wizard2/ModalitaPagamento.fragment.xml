@@ -30,6 +30,7 @@
                         }"
                     selectedKey="{Sop>/Zwels}"
                     editable="{= ${Sop>/Ztipopag} !== '4' &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
+                    selectionChange="onModalitaPagamentoChange"
                 >
                     <c:Item
                         key="{ModalitaPagamento>Zwels}"
@@ -107,10 +108,11 @@
 							${Sop>/Zwels} !== 'ID2'  &amp;&amp; 
 							${Sop>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Sop>/Zwels} !== 'ID4' &amp;&amp;  
-							${Utility>/EnableEdit} ? true : false
+							${Utility>/EnableEdit} &amp;&amp;
+                            ${Sop>/Zcoordest} === '' ? true : false
 						}"
-                    change="onIbanChange"
                     maxLength="34"
+                    change="onIbanChange"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -232,7 +234,9 @@
                     showValueHelp="true"
                     editable="{= 
 						(${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10') &amp;&amp; 
-						${Utility>/EnableEdit} ? true : false}"
+						${Utility>/EnableEdit} &amp;&amp; 
+                        ${Utility>/isZcoordEsterPrevalorizzato} === false &amp;&amp;
+                        ${Sop>/Iban} === ''? true : false}"
                     value="{Sop>/Zcoordest}"
                     change="onCoordinateEstereChange"
                 >
