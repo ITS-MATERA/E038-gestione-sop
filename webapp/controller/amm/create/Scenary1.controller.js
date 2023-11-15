@@ -15,6 +15,8 @@ sap.ui.define(
 
         self.setModel(oModelUtility, "Utility");
 
+        self.acceptOnlyImport("iptImpDaOrd");
+
         this.getRouter().getRoute("amm.create.scenary1").attachPatternMatched(this._onObjectMatched, this);
       },
 
@@ -75,8 +77,7 @@ sap.ui.define(
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
         if (bWizard1Step2) {
-          oModelStepScenario.setProperty("/wizard1Step2", false);
-          oModelStepScenario.setProperty("/wizard1Step3", true);
+          self.checkPosizioni();
         } else if (bWizard1Step3) {
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard2", true);
@@ -117,9 +118,13 @@ sap.ui.define(
           isZcoordEsterPrevalorizzato: false,
           isIbanPrevalorizzato: false,
           isVersanteEditable: false,
+          isLogVisible: false,
         });
 
+        var oModelLog = new JSONModel({});
+
         self.setModel(oModelUtility, "Utility");
+        self.setModel(oModelLog, "Log");
       },
 
       onStart: function (oEvent) {
@@ -141,8 +146,13 @@ sap.ui.define(
               oModelStepScenario.setProperty("/visibleBtnForward", true);
               oModelStepScenario.setProperty("/visibleBtnStart", false);
             }
-            self.setModel(new JSONModel(data?.results), "PosizioniScen1");
-            oPanelCalculator.setVisible(data.results.length !== 0);
+
+            var aData = data?.results;
+            aData?.map((oPosition, iIndex) => {
+              oPosition.Index = iIndex + 1;
+            });
+            self.setModel(new JSONModel(aData), "PosizioniScen1");
+            oPanelCalculator.setVisible(aData.length !== 0);
 
             // if (data.results !== 0) {
             //   data.results.map((oItem, iIndex) => {

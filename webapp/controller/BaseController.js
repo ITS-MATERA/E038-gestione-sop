@@ -7,8 +7,10 @@ sap.ui.define(
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
+    "sap/ui/export/Spreadsheet",
+    "sap/ui/export/library",
   ],
-  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel, MessageBox) {
+  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, exportLibrary) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -237,6 +239,93 @@ sap.ui.define(
           });
         });
       },
+
+      //#region ------------------------------LOG-------------------------------
+
+      onLog: function () {
+        var self = this;
+        var oDialog = self.loadFragment("gestionesop.view.fragment.amm.table.TableLog");
+
+        oDialog.open();
+      },
+
+      onCloseLog: function () {
+        var self = this;
+        var oDialog = sap.ui.getCore().byId("dlgLog");
+        oDialog.close();
+        self.unloadFragment();
+      },
+
+      onExportLog: function () {
+        const EDM_TYPE = exportLibrary.EdmType;
+
+        var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+        var oTable = sap.ui.getCore().byId("tblLog");
+        var oTableModel = oTable.getModel("Log");
+
+        var aCols = [
+          {
+            label: oBundle.getText("labelMessageType"),
+            property: "Msgid",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageId"),
+            property: "Msgid",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageNumber"),
+            property: "Msgno",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelMessageText"),
+            property: "Message",
+            type: EDM_TYPE.String,
+          },
+        ];
+
+        var oSettings = {
+          workbook: {
+            columns: aCols,
+          },
+          dataSource: oTableModel.getData()?.Messaggio,
+          fileName: "Lista Log.xlsx",
+        };
+
+        var oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
+
+      managementLog: function (aMessage) {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var aMessageFormatted = [];
+
+        if (aMessage.length === 1) {
+          MessageBox.error(aMessage[0]?.Body?.Message);
+          return;
+        }
+
+        aMessage.map((oMessage) => {
+          aMessageFormatted.push({
+            Msgid: oMessage?.Body?.Msgid,
+            Msgty: oMessage?.Body?.Msgty,
+            Msgno: oMessage?.Body?.Msgno,
+            Message: oMessage?.Body?.Message,
+          });
+        });
+
+        oModelUtility.setProperty("/isLogVisible");
+        self.setModel(new JSONModel(aMessageFormatted), "Log");
+        MessageBox.error("Operazione non eseguita correttamente");
+      },
+
+      //#endregion ---------------------------LOG---------------------------------
     });
   }
 );

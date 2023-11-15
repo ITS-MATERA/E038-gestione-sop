@@ -122,6 +122,39 @@ sap.ui.define(
         self.unloadFragment();
       },
 
+      onValueHelpIdAutorizzazione: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oFirstSop = self.getModel("FirstSop").getData();
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.IdAutorizzazione");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Anno", oFirstSop.Gjahr);
+        self.setFilterEQ(aFilters, "Fipos", oFirstSop.Fipos);
+        self.setFilterEQ(aFilters, "Fistl", oFirstSop.Fistl);
+
+        self.getView().setBusy(true);
+        oModel.read("/IdAutorizzazioneSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false);
+            self.setModelDialog("IdAutorizzazione", data, "sdIdAutorizzazione", oDialog);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onValueHelpIdAutorizzazioneClose: function (oEvent) {
+        var self = this;
+        var oModelFirstSop = self.getModel("FirstSop");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        oModelFirstSop.setProperty("/Zgeber", self.setBlank(oSelectedItem?.getTitle()));
+      },
+
       onCreateCausale: function () {
         var self = this;
         var oModelFirstSop = self.getModel("FirstSop");

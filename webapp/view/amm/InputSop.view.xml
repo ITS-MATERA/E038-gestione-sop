@@ -159,7 +159,7 @@
                         </zcontrolMatchSar:GestioneLogUser>
 
                         <Label
-                            text="{i18n>labelIdAutorizzativo}:"
+                            text="{i18n>labelIdAutorizzazione}:"
                             class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                             required="true"
                         >
@@ -173,6 +173,8 @@
                         <Input
                             value="{FirstSop>/Zgeber}"
                             maxLength="18"
+                            valueHelpRequest="onValueHelpIdAutorizzazione"
+                            showValueHelp="true"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
