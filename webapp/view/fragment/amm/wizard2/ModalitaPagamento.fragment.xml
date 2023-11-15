@@ -74,7 +74,7 @@
                     id="iptCausaleValutaria"
                     viewId="{Utility>/ViewId}"
                     whichMC="CausaleValutaria"
-                    value="{Sop>/ZDesccauval}"
+                    value="{Sop>/ZCausaleval}"
                     editable="{= 
 								${Sop>/Banks} !== 'IT' &amp;&amp; 
 								${Sop>/Banks} !== '' &amp;&amp; 

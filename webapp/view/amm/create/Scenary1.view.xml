@@ -94,7 +94,30 @@
                         />
                     </Panel>
                 </WizardStep>
-                <WizardStep title="{i18n>titleWizard3}" />
+                <WizardStep title="{i18n>titleWizard3}">
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{StepScenario>/wizard3}"
+                    >
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard3.Cos"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard3.Cpv"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard3.Cup"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard3.Cig"
+                            type="XML"
+                        />
+                    </Panel>
+                </WizardStep>
                 <WizardStep title="{i18n>titleWizard4}" />
             </Wizard>
         </f:content>

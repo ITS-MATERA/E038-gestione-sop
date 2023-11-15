@@ -22,6 +22,7 @@
                 <Text
                     text="{i18n>labelTipoFirma}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false }"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L3 M5 S12" />
@@ -33,10 +34,8 @@
                       path: '/TipoFirmaMcSet'
                     }"
                     selectedKey="{Sop>/Ztipofirma}"
-                    editable="{= 
-                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
-                      ${Utility>/EnableEdit} ? true : false
-                    }"
+                    editable="{= ${Utility>/EnableEdit} ? true : false }"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false }"
                     selectionChange="onTipoFirmaChange"
                 >
                     <c:Item
@@ -95,14 +94,11 @@
                       (${Sop>/Zwels} === 'ID1' || ${Sop>/Zwels} === 'ID2') &amp;&amp; 
                       ${Utility>/EnableEdit} &amp;&amp;
                       ${Sop>/Zstcd14} === '' &amp;&amp;
-                      ${Utility>/isQuiet1Prevalorizzato} === false  &amp;&amp;
-                      ${Sop>/Ztipofirma} !== ''? true : false
+                      ${Utility>/isQuiet1Prevalorizzato} === false ? true : false
                     }"
                     valueHelpRequest="onValueHelpQuietanzante1"
                     showValueHelp="true"
-                    value="{= 
-                      ${Sop>/Zwels} === 'ID1' ? ${Sop>/Zstcd1} :
-                      ${Sop>/Zwels} === 'ID2' ? ${Sop>/Zstcd13} : ''}"
+                    value="{Sop>/Zstcd1}"
                     change="onQuietanzante1Change"
                     maxLength="16"
                 >
@@ -113,18 +109,16 @@
                 <Text
                     text="{i18n>labelCFEQuiet1}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                    visible="{= ${Sop>/Zwels} === 'ID1'}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
-                    visible="{= ${Sop>/Zwels} === 'ID1'}"
+                    visible="{= ${Sop>/Zwels} === 'ID1' || ${Sop>/Zwels} === 'ID2' ? true : false}"
                     editable="{= 
                       ${Utility>/EnableEdit} &amp;&amp;
-                      ${Sop>/Zstcd1} === '' &amp;&amp;
-                      ${Sop>/Ztipofirma} !== '' ? true : false}"
+                      ${Sop>/Zstcd1} === '' ? true : false}"
                     value="{Sop>/Zstcd14}"
                     maxLength="16"
                     valueHelpRequest="onValueHelpQuietEstero1"

@@ -301,7 +301,7 @@ sap.ui.define(
         });
       },
 
-      managementLog: function (aMessage) {
+      managementLogDeep: function (aMessage) {
         var self = this;
         var oModelUtility = self.getModel("Utility");
         var aMessageFormatted = [];
@@ -325,6 +325,19 @@ sap.ui.define(
         MessageBox.error("Operazione non eseguita correttamente");
       },
 
+      managementLogFI: function (aMessage) {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+        if (aMessage.length === 1) {
+          MessageBox.error(aMessage[0]?.Message);
+          return;
+        }
+
+        oModelUtility.setProperty("/isLogVisible");
+        self.setModel(new JSONModel(aMessage), "Log");
+        MessageBox.error("Operazione non eseguita correttamente");
+      },
       //#endregion ---------------------------LOG---------------------------------
     });
   }

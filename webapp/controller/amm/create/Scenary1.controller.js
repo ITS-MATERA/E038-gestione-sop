@@ -77,7 +77,7 @@ sap.ui.define(
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
         if (bWizard1Step2) {
-          self.checkPosizioni();
+          self.checkWizard1();
         } else if (bWizard1Step3) {
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard2", true);
@@ -88,9 +88,7 @@ sap.ui.define(
           oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
           oWizard.nextStep();
         } else if (bWizard2) {
-          oModelStepScenario.setProperty("/wizard2", false);
-          oModelStepScenario.setProperty("/wizard3", true);
-          oWizard.nextStep();
+          self.checkWizard2(oWizard);
         } else if (bWizard3) {
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard4", true);

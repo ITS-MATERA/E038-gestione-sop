@@ -523,7 +523,7 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop");
 
-        if (!oEvent.getParameter("selectedItem").getSelectedKey()) {
+        if (!oEvent.getSource().getSelectedKey()) {
           oModelSop.setProperty("/ZspecieSop", "");
           oModelSop.setProperty("/DescZspecieSop", "");
         } else {
@@ -647,7 +647,7 @@ sap.ui.define(
         });
       },
 
-      checkPosizioni: function () {
+      checkWizard1: function () {
         var self = this;
         var oModel = self.getModel();
         var oModelStepScenario = self.getModel("StepScenario");
@@ -679,7 +679,7 @@ sap.ui.define(
           success: function (data) {
             var aMessage = data?.CheckImportMessageSet?.results;
             if (aMessage.length > 0) {
-              self.managementLog(aMessage);
+              self.managementLogDeep(aMessage);
               self.getView().setBusy(false);
               return;
             }
@@ -1018,8 +1018,11 @@ sap.ui.define(
       },
 
       onIbanChange: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
         if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
           var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
+          oModelUtility.setProperty("/isIbanPrevalorizzato", false);
           oDialogMotivazione.open();
         }
 
@@ -1027,20 +1030,28 @@ sap.ui.define(
         this.setDataIban();
       },
 
-      onModalitaPagamentoChange: function () {
+      onModalitaPagamentoChange: function (oEvent) {
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
-        if (!oModelUtility.getProperty("/isIbanPrevalorizzato")) {
+        var sZwels = oEvent.getSource().getSelectedKey();
+        if (!oModelUtility.getProperty("/isIbanPrevalorizzato") || !sZwels) {
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
+        }
+        if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4" || sZwels === "ID5") {
+          oModelUtility.setProperty("/isIbanPrevalorizzato", true);
         }
 
         if (oModelUtility.getProperty("/isVersanteEditable") && (oModelSop.getProperty("/Zwels") === "ID4" || oModelSop.getProperty("/Zwels") === "ID3")) {
           this._getCodProvenienza();
         }
         this._resetDataModalitaPagamento();
-        this.checkIban();
+
+        if (!sZwels) {
+          return;
+        }
+
         this.setIban();
         this.setCoordinateEstere();
       },
@@ -1053,6 +1064,10 @@ sap.ui.define(
 
       onSedeBeneficiarioChange: function () {
         this.setSedeBeneficiario();
+      },
+
+      onCausaleValutariaChange: function () {
+        this.checkCasualeValutaria();
       },
 
       //#endregion --------------------------SELECTION CHANGE---------------------
@@ -1116,11 +1131,7 @@ sap.ui.define(
               oModelSop.setProperty("/Iban", data?.Iban);
             }
 
-            if (self.hasResponseError(oResponse)) {
-              oModelSop.setProperty("/Iban", "");
-              oModelSop.setProperty("/Banks", "");
-              return;
-            }
+            self.checkIban();
             self.setDataIban();
           },
           error: function () {
@@ -1228,7 +1239,6 @@ sap.ui.define(
         oModelSop.setProperty("/Zstcd1", "");
         oModelSop.setProperty("/ZpersNomeVaglia", "");
         oModelSop.setProperty("/ZpersCognomeVaglia", "");
-        oModelSop.setProperty("/Zstcd13", "");
         oModelSop.setProperty("/Zqindiriz", "");
         oModelSop.setProperty("/Zqcitta", "");
         oModelSop.setProperty("/Zqcap", "");
@@ -1262,6 +1272,10 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
 
+        if (!sCodiceFiscale) {
+          return;
+        }
+
         var sKey = oModel.createKey("/Quietanzante1Set", {
           Zstcd1: sCodiceFiscale,
           Zwels: oSop.Zwels,
@@ -1273,11 +1287,7 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data, oResponse) {
             self.getView().setBusy(false);
-            if (oSop.Zwels === "ID1") {
-              oModelSop.setProperty("/Zstcd1", data.Zstcd1);
-            } else {
-              oModelSop.setProperty("/Zstcd13", data.Zstcd1);
-            }
+            oModelSop.setProperty("/Zstcd1", data.Zstcd1);
             oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
             oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
             oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
@@ -1372,6 +1382,10 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
+
+        if (!oSop.Zstcd12) {
+          return;
+        }
 
         var sKey = oModel.createKey("/Quietanzante2Set", {
           Zstcd12: oSop.Zstcd12,
@@ -1818,6 +1832,70 @@ sap.ui.define(
         });
       },
 
+      checkCasualeValutaria: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        var sKey = oModel.createKey("/CausaleValutariaSet", {
+          ZCausaleval: oSop.ZCausaleval,
+        });
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/ZCausaleval", "");
+              oModelSop.setProperty("/ZDesccauval", "");
+            }
+          },
+          error: function () {},
+        });
+      },
+
+      checkWizard2: function (oWizard) {
+        var self = this;
+        var oModel = self.getModel();
+        var oSop = self.getModel("Sop").getData();
+        var oModelStepScenario = self.getModel("StepScenario");
+
+        var oParamenters = {
+          ZspecieSop: oSop?.ZspecieSop,
+          Zwels: oSop?.Zwels,
+          Ztipofirma: oSop?.Ztipofirma,
+          Iban: oSop?.Iban,
+          Zcoordest: oSop?.Zcoordest,
+          Zstcd1: oSop?.Zstcd1,
+          Zstcd14: oSop?.Zstcd14,
+          Zstcd12: oSop?.Zstcd12,
+          Zstcd15: oSop?.Zstcd15,
+          Zalias: oSop?.Zalias,
+          Zzposfinent: oSop?.Zzposfinent,
+          Zflagfrutt: oSop?.Zflagfrutt,
+          Zimptot: oSop?.Zimptot,
+        };
+
+        self.getView().setBusy(true);
+        oModel.callFunction("/CheckWizard2Amm", {
+          urlParameters: oParamenters,
+          success: function (data, oResponse) {
+            var aMessage = data?.results;
+            if (aMessage.length > 0) {
+              self.managementLogFI(aMessage);
+              self.getView().setBusy(false);
+              return;
+            }
+            self.getView().setBusy(false);
+            oModelStepScenario.setProperty("/wizard2", false);
+            oModelStepScenario.setProperty("/wizard3", true);
+            oWizard.nextStep();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //#endregion --------------------------METHODS------------------------------
 
       //#endregion --------------------------WIZARD 2-----------------------------
@@ -1896,6 +1974,7 @@ sap.ui.define(
             oDialogMotivazione.open();
           }
 
+          self.checkIban();
           self.setDataIban();
           return;
         }
@@ -2055,7 +2134,7 @@ sap.ui.define(
             //Se D = Destinatario
             oModelSop.setProperty("/ZpersNomeVaglia", oData.ZQNome);
             oModelSop.setProperty("/ZpersCognomeVaglia", oData.ZQCognome);
-            oModelSop.setProperty("/Zstcd13", oData.Stcd3);
+            oModelSop.setProperty("/Zstcd11", oData.Stcd3);
             oModelSop.setProperty("/Zqindiriz", oData.ZQIndiriz);
             oModelSop.setProperty("/Zqcitta", oData.ZQCitta);
             oModelSop.setProperty("/Zqcap", oData.ZQCAP);
@@ -2067,7 +2146,7 @@ sap.ui.define(
             //Se non sono valorizzati sia il CF del primo quietanzante e sia
             //il CF del destinatario vuol dire che quello inserito è il primo
             //quietanzante
-            if (!oModelSop.getProperty("/Zstcd1") && !oModelSop.getProperty("/Zstcd13")) {
+            if (!oModelSop.getProperty("/Zstcd1")) {
               oModelSop.setProperty("/ZpersNomeQuiet1", oData.ZQNome);
               oModelSop.setProperty("/ZpersCognomeQuiet1", oData.ZQCognome);
               oModelSop.setProperty("/Zstcd1", oData.Stcd1);
