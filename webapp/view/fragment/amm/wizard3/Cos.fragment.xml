@@ -93,12 +93,15 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
+                                id="iptCos"
                                 valueHelpRequest="onValueHelpCos"
                                 showValueHelp="true"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcos}"
                                 editable="{Utility>/EnableEdit}"
+                                change="onCosChange"
+                                maxLength="3"
                             />
                             <Input
                                 editable="false"

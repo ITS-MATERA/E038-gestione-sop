@@ -99,6 +99,8 @@
                                 width="65%"
                                 value="{Classificazione>Zcpv}"
                                 editable="{Utility>/EnableEdit}"
+                                maxLength="40"
+                                change="onCpvChange"
                             />
                             <Input
                                 editable="false"

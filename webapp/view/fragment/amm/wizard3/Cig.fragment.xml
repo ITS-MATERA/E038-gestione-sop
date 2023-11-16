@@ -99,6 +99,7 @@
                                 width="65%"
                                 value="{Classificazione>Zzcig}"
                                 editable="{Utility>/EnableEdit}"
+                                maxLength="20"
                             />
                             <Input
                                 editable="false"

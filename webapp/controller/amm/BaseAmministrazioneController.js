@@ -1242,7 +1242,6 @@ sap.ui.define(
         self.getView().setBusy(true);
         oModel.read(sKey, {
           success: function (data) {
-            console.log(data);
             self.getView().setBusy(false);
           },
           error: function () {
@@ -2020,6 +2019,68 @@ sap.ui.define(
         this._setImpTotAssociare(oSourceData?.etichetta);
       },
 
+      onCosChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var oSop = self.getModel("Sop").getData();
+        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        var sKey = oModel.createKey("/CosSet", {
+          Gjahr: oSop.Gjahr,
+          Zcos: aListClassificazione[sIndex].Zcos,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
+            oModelClassificazione.setProperty("/Cos", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onCpvChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!aListClassificazione[sIndex].Zcpv) {
+          aListClassificazione[sIndex].ZcpvDesc = "";
+          oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+          return;
+        }
+
+        var sKey = oModel.createKey("/CpvSet", {
+          Zcpv: aListClassificazione[sIndex].Zcpv,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
+            oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //#region ----------------------------VALUE HELP--------------------------
 
       onValueHelpCos: function (oEvent) {
@@ -2345,7 +2406,7 @@ sap.ui.define(
         var iTotaImpAssociato = iImpAssociatoCodiceGestione + iImpCpv + iImpCig + iImpCup;
 
         if (iImpAssociato !== iTotaImpAssociato) {
-          sap.m.MessageBox.error(oBundle.getText("msgDifferentImpAssociato", formatter.convertFormattedNumber(parseFloat(iImpAssociato).toFixed(2))));
+          sap.m.MessageBox.error(oBundle.getText("msgDifferentImpAssociato", formatter.convertImport(parseFloat(iImpAssociato).toFixed(2))));
           return false;
         }
 
@@ -2364,6 +2425,85 @@ sap.ui.define(
         }
 
         return bCodiceEmpty;
+      },
+
+      _getClassificazioneList: function () {
+        var self = this;
+        var oModelClassificazione = self.getModel("Classificazione");
+
+        var aListCos = oModelClassificazione.getProperty("/Cos");
+        var aListCpv = oModelClassificazione.getProperty("/Cpv");
+        var aListCig = oModelClassificazione.getProperty("/Cig");
+        var aListCup = oModelClassificazione.getProperty("/Cup");
+
+        var aListClassificazione = [];
+
+        aListCos.map((oCos) => {
+          aListClassificazione.push(oCos);
+        });
+
+        aListCpv.map((oCpv) => {
+          aListClassificazione.push(oCpv);
+        });
+
+        aListCig.map((oCig) => {
+          aListClassificazione.push(oCig);
+        });
+
+        aListCup.map((oCup) => {
+          aListClassificazione.push(oCup);
+        });
+
+        return aListClassificazione;
+      },
+
+      getCig: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oSop = self.getModel("Sop").getData();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aCos = [];
+        var aPosition = oSop.Position;
+        var aFilters = [];
+
+        aPosition.map((oPosition) => {
+          self.setFilterEQ(aFilters, "Belnr", oPosition.Belnr);
+        });
+
+        self.getView().setBusy(true);
+        oModel.read("/CigMcSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false);
+
+            var aData = data.results;
+            aData.map((oData, index) => {
+              aCos.push({
+                Zchiavesop: "",
+                Bukrs: "",
+                Zetichetta: "",
+                Zposizione: "",
+                ZstepSop: "",
+                Zzcig: oData.ZcodiCig,
+                Zzcup: "",
+                Zcpv: "",
+                ZcpvDesc: "",
+                Zcos: "",
+                ZcosDesc: "",
+                Belnr: oData.Belnr,
+                ZimptotClass: "0.00",
+                Zflagcanc: "",
+                ZstatoClass: "",
+                Index: index,
+              });
+            });
+
+            oModelClassificazione.setProperty("/Cig", aCos);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
 
       //#endregion -------------------------METHODS------------------------------
