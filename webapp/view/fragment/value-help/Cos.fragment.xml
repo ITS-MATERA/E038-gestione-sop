@@ -4,21 +4,22 @@
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <SelectDialog
-        id="sdCigFilter"
+        id="sdCos"
         noDataText="{i18n>noData}"
-        title="{i18n>labelCig}"
+        title="{i18n>labelCos}"
         search="onValueHelpChange"
-        confirm="onValueHelpCigFilterClose"
-        cancel="onValueHelpCigFilterClose"
-        app:FilterValueHelp="ZcodiCig"
+        confirm="onValueHelpCosClose"
+        cancel="onValueHelpCosClose"
+        app:FilterValueHelp="Zcos"
         items="{
-          path: 'Cig>/'
-		    }"
+          path: 'Cos>/'
+        }"
     >
         <StandardListItem
             iconDensityAware="false"
             iconInset="false"
-            title="{Cig>ZcodiCig}"
+            title="{Cos>Zcos}"
+            description="{Cos>ZcosDesc}"
         />
     </SelectDialog>
 </c:FragmentDefinition>

@@ -122,7 +122,7 @@
                             <Text
                                 text="{
                                   path: 'Sop>Zimpdaord',
-                                  formatter: '.formatter.convertFormattedNumber'
+                                  formatter: '.formatter.convertImport'
                                 }"
                             />
                             <Text text="{Sop>Znumliq}" />

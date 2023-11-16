@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <SelectDialog
-        id="sdCigFilter"
+        id="sdCigClassificazione"
         noDataText="{i18n>noData}"
         title="{i18n>labelCig}"
         search="onValueHelpChange"
-        confirm="onValueHelpCigFilterClose"
-        cancel="onValueHelpCigFilterClose"
+        confirm="onValueHelpCigClassificazioneClose"
+        cancel="onValueHelpCigClassificazioneClose"
         app:FilterValueHelp="ZcodiCig"
         items="{
           path: 'Cig>/'

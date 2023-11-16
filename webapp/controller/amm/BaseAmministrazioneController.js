@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["../BaseController", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/m/MessageBox"],
-  function (BaseController, JSONModel, formatter, MessageBox) {
+  ["../BaseController", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/m/MessageBox", "sap/ui/model/Filter", "sap/ui/model/FilterOperator"],
+  function (BaseController, JSONModel, formatter, MessageBox, Filter, FilterOperator) {
     "use strict";
 
     return BaseController.extend("gestionesop.controller.amm.BaseAmministrazioneController", {
@@ -151,6 +151,7 @@ sap.ui.define(
           Znprovv: "",
           Seqnr: "",
           Position: [],
+          Classificazione: [],
 
           DescZspecieSop: "",
           BuType: "",
@@ -163,7 +164,22 @@ sap.ui.define(
         self.setModel(oModelSop, "Sop");
       },
 
-      //#region ----------------------------WIZARD 1------------------------------
+      createModelUtilityReg: function (sViewId) {
+        var self = this;
+        var oModelUtility = new JSONModel({
+          ViewId: sViewId,
+          EnableEdit: true,
+          isQuiet1Prevalorizzato: false,
+          isZcoordEsterPrevalorizzato: false,
+          isIbanPrevalorizzato: false,
+          isVersanteEditable: false,
+          isLogVisible: false,
+        });
+
+        self.setModel(oModelUtility, "Utility");
+      },
+
+      //#region ----------------------------WIZARD 1----------------------------
 
       setFirstSopData: function (oParamenters) {
         var self = this;
@@ -243,7 +259,7 @@ sap.ui.define(
         oModelSop.setProperty("/Zimptot", fTotal.toFixed(2));
       },
 
-      //#region ----------------------------VALUE HELP----------------------------
+      //#region ----------------------------VALUE HELP--------------------------
 
       onValueHelpUffLiquidatore: function () {
         var self = this;
@@ -698,7 +714,7 @@ sap.ui.define(
 
       //#endregion -------------------------WIZARD 1------------------------------
 
-      //#region ----------------------------WIZARD 2------------------------------
+      //#region ----------------------------WIZARD 2----------------------------
 
       createModelModPagamento: function () {
         var self = this;
@@ -1189,6 +1205,45 @@ sap.ui.define(
               return;
             }
             self.setDataIban();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      setModalitaPagamentoQuote: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        if (oSop?.Position) {
+          var aPosizioniFormatted = oSop?.Position?.map((oPosition) => {
+            var oPosizioneFormatted = {
+              Bukrs: oPosition?.Bukrs,
+              Znumliq: oPosition?.Znumliq,
+              Zposizione: oPosition?.Zposizione,
+              Zversione: oPosition?.Zversione,
+              ZversioneOrig: oPosition?.ZversioneOrig,
+              Docid: oPosition?.Docid,
+            };
+
+            return oPosizioneFormatted;
+          });
+        }
+
+        var sKey = oModel.createKey("/ModalitaPagamentoSet", {
+          ZspecieSop: oSop.ZspecieSop,
+          Zwels: "",
+          Json: JSON.stringify(aPosizioniFormatted),
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data) {
+            console.log(data);
+            self.getView().setBusy(false);
           },
           error: function () {
             self.getView().setBusy(false);
@@ -1858,6 +1913,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oSop = self.getModel("Sop").getData();
         var oModelStepScenario = self.getModel("StepScenario");
+        var oModelUtility = self.getModel("Utility");
 
         var oParamenters = {
           ZspecieSop: oSop?.ZspecieSop,
@@ -1886,6 +1942,7 @@ sap.ui.define(
               return;
             }
             self.getView().setBusy(false);
+            oModelUtility.setProperty("/isLogVisible", false);
             oModelStepScenario.setProperty("/wizard2", false);
             oModelStepScenario.setProperty("/wizard3", true);
             oWizard.nextStep();
@@ -1899,6 +1956,441 @@ sap.ui.define(
       //#endregion --------------------------METHODS------------------------------
 
       //#endregion --------------------------WIZARD 2-----------------------------
+
+      //#region ----------------------------WIZARD 3----------------------------
+
+      onAddRow: function (oEvent) {
+        var self = this;
+        var oModelClassificazione = self.getModel("Classificazione");
+
+        var oData = oEvent?.getSource()?.data();
+        var aListClassificazione = oModelClassificazione.getProperty("/" + oData?.etichetta);
+
+        aListClassificazione.push({
+          Zchiavesop: "",
+          Bukrs: "",
+          Zetichetta: "",
+          Zposizione: "",
+          ZstepSop: "",
+          Zzcig: "",
+          Zzcup: "",
+          Zcpv: "",
+          ZcpvDesc: "",
+          Zcos: "",
+          ZcosDesc: "",
+          Belnr: "",
+          ZimptotClass: "0.00",
+          Zflagcanc: "",
+          ZstatoClass: "",
+          Index: aListClassificazione.length,
+        });
+
+        oModelClassificazione.setProperty("/" + oData?.etichetta, aListClassificazione);
+      },
+
+      onCancelRow: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+
+        var oSourceData = oEvent?.getSource()?.data();
+        var oTableClassificazione = self.getView().byId(oSourceData?.table);
+
+        var aPathSelectedItems = oTableClassificazione.getSelectedContextPaths();
+
+        var aListClassificazione = oModelClassificazione.getProperty("/" + oSourceData?.etichetta);
+
+        //Rimuovo i record selezionati
+        aPathSelectedItems.map((sPath) => {
+          var oItem = oModelClassificazione.getObject(sPath);
+          aListClassificazione.splice(aListClassificazione.indexOf(oItem), 1);
+        });
+
+        //Resetto l'index
+        aListClassificazione.map((oItem, iIndex) => {
+          oItem.Index = iIndex;
+        });
+
+        //Rimuovo i record selezionati
+        oTableClassificazione.removeSelections();
+
+        oModelClassificazione.setProperty("/" + oSourceData?.etichetta, aListClassificazione);
+
+        //Resetto l'importo totale da associare
+        this._setImpTotAssociare(oSourceData?.etichetta);
+      },
+
+      //#region ----------------------------VALUE HELP--------------------------
+
+      onValueHelpCos: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelGestAnag = self.getModel("ZSS4_CO_GEST_ANAGRAFICHE_SRV");
+        var oModelSop = self.getModel("Sop").getData();
+        var aFilters = [];
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.Cos");
+        var oSourceData = oEvent.getSource().data();
+
+        var dCurrentDate = new Date();
+        var sCurrentDate = dCurrentDate.getFullYear().toString() + (dCurrentDate.getMonth() + 1).toString() + dCurrentDate.getDate().toString();
+
+        self.setFilterEQ(aFilters, "ANNO", oModelSop?.Gjahr);
+        self.setFilterEQ(aFilters, "FASE", "GEST");
+        aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
+        aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
+        self.setFilterEQ(aFilters, "MC", "X");
+        self.setFilterEQ(aFilters, "REALE", "R");
+
+        oModel.read("/UserParamSet('FIK')", {
+          success: function (data) {
+            self.setFilterEQ(aFilters, "FIKRS", data.ParameterValue);
+          },
+          error: function () {},
+        });
+
+        self.getView().setBusy(true);
+        oModelGestAnag.read("/ZES_COD_GEST_SET", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false);
+            var aCos = [];
+            var aData = data.results;
+            aData.map((oData) =>
+              aCos.push({
+                Zcos: oData.CODICE_GESTIONALE,
+                ZcosDesc: oData.DESCRIZIONE,
+              })
+            );
+
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aCos);
+            var oSelectDialog = sap.ui.getCore().byId("sdCos");
+            oSelectDialog?.setModel(oModelJson, "Cos");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onValueHelpCosClose: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
+
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!oSelectedItem) {
+          this.unloadFragment();
+          return;
+        }
+
+        aListClassificazione[sIndex].Zcos = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].ZcosDesc = oSelectedItem.getDescription();
+        oModelClassificazione.setProperty("/Cos", aListClassificazione);
+
+        this.unloadFragment();
+      },
+
+      onValueHelpCupClassificazione: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelCup = self.getModel("ZSS4_COSP_CONTRATTO_SRV");
+        var oSourceData = oEvent.getSource().data();
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.CupClassificazione");
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Matchcode", "CODICE_CUP");
+
+        oModelCup.read("/MatchCodeContrattoSet", {
+          filters: aFilters,
+          success: function (data) {
+            var aCup = [];
+            var aData = data.results;
+            aData.map((oData) =>
+              aCup.push({
+                Zzcup: oData.CodiceCup,
+                Belnr: oData.Descrizione,
+              })
+            );
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aCup);
+            var oSelectDialog = sap.ui.getCore().byId("sdCup");
+            oSelectDialog?.setModel(oModelJson, "Cup");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function () {},
+        });
+      },
+
+      onValueHelpCupClassificazioneClose: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cup");
+
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!oSelectedItem) {
+          this.unloadFragment();
+          return;
+        }
+
+        aListClassificazione[sIndex].Zzcup = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].Belnr = oSelectedItem.getDescription();
+        oModelClassificazione.setProperty("/Cup", aListClassificazione);
+
+        this.unloadFragment();
+      },
+
+      onValueHelpCigClassificazione: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.CigClassificazione");
+        var oSourceData = oEvent.getSource().data();
+
+        self.getView().setBusy(true);
+
+        oModel.read("/CigMcSet", {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            self.hasResponseError(oResponse);
+
+            var oModelJson = new JSONModel();
+            oModelJson.setData(data?.results);
+            var oSelectDialog = sap.ui.getCore().byId("sdCigClassificazione");
+            oSelectDialog?.setModel(oModelJson, "Cig");
+            oSelectDialog?.data("index", oSourceData.index);
+            oDialog.open();
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onValueHelpCigClassificazioneClose: async function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cig");
+
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!oSelectedItem) {
+          this.unloadFragment();
+          return;
+        }
+
+        aListClassificazione[sIndex].Zzcig = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].Belnr = await this._getCigDescription(oSelectedItem.getTitle());
+        oModelClassificazione.setProperty("/Cig", aListClassificazione);
+      },
+
+      //#endregion -------------------------VALUE HELP--------------------------
+
+      //#region ----------------------------SELECTION CHANGE--------------------
+
+      onImpDaAssociareChange: function (oEvent) {
+        var self = this;
+        var oSourceData = oEvent.getSource().data();
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+
+        var sValue = oEvent.getParameter("value");
+        var aListClassificazione = oModelClassificazione.getProperty("/" + oSourceData?.etichetta);
+
+        if (sValue) {
+          aListClassificazione[oSourceData?.index].ZimptotClass = parseFloat(sValue).toFixed(2);
+        } else {
+          aListClassificazione[oSourceData?.index].ZimptotClass = "0.00";
+        }
+
+        oModelClassificazione.setProperty("/" + oSourceData?.etichetta, aListClassificazione);
+
+        this._setImpTotAssociare(oSourceData?.etichetta);
+      },
+
+      //#endregion -------------------------SELECTION CHANGE--------------------
+
+      //#region ----------------------------METHODS-----------------------------
+
+      _setImpTotAssociare: function (sEtichetta) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+
+        var aListClassificazione = oModelClassificazione.getProperty("/" + sEtichetta);
+
+        var iTotalImpDaAssociare = 0;
+        aListClassificazione.map((oItem) => {
+          iTotalImpDaAssociare += parseFloat(oItem.ZimptotClass);
+        });
+
+        oModelClassificazione.setProperty("/ImpTotAssociare" + sEtichetta, parseFloat(iTotalImpDaAssociare).toFixed(2));
+      },
+
+      createModelClassificazione: function () {
+        var self = this;
+
+        var oModelClassificazione = new JSONModel({
+          Cos: [],
+          Cpv: [],
+          Cig: [],
+          Cup: [],
+          ImpTotAssociareCos: "0.00",
+          ImpTotAssociareCpv: "0.00",
+          ImpTotAssociareCig: "0.00",
+          ImpTotAssociareCup: "0.00",
+        });
+
+        self.setModel(oModelClassificazione, "Classificazione");
+      },
+
+      _getCigDescription: async function (sCig) {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/CigMcSet", {
+          ZcodiCig: sCig,
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Belnr);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
+      checkClassificazione: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+        var oModelClassificazione = self.getModel("Classificazione");
+        var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+        var aListCos = oModelClassificazione.getProperty("/Cos");
+        var aListCpv = oModelClassificazione.getProperty("/Cpv");
+        var aListCig = oModelClassificazione.getProperty("/Cig");
+        var aListCup = oModelClassificazione.getProperty("/Cup");
+
+        //Controllo se sono stati inseriti i Codici Gestionali
+        if (aListCos?.length === 0) {
+          sap.m.MessageBox.error(oBundle.getText("msgCosRequired"));
+          return false;
+        }
+
+        //Controllo se i codici sono stati inseriti
+        if (this._checkCodiceClassificazione(aListCos, "Zcos")) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoZcos"));
+          return false;
+        }
+
+        //Controllo se i codici sono stati inseriti
+        if (this._checkCodiceClassificazione(aListCpv, "Zcpv")) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoZcpv"));
+          return false;
+        }
+
+        //Controllo se i codici sono stati inseriti
+        if (this._checkCodiceClassificazione(aListCig, "Zzcig")) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoZcig"));
+          return false;
+        }
+
+        //Controllo se i codici sono stati inseriti
+        if (this._checkCodiceClassificazione(aListCup, "Zzcup")) {
+          sap.m.MessageBox.error(oBundle.getText("msgNoZcup"));
+          return false;
+        }
+
+        //Controllo gli importi
+        var aListClassificazione = this._getClassificazioneList();
+
+        var bImpZero = false;
+        aListClassificazione.map((oClassificazione) => {
+          if (oClassificazione.ZimptotClass === "0.00") {
+            bImpZero = true;
+          }
+        });
+
+        if (bImpZero) {
+          sap.m.MessageBox.error(oBundle.getText("msgImportiZero"));
+          return false;
+        }
+
+        //Controllo il totale degli importi con l'importo associato
+        var iImpAssociato = parseFloat(oModelSop.getProperty("/Zimptot"));
+        var iImpAssociatoCodiceGestione = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCos"));
+        var iImpCpv = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCpv"));
+        var iImpCig = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCig"));
+        var iImpCup = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCup"));
+
+        var iTotaImpAssociato = iImpAssociatoCodiceGestione + iImpCpv + iImpCig + iImpCup;
+
+        if (iImpAssociato !== iTotaImpAssociato) {
+          sap.m.MessageBox.error(oBundle.getText("msgDifferentImpAssociato", formatter.convertFormattedNumber(parseFloat(iImpAssociato).toFixed(2))));
+          return false;
+        }
+
+        oModelSop.setProperty("/Classificazione", aListClassificazione);
+        return true;
+      },
+
+      _checkCodiceClassificazione: function (aList, sCodice) {
+        var bCodiceEmpty = false;
+        if (aList.length !== 0) {
+          aList.map((oItem) => {
+            if (!oItem[sCodice]) {
+              bCodiceEmpty = true;
+            }
+          });
+        }
+
+        return bCodiceEmpty;
+      },
+
+      //#endregion -------------------------METHODS------------------------------
+
+      //#endregion -------------------------WIZARD 3----------------------------
+
+      //#region ----------------------------WIZARD 4----------------------------
+
+      setCausalePagamento: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+
+        var aListDocumenti = oModelSop.getProperty("/Position");
+
+        var sZcausale = "";
+        aListDocumenti.map((oDocumento) => {
+          if (sZcausale) {
+            sZcausale + " ";
+          }
+
+          sZcausale = sZcausale + oDocumento.Belnr + " " + formatter.dateToString(oDocumento.Bldat);
+        });
+
+        oModelSop.setProperty("/Zcausale", sZcausale);
+      },
+
+      //#endregion -------------------------WIZARD 4----------------------------
 
       setDataBeneficiario(sLifnr) {
         var self = this;

@@ -7,6 +7,7 @@
     <Panel
         class="sapUiNoContentPadding"
         backgroundDesign="Transparent"
+        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
@@ -45,7 +46,7 @@
                         <Button
                             class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
                             icon="sap-icon://less"
-                            text="{i18n>btnCancel}"
+                            text="{i18n>btnDelete}"
                             type="Emphasized"
                             press="onCancelRow"
                             app:etichetta="Cos"
@@ -92,11 +93,8 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
-                                id="iptCos"
                                 valueHelpRequest="onValueHelpCos"
                                 showValueHelp="true"
-                                app:dialogName="sdCos"
-                                app:fragmentName="CodiceGestionale"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcos}"
@@ -107,7 +105,7 @@
                                 value="{Classificazione>ZcosDesc}"
                             />
                             <Input
-                                id="iptImpDaAssociare"
+                                id="iptImpDaAssociareCos"
                                 width="30%"
                                 type="Number"
                                 value="{Classificazione>ZimptotClass}"
@@ -136,7 +134,7 @@
                     <Text
                         text="{
                           path: 'Classificazione>/ImpTotAssociareCos',
-                          formatter: '.formatter.convertFormattedNumber'
+                          formatter: '.formatter.convertImport'
                         }"
                     >
                         <layoutData>

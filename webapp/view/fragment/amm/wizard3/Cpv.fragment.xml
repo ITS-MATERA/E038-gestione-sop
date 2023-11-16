@@ -7,6 +7,7 @@
     <Panel
         class="sapUiNoContentPadding"
         backgroundDesign="Transparent"
+        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
@@ -45,7 +46,7 @@
                         <Button
                             class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
                             icon="sap-icon://less"
-                            text="{i18n>btnCancel}"
+                            text="{i18n>btnDelete}"
                             type="Emphasized"
                             press="onCancelRow"
                             app:etichetta="Cpv"
@@ -92,15 +93,11 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
-                                id="iptCpv"
                                 valueHelpRequest="onValueHelpCpv"
                                 showValueHelp="true"
-                                app:dialogName="sdCpv"
-                                app:fragmentName="Cpv"
                                 app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zcpv}"
-                                change="onCosChange"
                                 editable="{Utility>/EnableEdit}"
                             />
                             <Input
@@ -137,7 +134,7 @@
                     <Text
                         text="{
                           path: 'Classificazione>/ImpTotAssociareCpv',
-                          formatter: '.formatter.convertFormattedNumber'
+                          formatter: '.formatter.convertImport'
                         }"
                     >
                         <layoutData>

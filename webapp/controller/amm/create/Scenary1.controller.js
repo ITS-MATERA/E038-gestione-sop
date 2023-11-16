@@ -16,6 +16,10 @@ sap.ui.define(
         self.setModel(oModelUtility, "Utility");
 
         self.acceptOnlyImport("iptImpDaOrd");
+        self.acceptOnlyImport("iptImpDaAssociareCos");
+        self.acceptOnlyImport("iptImpDaAssociareCpv");
+        self.acceptOnlyImport("iptImpDaAssociareCig");
+        self.acceptOnlyImport("iptImpDaAssociareCup");
 
         this.getRouter().getRoute("amm.create.scenary1").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -90,11 +94,14 @@ sap.ui.define(
         } else if (bWizard2) {
           self.checkWizard2(oWizard);
         } else if (bWizard3) {
-          oModelStepScenario.setProperty("/wizard3", false);
-          oModelStepScenario.setProperty("/wizard4", true);
-          oModelStepScenario.setProperty("/visibleBtnForward", false);
-          oModelStepScenario.setProperty("/visibleBtnSave", true);
-          oWizard.nextStep();
+          if (self.checkClassificazione()) {
+            oModelStepScenario.setProperty("/wizard3", false);
+            oModelStepScenario.setProperty("/wizard4", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", false);
+            oModelStepScenario.setProperty("/visibleBtnSave", true);
+            self.setCausalePagamento();
+            oWizard.nextStep();
+          }
         }
       },
 
@@ -108,21 +115,8 @@ sap.ui.define(
         self.setFirstSopData(oArguments);
         self.createModelFiltersWizard1();
         self.createModelStepScenarioReg();
-
-        var oModelUtility = new JSONModel({
-          ViewId: "gestionesop.view.amm.create.Scenary1",
-          EnableEdit: true,
-          isQuiet1Prevalorizzato: false,
-          isZcoordEsterPrevalorizzato: false,
-          isIbanPrevalorizzato: false,
-          isVersanteEditable: false,
-          isLogVisible: false,
-        });
-
-        var oModelLog = new JSONModel({});
-
-        self.setModel(oModelUtility, "Utility");
-        self.setModel(oModelLog, "Log");
+        self.createModelClassificazione();
+        self.createModelUtilityReg("gestionesop.view.amm.create.Scenary1");
       },
 
       onStart: function (oEvent) {
