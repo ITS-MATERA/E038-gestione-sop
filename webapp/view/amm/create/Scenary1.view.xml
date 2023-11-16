@@ -118,7 +118,18 @@
                         />
                     </Panel>
                 </WizardStep>
-                <WizardStep title="{i18n>titleWizard4}" />
+                <WizardStep title="{i18n>titleWizard4}">
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{StepScenario>/wizard4}"
+                    >
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard4.DatiSop"
+                            type="XML"
+                        />
+                    </Panel>
+                </WizardStep>
             </Wizard>
         </f:content>
         <f:footer>

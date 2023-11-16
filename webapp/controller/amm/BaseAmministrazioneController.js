@@ -174,6 +174,7 @@ sap.ui.define(
           isIbanPrevalorizzato: false,
           isVersanteEditable: false,
           isLogVisible: false,
+          CurrentDate: new Date(),
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -975,7 +976,7 @@ sap.ui.define(
         oModel.read(sPath, {
           success: function (data) {
             oModelSop.setProperty("/AccTypeId", data.AccTypeId);
-            oModelSop.setProperty("/RegioConto", data.Regio);
+            oModelSop.setProperty("/Regio", data.Regio);
             oModelSop.setProperty("/ZaccText", data.ZaccText);
           },
           error: function () {},
@@ -2512,22 +2513,34 @@ sap.ui.define(
 
       //#region ----------------------------WIZARD 4----------------------------
 
-      setCausalePagamento: function () {
+      onLocPagamentoChange: function () {
         var self = this;
+        var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
+      },
 
-        var aListDocumenti = oModelSop.getProperty("/Position");
+      setLocPagamento: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
 
-        var sZcausale = "";
-        aListDocumenti.map((oDocumento) => {
-          if (sZcausale) {
-            sZcausale + " ";
-          }
-
-          sZcausale = sZcausale + oDocumento.Belnr + " " + formatter.dateToString(oDocumento.Bldat);
+        var sKey = oModel.createKey("/LocPagamentoSet", {
+          Regio: oSop.RegioSede,
+          Zlocpag: "",
         });
 
-        oModelSop.setProperty("/Zcausale", sZcausale);
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data) {
+            console.log(data);
+            oModelSop.setProperty("/Zlocpag", data.Zlocpag);
+            self.getView().setBusy(false);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
 
       //#endregion -------------------------WIZARD 4----------------------------
