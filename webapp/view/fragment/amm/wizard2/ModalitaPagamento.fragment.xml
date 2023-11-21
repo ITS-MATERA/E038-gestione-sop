@@ -102,6 +102,33 @@
                     Lifnr="{Sop>/Lifnr}"
                     Zwels="{Sop>/Zwels}"
                     value="{Sop>/Iban}"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    editable="{= 
+							${Sop>/Zwels} !== '' &amp;&amp; 
+							${Sop>/Zwels} !== 'ID1' &amp;&amp; 
+							${Sop>/Zwels} !== 'ID2'  &amp;&amp; 
+							${Sop>/Zwels} !== 'ID3'  &amp;&amp; 
+							${Sop>/Zwels} !== 'ID4' &amp;&amp;  
+							${Utility>/EnableEdit} &amp;&amp;
+                            ${Sop>/Zcoordest} === '' ? true : false
+						}"
+                    maxLength="34"
+                    change="onIbanChange"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptIbanRitenuta"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="IbanRitenuta"
+                    Lifnr="{Sop>/Lifnr}"
+                    Zwels="{Sop>/Zwels}"
+                    Witht="{Sop>/Witht}"
+                    Cebenra="{Sop>/ZzCebenra}"
+                    value="{Sop>/Iban}"
+                    visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                     editable="{= 
 							${Sop>/Zwels} !== '' &amp;&amp; 
 							${Sop>/Zwels} !== 'ID1' &amp;&amp; 

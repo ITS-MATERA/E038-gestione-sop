@@ -115,6 +115,7 @@
                                 app:etichetta="Cpv"
                                 change="onImpDaAssociareChange"
                                 editable="{Utility>/EnableEdit}"
+                                maxLength="40"
                             />
                         </cells>
                     </ColumnListItem>

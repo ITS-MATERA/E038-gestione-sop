@@ -9,7 +9,7 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>titleRiepilogoPosizioniScen1}" />
+                <Title text="{i18n>titleRiepilogoPosizioniScen2}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>
@@ -83,8 +83,8 @@
                     >
                         <header>
                             <Text
-                                text="{i18n>labelProspetto}"
-                                visible="{= ${Sop>/ZspecieSop === '1' } ? true : false}"
+                                text="{i18n>labelDurc}"
+                                visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                             />
                         </header>
                     </Column>
@@ -94,8 +94,8 @@
                     >
                         <header>
                             <Text
-                                text="{i18n>labelRigaProspetto}"
-                                visible="{= ${Sop>/ZspecieSop === '1' } ? true : false}"
+                                text="{i18n>labelFermoAmm}"
+                                visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                             />
                         </header>
                     </Column>
@@ -126,8 +126,13 @@
                                   formatter: '.formatter.convertImport'
                                 }"
                             />
-                            <Text text="{Sop>Znumliq}" />
-                            <Text text="{Sop>Zposizione}" />
+                            <Text
+                                text="{
+                                  path: 'Sop>Zdurc',
+                                  formatter: '.formatter.deleteFirstZeros'
+                              }"
+                            />
+                            <Text text="{Sop>ZfermAmm}" />
                         </cells>
                     </ColumnListItem>
                 </items>

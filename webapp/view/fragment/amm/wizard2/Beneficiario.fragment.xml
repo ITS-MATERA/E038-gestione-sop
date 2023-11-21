@@ -53,7 +53,7 @@
                               ${Sop>/Ztipopag} === '2' &amp;&amp; 
                               ${Utility>/EnableEdit} ? true : false
                             }"
-                    change="onBeneficiarioWizard2Change"
+                    change="onBeneficiarioChange"
                     maxLength="10"
                 >
                     <zcontrolmccross:layoutData>

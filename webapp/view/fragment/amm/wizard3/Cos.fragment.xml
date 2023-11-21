@@ -116,6 +116,7 @@
                                 app:etichetta="Cos"
                                 change="onImpDaAssociareChange"
                                 editable="{Utility>/EnableEdit}"
+                                maxLength="30"
                             />
                         </cells>
                     </ColumnListItem>

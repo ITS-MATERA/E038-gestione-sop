@@ -50,6 +50,15 @@ sap.ui.define(
         });
       },
 
+      acceptOnlyNumber: function (sId) {
+        var oInput = this.getView().byId(sId);
+        oInput.attachBrowserEvent("keypress", function (oEvent) {
+          if (isNaN(oEvent.key)) {
+            oEvent.preventDefault();
+          }
+        });
+      },
+
       setModelCustom: function (sNameModel, oData) {
         var oView = this.getView();
         var oModelJson = new JSONModel();
@@ -223,6 +232,28 @@ sap.ui.define(
         var oModel = self.getModel();
         var sKey = oModel.createKey("/UserParamSet", {
           Parid: "/PRA/PN_DN_FUNC_AREA",
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Parva);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
+      getBukrs: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/UserParamSet", {
+          Parid: "BUK",
         });
         self.getView().setBusy(true);
         return new Promise(async function (resolve, reject) {

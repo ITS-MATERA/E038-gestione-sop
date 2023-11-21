@@ -187,7 +187,7 @@
           "target": ["home"]
         },
         {
-          "pattern": "amm.home/:reload:",
+          "pattern": "amm.home/:Reload:",
           "name": "amm.home",
           "target": ["amm.home"]
         },
@@ -209,7 +209,7 @@
         {
           "pattern": "amm.create.scenary2/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop:",
           "name": "amm.create.scenary2",
-          "target": ["amm.screate.cenary2"]
+          "target": ["amm.create.scenary2"]
         }
       ],
       "targets": {

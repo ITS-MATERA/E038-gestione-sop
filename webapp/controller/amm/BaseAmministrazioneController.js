@@ -327,12 +327,7 @@ sap.ui.define(
 
         oModelSop.setProperty("/ZzDescebe", self.setBlank(oSelectedItem?.getTitle()));
         oModelSop.setProperty("/ZzCebenra", self.setBlank(oSelectedItem?.data("key")));
-        if (!oSelectedItem?.getTitle()) {
-          oModelSop.setProperty("/ZspecieSop", "");
-          oModelSop.setProperty("/DescZspecieSop", "");
-        } else {
-          self._setSpecieSop("2");
-        }
+
         self.unloadFragment();
       },
 
@@ -682,11 +677,15 @@ sap.ui.define(
             Index: oPosition.Index.toString(),
             Zimpdaord: oPosition.Zimpdaord,
             Zimppag: oPosition.Zimppag,
+            Zimpres: oPosition.Zimpres,
+            Zimpliq: oPosition.Zimpliq
           });
         });
 
         var oParamenters = {
           HeaderIndex: "1",
+          Ztipopag: oSop.Ztipopag,
+          ZspecieSop: oSop.ZspecieSop,
           CheckImportPositionSet: aPosizioniFormatted,
           CheckImportMessageSet: [],
         };
@@ -711,6 +710,7 @@ sap.ui.define(
         });
       },
 
+
       //#endregion -------------------------METHODS-------------------------------
 
       //#endregion -------------------------WIZARD 1------------------------------
@@ -725,6 +725,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
         self.setFilterEQ(aFilters, "ZspecieSop", oSop.ZspecieSop);
+        self.setFilterEQ(aFilters, "Qsskz", oSop.Witht);
+        self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.getView().setBusy(true);
 
         oModel.read("/ModalitaPagamentoSet", {
@@ -784,7 +786,7 @@ sap.ui.define(
           success: function (data, oResponse) {
             self.setModelDialog("Quietanzante1", data, "sdQuietanzante1", oDialog);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -825,7 +827,7 @@ sap.ui.define(
           success: function (data, oResponse) {
             self.setModelDialog("Quietanzante2", data, "sdQuietanzante2", oDialog);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -861,7 +863,7 @@ sap.ui.define(
           success: function (data, oResponse) {
             self.setModelDialog("QuietEstero1", data, "sdQuietEstero1", oDialog);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -895,7 +897,7 @@ sap.ui.define(
           success: function (data, oResponse) {
             self.setModelDialog("QuietEstero2", data, "sdQuietEstero2", oDialog);
           },
-          error: function (error) {},
+          error: function (error) { },
         });
       },
 
@@ -979,7 +981,7 @@ sap.ui.define(
             oModelSop.setProperty("/Regio", data.Regio);
             oModelSop.setProperty("/ZaccText", data.ZaccText);
           },
-          error: function () {},
+          error: function () { },
         });
       },
 
@@ -1164,6 +1166,10 @@ sap.ui.define(
         var oModelUtility = self.getModel("Utility");
         var oSop = oModelSop.getData();
 
+        if (oSop.Iban) {
+          return;
+        }
+
         if (oSop?.Position) {
           var aPosizioniFormatted = oSop?.Position?.map((oPosition) => {
             var oPosizioneFormatted = {
@@ -1219,6 +1225,10 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
 
+        if (oSop.ZspecieSop === '1') {
+          return;
+        }
+
         if (oSop?.Position) {
           var aPosizioniFormatted = oSop?.Position?.map((oPosition) => {
             var oPosizioneFormatted = {
@@ -1243,6 +1253,7 @@ sap.ui.define(
         self.getView().setBusy(true);
         oModel.read(sKey, {
           success: function (data) {
+            oModelSop.setProperty("/Zwels", data?.Zwels)
             self.getView().setBusy(false);
           },
           error: function () {
@@ -1904,7 +1915,7 @@ sap.ui.define(
               oModelSop.setProperty("/ZDesccauval", "");
             }
           },
-          error: function () {},
+          error: function () { },
         });
       },
 
@@ -1969,7 +1980,7 @@ sap.ui.define(
         aListClassificazione.push({
           Zchiavesop: "",
           Bukrs: "",
-          Zetichetta: "",
+          Zetichetta: oData?.etichetta,
           Zposizione: "",
           ZstepSop: "",
           Zzcig: "",
@@ -2107,7 +2118,7 @@ sap.ui.define(
           success: function (data) {
             self.setFilterEQ(aFilters, "FIKRS", data.ParameterValue);
           },
-          error: function () {},
+          error: function () { },
         });
 
         self.getView().setBusy(true);
@@ -2187,7 +2198,7 @@ sap.ui.define(
             oSelectDialog?.data("index", oSourceData.index);
             oDialog.open();
           },
-          error: function () {},
+          error: function () { },
         });
       },
 
@@ -2533,7 +2544,6 @@ sap.ui.define(
         self.getView().setBusy(true);
         oModel.read(sKey, {
           success: function (data) {
-            console.log(data);
             oModelSop.setProperty("/Zlocpag", data.Zlocpag);
             self.getView().setBusy(false);
           },
@@ -2597,13 +2607,17 @@ sap.ui.define(
       onBeneficiarioChange: function (oEvent) {
         var self = this;
         var oModelSop = self.getModel("Sop");
-        oModelSop.setProperty("/Zquoteesi", false);
-        self._createModelAnnoDocBen();
-        if (!oEvent.getParameter("value")) {
-          oModelSop.setProperty("/ZspecieSop", "");
-          oModelSop.setProperty("/DescZspecieSop", "");
-        } else {
-          self._setSpecieSop("1");
+        var oStepScenario = self.getModel("StepScenario").getData();
+
+        if (!oStepScenario.wizard2) {
+          oModelSop.setProperty("/Zquoteesi", false);
+          self._createModelAnnoDocBen();
+          if (!oEvent.getParameter("value")) {
+            oModelSop.setProperty("/ZspecieSop", "");
+            oModelSop.setProperty("/DescZspecieSop", "");
+          } else {
+            self._setSpecieSop("1");
+          }
         }
         this.setDataBeneficiario(oEvent.getParameter("value"));
       },

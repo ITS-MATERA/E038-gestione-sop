@@ -7,7 +7,12 @@ sap.ui.define(
       formatter: formatter,
 
       onInit: function () {
+        var self = this;
+
+        self.acceptOnlyNumber("iptNumProvvedimento");
+
         this.getRouter().getRoute("amm.inputSop").attachPatternMatched(this._onObjectMatched, this);
+
       },
 
       onNavBack: function () {
@@ -84,7 +89,7 @@ sap.ui.define(
           success: function (data) {
             self.setFilterEQ(aFilters, "FIKRS", data.Parva);
           },
-          error: function () {},
+          error: function () { },
         });
 
         self.getView().setBusy(true);

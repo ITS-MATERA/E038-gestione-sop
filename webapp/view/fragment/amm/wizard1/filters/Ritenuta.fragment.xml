@@ -55,7 +55,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/DescZzDescebe}"
+                    value="{Sop>/ZzDescebe}"
                     valueHelpRequest="onValueHelpEnteBeneficiario"
                     showValueHelp="true"
                     maxLength="40"

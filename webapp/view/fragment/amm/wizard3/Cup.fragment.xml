@@ -115,6 +115,7 @@
                                 app:etichetta="Cup"
                                 change="onImpDaAssociareChange"
                                 editable="{Utility>/EnableEdit}"
+                                maxLength="10"
                             />
                         </cells>
                     </ColumnListItem>

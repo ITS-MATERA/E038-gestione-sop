@@ -31,7 +31,7 @@
                     selectedKey="{Sop>/BuType}"
                     editable="{= 
                         ${Sop>/Witht} ||
-						${Sop>/ZzCebenra} ||
+						${Sop>/ZzDescebe} ||
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
 						${FiltersWizard1>/ZdatesiTo} 
@@ -64,7 +64,7 @@
                     change="onBeneficiarioChange"
                     editable="{= 
                         ${Sop>/Witht} ||
-						${Sop>/ZzCebenra} ||
+						${Sop>/ZzDescebe} ||
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
 						${FiltersWizard1>/ZdatesiTo} 

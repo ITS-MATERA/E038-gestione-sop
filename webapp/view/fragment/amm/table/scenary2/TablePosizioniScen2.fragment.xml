@@ -8,19 +8,19 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>titleTablePosizioniScen1}" />
+                <Title text="{i18n>titleTablePosizioniScen2}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>
             <Table
-                id="tblPosizioniScen1"
+                id="tblPosizioniScen2"
                 mode="MultiSelect"
                 items="{
-                  path: 'PosizioniScen1>/'
+                  path: 'PosizioniScen2>/'
                 }"
                 selectionChange="onSelectedItem"
-                growing="true"
                 fixedLayout="false"
+                growing="true"
             >
                 <columns>
                     <Column
@@ -77,25 +77,15 @@
                         visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
-                            <Text text="{i18n>labelImpLiquidato}" />
+                            <Text text="{i18n>labelImpQuotaDoc}" />
                         </header>
                     </Column>
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
-                            <Text text="{i18n>labelImpOrdinato}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
-                    >
-                        <header>
-                            <Text text="{i18n>labelImpLiqNonOrdinata}" />
+                            <Text text="{i18n>labelImpLiquidabile}" />
                         </header>
                     </Column>
                     <Column
@@ -127,79 +117,82 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
-                            <Text text="{i18n>labelProspetto}" />
+                            <Text text="{i18n>labelDurc}" />
                         </header>
                     </Column>
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     >
                         <header>
-                            <Text text="{i18n>labelRigaProspetto}" />
+                            <Text text="{i18n>labelFermoAmm}" />
                         </header>
                     </Column>
                 </columns>
                 <items>
                     <ColumnListItem vAlign="Middle">
                         <cells>
-                            <ObjectIdentifier
-                                text="{PosizioniScen1>AnnoRegDoc}"
-                            />
-                            <ObjectIdentifier text="{PosizioniScen1>Belnr}" />
-                            <Text text="{PosizioniScen1>Blart}" />
                             <Text
                                 text="{
-                                path: 'PosizioniScen1>Bldat',
+                                  path: 'PosizioniScen2>AnnoRegDoc'
+                                }"
+                            />
+                            <Text text="{PosizioniScen2>Belnr}" />
+                            <Text text="{PosizioniScen2>Blart}" />
+                            <Text
+                                text="{
+                                path: 'PosizioniScen2>Bldat',
                                 type: 'sap.ui.model.type.Date',
                                 formatOptions: {
                                   pattern: 'dd.MM.yyyy'
                                 }
                               }"
                             />
-                            <Text text="{PosizioniScen1>Xblnr}" />
-                            <Text text="{PosizioniScen1>ZbenaltName}" />
+                            <Text text="{PosizioniScen2>Xblnr}" />
+                            <Text text="{PosizioniScen2>ZbenaltName}" />
                             <Text
                                 text="{
-                                path: 'PosizioniScen1>Zimpliq',
-                                formatter: '.formatter.convertImport'
-                              }"
+                                  path: 'PosizioniScen2>Wrbtr',
+                                  formatter: '.formatter.convertImport'
+                                }"
                             />
                             <Text
                                 text="{
-                                path: 'PosizioniScen1>Zimppag',
-                                formatter: '.formatter.convertImport'
-                              }"
+                                  path: 'PosizioniScen2>Zimpres',
+                                  formatter: '.formatter.convertImport'
+                                }"
                             />
                             <Text
                                 text="{
-                                path: 'PosizioniScen1>Zimpliq',
-                                formatter: '.formatter.convertImport'
-                              }"
+                                path: 'PosizioniScen2>Zresvers',
+                                  formatter: '.formatter.convertImport'
+                                }"
                             />
                             <Text
                                 text="{
-                                path: 'PosizioniScen1>Zresvers',
-                                formatter: '.formatter.convertImport'
-                              }"
-                            />
-                            <Text
-                                text="{
-                                path: 'PosizioniScen1>Zresesig',
-                                formatter: '.formatter.convertImport'
-                              }"
+                                  path: 'PosizioniScen2>Zresesig',
+                                  formatter: '.formatter.convertImport'
+                                }"
                             />
                             <Input
                                 id="iptImpDaOrd"
                                 change="onImpDaOrdinareChange"
                                 type="Number"
                                 value="{
-                                path: 'PosizioniScen1>Zimpdaord'
-                              }"
+                                  path: 'PosizioniScen2>Zimpdaord'
+                                }"
                             />
-                            <Text text="{PosizioniScen1>Znumliq}" />
-                            <Text text="{PosizioniScen1>Zposizione}" />
+                            <Text
+                                text="{
+                                  path: 'PosizioniScen2>Zdurc',
+                                  formatter: '.formatter.deleteFirstZeros'
+                                }"
+                            />
+                            <Text text="{PosizioniScen2>ZfermAmm}" />
                         </cells>
                     </ColumnListItem>
                 </items>

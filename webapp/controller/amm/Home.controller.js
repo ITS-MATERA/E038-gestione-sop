@@ -45,6 +45,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelFilters = self.getModel("FiltersSop");
+        var oUrlParameters = oEvent.getParameter("arguments");
 
         if (!self.getModel("AuthorityCheck")) {
           self.getPermissionSop();
@@ -62,6 +63,10 @@ sap.ui.define(
             self.getView().setBusy(false);
           },
         });
+
+        if (oUrlParameters.Reload === "true") {
+          this._getListSop()
+        }
       },
 
       //#region --------------------------VALUE HELP----------------------------
@@ -89,7 +94,7 @@ sap.ui.define(
           success: function (data) {
             self.setFilterEQ(aFilters, "FIKRS", data.Parva);
           },
-          error: function () {},
+          error: function () { },
         });
 
         self.getView().setBusy(true);
@@ -172,6 +177,10 @@ sap.ui.define(
       //#endregion ------------------SELECTION CHANGE---------------------------
 
       onSearch: function () {
+        this._getListSop()
+      },
+
+      _getListSop: function () {
         var self = this;
         var oModel = self.getModel();
         var oAuthorityCheck = self.getModel("AuthorityCheck").getData();
