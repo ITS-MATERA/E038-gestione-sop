@@ -6,7 +6,10 @@
     xmlns:zcontrollinkSar="custlinksar.custlinksar.controls"
 >
     <!-- class="removePanelPaddingBottom" -->
-    <Panel backgroundDesign="Transparent">
+    <Panel
+        backgroundDesign="Transparent"
+        class="sapUiNoContentPadding"
+    >
         <l:Grid
             defaultSpan="XL10 L12 M12 S12"
             class="sapUiSmallMarginTop"

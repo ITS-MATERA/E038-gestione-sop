@@ -9,6 +9,7 @@
     <f:DynamicPage
         showFooter="true"
         class="sapUiNoContentPadding"
+        stickySubheaderProvider="wizScenario1"
     >
         <f:header>
             <f:DynamicPageHeader

@@ -41,6 +41,15 @@ sap.ui.define(
         return sValue;
       },
 
+      resetWizard: function (sId) {
+        var self = this;
+        var oWizard = self.getView().byId(sId);
+        var iCurrentWizard = oWizard.getProgress();
+        for (var i = 0; i < iCurrentWizard - 1; i++) {
+          oWizard.previousStep();
+        }
+      },
+
       acceptOnlyImport: function (sId) {
         var oInput = this.getView().byId(sId);
         oInput.attachBrowserEvent("keypress", function (oEvent) {

@@ -42,7 +42,7 @@
                         demandPopin="true"
                     >
                         <header>
-                            <Text text="{i18n>labelTipoDocumento}" />
+                            <Text text="{i18n>labelTipoDoc}" />
                         </header>
                     </Column>
                     <Column
@@ -66,7 +66,7 @@
                         demandPopin="true"
                     >
                         <header>
-                            <Text text="{i18n>labelDenomBen}" />
+                            <Text text="{i18n>labelDenomBenDocCosto}" />
                         </header>
                     </Column>
                     <Column

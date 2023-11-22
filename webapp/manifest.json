@@ -241,6 +241,26 @@
           "pattern": "amm.create.scenary4/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop:",
           "name": "amm.create.scenary4",
           "target": ["amm.create.scenary4"]
+        },
+        {
+          "pattern": "amm.detail.scenary1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.detail.scenary1",
+          "target": ["amm.detail.scenary1"]
+        },
+        {
+          "pattern": "amm.detail.scenary2/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.detail.scenary2",
+          "target": ["amm.detail.scenary2"]
+        },
+        {
+          "pattern": "amm.detail.scenary3/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.detail.scenary3",
+          "target": ["amm.detail.scenary3"]
+        },
+        {
+          "pattern": "amm.detail.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.detail.scenary4",
+          "target": ["amm.detail.scenary4"]
         }
       ],
       "targets": {
@@ -283,6 +303,26 @@
           "viewName": "amm.create.Scenary4",
           "viewId": "amm.create.scenary4",
           "viewLevel": 5
+        },
+        "amm.detail.scenary1": {
+          "viewName": "amm.detail.Scenary1",
+          "viewId": "amm.detail.scenary1",
+          "viewLevel": 3
+        },
+        "amm.detail.scenary2": {
+          "viewName": "amm.detail.Scenary2",
+          "viewId": "amm.detail.scenary2",
+          "viewLevel": 3
+        },
+        "amm.detail.scenary3": {
+          "viewName": "amm.detail.Scenary3",
+          "viewId": "amm.detail.scenary3",
+          "viewLevel": 3
+        },
+        "amm.detail.scenary4": {
+          "viewName": "amm.detail.Scenary4",
+          "viewId": "amm.detail.scenary4",
+          "viewLevel": 3
         }
       }
     },

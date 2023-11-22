@@ -154,7 +154,7 @@ sap.ui.define(
           Classificazione: [],
 
           DescZspecieSop: "",
-          BuType: "",
+          Type: "",
           //Primo quietanzante
           NumquietInitial1: false,
           //Secondo quietanzante
@@ -162,6 +162,246 @@ sap.ui.define(
         });
 
         self.setModel(oModelSop, "Sop");
+      },
+
+      setModelSop: async function (oParameters) {
+        var self = this;
+
+        var oSop = await self._getSop(oParameters)
+        var oSpecieSop = await self._setSpecieSop(oSop.ZspecieSop)
+
+        var oModelSop = new JSONModel({
+          Bukrs: oSop.Bukrs,
+          Gjahr: oSop.Gjahr,
+          Zchiavesop: oSop.Zchiavesop,
+          Zstep: oSop.Zstep,
+          Ztipososp: oSop.Ztipososp,
+          Zcausale: oSop.Zcausale,
+          Zzamministr: oSop.Zzamministr,
+          Znumsop: oSop.Znumsop,
+          Zragdest: oSop.Zragdest,
+          Zdatasop: oSop.Zdatasop,
+          ZztipologiaSop: oSop.ZztipologiaSop,
+          Lifnr: oSop.Lifnr,
+          Ztipopag: oSop.Ztipopag,
+          Witht: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
+          ZufficioCont: oSop.ZufficioCont,
+          Zimptot: oSop.Zimptot,
+          Fipos: oSop.Fipos,
+          Fistl: oSop.Fistl,
+          Znumprot: oSop.Znumprot,
+          Zdataprot: oSop.Zdataprot,
+          ZcodStatosop: oSop.ZcodStatosop,
+          ZspecieSop: oSop.ZspecieSop,
+          Zricann: oSop.Zricann,
+          Capitolo: oSop.Capitolo,
+          DescWitht: oSop.DescWitht,
+          DescZzcebenra: oSop.DescZzcebenra,
+          DescLifnr: oSop.DescLifnr,
+          DescStatosop: oSop.DescStatosop,
+          DescTipologia: oSop.DescTipologia,
+          DescZtipopag: oSop.Ztipopag,
+          DescZwels: oSop.DescZwels,
+          Znumliq: oSop.Znumliq,
+          ZdescProsp: oSop.ZdescProsp,
+          Zprovgiud: oSop.Zprovgiud,
+          NameFirst: oSop.NameFirst,
+          NameLast: oSop.NameLast,
+          ZzragSoc: oSop.ZzragSoc,
+          Taxnumcf: oSop.TaxnumCf,
+          Taxnum: oSop.Taxnum,
+          Type: oSop.Type,
+          Taxnumxl: oSop.Taxnumxl,
+          Zsede: oSop.Zsede,
+          Zdenominazione: oSop.Zdenominazione,
+          Zdurc: oSop.Zdurc,
+          Zdstatodes: oSop.Zdstatodes,
+          Zdscadenza: oSop.Zdscadenza,
+          ZfermAmm: oSop.ZfermAmm,
+          Zwels: oSop.Zwels,
+          Zcoordest: oSop.Zcoordest,
+          Swift: oSop.Swift,
+          Iban: oSop.Iban,
+          ZCausaleval: oSop.ZCausaleval,
+          Zpurpose: oSop.Zpurpose,
+          Zzposfinent: oSop.Zzposfinent,
+          Zflagfrutt: oSop.Zflagfrutt,
+          Zcausben: oSop.Zcausben,
+          Zalias: oSop.Zalias,
+          AccTypeId: oSop.AccTypeId,
+          Regio: oSop.Regio,
+          ZaccText: oSop.ZaccText,
+          Banks: oSop.Banks,
+          Ztipofirma: oSop.Ztipofirma,
+          ZpersCognomeQuiet1: oSop.ZpersCognomeQuiet1,
+          ZpersNomeQuiet1: oSop.ZpersNomeQuiet1,
+          ZpersNomeVaglia: oSop.ZpersNomeVaglia,
+          ZpersCognomeVaglia: oSop.ZpersCognomeVaglia,
+          Zstcd1: oSop.Zstcd1,
+          Zstcd14: oSop.Zstcd14,
+          Zqindiriz: oSop.Zqindiriz,
+          Zqcitta: oSop.Zqcitta,
+          Zqcap: oSop.Zqcap,
+          Zqprovincia: oSop.Zqprovincia,
+          ZqragSoc: oSop.ZqragSoc,
+          Land1: oSop.Land1,
+          ZpersCognomeQuiet2: oSop.ZpersCognomeQuiet2,
+          ZpersNomeQuiet2: oSop.ZpersNomeQuiet2,
+          Zstcd12: oSop.Zstcd12,
+          Zstcd15: oSop.Zstcd15,
+          Zqindiriz2: oSop.Zqindiriz2,
+          Zqcitta2: oSop.Zqcitta2,
+          Zqcap2: oSop.Zqcap2,
+          Zqprovincia2: oSop.Zqprovincia2,
+          Land2: oSop.Land2,
+          Zcodprov: oSop.Zcodprov,
+          Zcfcommit: oSop.Zcfcommit,
+          Zcodtrib: oSop.Zcodtrib,
+          Zperiodrifda: oSop.Zperiodrifa,
+          Zperiodrifa: oSop.Zperiodrifda,
+          Zcodinps: oSop.Zcodinps,
+          Zcodvers: oSop.Zcodvers,
+          Zcfvers: oSop.Zcfvers,
+          Zdescvers: oSop.Zdescvers,
+          Zdatavers: oSop.Zdatavers,
+          Zprovvers: oSop.Zprovvers,
+          Zsedevers: oSop.Zsedevers,
+          Zibanb: oSop.Zibanb,
+          Zbicb: oSop.Zbicb,
+          Zcoordestb: oSop.Zcoordestb,
+          Zdenbanca: oSop.Zdenbanca,
+          Zclearsyst: oSop.Zclearsyst,
+          StrasBanca: oSop.StrasBanca,
+          Zcivico: oSop.Zcivico,
+          Ort01Banca: oSop.Ort01Banca,
+          RegioBanca: oSop.RegioBanca,
+          PstlzBanca: oSop.PstlzBanca,
+          Zibani: oSop.Zibani,
+          Zbici: oSop.Zbici,
+          Zcoordesti: oSop.Zcoordesti,
+          Zdenbancai: oSop.Zdenbancai,
+          Zclearsysti: oSop.Zclearsysti,
+          Zstrasi: oSop.Zstrasi,
+          Zcivicoi: oSop.Zcivicoi,
+          Zort01i: oSop.Zort01i,
+          Zregioi: oSop.Zregioi,
+          Zpstlzi: oSop.Zpstlzi,
+          Zland1i: oSop.Zland1i,
+          Zlocpag: oSop.Zlocpag,
+          Zzonaint: oSop.Zzonaint,
+          ZE2e: oSop.ZE2e,
+          Stras: oSop.Stras,
+          Ort01: oSop.Ort01,
+          RegioSede: oSop.RegioSede,
+          Pstlz: oSop.Pstlz,
+          Land1Sede: oSop.Land1Sede,
+          Zquoteesi: oSop.Zquoteesi,
+          Zfunzdel: oSop.Zfunzdel,
+          Zgeber: oSop.Zgeber,
+          ZimptotDivisa: oSop.ZimptotDivisa,
+          Zidsede: oSop.Zidsede,
+          Zmotivaz: oSop.Zmotivaz,
+          Kostl: oSop.Kostl,
+          Hkont: oSop.Hkont,
+          Znumquiet: oSop.Znumquiet,
+          Znumquiet2: oSop.Znumquiet2,
+          Ztipoprovv: oSop.Ztipoprovv,
+          Zautemit: oSop.Zautemit,
+          Zdataprovv: oSop.Zdataprovv,
+          Znprovv: oSop.Znprovv,
+          Seqnr: oSop.Seqnr,
+          Position: await self._getPositions(oParameters),
+          Classificazione: await self._getClassificazione(oParameters),
+
+          DescZspecieSop: oSpecieSop.Descrizione,
+          //Primo quietanzante
+          NumquietInitial1: false,
+          //Secondo quietanzante
+          NumquietInitial2: false,
+        });
+
+
+        self.setModel(oModelSop, "Sop");
+      },
+
+      _getSop: async function (oParameters) {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = self.getModel().createKey("/SopAmministrazioneSet", {
+          Gjahr: oParameters.Gjahr,
+          Zchiavesop: oParameters.Zchiavesop,
+          Bukrs: oParameters.Bukrs,
+          Zstep: oParameters.Zstep,
+          Ztipososp: oParameters.Ztipososp,
+        });
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              resolve(data)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+      },
+
+      _getPositions: async function (oParameters) {
+        var self = this;
+        var oModel = self.getModel();
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
+
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/PosizioniSopSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              var aData = data.results;
+              aData?.map((oData) => {
+                oData.AnnoRegDoc = oData.GjahrDc
+              })
+              resolve(aData)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+
+      },
+
+      _getClassificazione: async function (oParameters) {
+        var self = this;
+        var oModel = self.getModel()
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
+
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/ClassificazioneSopSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              var aData = data.results;
+              self._setModelClassificazione(aData)
+              resolve(aData)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
       },
 
       createModelUtilityReg: function (sViewId) {
@@ -179,6 +419,84 @@ sap.ui.define(
         });
 
         self.setModel(oModelUtility, "Utility");
+      },
+
+      createModelUtilityDet: function (sViewId) {
+        var self = this;
+        var oModelUtility = new JSONModel({
+          ViewId: sViewId,
+          EnableEdit: false,
+          isLogVisible: false,
+          EnableAnnullamento: false,
+          EnableRevocaInvioFirma: false,
+          EnableFirma: false,
+          EnableRichiamo: false,
+          EnableInvioFirma: false,
+          EnableRegistrazioneRichAnn: false,
+          EnableCancellazioneRichAnn: false,
+          CurrentDate: new Date(),
+          CurrentDateFormatted: formatter.dateToString(new Date()),
+          Function: "Dettaglio"
+        });
+
+        self.setModel(oModelUtility, "Utility");
+      },
+
+      createModelStepScenarioReg: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          wizard1Step1: true,
+          wizard1Step2: false,
+          wizard1Step3: false,
+          wizard2: false,
+          wizard3: false,
+          wizard4: false,
+          visibleBtnForward: false,
+          visibleBtnStart: true,
+          visibleBtnSave: false,
+        });
+
+        self.setModel(oModelStepScenario, "StepScenario");
+      },
+
+      createModelStepScenarioDet: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          wizard1Step1: false,
+          wizard1Step2: false,
+          wizard1Step3: true,
+          wizard2: false,
+          wizard3: false,
+          wizard4: false,
+          visibleBtnForward: true,
+          visibleBtnStart: false,
+          visibleBtnSave: false,
+        });
+
+        self.setModel(oModelStepScenario, "StepScenario");
+      },
+
+      createModelWF: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oSop = self.getModel("Sop")?.getData()
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Esercizio", oSop.Gjahr);
+        self.setFilterEQ(aFilters, "Bukrs", oSop.Bukrs);
+        self.setFilterEQ(aFilters, "Zchiavesop", oSop.Zchiavesop);
+
+        self.getView().setBusy(true)
+        oModel.read("/WfSopSet", {
+          filters: aFilters,
+          success: function (data) {
+            // data.results.map((oItem) => {
+            //   oItem.DataOraString = new Date(oItem.DataOraString);
+            // });
+            self.getView().setBusy(false)
+            self.setModel(new JSONModel(data.results), "WFSop");
+          },
+        });
       },
 
       //#region ----------------------------WIZARD 1----------------------------
@@ -229,23 +547,6 @@ sap.ui.define(
         });
 
         self.setModel(oModelFilters, "FiltersWizard1");
-      },
-
-      createModelStepScenarioReg: function () {
-        var self = this;
-        var oModelStepScenario = new JSONModel({
-          wizard1Step1: true,
-          wizard1Step2: false,
-          wizard1Step3: false,
-          wizard2: false,
-          wizard3: false,
-          wizard4: false,
-          visibleBtnForward: false,
-          visibleBtnStart: true,
-          visibleBtnSave: false,
-        });
-
-        self.setModel(oModelStepScenario, "StepScenario");
       },
 
       onCalculate: function () {
@@ -532,15 +833,17 @@ sap.ui.define(
         oModelFilter.setProperty("/ZdatesiTo", null);
       },
 
-      onRitenutaChange: function (oEvent) {
+      onRitenutaChange: async function (oEvent) {
         var self = this;
         var oModelSop = self.getModel("Sop");
+        var oSpecieSop = await self._setSpecieSop("2");
 
         if (!oEvent.getSource().getSelectedKey()) {
           oModelSop.setProperty("/ZspecieSop", "");
           oModelSop.setProperty("/DescZspecieSop", "");
         } else {
-          self._setSpecieSop("2");
+          oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
+          oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
         }
 
         oModelSop.setProperty("/ZzCeberna", "");
@@ -648,16 +951,20 @@ sap.ui.define(
         });
         self.getView().setBusy(true);
 
-        oModel.read(sKey, {
-          success: function (data) {
-            self.getView().setBusy(false);
-            oModelSop.setProperty("/ZspecieSop", sZspecieSop);
-            oModelSop.setProperty("/DescZspecieSop", data?.Descrizione);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data) {
+              self.getView().setBusy(false);
+              resolve({
+                ZspecieSop: sZspecieSop,
+                Descrizione: data?.Descrizione
+              })
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
+        })
       },
 
       checkWizard1: function () {
@@ -2893,7 +3200,7 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
 
         if (!sLifnr) {
-          oModelSop.setProperty("/BuType", "");
+          oModelSop.setProperty("/Type", "");
           oModelSop.setProperty("/NameFirst", "");
           oModelSop.setProperty("/NameLast", "");
           oModelSop.setProperty("/TaxnumCf", "");
@@ -2919,7 +3226,7 @@ sap.ui.define(
               oModelSop.setProperty("/ZspecieSop", "");
               oModelSop.setProperty("/DescZspecieSop", "");
             }
-            oModelSop.setProperty("/BuType", data?.Type);
+            oModelSop.setProperty("/Type", data?.Type);
             oModelSop.setProperty("/NameFirst", data?.NameFirst);
             oModelSop.setProperty("/NameLast", data?.NameLast);
             oModelSop.setProperty("/TaxnumCf", data?.TaxnumCf);
@@ -2936,11 +3243,12 @@ sap.ui.define(
         });
       },
 
-      onBeneficiarioChange: function (oEvent) {
+      onBeneficiarioChange: async function (oEvent) {
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
         var oStepScenario = self.getModel("StepScenario").getData();
+        var oSpecieSop = await self._setSpecieSop("1");
 
         if (!oStepScenario.wizard2) {
           oModelSop.setProperty("/Zquoteesi", false);
@@ -2949,7 +3257,8 @@ sap.ui.define(
             oModelSop.setProperty("/ZspecieSop", "");
             oModelSop.setProperty("/DescZspecieSop", "");
           } else {
-            self._setSpecieSop("1");
+            oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
+            oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
           }
         }
 
@@ -2960,7 +3269,66 @@ sap.ui.define(
         this.setDataBeneficiario(oEvent.getParameter("value"));
       },
 
-      functionReturnValueMC: function (obj) {
+      _setModelClassificazione: function (aData) {
+        var self = this;
+
+        var oDataClassificazione = {
+          Cos: [],
+          Cpv: [],
+          Cig: [],
+          Cup: [],
+          ImpTotAssociareCos: 0.0,
+          ImpTotAssociareCpv: 0.0,
+          ImpTotAssociareCig: 0.0,
+          ImpTotAssociareCup: 0.0,
+        };
+
+        aData.map((oClassificazione) => {
+          switch (oClassificazione.Zetichetta) {
+            case "COS":
+              oDataClassificazione.ImpTotAssociareCos += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+
+              oClassificazione.Index = oDataClassificazione.Cos.length;
+              oDataClassificazione.Cos.push(oClassificazione);
+              break;
+            case "CPV":
+              oDataClassificazione.ImpTotAssociareCpv += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cpv.length;
+              oDataClassificazione.Cpv.push(oClassificazione);
+              break;
+            case "CIG":
+              oDataClassificazione.ImpTotAssociareCig += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cig.length;
+              oDataClassificazione.Cig.push(oClassificazione);
+              break;
+            case "CUP":
+              oDataClassificazione.ImpTotAssociareCup += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cup.length;
+              oDataClassificazione.Cup.push(oClassificazione);
+              break;
+          }
+        });
+
+        oDataClassificazione.ImpTotAssociareCos =
+          oDataClassificazione.ImpTotAssociareCos.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCpv =
+          oDataClassificazione.ImpTotAssociareCpv.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCig =
+          oDataClassificazione.ImpTotAssociareCig.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCup =
+          oDataClassificazione.ImpTotAssociareCup.toFixed(2);
+
+        self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
+      },
+      functionReturnValueMC: async function (obj) {
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
@@ -2977,12 +3345,12 @@ sap.ui.define(
         }
 
         if (obj?.Lifnr) {
-
-
+          var oSpecieSop = await self._setSpecieSop("1");
           if (!oStepScenario.wizard2) {
             self._createModelAnnoDocBen();
             oModelSop.setProperty("/Zquoteesi", false);
-            self._setSpecieSop("1");
+            oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
+            oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
           }
 
           if (oSop.Ztipopag === "4") {
@@ -3028,7 +3396,7 @@ sap.ui.define(
 
         //Dati beneficiario
         oModelSop.setProperty("/Lifnr", oData.Lifnr);
-        oModelSop.setProperty("/BuType", oData.Type);
+        oModelSop.setProperty("/Type", oData.Type);
         oModelSop.setProperty("/TaxnumCf", oData.Stcd1);
         oModelSop.setProperty("/Taxnum", oData.Stcd2);
         oModelSop.setProperty("/Taxnumxl", oData.Stcd3);

@@ -9,6 +9,7 @@
     <f:DynamicPage
         showFooter="true"
         class="sapUiNoContentPadding"
+        stickySubheaderProvider="wizScenario4"
     >
         <f:header>
             <f:DynamicPageHeader
@@ -45,6 +46,10 @@
                             type="XML"
                         />
                     </Panel>
+                    <c:Fragment
+                        fragmentName="gestionesop.view.fragment.amm.table.scenary4.TablePosizioniScen4"
+                        type="XML"
+                    />
                 </WizardStep>
                 <WizardStep title="{i18n>titleWizard2}">
                     <Panel

@@ -66,11 +66,11 @@
                 >
                     <RadioButton
                         text="{i18n>rbPersonaFisica}"
-                        selected="{= ${Sop>/BuType} === '1' ? true : false }"
+                        selected="{= ${Sop>/Type} === '1' ? true : false }"
                     />
                     <RadioButton
                         text="{i18n>rbPersonaGiuridica}"
-                        selected="{= ${Sop>/BuType} === '2' || ${Sop>/BuType} === '3' ? true : false }"
+                        selected="{= ${Sop>/Type} === '2' || ${Sop>/Type} === '3' ? true : false }"
                     />
                     <layoutData>
                         <l:GridData

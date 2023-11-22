@@ -1,0 +1,80 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <IconTabBar
+        class="sapUiNoContentPadding sapMITH"
+        selectedKey="{Utility>/Function}"
+        select="onIconTabChange"
+        backgroundDesign="Transparent"
+    >
+        <items>
+            <IconTabFilter
+                key="CancellazioneRichAnn"
+                text="{i18n>iconTabRegistrazioneRichAnn}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableCancellazioneRichAnn}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableCancellazioneRichAnn}" />
+            <IconTabFilter
+                key="RegistrazioneRichAnn"
+                text="{i18n>iconTabRegistrazioneRichAnn}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRegistrazioneRichAnn}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRegistrazioneRichAnn}" />
+            <IconTabFilter
+                key="InvioFirma"
+                text="{i18n>iconTabInvioFirma}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableInvioFirma}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableInvioFirma}" />
+            <IconTabFilter
+                key="Firma"
+                text="{i18n>iconTabFirma}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableFirma}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableFirma}" />
+            <IconTabFilter
+                key="RevocaInvioFirma"
+                text="{i18n>iconTabRevocaInvioFirma}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRevocaInvioFirma}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRevocaInvioFirma}" />
+            <IconTabFilter
+                key="Annullamento"
+                text="{i18n>iconTabAnnullamento}"
+                icon="sap-icon://edit"
+                visible="{Utility>/EnableAnnullamento}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableAnnullamento}" />
+            <IconTabFilter
+                key="Rettifica"
+                text="{i18n>iconTabEdit}"
+                icon="sap-icon://edit"
+                visible="{Utility>/EnableEdit}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableEdit}" />
+            <IconTabFilter
+                key="Dettaglio"
+                text="{i18n>iconTabDetail}"
+                icon="sap-icon://detail-view"
+            />
+            <IconTabSeparator />
+            <IconTabFilter
+                key="Workflow"
+                text="{i18n>iconTabWorkflow}"
+                icon="sap-icon://history"
+            />
+            <IconTabSeparator />
+            <IconTabFilter
+                key="FascicoloElettronico"
+                text="{i18n>iconTabFascicoloElettronico}"
+                icon="sap-icon://documents"
+            />
+        </items>
+    </IconTabBar>
+</c:FragmentDefinition>

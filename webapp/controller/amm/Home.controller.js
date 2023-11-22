@@ -41,7 +41,7 @@ sap.ui.define(
         self.setModel(oModelFilters, "FiltersSop");
       },
 
-      _onObjectMatched: function () {
+      _onObjectMatched: function (oEvent) {
         var self = this;
         var oModel = self.getModel();
         var oModelFilters = self.getModel("FiltersSop");
@@ -67,6 +67,12 @@ sap.ui.define(
         if (oUrlParameters.Reload === "true") {
           this._getListSop()
         }
+
+        var oModelUtility = new JSONModel({
+          SelectedItems: [],
+          EnabledBtnDetail: false
+        })
+        self.setModel(oModelUtility, "Utility")
       },
 
       //#region --------------------------VALUE HELP----------------------------
@@ -176,9 +182,7 @@ sap.ui.define(
 
       //#endregion ------------------SELECTION CHANGE---------------------------
 
-      onSearch: function () {
-        this._getListSop()
-      },
+      //#region ---------------------METHODS------------------------------------
 
       _getListSop: function () {
         var self = this;
@@ -244,10 +248,93 @@ sap.ui.define(
         return aFilters;
       },
 
+      //#endregion ------------------METHODS------------------------------------
+
+      onSearch: function () {
+        this._getListSop()
+      },
+
       onRegisterSop: function () {
         var self = this;
         self.getView().byId("tblListSop").removeSelections(true);
         self.getRouter().navTo("amm.selectType");
+      },
+
+      onDetail: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oTableSop = self.getView().byId("tblListSop");
+        oTableSop.removeSelections(true);
+
+        var oSelectedItem = oModelUtility.getProperty("/SelectedItems")[0];
+        oModelUtility.setProperty("/SelectedItems", []);
+
+        var oParameters = {
+          Gjahr: oSelectedItem.Gjahr,
+          Zchiavesop: oSelectedItem.Zchiavesop,
+          Bukrs: oSelectedItem.Bukrs,
+          Zstep: oSelectedItem.Zstep,
+          Ztipososp: oSelectedItem.Ztipososp,
+        };
+
+        switch (oSelectedItem?.Ztipopag) {
+          case "1":
+            self.getRouter().navTo("amm.detail.scenary1", oParameters);
+            break;
+          case "2":
+            self.getRouter().navTo("amm.detail.scenary2", oParameters);
+            break;
+          case "3":
+            self.getRouter().navTo("amm.detail.scenary3", oParameters);
+            break;
+          case "4":
+            self.getRouter().navTo("amm.detail.scenary4", oParameters);
+            break;
+        }
+      },
+
+      onSelectedItem: function (oEvent) {
+        var self = this;
+        var bSelected = oEvent.getParameter("selected");
+        var oModelUtility = self.getModel("Utility");
+        var oTableSop = self.getView().byId("tblListSop");
+        var oModelTableSop = oTableSop.getModel("ListSop");
+
+        oModelUtility.setProperty("/SelectedItems", []);
+        var aSelectedItems = oModelUtility.getProperty("/SelectedItems");
+        var aListItems = oEvent.getParameter("listItems");
+
+        aListItems.map((oListItem) => {
+          var oSelectedItem = oModelTableSop.getObject(
+            oListItem.getBindingContextPath()
+          );
+
+          if (bSelected) {
+            aSelectedItems.push(oSelectedItem);
+          } else {
+            var iIndex = aSelectedItems.findIndex((obj) => {
+              return (
+                obj.Gjahr === oSelectedItem.Gjahr &&
+                obj.Zchiavesop === oSelectedItem.Zchiavesop &&
+                obj.Bukrs === oSelectedItem.Bukrs &&
+                obj.Zstep === oSelectedItem.Zstep &&
+                obj.Ztipososp === oSelectedItem.Ztipososp
+              );
+            });
+
+            if (iIndex > -1) {
+              aSelectedItems.splice(iIndex, 1);
+            }
+          }
+        });
+
+        oModelUtility.setProperty(
+          "/EnabledBtnDetail",
+          aSelectedItems.length === 1
+        );
+
+        sap.ui.getCore().setModel(new JSONModel(aSelectedItems), "SelectedItems");
+        oModelUtility.setProperty("/SelectedItems", aSelectedItems);
       },
     });
   }

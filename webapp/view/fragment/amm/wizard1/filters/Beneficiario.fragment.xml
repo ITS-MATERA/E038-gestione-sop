@@ -28,7 +28,7 @@
                     items="{
 						path: '/TipoBeneficiarioMcSet'
 					}"
-                    selectedKey="{Sop>/BuType}"
+                    selectedKey="{Sop>/Type}"
                     editable="{= 
                         ${Sop>/Witht} ||
 						${Sop>/ZzDescebe} ||

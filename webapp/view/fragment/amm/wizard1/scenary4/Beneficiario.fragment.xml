@@ -27,14 +27,15 @@
                 defaultSpan="XL12 L12 M12 S12"
                 hSpacing="0.5"
             >
-                <Text
+                <Label
                     text="{i18n>labelBeneficiario}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
-                </Text>
+                </Label>
                 <zcontrolmccross:MatchcodeCross
                     id="iptBeneficiarioWizard1"
                     whichMC="Beneficiario"
@@ -54,11 +55,11 @@
                 >
                     <RadioButton
                         text="{i18n>rbPersonaFisica}"
-                        selected="{= ${Sop>/BuType} === '1' ? true : false }"
+                        selected="{= ${Sop>/Type} === '1' ? true : false }"
                     />
                     <RadioButton
                         text="{i18n>rbPersonaGiuridica}"
-                        selected="{= ${Sop>/BuType} === '2' || ${Sop>/BuType} === '3' ? true : false }"
+                        selected="{= ${Sop>/Type} === '2' || ${Sop>/Type} === '3' ? true : false }"
                     />
                     <layoutData>
                         <l:GridData
