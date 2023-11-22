@@ -51,7 +51,7 @@ sap.ui.define([], function () {
       }
 
       var sDay = oDate.getDate();
-      var sMonths = oDate.getMonth();
+      var sMonths = oDate.getMonth() + 1;
       var sYear = oDate.getFullYear();
 
       return sDay + "." + sMonths + "." + sYear;

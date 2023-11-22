@@ -4,19 +4,22 @@
 >
     <Panel
         class="onlyTopPadding"
-        visible="{StepScenario>/wizard1Step3}"
+        visible="{StepScenario>/wizard1Step2}"
         backgroundDesign="Transparent"
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>titleRiepilogoPosizioniScen1}" />
+                <Title text="{i18n>titleTablePosizioniScen3}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>
             <Table
+                id="tblPosizioniScen3"
+                mode="MultiSelect"
                 items="{
-                  path: 'Sop>/Position'
+                  path: 'PosizioniScen3>/'
                 }"
+                selectionChange="onSelectedItem"
                 fixedLayout="false"
                 growing="true"
             >
@@ -26,7 +29,23 @@
                         demandPopin="true"
                     >
                         <header>
-                            <Text text="{i18n>labelAnnoRegDoc}" />
+                            <Text text="{i18n>labelProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelRigaProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDescProspetto}" />
                         </header>
                     </Column>
                     <Column
@@ -42,7 +61,7 @@
                         demandPopin="true"
                     >
                         <header>
-                            <Text text="{i18n>labelTipoDocumento}" />
+                            <Text text="{i18n>labelImpLiquidato}" />
                         </header>
                     </Column>
                     <Column
@@ -50,23 +69,7 @@
                         demandPopin="true"
                     >
                         <header>
-                            <Text text="{i18n>labelDataDocBen}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelNDocBeneficiario}" />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text text="{i18n>labelDenomBen}" />
+                            <Text text="{i18n>labelImpOrdinato}" />
                         </header>
                     </Column>
                     <Column
@@ -77,63 +80,44 @@
                             <Text text="{i18n>labelImpDaOrd}" />
                         </header>
                     </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text
-                                text="{i18n>labelProspetto}"
-                                visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
-                            />
-                        </header>
-                    </Column>
-                    <Column
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                    >
-                        <header>
-                            <Text
-                                text="{i18n>labelRigaProspetto}"
-                                visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
-                            />
-                        </header>
-                    </Column>
                 </columns>
                 <items>
-                    <ColumnListItem
-                        vAlign="Middle"
-                        class="bgNotEditable"
-                    >
+                    <ColumnListItem vAlign="Middle">
                         <cells>
-                            <ObjectIdentifier text="{Sop>AnnoRegDoc}" />
-                            <ObjectIdentifier text="{Sop>Belnr}" />
-                            <Text text="{Sop>Blart}" />
                             <Text
                                 text="{
-                                path: 'Sop>Bldat',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                  pattern: 'dd.MM.yyyy'
-                                }
-                              }"
+                                  path: 'PosizioniScen3>Znumliq'
+                                }"
                             />
-                            <Text text="{Sop>Xblnr}" />
-                            <Text text="{Sop>ZbenaltName}" />
+                            <Text text="{PosizioniScen3>Zposizione}" />
+                            <Text text="{PosizioniScen3>ZdescProsp}" />
+                            <Text text="{PosizioniScen3>Belnr}" />
                             <Text
                                 text="{
-                                  path: 'Sop>Zimpdaord',
+                                  path: 'PosizioniScen3>Zimpliq',
                                   formatter: '.formatter.convertImport'
                                 }"
                             />
-                            <Text text="{Sop>Znumliq}" />
-                            <Text text="{Sop>Zposizione}" />
+                            <Text
+                                text="{
+                                  path: 'PosizioniScen3>Zimppag',
+                                  formatter: '.formatter.convertImport'
+                                }"
+                            />
+                            <Input
+                                id="iptImpDaOrd"
+                                change="onImpDaOrdinareChange"
+                                type="Number"
+                                value="{
+                                  path: 'PosizioniScen3>Zimpdaord'
+                                }"
+                            />
                         </cells>
                     </ColumnListItem>
                 </items>
             </Table>
             <c:Fragment
-                fragmentName="gestionesop.view.fragment.amm.table.CalculatorNoEditable"
+                fragmentName="gestionesop.view.fragment.amm.table.Calculator"
                 type="XML"
             />
         </content>

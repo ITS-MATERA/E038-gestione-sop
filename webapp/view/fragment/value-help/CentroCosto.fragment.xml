@@ -1,0 +1,25 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <SelectDialog
+        id="sdCentroCosto"
+        noDataText="{i18n>noData}"
+        title="{i18n>labelCentroCosto}"
+        search="onValueHelpChange"
+        confirm="onValueHelpCentroCostoClose"
+        cancel="onValueHelpCentroCostoClose"
+        app:FilterValueHelp=""
+        items="{
+          path: 'CentroCosto>/'
+		    }"
+    >
+        <StandardListItem
+            iconDensityAware="false"
+            iconInset="false"
+            title="{CentroCosto>Fieldname1}"
+            description="{CentroCosto>Fieldname2}"
+        />
+    </SelectDialog>
+</c:FragmentDefinition>

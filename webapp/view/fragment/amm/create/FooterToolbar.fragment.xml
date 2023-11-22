@@ -45,6 +45,16 @@
         </Button>
         <Button
             type="Emphasized"
+            text="{i18n>btnInserisciProspettoLiquidazione}"
+            press="onInserisciProspettoLiquidazione"
+            visible="{= ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; ${Sop>/Ztipopag} === '4' ? true : false }"
+        >
+            <layoutData>
+                <OverflowToolbarLayoutData priority="NeverOverflow" />
+            </layoutData>
+        </Button>
+        <Button
+            type="Emphasized"
             text="{i18n>btnSaveSop}"
             press="onSave"
             visible="{StepScenario>/visibleBtnSave}"

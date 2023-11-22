@@ -1,0 +1,101 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleImputazioneContabile}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelCentroCosto}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    valueHelpRequest="onValueHelpCentroCosto"
+                    showValueHelp="true"
+                    value="{Sop>/Kostl}"
+                    editable="{Utility>/EnableEdit}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDescrizione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/DescKostl}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelContoCoGe}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <zcontrolmccross:MatchcodeCross
+                    whichMC="ContoCoge"
+                    viewId="{Utility>/ViewId}"
+                    Budat="{Utility>/CurrentDateFormatted}"
+                    value="{Sop>/Hkont}"
+                    maxLength="10"
+                    change="onContoCogeChange"
+                    editable="{Utility>/EnableEdit}"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
+                <Text
+                    text="{i18n>labelDescrizione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Skat}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>
