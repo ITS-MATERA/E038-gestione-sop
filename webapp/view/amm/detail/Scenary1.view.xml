@@ -146,13 +146,23 @@
                     fragmentName="gestionesop.view.fragment.amm.Workflow"
                     type="XML"
                 />
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
+                    type="XML"
+                />
             </Panel>
         </f:content>
         <f:footer>
-            <c:Fragment
-                fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
-                type="XML"
-            />
+            <OverflowToolbar>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
+                    type="XML"
+                />
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
+                    type="XML"
+                />
+            </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
 </mvc:View>

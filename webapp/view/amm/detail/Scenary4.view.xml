@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="gestionesop.controller.amm.detail.Scenary2"
+    controllerName="gestionesop.controller.amm.detail.Scenary4"
     displayBlock="true"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -9,7 +9,7 @@
     <f:DynamicPage
         showFooter="true"
         class="sapUiNoContentPadding"
-        stickySubheaderProvider="wizScenario1"
+        stickySubheaderProvider="wizScenario4"
     >
         <f:header>
             <f:DynamicPageHeader
@@ -37,7 +37,7 @@
                 backgroundDesign="Transparent"
             >
                 <Wizard
-                    id="wizScenario2"
+                    id="wizScenario4"
                     showNextButton="false"
                     visible="{= ${Utility>/Function} === 'Dettaglio' ? true : false}"
                 >
@@ -145,10 +145,26 @@
             </Panel>
         </f:content>
         <f:footer>
-            <c:Fragment
-                fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
-                type="XML"
-            />
+            <OverflowToolbar>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
+                    type="XML"
+                />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnInserisciProspettoLiquidazione}"
+                    press="onInserisciProspettoLiquidazione"
+                    visible="{= ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; ${Sop>/Ztipopag} === '4' ? true : false }"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
+                    type="XML"
+                />
+            </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
 </mvc:View>

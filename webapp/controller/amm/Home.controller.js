@@ -41,15 +41,20 @@ sap.ui.define(
         self.setModel(oModelFilters, "FiltersSop");
       },
 
-      _onObjectMatched: function (oEvent) {
+      _onObjectMatched: async function (oEvent) {
         var self = this;
         var oModel = self.getModel();
         var oModelFilters = self.getModel("FiltersSop");
         var oUrlParameters = oEvent.getParameter("arguments");
 
-        if (!self.getModel("AuthorityCheck")) {
-          self.getPermissionSop();
-        }
+        var oModelUtility = new JSONModel({
+          SelectedItems: [],
+          EnabledBtnDetail: false
+        })
+        self.setModel(oModelUtility, "Utility")
+
+        await self.getPermissionSop();
+
 
         self.getView().setBusy(true);
 
@@ -64,15 +69,11 @@ sap.ui.define(
           },
         });
 
-        if (oUrlParameters.Reload === "true") {
+        if (oUrlParameters.Reload === "true" && oModelFilters.getProperty("/Gjahr")) {
           this._getListSop()
         }
 
-        var oModelUtility = new JSONModel({
-          SelectedItems: [],
-          EnabledBtnDetail: false
-        })
-        self.setModel(oModelUtility, "Utility")
+
       },
 
       //#region --------------------------VALUE HELP----------------------------

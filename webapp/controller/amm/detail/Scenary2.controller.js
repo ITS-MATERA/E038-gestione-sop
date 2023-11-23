@@ -100,6 +100,7 @@ sap.ui.define(
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelStepScenarioDet();
+        self.createModelDatiFirmatario();
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary2")
 
       },

@@ -58,6 +58,7 @@
                     value="{Sop>/ZzDescebe}"
                     valueHelpRequest="onValueHelpEnteBeneficiario"
                     showValueHelp="true"
+                    valueHelpOnly="true"
                     maxLength="40"
                     editable="{=
 						${Sop>/Lifnr} ||

@@ -9,7 +9,7 @@
     <f:DynamicPage
         showFooter="true"
         class="sapUiNoContentPadding"
-        stickySubheaderProvider="wizScenario1"
+        stickySubheaderProvider="wizScenario3"
     >
         <f:header>
             <f:DynamicPageHeader
@@ -65,7 +65,7 @@
                             />
                         </Panel>
                         <c:Fragment
-                            fragmentName="gestionesop.view.fragment.amm.table.scenary1.TableRiepPosizioniScen1"
+                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableRiepPosizioniScen3"
                             type="XML"
                         />
                     </WizardStep>
@@ -149,10 +149,16 @@
             </Panel>
         </f:content>
         <f:footer>
-            <c:Fragment
-                fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
-                type="XML"
-            />
+            <OverflowToolbar>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
+                    type="XML"
+                />
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
+                    type="XML"
+                />
+            </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
 </mvc:View>

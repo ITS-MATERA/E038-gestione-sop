@@ -100,6 +100,7 @@ sap.ui.define(
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelStepScenarioDet();
+
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary1")
 
       },
@@ -129,6 +130,10 @@ sap.ui.define(
           }
           case "Workflow": {
             self.createModelWF()
+            break;
+          }
+          case "InvioFirma": {
+            self.createModelDatiFirmatario();
             break;
           }
         }

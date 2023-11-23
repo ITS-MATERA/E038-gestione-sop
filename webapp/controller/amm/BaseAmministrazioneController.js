@@ -154,7 +154,8 @@ sap.ui.define(
           Classificazione: [],
 
           DescZspecieSop: "",
-          Type: "",
+          Skat: "",
+          DescKostl: "",
           //Primo quietanzante
           NumquietInitial1: false,
           //Secondo quietanzante
@@ -423,6 +424,8 @@ sap.ui.define(
 
       createModelUtilityDet: function (sViewId) {
         var self = this;
+
+
         var oModelUtility = new JSONModel({
           ViewId: sViewId,
           EnableEdit: false,
@@ -436,6 +439,7 @@ sap.ui.define(
           EnableCancellazioneRichAnn: false,
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.dateToString(new Date()),
+          RemoveFunctionButtons: false,
           Function: "Dettaglio"
         });
 
@@ -499,6 +503,23 @@ sap.ui.define(
         });
       },
 
+      createModelDatiFirmatario: async function () {
+        var self = this;
+        var oSop = self.getModel("Sop")?.getData()
+        var sZuffcontFirm = await self.getUfficio()
+
+        var oModelDatiFirmatario = new JSONModel({
+          ZuffcontFirm: sZuffcontFirm,
+          ZvimDescrufficio: await self.getDescUfficio(sZuffcontFirm),
+          Zcodord: "",
+          ZcodordDesc: "",
+          Fistl: oSop.Fistl,
+          ZdirigenteAmm: ""
+        })
+
+        self.setModel(oModelDatiFirmatario, "DatiFirmatario")
+      },
+
       //#region ----------------------------WIZARD 1----------------------------
 
       setFirstSopData: function (oParamenters) {
@@ -560,6 +581,34 @@ sap.ui.define(
         });
 
         oModelSop.setProperty("/Zimptot", fTotal.toFixed(2));
+      },
+
+      setPosizioneScen4: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+
+        var sKey = oModel.createKey("/QuoteDocumentoScen4Set", {
+          Lifnr: oSop.Lifnr,
+          Zwels: oSop.Zwels,
+          Zdescwels: oSop.DescZwels,
+          Iban: oSop.Iban,
+          Zimptot: oSop.Zimptot
+        })
+
+        self.getView().setBusy(true)
+        oModel.read(sKey, {
+          success: function (data) {
+            var aData = []
+            aData.push(data)
+            oModelSop.setProperty("/Position", aData)
+            self.getView().setBusy(false)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       //#region ----------------------------VALUE HELP--------------------------
@@ -837,6 +886,9 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oSpecieSop = await self._setSpecieSop("2");
+        var sDescWitht = oEvent.getSource()?.getSelectedItem()?.getText()
+
+        oModelSop.setProperty("/DescWitht", sDescWitht)
 
         if (!oEvent.getSource().getSelectedKey()) {
           oModelSop.setProperty("/ZspecieSop", "");
@@ -873,6 +925,64 @@ sap.ui.define(
         sValue = sValue.replace(" ", "");
         var aValues = sValue.split(",");
         oModelFilters.setProperty("/Xblnr", aValues);
+      },
+
+      onCentroCostoChange: async function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+
+        var sKey = oModel.createKey("/CentroCostoSet", {
+          Bukrs: oSop.Bukrs ? oSop.Bukrs : await self.getBukrs(),
+          Kostl: oSop.Kostl
+        })
+
+        self.getView().setBusy(true)
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            oModelSop.setProperty("/DescKostl", data.Descrizione)
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Kostl", "")
+              oModelSop.setProperty("/DescKostl", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onContoCoGeChange: async function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+
+        var sKey = oModel.createKey("/ContoCogeSet", {
+          Bukrs: oSop.Bukrs ? oSop.Bukrs : await self.getBukrs(),
+          Gjahr: oSop.Gjahr,
+          Fipos: oSop.Fipos,
+          Saknr: oSop.Hkont
+        })
+
+        self.getView().setBusy(true)
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            oModelSop.setProperty("/Skat", data.Descrizione)
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Hkont", "")
+              oModelSop.setProperty("/Skat", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       //#endregion ----------------SELECTION CHANGE-------------------------------
@@ -1037,11 +1147,14 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.getView().setBusy(true);
 
+
+
         oModel.read("/ModalitaPagamentoSet", {
           filters: aFilters,
           success: function (data, oResponse) {
             self.getView().setBusy(false);
-            self.setModel(new JSONModel(data.results), "ModalitaPagamento");
+            var aData = data.results
+            self.setModel(new JSONModel(aData), "ModalitaPagamento");
             self.hasResponseError(oResponse);
           },
           error: function () {
@@ -1088,6 +1201,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         oDataModel.read("/Quietanzante1Set", {
           filters: aFilters,
@@ -1129,6 +1244,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         oDataModel.read("/Quietanzante2Set", {
           filters: aFilters,
@@ -1165,6 +1282,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         oDataModel.read("/Quietanzante1EsteroSet", {
           filters: aFilters,
@@ -1199,6 +1318,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         oDataModel.read("/Quietanzante2EsteroSet", {
           filters: aFilters,
@@ -1359,9 +1480,12 @@ sap.ui.define(
 
       onModalitaPagamentoChange: function (oEvent) {
         var self = this;
+        var oModel = self.getModel()
         var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData()
         var oModelUtility = self.getModel("Utility");
         var sZwels = oEvent.getSource().getSelectedKey();
+        oModelSop.setProperty("/DescZwels", self.setBlank(oEvent.getSource()?.getSelectedItem()?.getText()))
         if (!oModelUtility.getProperty("/isIbanPrevalorizzato") || !sZwels) {
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
@@ -1381,6 +1505,40 @@ sap.ui.define(
 
         this.setIban();
         this.setCoordinateEstere();
+
+        if (sZwels === 'ID2') {
+          var sKey = oModel.createKey("/Quietanzante1Set", {
+            Zstcd1: "",
+            Zwels: oSop.Zwels,
+            Lifnr: oSop.Lifnr,
+            NumquietInitial: true,
+            Qsskz: oSop.Witht,
+            ZzCebenra: oSop.ZzCebenra
+          });
+
+          self.getView().setBusy(true);
+          oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              oModelSop.setProperty("/Zstcd1", data.Zstcd1);
+              oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
+              oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
+              oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
+              oModelSop.setProperty("/ZpersNomeVaglia", data.ZpersNomeVaglia);
+              oModelSop.setProperty("/Land1", data.Land1);
+              oModelSop.setProperty("/Zqcap", data.Zqcap);
+              oModelSop.setProperty("/Zqcitta", data.Zqcitta);
+              oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
+              oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
+              oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
+              oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+              self.hasResponseError(oResponse);
+            },
+            error: function () {
+              self.getView().setBusy(false);
+            },
+          });
+        }
       },
 
       onCoordinateEstereChange: function () {
@@ -1444,6 +1602,8 @@ sap.ui.define(
           Iban: "",
           Json: "",
           Lifnr: oSop.Lifnr,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1499,6 +1659,8 @@ sap.ui.define(
           Iban: "",
           Json: JSON.stringify(aPosizioniFormatted),
           Lifnr: oSop.Lifnr,
+          Qsskz: "",
+          ZzCebenra: ""
         });
 
         self.getView().setBusy(true);
@@ -1556,12 +1718,20 @@ sap.ui.define(
           ZspecieSop: oSop.ZspecieSop,
           Zwels: "",
           Json: JSON.stringify(aPosizioniFormatted),
+
         });
 
         self.getView().setBusy(true);
         oModel.read(sKey, {
           success: function (data) {
             oModelSop.setProperty("/Zwels", data?.Zwels)
+            oModelSop.setProperty("/DescZwels", data?.Zdesczwels)
+            // var aData = []
+            // aData.push({
+            //   Zwels: data?.Zwels,
+            //   Zdesczwels: data?.Zdesczwels
+            // })
+            // self.setModel(new JSONModel(aData), "ModalitaPagamento")
             self.getView().setBusy(false);
           },
           error: function () {
@@ -1582,6 +1752,8 @@ sap.ui.define(
           Iban: oModelSop.getProperty("/Iban"),
           Json: "",
           Lifnr: oSop.Lifnr,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1655,6 +1827,8 @@ sap.ui.define(
           Zwels: oSop.Zwels,
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1691,6 +1865,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         self.getView().setBusy(true);
         oDataModel.read("/Quietanzante1Set", {
@@ -1728,6 +1904,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
         self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         self.getView().setBusy(true);
         oDataModel.read("/Quietanzante2Set", {
@@ -1765,6 +1943,8 @@ sap.ui.define(
           Zstcd12: oSop.Zstcd12,
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1798,6 +1978,8 @@ sap.ui.define(
           Zstcd14: oSop.Zstcd14,
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1832,6 +2014,8 @@ sap.ui.define(
           Zstcd15: oSop.Zstcd15,
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
 
         self.getView().setBusy(true);
@@ -1880,6 +2064,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           Iban: oSop.Iban,
           Zcoordest: oSop.Zcoordest,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
         self.getView().setBusy(true);
 
@@ -1929,6 +2115,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           Iban: oSop.Iban,
           Zcoordest: oSop.Zcoordest,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
         self.getView().setBusy(true);
 
@@ -2974,6 +3162,19 @@ sap.ui.define(
             })
             break;
           }
+          case "4": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Wrbtr: oPosition.Zimptot,
+                ZbenaltName: oPosition.ZbenaltName,
+                Zimpliq: oPosition.Zimptot,
+                Zimpdaord: oPosition.Zimptot,
+                Zdurc: oPosition.Zdurc,
+                ZfermAmm: oPosition.ZfermAmm,
+                Zimppag: oPosition.Zimptot
+              })
+            })
+          }
         }
 
 
@@ -3148,7 +3349,6 @@ sap.ui.define(
 
         oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
           success: function (data) {
-            console.log(data)
             self.getView().setBusy(false)
             var aMessage = data?.SopMessageSet?.results;
             if (aMessage.length > 0) {
@@ -3193,6 +3393,157 @@ sap.ui.define(
       },
 
       //#endregion -------------------------WIZARD 4----------------------------
+
+      //#region ----------------------------DETAIL------------------------------
+
+      onAnnulla: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData();
+
+        MessageBox.warning("Procedere con l'Annullamento del SOP selezionato?", {
+          title: "Annullamento Speciale Ordine di Pagamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oSopDeep = {
+                Operazione: "Annullamento",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Zstep: oSop.Zstep,
+                  Ztipososp: oSop.Ztipososp,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  var aMessage = data?.SopMessageSet?.results;
+                  if (aMessage.length > 0) {
+                    if (aMessage.length === 1) {
+                      if (aMessage[0]?.Body?.Msgty === 'E') {
+                        MessageBox.error(aMessage[0]?.Body?.Message);
+                      }
+                      else if (aMessage[0]?.Body?.Msgty === 'S') {
+                        MessageBox.success(aMessage[0]?.Body?.Message, {
+                          actions: [MessageBox.Action.CLOSE],
+                          onClose: function () {
+                            self.getRouter().navTo("amm.home", {
+                              Reload: true,
+                            });
+                          },
+                        });
+
+                      }
+                      return;
+                    }
+
+                    aMessage.map((oMessage) => {
+                      aMessageFormatted.push({
+                        Msgid: oMessage?.Body?.Msgid,
+                        Msgty: oMessage?.Body?.Msgty,
+                        Msgno: oMessage?.Body?.Msgno,
+                        Message: oMessage?.Body?.Message,
+                      });
+                    });
+
+                    oModelUtility.setProperty("/isLogVisible");
+                    self.setModel(new JSONModel(aMessageFormatted), "Log");
+                    MessageBox.error("Operazione non eseguita correttamente");
+                    return;
+                  }
+
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onInviaFirma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+        oModelUtility.setProperty("/EnableInvioFirma", true)
+        oModelUtility.setProperty("/Function", "InvioFirma")
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
+        self.createModelDatiFirmatario()
+      },
+
+      //#region -----------------------------METHODS----------------------------
+
+      getDescUfficio: async function (sUfficio) {
+        var self = this;
+        var oModel = self.getModel()
+
+        var sKey = oModel.createKey("/UfficioDirigenteSet", {
+          ZuffcontFirm: sUfficio
+        })
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data) {
+              self.getView().setBusy()
+              resolve(data.ZvimDescrufficio)
+            },
+            error: function () {
+
+            }
+          })
+        })
+
+      },
+
+      onUfficioDirigenteChange: async function (oEvent) {
+        var self = this;
+        var oModelDatiFirmatario = self.getModel("DatiFirmatario")
+        var sUfficio = oEvent.getParameter("value")
+
+        oModelDatiFirmatario.setProperty("/ZvimDescrufficio", await self.getDescUfficio(sUfficio))
+      },
+
+      onFistlChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var oModelDatiFirmatario = self.getModel("DatiFirmatario")
+
+        var sKey = oModel.createKey("/Cdr", {
+          Zcdr: oEvent.getParameter("value"),
+          Gjahr: oSop.Gjahr
+        })
+
+        self.getView().setBusy(true)
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            if (self.hasResponseError(oResponse)) {
+              oModelDatiFirmatario.setProperty("/Fistl", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      //#endregion ---------------------------METHODS---------------------------
+
+      //#endregion -------------------------DETAIL------------------------------
 
       setDataBeneficiario(sLifnr) {
         var self = this;
@@ -3328,6 +3679,7 @@ sap.ui.define(
 
         self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
       },
+
       functionReturnValueMC: async function (obj) {
         var self = this;
         var oModelSop = self.getModel("Sop");

@@ -25,7 +25,7 @@
                 <Table
                     id="tblPosizioniScen4"
                     items="{
-                      path: 'PosizioniScen4>/'
+                      path: 'Sop>/Position'
                     }"
                     fixedLayout="false"
                     width="120%"
@@ -111,10 +111,10 @@
                             class="bgNotEditable"
                         >
                             <cells>
-                                <Text text="{PosizioniScen4>Blart}" />
+                                <Text text="{Sop>Blart}" />
                                 <Text
                                     text="{
-                                      path: 'PosizioniScen4>DataDoc',
+                                      path: 'Sop>Bldat',
                                       type: 'sap.ui.model.type.Date',
                                       formatOptions: {
                                         pattern: 'dd.MM.yyyy'
@@ -123,26 +123,26 @@
                                 />
                                 <Text
                                     text="{
-                                    path: 'PosizioniScen4>DataComp',
+                                    path: 'Sop>Bldat',
                                     type: 'sap.ui.model.type.Date',
                                     formatOptions: {
                                       pattern: 'dd.MM.yyyy'
                                     }
                                   }"
                                 />
-                                <Text text="{PosizioniScen4>ZzragSoc}" />
-                                <Text text="{PosizioniScen4>Zdescwels}" />
-                                <Text text="{PosizioniScen4>Iban}" />
+                                <Text text="{Sop>ZbenaltName}" />
+                                <Text text="{Sop>Zdescwels}" />
+                                <Text text="{Sop>Iban}" />
                                 <Text
                                     text="{
-                                      path: 'PosizioniScen4>Zdurc',
+                                      path: 'Sop>Zdurc',
                                       formatter: '.formatter.deleteFirstZeros'
                                     }"
                                 />
-                                <Text text="{PosizioniScen4>ZfermAmm}" />
+                                <Text text="{Sop>ZfermAmm}" />
                                 <Text
                                     text="{
-                                      path: 'PosizioniScen4>Zimpliq',
+                                      path: 'Sop>Zimptot',
                                       formatter: '.formatter.convertImport'
                                     }"
                                 />

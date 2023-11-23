@@ -126,10 +126,22 @@
             </Wizard>
         </f:content>
         <f:footer>
-            <c:Fragment
-                fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
-                type="XML"
-            />
+            <OverflowToolbar>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
+                    type="XML"
+                />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnInserisciProspettoLiquidazione}"
+                    press="onInserisciProspettoLiquidazione"
+                    visible="{= ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; ${Sop>/Ztipopag} === '4' ? true : false }"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
 </mvc:View>

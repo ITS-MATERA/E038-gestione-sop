@@ -84,14 +84,16 @@
                 <Text
                     text="{i18n>labelCF}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL1 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
                     editable="{=
-                      (${Sop>/Zwels} === 'ID1' || ${Sop>/Zwels} === 'ID2') &amp;&amp; 
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
                       ${Utility>/EnableEdit} &amp;&amp;
                       ${Sop>/Zstcd14} === '' &amp;&amp;
                       ${Utility>/isQuiet1Prevalorizzato} === false ? true : false
@@ -109,13 +111,14 @@
                 <Text
                     text="{i18n>labelCFEQuiet1}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
-                    visible="{= ${Sop>/Zwels} === 'ID1' || ${Sop>/Zwels} === 'ID2' ? true : false}"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
                     editable="{= 
                       ${Utility>/EnableEdit} &amp;&amp;
                       ${Sop>/Zstcd1} === '' ? true : false}"
@@ -202,6 +205,7 @@
                 <Text
                     text="{i18n>labelRagSoc}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID2' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -213,6 +217,7 @@
                 <Input
                     editable="false"
                     value="{Sop>/ZqragSoc}"
+                    visible="{= ${Sop>/Zwels} === 'ID2' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

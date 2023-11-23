@@ -31,7 +31,6 @@ sap.ui.define(
 
         var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
-        var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
         var bWizard4 = oModelStepScenario.getProperty("/wizard4");
@@ -39,8 +38,6 @@ sap.ui.define(
         if (bWizard1Step1) {
 
         } else if (bWizard1Step2) {
-
-        } else if (bWizard1Step3) {
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,
@@ -68,17 +65,16 @@ sap.ui.define(
         var oModelStepScenario = self.getModel("StepScenario");
 
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
-        var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
+        var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
-        if (bWizard1Step2) {
-        } else if (bWizard1Step3) {
-          oModelStepScenario.setProperty("/wizard1Step3", false);
+        if (bWizard1Step1) {
+        } else if (bWizard1Step2) {
+          oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
           self.createModelModPagamento();
           self.createModelSedeBeneficiario();
-          self.setSedeBeneficiario();
           oWizard.nextStep();
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/wizard2", false);
@@ -99,9 +95,8 @@ sap.ui.define(
 
         self.setModelSop(oParameters);
         self.createModelClassificazione();
-        self.createModelStepScenarioDet();
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
-
+        self.createModelStepScenarioDet();
       },
 
       onIconTabChange: function (oEvent) {
@@ -133,6 +128,25 @@ sap.ui.define(
           }
         }
       },
+
+      createModelStepScenarioDet: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          wizard1Step1: false,
+          wizard1Step2: true,
+          wizard2: false,
+          wizard3: false,
+          wizard4: false,
+          visibleBtnForward: true,
+          visibleBtnInserisciProspLiquidazione: false,
+          visibleBtnSave: false,
+          visibleBtnStart: false
+        })
+
+        self.setModel(oModelStepScenario, "StepScenario")
+      }
+
+
 
     });
   }

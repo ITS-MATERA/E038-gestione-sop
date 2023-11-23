@@ -28,6 +28,7 @@
                     showValueHelp="true"
                     value="{Sop>/Kostl}"
                     editable="{Utility>/EnableEdit}"
+                    change="onCentroCostoChange"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -69,7 +70,7 @@
                     Budat="{Utility>/CurrentDateFormatted}"
                     value="{Sop>/Hkont}"
                     maxLength="10"
-                    change="onContoCogeChange"
+                    change="onContoCoGeChange"
                     editable="{Utility>/EnableEdit}"
                 >
                     <zcontrolmccross:layoutData>

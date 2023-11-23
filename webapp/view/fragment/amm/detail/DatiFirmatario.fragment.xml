@@ -1,0 +1,132 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= ${Utility>/Function} === 'InvioFirma' ? true : false}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title
+                    text="{= 
+					${Utility>/EnableInvioFirma} ? ${i18n>titleDatiFirmaInvioFirma} : 
+					${Utility>/EnableRegistrazioneRichAnn} ? ${i18n>titleDatiFirmaRegistrazioneRichAnn} : 
+					${i18n>titleDatiFirmaCancellazioneRichAnn}
+				}"
+                />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelUfficio}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiFirmatario>/ZuffcontFirm}"
+                    change="onUfficioDirigenteChange"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDescrizione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiFirmatario>/ZvimDescrufficio}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL6 L6 M12 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCodOrdinante}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiFirmatario>/Zcodord}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDescrizione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{DatiFirmatario>/ZcodordDesc}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL6 L6 M12 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelFistl}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </Text>
+                <zcontrolMatchSar:GestioneLogUser
+                    eos="S"
+                    fase="GEST"
+                    entrata="X"
+                    reale="R"
+                    anno="{Sop>/Gjahr}"
+                    SEM_OBJ="Z_TEST_LIB"
+                    versione="D"
+                    width="100%"
+                    value="{DatiFirmatario>/Fistl}"
+                    change="onFistlChange"
+                >
+                    <zcontrolMatchSar:layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </zcontrolMatchSar:layoutData>
+                </zcontrolMatchSar:GestioneLogUser>
+                <Label
+                    text="{i18n>labelDirigenteFirmatario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M12 S12" />
+                    </layoutData>
+                </Label>
+                <Input value="{DatiFirmatario>/ZdirigenteAmm}">
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M12 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

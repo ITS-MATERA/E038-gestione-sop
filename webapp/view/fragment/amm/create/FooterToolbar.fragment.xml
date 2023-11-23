@@ -2,66 +2,54 @@
     xmlns="sap.m"
     xmlns:c="sap.ui.core"
 >
-    <OverflowToolbar>
-        <Button
-            type="Emphasized"
-            text="{i18n>btnBack}"
-            press="onNavBack"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-        <Button
-            type="Emphasized"
-            text="{i18n>btnForward}"
-            press="onNavForward"
-            visible="{StepScenario>/visibleBtnForward}"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-        <Button
-            type="Emphasized"
-            text="{i18n>btnLog}"
-            press="onLog"
-            visible="{Utility>/isLogVisible}"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-        <ToolbarSpacer />
-        <Button
-            type="Emphasized"
-            text="{i18n>btnStart}"
-            press="onStart"
-            visible="{StepScenario>/visibleBtnStart}"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-        <Button
-            type="Emphasized"
-            text="{i18n>btnInserisciProspettoLiquidazione}"
-            press="onInserisciProspettoLiquidazione"
-            visible="{= ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; ${Sop>/Ztipopag} === '4' ? true : false }"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-        <Button
-            type="Emphasized"
-            text="{i18n>btnSaveSop}"
-            press="onSave"
-            visible="{StepScenario>/visibleBtnSave}"
-        >
-            <layoutData>
-                <OverflowToolbarLayoutData priority="NeverOverflow" />
-            </layoutData>
-        </Button>
-    </OverflowToolbar>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnBack}"
+        press="onNavBack"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnForward}"
+        press="onNavForward"
+        visible="{StepScenario>/visibleBtnForward}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnLog}"
+        press="onLog"
+        visible="{Utility>/isLogVisible}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <ToolbarSpacer />
+    <Button
+        type="Emphasized"
+        text="{i18n>btnStart}"
+        press="onStart"
+        visible="{StepScenario>/visibleBtnStart}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnSaveSop}"
+        press="onSave"
+        visible="{StepScenario>/visibleBtnSave}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
 </c:FragmentDefinition>

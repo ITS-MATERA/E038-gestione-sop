@@ -105,8 +105,8 @@
                     visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     editable="{= 
 							${Sop>/Zwels} !== '' &amp;&amp; 
-							${Sop>/Zwels} !== 'ID1' &amp;&amp; 
-							${Sop>/Zwels} !== 'ID2'  &amp;&amp; 
+                            ${Sop>/Zwels} !== 'ID1' &amp;&amp; 
+                            ${Sop>/Zwels} !== 'ID2' &amp;&amp;
 							${Sop>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Sop>/Zwels} !== 'ID4' &amp;&amp;  
 							${Utility>/EnableEdit} &amp;&amp;
@@ -131,8 +131,6 @@
                     visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                     editable="{= 
 							${Sop>/Zwels} !== '' &amp;&amp; 
-							${Sop>/Zwels} !== 'ID1' &amp;&amp; 
-							${Sop>/Zwels} !== 'ID2'  &amp;&amp; 
 							${Sop>/Zwels} !== 'ID3'  &amp;&amp; 
 							${Sop>/Zwels} !== 'ID4' &amp;&amp;  
 							${Utility>/EnableEdit} &amp;&amp;

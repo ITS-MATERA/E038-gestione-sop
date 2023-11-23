@@ -139,7 +139,7 @@
                     text="{i18n>labelRitenuta}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/Text40}" />
+                <Text text="{Sop>/DescWitht}" />
                 <layoutData>
                     <l:GridData
                         span="XL2 L4 M6 S12"

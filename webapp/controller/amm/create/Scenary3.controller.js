@@ -121,6 +121,11 @@ sap.ui.define(
       },
 
       onStart: function () {
+        this.checkExistDocumentForUser()
+
+      },
+
+      _getPosizioniScen3: function () {
         var self = this;
         var oModel = self.getModel();
         var oModelStepScenario = self.getModel("StepScenario");
@@ -225,6 +230,26 @@ sap.ui.define(
         oButtonCalculate.setVisible(aSelectedItems.length !== 0);
         oModelSop.setProperty("/Zimptot", "0.00");
       },
+
+      checkExistDocumentForUser: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        self.getView().setBusy(true)
+        oModel.callFunction("/CheckExisitingDocument", {
+          urlParameters: {
+            Lifnr: oSop.Lifnr
+          },
+          success: function (data) {
+            console.log(data)
+            self.getView().setBusy(false)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      }
 
     });
   }

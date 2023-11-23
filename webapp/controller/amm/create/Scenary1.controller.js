@@ -85,10 +85,10 @@ sap.ui.define(
         } else if (bWizard1Step3) {
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard2", true);
-          self.createModelModPagamento();
           self.createModelSedeBeneficiario();
           self.setIbanQuote();
           self.setModalitaPagamentoQuote();
+          self.createModelModPagamento();
           self.setSedeBeneficiario();
           oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
           oWizard.nextStep();

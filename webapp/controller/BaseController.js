@@ -15,6 +15,7 @@ sap.ui.define(
 
     // shortcut for sap.m.URLHelper
     var URLHelper = mobileLibrary.URLHelper;
+    const EDM_TYPE = exportLibrary.EdmType;
 
     return Controller.extend("gestionesop.controller.BaseController", {
       getRouter: function () {
@@ -297,7 +298,6 @@ sap.ui.define(
       },
 
       onExportLog: function () {
-        const EDM_TYPE = exportLibrary.EdmType;
 
         var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 
