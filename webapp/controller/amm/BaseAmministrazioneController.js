@@ -34,6 +34,7 @@ sap.ui.define(
           ZcodStatosop: "",
           ZspecieSop: "",
           Zricann: "",
+          Zdatarichann: null,
           Capitolo: "",
           DescWitht: "",
           DescZzcebenra: "",
@@ -150,6 +151,7 @@ sap.ui.define(
           Zdataprovv: null,
           Znprovv: "",
           Seqnr: "",
+          ZdirigenteAmm: "",
           Position: [],
           Classificazione: [],
 
@@ -196,6 +198,7 @@ sap.ui.define(
           ZcodStatosop: oSop.ZcodStatosop,
           ZspecieSop: oSop.ZspecieSop,
           Zricann: oSop.Zricann,
+          Zdatarichann: oSop.Zdatarichann,
           Capitolo: oSop.Capitolo,
           DescWitht: oSop.DescWitht,
           DescZzcebenra: oSop.DescZzcebenra,
@@ -312,6 +315,7 @@ sap.ui.define(
           Zdataprovv: oSop.Zdataprovv,
           Znprovv: oSop.Znprovv,
           Seqnr: oSop.Seqnr,
+          ZdirigenteAmm: oSop.ZdirigenteAmm,
           Position: await self._getPositions(oParameters),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -324,6 +328,7 @@ sap.ui.define(
 
 
         self.setModel(oModelSop, "Sop");
+        self.getView().byId("idToolbarDetail").setVisible(true)
       },
 
       _getSop: async function (oParameters) {
@@ -511,10 +516,14 @@ sap.ui.define(
         var oModelDatiFirmatario = new JSONModel({
           ZuffcontFirm: sZuffcontFirm,
           ZvimDescrufficio: await self.getDescUfficio(sZuffcontFirm),
-          Zcodord: "",
+          Zcodord: oSop ? oSop?.Zcodbdap : oSop.Zfunzdel,
           ZcodordDesc: "",
           Fistl: oSop.Fistl,
-          ZdirigenteAmm: ""
+          ZdirigenteAmm: oSop.ZdirigenteAmm,
+          Sop: [oSop],
+          Zmotrichiamo: "",
+          ZxmlFirmato: "",
+          ZpdfFirmato: ""
         })
 
         self.setModel(oModelDatiFirmatario, "DatiFirmatario")
@@ -3069,7 +3078,6 @@ sap.ui.define(
         //     Zimptot: oSop.Zimptot
         //   },
         //   success: function (data) {
-        //     console.log(data)
         //     self.getView().setBusy(false)
         //     this._registerSop()
         //     var aMessage = data?.results;
@@ -3222,6 +3230,7 @@ sap.ui.define(
             ZcodStatosop: oSop.ZcodStatosop,
             ZspecieSop: oSop.ZspecieSop,
             Zricann: oSop.Zricann,
+            Zdatarichann: oSop.Zdatarichann,
             Capitolo: oSop.Capitolo,
             DescWitht: oSop.DescWitht,
             DescZzcebenra: oSop.DescZzcebenra,
@@ -3427,41 +3436,7 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  var aMessage = data?.SopMessageSet?.results;
-                  if (aMessage.length > 0) {
-                    if (aMessage.length === 1) {
-                      if (aMessage[0]?.Body?.Msgty === 'E') {
-                        MessageBox.error(aMessage[0]?.Body?.Message);
-                      }
-                      else if (aMessage[0]?.Body?.Msgty === 'S') {
-                        MessageBox.success(aMessage[0]?.Body?.Message, {
-                          actions: [MessageBox.Action.CLOSE],
-                          onClose: function () {
-                            self.getRouter().navTo("amm.home", {
-                              Reload: true,
-                            });
-                          },
-                        });
-
-                      }
-                      return;
-                    }
-
-                    aMessage.map((oMessage) => {
-                      aMessageFormatted.push({
-                        Msgid: oMessage?.Body?.Msgid,
-                        Msgty: oMessage?.Body?.Msgty,
-                        Msgno: oMessage?.Body?.Msgno,
-                        Message: oMessage?.Body?.Message,
-                      });
-                    });
-
-                    oModelUtility.setProperty("/isLogVisible");
-                    self.setModel(new JSONModel(aMessageFormatted), "Log");
-                    MessageBox.error("Operazione non eseguita correttamente");
-                    return;
-                  }
-
+                  self.managementLogFunction(data, "Annullamento Speciale Ordine di Pagamento")
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -3475,12 +3450,309 @@ sap.ui.define(
 
       onInviaFirma: function () {
         var self = this;
+        var oModel = self.getModel()
         var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData();
 
-        oModelUtility.setProperty("/EnableInvioFirma", true)
-        oModelUtility.setProperty("/Function", "InvioFirma")
-        oModelUtility.setProperty("/RemoveFunctionButtons", true)
-        self.createModelDatiFirmatario()
+        if (!oModelUtility.getProperty("/EnableInvioFirma")) {
+          oModelUtility.setProperty("/EnableInvioFirma", true)
+          oModelUtility.setProperty("/Function", "InvioFirma")
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          self.createModelDatiFirmatario()
+          return;
+        }
+
+        MessageBox.warning("Procedere con l'invio alla firma del SOP selezionato?", {
+          title: "Invio alla Firma",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+              var oDatiFirmatario = self.getModel("DatiFirmatario").getData()
+              var oSopDeep = {
+                Operazione: "INVIO_FIRMA",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Gjahr: oSop.Gjahr,
+                  ZuffcontFirm: oDatiFirmatario.ZuffcontFirm,
+                  ZdirigenteAmm: oDatiFirmatario.ZdirigenteAmm,
+                  Zcdr: oDatiFirmatario.Fistl,
+                  Znumprot: oSop.Znumprot,
+                  Zdataprot: oSop.Zdataprot
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Invio alla Firma")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onRevocaInvioFirma: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData();
+
+        MessageBox.warning("Procedere con la Revoca dell'invio alla firma del SOP selezionato?", {
+          title: "Revoca invio alla firma Speciale Ordine di Pagamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oSopDeep = {
+                Operazione: "REVOCA_INVIO_FIRMA",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Revoca invio alla firma Speciale Ordine di Pagamento")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onFirma: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData();
+
+        if (!oModelUtility.getProperty("/EnableFirma")) {
+          oModelUtility.setProperty("/EnableFirma", true)
+          oModelUtility.setProperty("/Function", "Firma")
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          self.createModelDatiFirmatario()
+          return;
+        }
+
+        MessageBox.warning("Procedere con la firma del SOP selezionato?", {
+          title: "Firma Speciale Ordine di Pagamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+              var oDatiFirmatario = self.getModel("DatiFirmatario").getData()
+              var oSopDeep = {
+                Operazione: "FIRMA",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Gjahr: oSop.Gjahr,
+                  ZxmlFirmato: oDatiFirmatario.ZxmlFirmato,
+                  ZpdfFirmato: oDatiFirmatario.ZpdfFirmato
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Firma Speciale Ordine di Pagamento")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onRichiamo: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData();
+
+        if (!oModelUtility.getProperty("/EnableRichiamo")) {
+          oModelUtility.setProperty("/EnableRichiamo", true)
+          oModelUtility.setProperty("/Function", "Richiamo")
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          self.createModelDatiFirmatario()
+          return;
+        }
+
+        MessageBox.warning("Procedere con il Richiamo Ordine di Pagamento?", {
+          title: "Richiamo Speciale Ordine di Pagamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            var oDatiFirmatario = self.getModel("DatiFirmatario").getData()
+            if (oAction === 'OK') {
+              var oSopDeep = {
+                Operazione: "RICHIAMO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Ztipososp: oSop.Ztipososp,
+                  Zmotrichiamo: oDatiFirmatario.Zmotrichiamo
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Richiamo Speciale Ordine di Pagamento")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onRegistraRichAnn: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData();
+
+        if (!oModelUtility.getProperty("/EnableRegistrazioneRichAnn")) {
+          oModelUtility.setProperty("/EnableRegistrazioneRichAnn", true)
+          oModelUtility.setProperty("/Function", "RegistrazioneRichAnn")
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          self.createModelDatiFirmatario()
+          return;
+        }
+
+        MessageBox.warning("Procedere con la registrazione della richiesta di annullamento per il SOP?", {
+          title: "Registrazione Richiesta di annullamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            var oDatiFirmatario = self.getModel("DatiFirmatario").getData()
+            if (oAction === 'OK') {
+              var oSopDeep = {
+                Operazione: "REG_RICHIESTA_ANNULLAMENTO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Gjahr: oSop.Gjahr,
+                  ZuffcontRicann: oDatiFirmatario.ZuffcontFirm,
+                  ZdirigenteRicann: oDatiFirmatario.ZdirigenteAmm,
+                  ZcdrRicann: oDatiFirmatario.Zcdr,
+                  ZxmlFirmato: oDatiFirmatario.ZxmlFirmato
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Registrazione Richiesta di annullamento")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onCancellaRichAnn: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData();
+
+        if (!oModelUtility.getProperty("/EnableCancellazioneRichAnn")) {
+          oModelUtility.setProperty("/EnableCancellazioneRichAnn", true)
+          oModelUtility.setProperty("/Function", "CancellazioneRichAnn")
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          self.createModelDatiFirmatario()
+          return;
+        }
+
+        MessageBox.warning("Procedere con la cancellazione della richiesta di annullamento per il SOP?", {
+          title: "Cancellazione Richiesta di annullamento",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            var oDatiFirmatario = self.getModel("DatiFirmatario").getData()
+            if (oAction === 'OK') {
+              var oSopDeep = {
+                Operazione: "CANC_RICHIESTA_ANNULLAMENTO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Gjahr: oSop.Gjahr,
+                  ZuffcontRicann: oDatiFirmatario.ZuffcontFirm,
+                  ZdirigenteRicann: oDatiFirmatario.ZdirigenteAmm,
+                  ZcdrRicann: oDatiFirmatario.Zcdr,
+                  ZxmlFirmato: oDatiFirmatario.ZxmlFirmato
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Cancellazione Richiesta di annullamento")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
       },
 
       //#region -----------------------------METHODS----------------------------
@@ -3540,6 +3812,50 @@ sap.ui.define(
           }
         })
       },
+
+      managementLogFunction: function (data, sTitle) {
+        var self = this;
+        var aMessage = data?.SopMessageSet?.results;
+        var oModelUtility = self.getModel("Utility")
+        var aMessageFormatted = []
+
+        if (aMessage.length > 0) {
+          if (aMessage.length === 1) {
+            if (aMessage[0]?.Body?.Msgty === 'E') {
+              MessageBox.error(aMessage[0]?.Body?.Message, {
+                title: sTitle,
+              });
+            }
+            else if (aMessage[0]?.Body?.Msgty === 'S') {
+              MessageBox.success(aMessage[0]?.Body?.Message, {
+                title: sTitle,
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function () {
+                  self.getRouter().navTo("amm.home", {
+                    Reload: true,
+                  });
+                },
+              });
+
+            }
+            return;
+          }
+
+          aMessage.map((oMessage) => {
+            aMessageFormatted.push({
+              Msgid: oMessage?.Body?.Msgid,
+              Msgty: oMessage?.Body?.Msgty,
+              Msgno: oMessage?.Body?.Msgno,
+              Message: oMessage?.Body?.Message,
+            });
+          });
+
+          oModelUtility.setProperty("/isLogVisible");
+          self.setModel(new JSONModel(aMessageFormatted), "Log");
+          MessageBox.error("Operazione non eseguita correttamente");
+        }
+      },
+
 
       //#endregion ---------------------------METHODS---------------------------
 

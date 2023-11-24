@@ -150,10 +150,14 @@
                     fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
                     type="XML"
                 />
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.amm.table.TableSopFunction"
+                    type="XML"
+                />
             </Panel>
         </f:content>
         <f:footer>
-            <OverflowToolbar>
+            <OverflowToolbar id="idToolbarDetail">
                 <c:Fragment
                     fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
                     type="XML"

@@ -19,36 +19,51 @@
     <Button
         text="{i18n>btnRevocaInvioFirma}"
         type="Emphasized"
-        enabled="{= ${Utility>/EnableBtnRevocaInvioFirma} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableRevocaInvioFirma} ? true : false}"
+        enabled="{= ${Sop>/ZcodStatosop} === '01' ? true : false}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RevocaInvioFirma' ? true : false}"
         press="onRevocaInvioFirma"
     />
     <Button
         text="{i18n>btnFirmaSop}"
         type="Emphasized"
-        enabled="{= ${Utility>/EnableBtnFirma} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableFirma} ? true : false}"
+        enabled="{= ${Sop>/ZcodStatosop} === '01' ? true : false}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Firma' ? true : false}"
         press="onFirma"
     />
     <Button
         text="{i18n>btnRichiamo}"
         type="Emphasized"
-        enabled="{= ${Utility>/EnableBtnRichiamo} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableBtnRichiamo} ? true : false}"
+        enabled="{= 
+            ${Sop>/ZcodStatosop} === '03' ||
+            ${Sop>/ZcodStatosop} === '06' ||
+            ${Sop>/ZcodStatosop} === '04' ||
+            ${Sop>/ZcodStatosop} === '09' ? true : false
+        }"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Richiamo' ? true : false}"
         press="onRichiamo"
     />
     <Button
         text="{i18n>btnRegistraRichiestaAnnullamento}"
         type="Emphasized"
-        enabled="{= ${Utility>/EnableBtnRegistrazioneRichAnn} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableRegistrazioneRichAnn} ? true : false}"
+        enabled="{=             
+            (
+                ${Sop>/ZcodStatosop} === '10' ||
+                ${Sop>/ZcodStatosop} === '16'
+            ) &amp;&amp;
+            ${Sop>/Zricann} === '0000000' ? true : false}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RegistrazioneRichAnn' ? true : false}"
         press="onRegistraRichAnn"
     />
     <Button
         text="{i18n>btnCancellazioneRichiestaAnnullamento}"
         type="Emphasized"
-        enabled="{= ${Utility>/EnableBtnCancellazioneRichAnn} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/EnableCancellazioneRichAnn} ? true : false}"
+        enabled="{=             
+            (
+                ${Sop>/ZcodStatosop} === '10' ||
+                ${Sop>/ZcodStatosop} === '16'
+            ) &amp;&amp;
+            ${Sop>/Zricann} !== '0000000' ? true : false}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'CancellazioneRichAnn' ? true : false}"
         press="onCancellaRichAnn"
     />
 </c:FragmentDefinition>

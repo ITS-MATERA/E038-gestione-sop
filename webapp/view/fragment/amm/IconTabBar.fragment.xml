@@ -43,7 +43,14 @@
                 icon="sap-icon://list"
                 visible="{Utility>/EnableRevocaInvioFirma}"
             />
-            <IconTabSeparator visible="{Utility>/EnableAnnullamento}" />
+            <IconTabSeparator visible="{Utility>/EnableRevocaInvioFirma}" />
+            <IconTabFilter
+                key="Richiamo"
+                text="{i18n>iconTabRichiamo}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRichiamo}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRichiamo}" />
             <IconTabFilter
                 key="Rettifica"
                 text="{i18n>iconTabEdit}"

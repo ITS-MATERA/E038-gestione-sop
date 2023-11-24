@@ -93,6 +93,8 @@ sap.ui.define(
         var self = this;
         var oParameters = oEvent.getParameter("arguments");
 
+        self.getView().byId("idToolbarDetail").setVisible(false)
+
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")

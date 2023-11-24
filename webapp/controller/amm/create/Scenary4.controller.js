@@ -181,7 +181,6 @@ sap.ui.define(
         oModelCentroCosto.read("/ZES_RetFieldValueSet", {
           filters: aFilters,
           success: function (data) {
-            console.log(data)
             self.getView().setBusy(false)
             self.setModelDialog("CentroCosto", data, "sdCentroCosto", oDialog);
           },

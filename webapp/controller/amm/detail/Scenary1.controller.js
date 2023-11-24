@@ -95,12 +95,13 @@ sap.ui.define(
 
       _onObjectMatched: function (oEvent) {
         var self = this;
-        var oParameters = oEvent.getParameter("arguments");
+        var oParameters = oEvent.getParameter("arguments")
+
+        self.getView().byId("idToolbarDetail").setVisible(false)
 
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelStepScenarioDet();
-
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary1")
 
       },
@@ -130,10 +131,6 @@ sap.ui.define(
           }
           case "Workflow": {
             self.createModelWF()
-            break;
-          }
-          case "InvioFirma": {
-            self.createModelDatiFirmatario();
             break;
           }
         }

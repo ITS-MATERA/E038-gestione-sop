@@ -232,7 +232,7 @@
                     text="{i18n>labelTipoSop}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/ZztipologiaSop}" />
+                <Text text="{Sop>/DescTipologia}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>
@@ -249,7 +249,7 @@
             </HBox>
             <!-- #endregion -->
             <Button
-                visible="false"
+                visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
                 text="{i18n>btnEdit}"
                 icon="sap-icon://edit"
                 press="onEdit"

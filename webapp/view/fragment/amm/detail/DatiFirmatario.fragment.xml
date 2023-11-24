@@ -6,7 +6,11 @@
 >
     <Panel
         backgroundDesign="Transparent"
-        visible="{= ${Utility>/Function} === 'InvioFirma' ? true : false}"
+        visible="{= 
+            ${Utility>/Function} === 'InvioFirma' || 
+            ${Utility>/Function} === 'Richiamo' ||
+            ${Utility>/Function} === 'CancellazioneRichAnn' || 
+            ${Utility>/Function} === 'RegistrazioneRichAnn' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
@@ -14,7 +18,7 @@
                     text="{= 
 					${Utility>/EnableInvioFirma} ? ${i18n>titleDatiFirmaInvioFirma} : 
 					${Utility>/EnableRegistrazioneRichAnn} ? ${i18n>titleDatiFirmaRegistrazioneRichAnn} : 
-					${i18n>titleDatiFirmaCancellazioneRichAnn}
+					${Utility>/EnableRichiamo} ? ${i18n>titleDatiFirmaRichiamo} : ${i18n>titleDatiFirmaCancellazioneRichAnn}
 				}"
                 />
             </OverflowToolbar>
@@ -35,6 +39,7 @@
                 <Input
                     value="{DatiFirmatario>/ZuffcontFirm}"
                     change="onUfficioDirigenteChange"
+                    editable="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L2 M12 S12" />
@@ -91,6 +96,7 @@
                 <Text
                     text="{i18n>labelFistl}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L2 M12 S12" />
@@ -107,6 +113,7 @@
                     width="100%"
                     value="{DatiFirmatario>/Fistl}"
                     change="onFistlChange"
+                    visible="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
                 >
                     <zcontrolMatchSar:layoutData>
                         <l:GridData span="XL2 L2 M12 S12" />
@@ -115,17 +122,43 @@
                 <Label
                     text="{i18n>labelDirigenteFirmatario}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                    required="true"
+                    required="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M12 S12" />
                     </layoutData>
                 </Label>
-                <Input value="{DatiFirmatario>/ZdirigenteAmm}">
+                <Input
+                    value="{DatiFirmatario>/ZdirigenteAmm}"
+                    editable="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
+                >
                     <layoutData>
                         <l:GridData span="XL2 L3 M12 S12" />
                     </layoutData>
                 </Input>
+                <Label
+                    text="{i18n>labelMotivazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M12 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Label>
+                <TextArea
+                    maxLength="1000"
+                    value="{DatiFirmatario>/Zmotrichiamo}"
+                    width="100%"
+                    cols="100"
+                    visible="{= ${Utility>/Function} === 'Richiamo' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M12 S12" />
+                    </layoutData>
+                </TextArea>
             </l:Grid>
         </content>
     </Panel>

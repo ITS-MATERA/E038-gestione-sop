@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
+  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter", "sap/m/MessageBox"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, MessageBox) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary1", {
@@ -138,7 +138,6 @@ sap.ui.define(
           filters: aFilters,
           success: function (data, oResponse) {
             self.getView().setBusy(false);
-            console.log(data)
             if (!self.hasResponseError(oResponse)) {
               oModelStepScenario.setProperty("/wizard1Step1", false);
               oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -242,8 +241,21 @@ sap.ui.define(
             Lifnr: oSop.Lifnr
           },
           success: function (data) {
-            console.log(data)
             self.getView().setBusy(false)
+            if (data.results.length > 0) {
+              MessageBox.warning(
+                "Per il Beneficiario selezionato esistono Documenti di costo. Verificare se è necessario procedere con la registrazione di un SOP da documenti di costo",
+                {
+                  actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+                  onClose: function (oAction) {
+                    if (oAction === 'OK') {
+                      self._getPosizioniScen3()
+                      return
+                    }
+                  },
+                }
+              )
+            }
           },
           error: function () {
             self.getView().setBusy(false)
