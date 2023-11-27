@@ -24,6 +24,7 @@
                     </layoutData>
                 </Text>
                 <ComboBox
+                    id="idTipoBeneficiario"
                     width="100%"
                     items="{
 						path: '/TipoBeneficiarioMcSet'
@@ -34,7 +35,8 @@
 						${Sop>/ZzDescebe} ||
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
-						${FiltersWizard1>/ZdatesiTo} 
+						${FiltersWizard1>/ZdatesiTo} ||
+                        ${Utility>/Function} === 'Rettifica'
 						? false : true
 					}"
                     selectionChange="onTipoBeneficiarioChange"
@@ -67,7 +69,7 @@
 						${Sop>/ZzDescebe} ||
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
-						${FiltersWizard1>/ZdatesiTo} 
+						${FiltersWizard1>/ZdatesiTo}
 						? false : true
 					}"
                 >

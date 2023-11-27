@@ -365,6 +365,7 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
         self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
 
+        self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read("/PosizioniSopSet", {
             filters: aFilters,
@@ -393,6 +394,7 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
         self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
 
+        self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read("/ClassificazioneSopSet", {
             filters: aFilters,
@@ -442,10 +444,20 @@ sap.ui.define(
           EnableInvioFirma: false,
           EnableRegistrazioneRichAnn: false,
           EnableCancellazioneRichAnn: false,
+          EnableEditMode: false,
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.dateToString(new Date()),
           RemoveFunctionButtons: false,
-          Function: "Dettaglio"
+          Function: "Dettaglio",
+          Table: "Edit",
+          AddZimptot: "0.00",
+          SelectedPositions: [],
+          DeletedPositions: [],
+          DeletedClassificazioni: [],
+          isQuiet1Prevalorizzato: false,
+          isZcoordEsterPrevalorizzato: false,
+          isIbanPrevalorizzato: false,
+          isVersanteEditable: false,
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -590,6 +602,19 @@ sap.ui.define(
         });
 
         oModelSop.setProperty("/Zimptot", fTotal.toFixed(2));
+      },
+
+      onCalculateAdd: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility")
+        var aPosizioni = oModelUtility.getProperty("/SelectedPositions");
+        var fTotal = 0;
+
+        aPosizioni.map((oSelectedItem) => {
+          fTotal += parseFloat(oSelectedItem?.Zimpdaord);
+        });
+
+        oModelUtility.setProperty("/AddZimptot", fTotal.toFixed(2));
       },
 
       setPosizioneScen4: function () {
@@ -1137,7 +1162,55 @@ sap.ui.define(
         });
       },
 
+      checkWizard1Add: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelUtility = self.getModel("Utility")
+        var oUtility = oModelUtility.getData();
+        var oSop = self.getModel("Sop").getData()
+        var aPosizioni = oUtility.SelectedPositions;
+        var aPosizioniFormatted = [];
+        if (oUtility.AddZimptot <= 0) {
+          MessageBox.error("L'importo non può essere minore o uguale a 0");
+          return;
+        }
 
+        aPosizioni.map((oPosition) => {
+          aPosizioniFormatted.push({
+            HeaderIndex: "1",
+            Index: oPosition.Index.toString(),
+            Zimpdaord: oPosition.Zimpdaord,
+            Zimppag: oPosition.Zimppag,
+            Zimpres: oPosition.Zimpres,
+            Zimpliq: oPosition.Zimpliq
+          });
+        });
+
+        var oParamenters = {
+          HeaderIndex: "1",
+          Ztipopag: oSop.Ztipopag,
+          ZspecieSop: oSop.ZspecieSop,
+          CheckImportPositionSet: aPosizioniFormatted,
+          CheckImportMessageSet: [],
+        };
+
+        self.getView().setBusy(true);
+        oModel.create("/DeepCheckImportHeaderSet", oParamenters, {
+          success: function (data) {
+            var aMessage = data?.CheckImportMessageSet?.results;
+            if (aMessage.length > 0) {
+              self.managementLogDeep(aMessage);
+              self.getView().setBusy(false);
+              return;
+            }
+            oModelUtility.setProperty("/Table", "Edit")
+            self.getView().setBusy(false);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
       //#endregion -------------------------METHODS-------------------------------
 
       //#endregion -------------------------WIZARD 1------------------------------
@@ -3401,6 +3474,321 @@ sap.ui.define(
         });
       },
 
+      onSaveEdit: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oUtility = self.getModel("Utility").getData()
+        var oSop = oModelSop.getData()
+        var aPosition = oSop.Position
+        var aDeletedPositions = oUtility.DeletedPositions
+        var aClassificazione = oSop.Classificazione
+        var aDeletedClassificazioni = oUtility.DeletedClassificazioni
+
+        aDeletedPositions.map((oPosition) => {
+          aPosition.push(oPosition)
+        })
+
+        aDeletedClassificazioni.map((oClassificazione) => {
+          aClassificazione.push(oClassificazione)
+        })
+
+        var aPosizioniDeep = [];
+        var aClassificazioneDeep = [];
+
+        switch (oSop.Ztipopag) {
+          case "1": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Xblnr: oPosition.Xblnr,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                Zbenalt: oPosition.Zbenalt,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Zimptot,
+                Zimppag: oPosition.Zimppag,
+                Zimpdaord: oPosition.Zimpdaord,
+                Zimptot: oPosition.Zimptot
+              })
+            })
+            break;
+          }
+          case "2": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Zimpres: oPosition.Zimpres,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Xblnr: oPosition.Xblnr,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                Zbenalt: oPosition.Zbenalt,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Wrbtr,
+                Zimpdaord: oPosition.Zimpdaord,
+                Zdurc: oPosition.Zdurc,
+                ZfermAmm: oPosition.ZfermAmm
+              })
+            })
+            break;
+          }
+          case "3": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
+                Belnr: oPosition.Belnr,
+                GjahrDc: oPosition.AnnoRegDoc,
+                Blart: oPosition.Blart,
+                Bldat: oPosition.Bldat,
+                ZbenaltName: oPosition.ZbenaltName,
+                Wrbtr: oPosition.Zimptot,
+                Zimpdaord: oPosition.Zimpdaord,
+                Tiporiga: oPosition.TipoRiga
+              })
+            })
+            break;
+          }
+          case "4": {
+            aPosition.map((oPosition) => {
+              aPosizioniDeep.push({
+                Wrbtr: oPosition.Zimptot,
+                ZbenaltName: oPosition.ZbenaltName,
+                Zimpliq: oPosition.Zimptot,
+                Zimpdaord: oPosition.Zimptot,
+                Zdurc: oPosition.Zdurc,
+                ZfermAmm: oPosition.ZfermAmm,
+                Zimppag: oPosition.Zimptot
+              })
+            })
+          }
+        }
+
+        aClassificazione.map((oClassificazione) => {
+          aClassificazioneDeep.push({
+            Zchiavesop: oClassificazione.Zchiavesop,
+            Bukrs: oClassificazione.Bukrs,
+            Zetichetta: oClassificazione.Zetichetta,
+            Zposizione: oClassificazione.Zposizione,
+            ZstepSop: oClassificazione.ZstepSop,
+            Zzcig: oClassificazione.Zzcig,
+            Zzcup: oClassificazione.Zzcup,
+            Zcpv: oClassificazione.Zcpv,
+            ZcpvDesc: oClassificazione.ZcpvDesc.slice(0, 40),
+            Zcos: oClassificazione.Zcos,
+            ZcosDesc: oClassificazione.ZcosDesc.slice(0, 30),
+            Belnr: oClassificazione.Belnr.slice(0, 10),
+            ZimptotClass: oClassificazione.ZimptotClass,
+            Zflagcanc: oClassificazione.Zflagcanc,
+            ZstatoClass: oClassificazione.ZstatoClass,
+          })
+        })
+
+        var oSopDeep = {
+          Operazione: "Rettifica",
+          Bukrs: "",
+          Zchiavesop: "",
+
+          SopAmministrazioneSet: {
+            Bukrs: oSop.Bukrs,
+            Gjahr: oSop.Gjahr,
+            Zchiavesop: oSop.Zchiavesop,
+            Zstep: oSop.Zstep,
+            Ztipososp: oSop.Ztipososp,
+            Zcausale: oSop.Zcausale,
+            Zzamministr: oSop.Zzamministr,
+            Znumsop: oSop.Znumsop,
+            Zragdest: oSop.Zragdest,
+            Zdatasop: oSop.Zdatasop,
+            ZztipologiaSop: oSop.ZztipologiaSop,
+            Lifnr: oSop.Lifnr,
+            Ztipopag: oSop.Ztipopag,
+            Witht: oSop.Witht,
+            ZzCebenra: oSop.ZzCebenra,
+            ZufficioCont: oSop.ZufficioCont,
+            Zimptot: oSop.Zimptot,
+            Fipos: oSop.Fipos,
+            Fistl: oSop.Fistl,
+            Znumprot: oSop.Znumprot,
+            Zdataprot: oSop.Zdataprot,
+            ZcodStatosop: oSop.ZcodStatosop,
+            ZspecieSop: oSop.ZspecieSop,
+            Zricann: oSop.Zricann,
+            Zdatarichann: oSop.Zdatarichann,
+            Capitolo: oSop.Capitolo,
+            DescWitht: oSop.DescWitht,
+            DescZzcebenra: oSop.DescZzcebenra,
+            DescLifnr: oSop.DescLifnr,
+            DescStatosop: oSop.DescStatosop,
+            DescTipologia: oSop.DescTipologia,
+            DescZtipopag: oSop.DescZtipopag,
+            DescZwels: oSop.DescZwels,
+            Znumliq: oSop.Znumliq,
+            ZdescProsp: oSop.ZdescProsp,
+            Zprovgiud: oSop.Zprovgiud,
+            NameFirst: oSop.NameFirst,
+            NameLast: oSop.NameLast,
+            ZzragSoc: oSop.ZzragSoc,
+            Taxnumcf: oSop.Taxnumcf,
+            Taxnum: oSop.Taxnum,
+            Type: oSop.Type,
+            Taxnumxl: oSop.Taxnumxl,
+            Zsede: oSop.Zsede,
+            Zdenominazione: oSop.Zdenominazione,
+            Zdurc: oSop.Zdurc,
+            Zdstatodes: oSop.Zdstatodes,
+            Zdscadenza: oSop.Zdscadenza,
+            ZfermAmm: oSop.ZfermAmm,
+            Zwels: oSop.Zwels,
+            Zcoordest: oSop.Zcoordest,
+            Swift: oSop.Swift,
+            Iban: oSop.Iban,
+            ZCausaleval: oSop.ZCausaleval,
+            Zpurpose: oSop.Zpurpose,
+            Zzposfinent: oSop.Zzposfinent,
+            Zflagfrutt: oSop.Zflagfrutt,
+            Zcausben: oSop.Zcausben,
+            Zalias: oSop.Zalias,
+            AccTypeId: oSop.AccTypeId,
+            Regio: oSop.Regio,
+            ZaccText: oSop.ZaccText,
+            Banks: oSop.Banks,
+            Ztipofirma: oSop.Ztipofirma,
+            ZpersCognomeQuiet1: oSop.ZpersCognomeQuiet1,
+            ZpersNomeQuiet1: oSop.ZpersNomeQuiet1,
+            ZpersNomeVaglia: oSop.ZpersNomeVaglia,
+            ZpersCognomeVaglia: oSop.ZpersCognomeVaglia,
+            Zstcd1: oSop.Zstcd1,
+            Zstcd14: oSop.Zstcd14,
+            Zqindiriz: oSop.Zqindiriz,
+            Zqcitta: oSop.Zqcitta,
+            Zqcap: oSop.Zqcap,
+            Zqprovincia: oSop.Zqprovincia,
+            ZqragSoc: oSop.ZqragSoc,
+            Land1: oSop.Land1,
+            ZpersCognomeQuiet2: oSop.ZpersCognomeQuiet2,
+            ZpersNomeQuiet2: oSop.ZpersNomeQuiet2,
+            Zstcd12: oSop.Zstcd12,
+            Zstcd15: oSop.Zstcd15,
+            Zqindiriz2: oSop.Zqindiriz2,
+            Zqcitta2: oSop.Zqcitta2,
+            Zqcap2: oSop.Zqcap2,
+            Zqprovincia2: oSop.Zqprovincia2,
+            Land2: oSop.Land2,
+            Zcodprov: oSop.Zcodprov,
+            Zcfcommit: oSop.Zcfcommit,
+            Zcodtrib: oSop.Zcodtrib,
+            Zperiodrifda: oSop.Zperiodrifda,
+            Zperiodrifa: oSop.Zperiodrifa,
+            Zcodinps: oSop.Zcodinps,
+            Zcodvers: oSop.Zcodvers,
+            Zcfvers: oSop.Zcfvers,
+            Zdescvers: oSop.Zdescvers,
+            Zdatavers: oSop.Zdatavers,
+            Zprovvers: oSop.Zprovvers,
+            Zsedevers: oSop.Zsedevers,
+            Zibanb: oSop.Zibanb,
+            Zbicb: oSop.Zbicb,
+            Zcoordestb: oSop.Zcoordestb,
+            Zdenbanca: oSop.Zdenbanca,
+            Zclearsyst: oSop.Zclearsyst,
+            StrasBanca: oSop.StrasBanca,
+            Zcivico: oSop.Zcivico,
+            Ort01Banca: oSop.Ort01Banca,
+            RegioBanca: oSop.RegioBanca,
+            PstlzBanca: oSop.PstlzBanca,
+            Zibani: oSop.Zibani,
+            Zbici: oSop.Zbici,
+            Zcoordesti: oSop.Zcoordesti,
+            Zclearsysti: oSop.Zclearsysti,
+            Zclearsysti: oSop.Zclearsysti,
+            Zstrasi: oSop.Zstrasi,
+            Zcivicoi: oSop.Zcivicoi,
+            Zort01i: oSop.Zort01i,
+            Zregioi: oSop.Zregioi,
+            Zpstlzi: oSop.Zpstlzi,
+            Zland1i: oSop.Zland1i,
+            Zlocpag: oSop.Zlocpag,
+            Zzonaint: oSop.Zzonaint,
+            ZE2e: oSop.ZE2e,
+            Stras: oSop.Stras,
+            Ort01: oSop.Ort01,
+            RegioSede: oSop.RegioSede,
+            Pstlz: oSop.Pstlz,
+            Land1Sede: oSop.Land1Sede,
+            Zquoteesi: oSop.Zquoteesi,
+            Zfunzdel: oSop.Zfunzdel,
+            Zgeber: oSop.Zgeber,
+            ZimptotDivisa: oSop.ZimptotDivisa,
+            Zidsede: oSop.Zidsede,
+            Zmotivaz: oSop.Zmotivaz,
+            Kostl: oSop.Kostl,
+            Hkont: oSop.Hkont,
+            Znumquiet: oSop.Znumquiet,
+            Znumquiet2: oSop.Znumquiet2,
+            Ztipoprovv: oSop.Ztipoprovv,
+            Zautemit: oSop.Zautemit,
+            Zdataprovv: oSop.Zdataprovv,
+            Znprovv: oSop.Znprovv,
+            Seqnr: oSop.Seqnr
+          },
+
+          PosizioniSopSet: aPosizioniDeep,
+          ClassificazioneSopSet: aClassificazioneDeep,
+          SopMessageSet: []
+        }
+
+        self.getView().setBusy(true)
+
+        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            var aMessage = data?.SopMessageSet?.results;
+            if (aMessage.length > 0) {
+              if (aMessage.length === 1) {
+                if (aMessage[0]?.Body?.Msgty === 'E') {
+                  MessageBox.error(aMessage[0]?.Body?.Message);
+                }
+                else if (aMessage[0]?.Body?.Msgty === 'S') {
+                  MessageBox.success(aMessage[0]?.Body?.Message, {
+                    actions: [MessageBox.Action.CLOSE],
+                    onClose: function () {
+                      self.getRouter().navTo("amm.home", {
+                        Reload: true,
+                      });
+                    },
+                  });
+
+                }
+                return;
+              }
+
+              aMessage.map((oMessage) => {
+                aMessageFormatted.push({
+                  Msgid: oMessage?.Body?.Msgid,
+                  Msgty: oMessage?.Body?.Msgty,
+                  Msgno: oMessage?.Body?.Msgno,
+                  Message: oMessage?.Body?.Message,
+                });
+              });
+
+              oModelUtility.setProperty("/isLogVisible");
+              self.setModel(new JSONModel(aMessageFormatted), "Log");
+              MessageBox.error("Operazione non eseguita correttamente");
+              return;
+            }
+
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          },
+        });
+      },
+
       //#endregion -------------------------WIZARD 4----------------------------
 
       //#region ----------------------------DETAIL------------------------------
@@ -3856,6 +4244,37 @@ sap.ui.define(
         }
       },
 
+      createModelEditPositions: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSop = self.getModel("Sop")
+        var oSop = self.getModel("Sop").getData()
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oSop.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oSop.Zchiavesop)
+        self.setFilterEQ(aFilters, "Ztipososp", oSop.Ztipososp)
+
+        self.getView().setBusy(true)
+        oModel.read("/QuoteDocumentoAssociateSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            self.hasResponseError(oResponse)
+
+            var aData = data?.results;
+            aData?.map((oPosition, iIndex) => {
+              oPosition.Index = iIndex + 1;
+            });
+
+            oModelSop.setProperty("/Position", aData)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+
+      },
 
       //#endregion ---------------------------METHODS---------------------------
 

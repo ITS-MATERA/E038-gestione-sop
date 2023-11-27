@@ -42,14 +42,4 @@
             <OverflowToolbarLayoutData priority="NeverOverflow" />
         </layoutData>
     </Button>
-    <Button
-        type="Emphasized"
-        text="{i18n>btnSaveSop}"
-        press="onSave"
-        visible="{StepScenario>/visibleBtnSave}"
-    >
-        <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow" />
-        </layoutData>
-    </Button>
 </c:FragmentDefinition>

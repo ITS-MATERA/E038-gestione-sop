@@ -261,7 +261,7 @@ sap.ui.define(
             self.getView().setBusy(false)
           }
         })
-      }
+      },
 
     });
   }

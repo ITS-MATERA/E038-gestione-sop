@@ -39,7 +39,7 @@
                 <Wizard
                     id="wizScenario2"
                     showNextButton="false"
-                    visible="{= ${Utility>/Function} === 'Dettaglio' ? true : false}"
+                    visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
                 >
                     <WizardStep title="{i18n>titleWizard1DocContabili}">
                         <Panel
@@ -169,6 +169,16 @@
                     fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
                     type="XML"
                 />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnEdit}"
+                    press="onSaveEdit"
+                    visible="{StepScenario>/visibleBtnSave}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

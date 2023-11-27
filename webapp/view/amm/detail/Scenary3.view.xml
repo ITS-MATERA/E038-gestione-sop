@@ -39,7 +39,7 @@
                 <Wizard
                     id="wizScenario3"
                     showNextButton="false"
-                    visible="{= ${Utility>/Function} === 'Dettaglio' ? true : false}"
+                    visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
                 >
                     <WizardStep title="{i18n>titleWizard1ProspLiquidazione}">
                         <Panel
@@ -66,6 +66,14 @@
                         </Panel>
                         <c:Fragment
                             fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableRiepPosizioniScen3"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableAddPosizioniScen3"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableEditPosizioniScen3"
                             type="XML"
                         />
                     </WizardStep>
@@ -169,6 +177,16 @@
                     fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
                     type="XML"
                 />
+                <Button
+                    type="Emphasized"
+                    text="{i18n>btnEdit}"
+                    press="onSaveEdit"
+                    visible="{StepScenario>/visibleBtnSave}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

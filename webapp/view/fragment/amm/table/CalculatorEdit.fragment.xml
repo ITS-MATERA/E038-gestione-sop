@@ -4,8 +4,7 @@
     xmlns:l="sap.ui.layout"
 >
     <Panel
-        id="pnlCalculatorList"
-        visible="false"
+        visible="true"
         backgroundDesign="Transparent"
         class="onlyTopPadding"
     >
@@ -26,8 +25,8 @@
             </Text>
             <Input
                 value="{
-                    path: 'Sop>/Zimptot',
-                    formatter: '.formatter.convertImport'
+                path: 'Sop>/Zimptot',
+                  formatter: '.formatter.convertImport'
                 }"
                 editable="false"
             >
@@ -36,7 +35,6 @@
                 </layoutData>
             </Input>
             <Button
-                id="btnCalculate"
                 text="{i18n>btnCalculate}"
                 icon="sap-icon://simulate"
                 width="100%"

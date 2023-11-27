@@ -1,0 +1,150 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Panel
+        class="onlyTopPadding"
+        visible="{= ${StepScenario>/wizard1Step2} &amp;&amp; ${Utility>/Table} === 'Edit' ? true : false}"
+        backgroundDesign="Transparent"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleTablePosizioniScen3}" />
+                <ToolbarSpacer />
+                <Button
+                    class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+                    icon="sap-icon://add"
+                    text="{i18n>btnAdd}"
+                    type="Emphasized"
+                    press="onAddPosition"
+                    visible="{Utility>/EnableEdit}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
+                    icon="sap-icon://less"
+                    text="{i18n>btnDelete}"
+                    type="Emphasized"
+                    press="onDeletePosition"
+                    visible="{Utility>/EnableEdit}"
+                >
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <Table
+                id="tblEditPosizioniScen3"
+                mode="MultiSelect"
+                items="{
+                  path: 'Sop>/Position'
+                }"
+                selectionChange="onSelectedItemEdit"
+                fixedLayout="false"
+                growing="true"
+            >
+                <columns>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelRigaProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelDescProspetto}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelBelnr}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpLiquidato}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpOrdinato}" />
+                        </header>
+                    </Column>
+                    <Column
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                    >
+                        <header>
+                            <Text text="{i18n>labelImpDaOrd}" />
+                        </header>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text
+                                text="{
+                                  path: 'Sop>Znumliq'
+                                }"
+                            />
+                            <Text text="{Sop>Zposizione}" />
+                            <Text text="{Sop>ZdescProsp}" />
+                            <Text text="{Sop>Belnr}" />
+                            <Text
+                                text="{
+                                  path: 'Sop>Zimpliq',
+                                  formatter: '.formatter.convertImport'
+                                }"
+                            />
+                            <Text
+                                text="{
+                                  path: 'Sop>Zimppag',
+                                  formatter: '.formatter.convertImport'
+                                }"
+                            />
+                            <Input
+                                id="iptImpDaOrdEdit"
+                                change="onImpDaOrdinareChangeEdit"
+                                type="Number"
+                                value="{
+                                  path: 'Sop>Zimpdaord'
+                                }"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <c:Fragment
+                fragmentName="gestionesop.view.fragment.amm.table.CalculatorEdit"
+                type="XML"
+            />
+        </content>
+    </Panel>
+</c:FragmentDefinition>
