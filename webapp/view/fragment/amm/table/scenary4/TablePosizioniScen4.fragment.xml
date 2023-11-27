@@ -16,7 +16,7 @@
                     icon="sap-icon://excel-attachment"
                     text="{i18n>btnExport}"
                     type="Emphasized"
-                    press="onExport"
+                    press="onExportScen4"
                 />
             </OverflowToolbar>
         </headerToolbar>

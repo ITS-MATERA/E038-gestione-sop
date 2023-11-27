@@ -14,18 +14,21 @@
                 <zcontrolanagrafica:AnagraficaPopup
                     viewId="{Utility>/ViewId}"
                     enabled="{= 
-                      ${Sop>/ZspecieSop} === '1' &amp;&amp; 
-                      (${Sop>/Ztipopag} === '1' || ${Sop>/Ztipopag} === '2' || ${Sop>/Ztipopag} === '3')
-                      &amp;&amp; 
-                      ${Utility>/EnableEdit} ? true : false 
+                        ${Sop>/ZspecieSop} === '1' &amp;&amp; 
+                        ${Sop>/Ztipopag} === '2' &amp;&amp; 
+                        ${Utility>/EnableEdit} ? true : false 
                     }"
                 />
                 <zcontrolmodpag:ModPagamentoPopup
                     viewId="{Utility>/ViewId}"
                     Lifnr="{Sop>/Lifnr}"
                     enabled="{= 
-                      ${Sop>/ZspecieSop} === '1' &amp;&amp; 
-                      ${Sop>/Ztipopag} === '2' &amp;&amp; 
+                        ${Sop>/ZspecieSop} === '1' &amp;&amp; 
+                        (
+                            ${Sop>/Ztipopag} === '1' || 
+                            ${Sop>/Ztipopag} === '2' || 
+                            ${Sop>/Ztipopag} === '3'
+                        ) &amp;&amp; 
                       ${Utility>/EnableEdit} ? true : false
                     }"
                 />
@@ -92,7 +95,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/TaxnumCf}"
+                    value="{Sop>/Taxnumcf}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

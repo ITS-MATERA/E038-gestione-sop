@@ -109,7 +109,6 @@ sap.ui.define(
             }
             case "Add": {
               self.checkWizard1Add()
-              self.addNewPositions()
               break;
             }
           }
@@ -227,12 +226,12 @@ sap.ui.define(
         self.getView().byId("idTipoBeneficiario").setEditable(false)
         self.getView().byId("iptBeneficiarioWizard1").setEditable(false)
 
+        self.resetWizard("wizScenario3");
         oModelUtility.setProperty("/EditTable", true)
         oModelStepScenario.setProperty("/wizard1Step3", false)
         oModelStepScenario.setProperty("/wizard1Step2", true)
         oModelUtility.setProperty("/EnableEdit", true)
         self.createModelEditPositions()
-        self.getView().byId("pnlCalculatorList").setVisible(true)
         return;
 
       },
@@ -258,8 +257,10 @@ sap.ui.define(
                 var aPositions = oModelSop.getProperty("/Position");
 
                 aSelectedItems.map((oSelectedItem) => {
-                  oSelectedItem.TipoRiga = 'D'
-                  aDeletedPositions.push(oSelectedItem)
+                  oSelectedItem.Tiporiga = 'D'
+                  if (oSelectedItem.Zchiavesop) {
+                    aDeletedPositions.push(oSelectedItem)
+                  }
                   var iIndex = aPositions.findIndex((oPosition) => {
                     return (
                       oPosition.Bukrs === oSelectedItem.Bukrs &&
@@ -340,6 +341,7 @@ sap.ui.define(
         oModelStepScenario.setProperty("/visibleBtnForward", false);
 
         oModelUtility.setProperty("/SelectedPositions", [])
+        oModelUtility.setProperty("/AddZimptot", "0.00")
       },
 
       onStart: function () {
@@ -452,26 +454,6 @@ sap.ui.define(
         }
       },
 
-      addNewPositions: function () {
-        var self = this;
-        var oModelSop = self.getModel("Sop")
-        var oModelUtility = self.getModel("Utility")
-        var fZimptot = parseFloat(oModelSop.getProperty("/Zimptot"))
-        var fAddZimptot = parseFloat(oModelUtility.getProperty("/AddZimptot"))
-
-        var aPositions = oModelSop.getProperty("/Position")
-        var aNewPositions = oModelUtility.getProperty("/SelectedPositions")
-
-        aNewPositions.map((oPosition) => {
-          oPosition.TipoRiga = "C"
-          aPositions.push(oPosition)
-        })
-
-        oModelSop.setProperty("/Zimptot", (fZimptot + fAddZimptot).toFixed(2))
-        oModelUtility.setProperty("/SelectedPositions", [])
-
-      },
-
       onCancelRow: function (oEvent) {
         var self = this;
         //Load Models
@@ -489,8 +471,10 @@ sap.ui.define(
         //Rimuovo i record selezionati
         aPathSelectedItems.map((sPath) => {
           var oItem = oModelClassificazione.getObject(sPath);
-          oItem.Zflagcanc = 'X'
-          aDeletedClassificazioni.push(oItem)
+          if (oItem.Zchiavesop) {
+            oItem.Zflagcanc = 'X'
+            aDeletedClassificazioni.push(oItem)
+          }
           aListClassificazione.splice(aListClassificazione.indexOf(oItem), 1);
         });
 

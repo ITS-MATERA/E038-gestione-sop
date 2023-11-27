@@ -1,11 +1,7 @@
 sap.ui.define(
-  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter", "sap/ui/export/library",
-    "sap/ui/export/Spreadsheet",],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, exportLibrary,
-    Spreadsheet) {
+  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
     "use strict";
-
-    const EDM_TYPE = exportLibrary.EdmType;
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary1", {
       formatter: formatter,
@@ -107,24 +103,10 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard4", true);
             oModelStepScenario.setProperty("/visibleBtnForward", false);
             oModelStepScenario.setProperty("/visibleBtnSave", true);
+            self.setLocPagamento()
             oWizard.nextStep();
           }
         }
-      },
-
-      onInserisciProspettoLiquidazione: function () {
-        var self = this;
-        var oWizard = self.getView().byId("wizScenario4");
-        var oModelStepScenario = self.getModel("StepScenario");
-
-        oModelStepScenario.setProperty("/wizard1Step2", false);
-        oModelStepScenario.setProperty("/wizard2", true);
-        oModelStepScenario.setProperty("/visibleBtnForward", true);
-        oModelStepScenario.setProperty(
-          "/visibleBtnInserisciProspLiquidazione",
-          false
-        );
-        oWizard.nextStep();
       },
 
       _onObjectMatched: function (oEvent) {
@@ -153,54 +135,6 @@ sap.ui.define(
         self.setModel(oModelStepScenario, "StepScenario")
       },
 
-      onImpLiquidazioneChange: function (oEvent) {
-        var self = this;
-        //Load Models
-        var oModelSop = self.getModel("Sop");
-
-        var sValue = oEvent.getParameter("value");
-        if (sValue) {
-          oModelSop.setProperty("/Zimptot", parseFloat(sValue).toFixed(2));
-        } else {
-          oModelSop.setProperty("/Zimptot", "0.00");
-        }
-      },
-
-      onValueHelpCentroCosto: async function () {
-        var self = this;
-        var oSop = self.getModel("Sop").getData();
-        var oModelCentroCosto = self.getModel("ZSS4_SEARCH_HELP_SRV")
-        var sBukrs = oSop.Bukrs ? oSop.Bukrs : await self.getBukrs()
-        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.CentroCosto");
-        var aFilters = []
-
-        self.setFilterEQ(aFilters, "Shlpname", 'ZHX_KOST');
-        self.setFilterEQ(aFilters, "FilterValue", "Kokrs|" + sBukrs);
-
-        self.getView().setBusy(true)
-        oModelCentroCosto.read("/ZES_RetFieldValueSet", {
-          filters: aFilters,
-          success: function (data) {
-            self.getView().setBusy(false)
-            self.setModelDialog("CentroCosto", data, "sdCentroCosto", oDialog);
-          },
-          error: function () {
-            self.getView().setBusy(false)
-          }
-        })
-      },
-
-      onValueHelpCentroCostoClose: function (oEvent) {
-        var self = this;
-        var oModelSop = self.getModel("Sop");
-        var oSelectedItem = oEvent.getParameter("selectedItem");
-
-        oModelSop.setProperty("/Kostl", self.setBlank(oSelectedItem?.getTitle()));
-        oModelSop.setProperty("/DescKostl", self.setBlank(oSelectedItem?.getDescription()));
-
-        this.unloadFragment();
-      },
-
       checkWizard1: function () {
         var self = this;
         var oModel = self.getModel()
@@ -226,84 +160,6 @@ sap.ui.define(
             },
           });
         });
-      },
-
-      onExport: function () {
-        var oSheet;
-        var self = this;
-        var oSop = self.getModel("Sop").getData()
-
-        var aCols = this._createColumnConfig();
-        var oSettings = {
-          workbook: {
-            columns: aCols,
-          },
-          dataSource: oSop.Position,
-          fileName: "Prospetto liquidazione.xlsx",
-        };
-
-        oSheet = new Spreadsheet(oSettings);
-        oSheet.build().finally(function () {
-          oSheet.destroy();
-        });
-      },
-
-      _createColumnConfig: function () {
-        var self = this;
-        var oBundle = self.getResourceBundle();
-        var aCols = [
-          {
-            label: oBundle.getText("labelTipoDocumento"),
-            property: "Blart",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelDataDocumento"),
-            property: "DataDocumento",
-            type: EDM_TYPE.Date,
-            format: "dd.mm.yyyy",
-          },
-          {
-            label: oBundle.getText("labelDataCompetenza"),
-            property: "DataCompetenza",
-            type: EDM_TYPE.Date,
-            format: "dd.mm.yyyy",
-          },
-          {
-            label: oBundle.getText("labelDenomBenLiq"),
-            property: "ZzragSoc",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelModPagamento"),
-            property: "Zdescwels",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelIban"),
-            property: "Iban",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelDurc"),
-            property: "Zdurc",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelFermoAmm"),
-            property: "ZfermAmm",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelImpLiquidazione"),
-            property: "Zimptot",
-            type: EDM_TYPE.Number,
-            scale: 2,
-            delimiter: true,
-          },
-        ];
-
-        return aCols;
       },
     });
   }

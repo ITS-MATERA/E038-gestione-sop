@@ -1,7 +1,11 @@
 sap.ui.define(
-  ["../BaseController", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/m/MessageBox", "sap/ui/model/Filter", "sap/ui/model/FilterOperator"],
-  function (BaseController, JSONModel, formatter, MessageBox, Filter, FilterOperator) {
+  ["../BaseController", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/m/MessageBox", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/export/library",
+    "sap/ui/export/Spreadsheet"],
+  function (BaseController, JSONModel, formatter, MessageBox, Filter, FilterOperator, exportLibrary,
+    Spreadsheet) {
     "use strict";
+
+    const EDM_TYPE = exportLibrary.EdmType;
 
     return BaseController.extend("gestionesop.controller.amm.BaseAmministrazioneController", {
       formatter: formatter,
@@ -213,7 +217,7 @@ sap.ui.define(
           NameFirst: oSop.NameFirst,
           NameLast: oSop.NameLast,
           ZzragSoc: oSop.ZzragSoc,
-          Taxnumcf: oSop.TaxnumCf,
+          Taxnumcf: oSop.Taxnumcf,
           Taxnum: oSop.Taxnum,
           Type: oSop.Type,
           Taxnumxl: oSop.Taxnumxl,
@@ -326,9 +330,9 @@ sap.ui.define(
           NumquietInitial2: false,
         });
 
-
         self.setModel(oModelSop, "Sop");
         self.getView().byId("idToolbarDetail").setVisible(true)
+        return oModelSop
       },
 
       _getSop: async function (oParameters) {
@@ -423,7 +427,8 @@ sap.ui.define(
           isVersanteEditable: false,
           isLogVisible: false,
           CurrentDate: new Date(),
-          CurrentDateFormatted: formatter.dateToString(new Date())
+          CurrentDateFormatted: formatter.dateToString(new Date()),
+          RemoveFunctionButtons: true
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -643,6 +648,84 @@ sap.ui.define(
             self.getView().setBusy(false)
           }
         })
+      },
+
+      onExportScen4: function () {
+        var oSheet;
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+
+        var aCols = this._createColumnConfigScen4();
+        var oSettings = {
+          workbook: {
+            columns: aCols,
+          },
+          dataSource: oSop.Position,
+          fileName: "Prospetto liquidazione.xlsx",
+        };
+
+        oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
+
+      _createColumnConfigScen4: function () {
+        var self = this;
+        var oBundle = self.getResourceBundle();
+        var aCols = [
+          {
+            label: oBundle.getText("labelTipoDocumento"),
+            property: "Blart",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelDataDocumento"),
+            property: "Bldat",
+            type: EDM_TYPE.Date,
+            format: "dd.mm.yyyy",
+          },
+          {
+            label: oBundle.getText("labelDataCompetenza"),
+            property: "Bldat",
+            type: EDM_TYPE.Date,
+            format: "dd.mm.yyyy",
+          },
+          {
+            label: oBundle.getText("labelDenomBenLiq"),
+            property: "ZbenaltName",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelModPagamento"),
+            property: "Zdescwels",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelIban"),
+            property: "Iban",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelDurc"),
+            property: "Zdurc",
+            type: EDM_TYPE.Number,
+          },
+          {
+            label: oBundle.getText("labelFermoAmm"),
+            property: "ZfermAmm",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelImpLiquidazione"),
+            property: "Zimptot",
+            type: EDM_TYPE.Number,
+            scale: 2,
+            delimiter: true,
+          },
+        ];
+
+        return aCols;
       },
 
       //#region ----------------------------VALUE HELP--------------------------
@@ -898,6 +981,41 @@ sap.ui.define(
         this.unloadFragment();
       },
 
+      onValueHelpCentroCosto: async function () {
+        var self = this;
+        var oSop = self.getModel("Sop").getData();
+        var oModelCentroCosto = self.getModel("ZSS4_SEARCH_HELP_SRV")
+        var sBukrs = oSop.Bukrs ? oSop.Bukrs : await self.getBukrs()
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.CentroCosto");
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Shlpname", 'ZHX_KOST');
+        self.setFilterEQ(aFilters, "FilterValue", "Kokrs|" + sBukrs);
+
+        self.getView().setBusy(true)
+        oModelCentroCosto.read("/ZES_RetFieldValueSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.setModelDialog("CentroCosto", data, "sdCentroCosto", oDialog);
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onValueHelpCentroCostoClose: function (oEvent) {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        oModelSop.setProperty("/Kostl", self.setBlank(oSelectedItem?.getTitle()));
+        oModelSop.setProperty("/DescKostl", self.setBlank(oSelectedItem?.getDescription()));
+
+        this.unloadFragment();
+      },
+
       //#endregion -------------------VALUE HELP----------------------------------
 
       //#region ----------------------------SELECTION CHANGE----------------------
@@ -1019,6 +1137,33 @@ sap.ui.define(
         })
       },
 
+      onImpLiquidazioneChange: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelSop = self.getModel("Sop");
+
+        var sValue = oEvent.getParameter("value");
+        if (sValue) {
+          oModelSop.setProperty("/Zimptot", parseFloat(sValue).toFixed(2));
+        } else {
+          oModelSop.setProperty("/Zimptot", "0.00");
+        }
+      },
+
+      onInserisciProspettoLiquidazione: function () {
+        var self = this;
+        var oWizard = self.getView().byId("wizScenario4");
+        var oModelStepScenario = self.getModel("StepScenario");
+
+        oModelStepScenario.setProperty("/wizard1Step2", false);
+        oModelStepScenario.setProperty("/wizard2", true);
+        oModelStepScenario.setProperty("/visibleBtnForward", true);
+        oModelStepScenario.setProperty(
+          "/visibleBtnInserisciProspLiquidazione",
+          false
+        );
+        oWizard.nextStep();
+      },
       //#endregion ----------------SELECTION CHANGE-------------------------------
 
       //#region ----------------------------METHODS-------------------------------
@@ -1204,6 +1349,7 @@ sap.ui.define(
               return;
             }
             oModelUtility.setProperty("/Table", "Edit")
+            self.addNewPositions()
             self.getView().setBusy(false);
           },
           error: function () {
@@ -1228,8 +1374,6 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "Qsskz", oSop.Witht);
         self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.getView().setBusy(true);
-
-
 
         oModel.read("/ModalitaPagamentoSet", {
           filters: aFilters,
@@ -3096,6 +3240,26 @@ sap.ui.define(
         });
       },
 
+      addNewPositions: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop")
+        var oModelUtility = self.getModel("Utility")
+        var fZimptot = parseFloat(oModelSop.getProperty("/Zimptot"))
+        var fAddZimptot = parseFloat(oModelUtility.getProperty("/AddZimptot"))
+
+        var aPositions = oModelSop.getProperty("/Position")
+        var aNewPositions = oModelUtility.getProperty("/SelectedPositions")
+
+        aNewPositions.map((oPosition) => {
+          oPosition.Tiporiga = "C"
+          aPositions.push(oPosition)
+        })
+
+        oModelSop.setProperty("/Zimptot", (fZimptot + fAddZimptot).toFixed(2))
+        oModelUtility.setProperty("/SelectedPositions", [])
+
+      },
+
       //#endregion -------------------------METHODS------------------------------
 
       //#endregion -------------------------WIZARD 3----------------------------
@@ -3512,7 +3676,8 @@ sap.ui.define(
                 Wrbtr: oPosition.Zimptot,
                 Zimppag: oPosition.Zimppag,
                 Zimpdaord: oPosition.Zimpdaord,
-                Zimptot: oPosition.Zimptot
+                Zimptot: oPosition.Zimptot,
+                Tiporiga: oPosition.Tiporiga
               })
             })
             break;
@@ -3531,7 +3696,8 @@ sap.ui.define(
                 Wrbtr: oPosition.Wrbtr,
                 Zimpdaord: oPosition.Zimpdaord,
                 Zdurc: oPosition.Zdurc,
-                ZfermAmm: oPosition.ZfermAmm
+                ZfermAmm: oPosition.ZfermAmm,
+                Tiporiga: oPosition.Tiporiga
               })
             })
             break;
@@ -3548,7 +3714,7 @@ sap.ui.define(
                 ZbenaltName: oPosition.ZbenaltName,
                 Wrbtr: oPosition.Zimptot,
                 Zimpdaord: oPosition.Zimpdaord,
-                Tiporiga: oPosition.TipoRiga
+                Tiporiga: oPosition.Tiporiga
               })
             })
             break;
@@ -4289,7 +4455,7 @@ sap.ui.define(
           oModelSop.setProperty("/Type", "");
           oModelSop.setProperty("/NameFirst", "");
           oModelSop.setProperty("/NameLast", "");
-          oModelSop.setProperty("/TaxnumCf", "");
+          oModelSop.setProperty("/Taxnumcf", "");
           oModelSop.setProperty("/Taxnum", "");
           oModelSop.setProperty("/Taxnumxl", "");
           oModelSop.setProperty("/Zdurc", "");
@@ -4315,7 +4481,7 @@ sap.ui.define(
             oModelSop.setProperty("/Type", data?.Type);
             oModelSop.setProperty("/NameFirst", data?.NameFirst);
             oModelSop.setProperty("/NameLast", data?.NameLast);
-            oModelSop.setProperty("/TaxnumCf", data?.TaxnumCf);
+            oModelSop.setProperty("/Taxnumcf", data?.TaxnumCf);
             oModelSop.setProperty("/Taxnum", data?.TaxnumPiva);
             oModelSop.setProperty("/Taxnumxl", data?.TaxnumxlCfe);
             oModelSop.setProperty("/Zdurc", data?.Zdurc);
@@ -4419,6 +4585,7 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
+        var oStepScenario = self.getModel("StepScenario").getData()
 
         if (obj?.Iban && obj?.Banks) {
           if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
@@ -4484,7 +4651,7 @@ sap.ui.define(
         //Dati beneficiario
         oModelSop.setProperty("/Lifnr", oData.Lifnr);
         oModelSop.setProperty("/Type", oData.Type);
-        oModelSop.setProperty("/TaxnumCf", oData.Stcd1);
+        oModelSop.setProperty("/Taxnumcf", oData.Stcd1);
         oModelSop.setProperty("/Taxnum", oData.Stcd2);
         oModelSop.setProperty("/Taxnumxl", oData.Stcd3);
         oModelSop.setProperty("/NameFirst", oData.Name);

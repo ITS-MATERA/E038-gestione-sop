@@ -148,7 +148,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/TaxnumCf}"
+                    value="{Sop>/Taxnumcf}"
                     editable="false"
                 >
                     <layoutData>

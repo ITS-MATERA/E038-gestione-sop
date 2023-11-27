@@ -81,7 +81,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/TaxnumCf}"
+                    value="{Sop>/Taxnumcf}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

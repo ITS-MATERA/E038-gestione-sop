@@ -117,7 +117,7 @@
                     text="{i18n>labelCFBen}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/TaxnumCf}" />
+                <Text text="{Sop>/Taxnumcf}" />
                 <layoutData>
                     <l:GridData span="XL2 L4 M6 S12" />
                 </layoutData>

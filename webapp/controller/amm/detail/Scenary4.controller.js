@@ -28,23 +28,33 @@ sap.ui.define(
         var oView = self.getView();
         var oWizard = oView.byId("wizScenario4");
         var oModelStepScenario = self.getModel("StepScenario");
+        var oModelUtility = self.getModel("Utility")
 
         var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
         var bWizard4 = oModelStepScenario.getProperty("/wizard4");
+        var bEnableEditMode = oModelUtility.getProperty("/EnableEditMode")
 
         if (bWizard1Step1) {
-
+          self.setModel(new JSONModel({}), "Sop")
+          self.getRouter().navTo("amm.home", {
+            Reload: false,
+          });
         } else if (bWizard1Step2) {
+          if (bEnableEditMode) {
+            oModelStepScenario.setProperty("/wizard1Step2", false);
+            oModelStepScenario.setProperty("/wizard1Step1", true);
+            return;
+          }
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,
           });
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/wizard2", false);
-          oModelStepScenario.setProperty("/wizard1Step3", true);
+          oModelStepScenario.setProperty("/wizard1Step2", true);
           oWizard.previousStep();
         } else if (bWizard3) {
           oModelStepScenario.setProperty("/wizard3", false);
@@ -89,7 +99,7 @@ sap.ui.define(
         }
       },
 
-      _onObjectMatched: function (oEvent) {
+      _onObjectMatched: async function (oEvent) {
         var self = this;
         var oParameters = oEvent.getParameter("arguments");
 
@@ -146,9 +156,92 @@ sap.ui.define(
         })
 
         self.setModel(oModelStepScenario, "StepScenario")
-      }
+      },
 
+      onEdit: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility")
+        var oModelStepScenario = self.getModel("StepScenario")
 
+        oModelUtility.setProperty("/EnableEditMode", true)
+        oModelUtility.setProperty("/Function", "Rettifica")
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
+        self.getView().byId("iptBeneficiarioWizard1").setEditable(false)
+        self.createModelModPagamento()
+
+        self.resetWizard("wizScenario4");
+        oModelStepScenario.setProperty("/wizard1Step2", false)
+        oModelStepScenario.setProperty("/wizard1Step1", true)
+        oModelUtility.setProperty("/EnableEdit", true)
+        self.createModelEditPositions()
+        return;
+
+      },
+
+      checkWizard1: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        return new Promise(async function (resolve, reject) {
+          self.getView().setBusy(true);
+          await oModel.callFunction("/CheckWizard1Scen4Amm", {
+            method: "GET",
+            urlParameters: {
+              Iban: oSop.Iban,
+              Lifnr: oSop.Lifnr,
+              Zwels: oSop.Zwels,
+              Zimptot: oSop.Zimptot
+            },
+            success: function (data) {
+              self.getView().setBusy(false);
+              resolve(self.hasMessageError(data) ? false : true);
+            },
+            error: function (error) {
+              self.getView().setBusy(false);
+              reject(error);
+            },
+          });
+        });
+      },
+
+      onCancelRow: function (oEvent) {
+        var self = this;
+        //Load Models
+        var oModelClassificazione = self.getModel("Classificazione");
+        var oModelUtility = self.getModel("Utility")
+        var aDeletedClassificazioni = oModelUtility.getProperty("/DeletedClassificazioni")
+
+        var oSourceData = oEvent?.getSource()?.data();
+        var oTableClassificazione = self.getView().byId(oSourceData?.table);
+
+        var aPathSelectedItems = oTableClassificazione.getSelectedContextPaths();
+
+        var aListClassificazione = oModelClassificazione.getProperty("/" + oSourceData?.etichetta);
+
+        //Rimuovo i record selezionati
+        aPathSelectedItems.map((sPath) => {
+          var oItem = oModelClassificazione.getObject(sPath);
+          if (oItem.Zchiavesop) {
+            oItem.Zflagcanc = 'X'
+            aDeletedClassificazioni.push(oItem)
+          }
+          aListClassificazione.splice(aListClassificazione.indexOf(oItem), 1);
+        });
+
+        //Resetto l'index
+        aListClassificazione.map((oItem, iIndex) => {
+          oItem.Index = iIndex;
+        });
+
+        //Rimuovo i record selezionati
+        oTableClassificazione.removeSelections();
+
+        oModelClassificazione.setProperty("/" + oSourceData?.etichetta, aListClassificazione);
+
+        //Resetto l'importo totale da associare
+        this._setImpTotAssociare(oSourceData?.etichetta);
+      },
 
     });
   }
