@@ -158,10 +158,10 @@ sap.ui.define(
           ZdirigenteAmm: "",
           Position: [],
           Classificazione: [],
+          DescKostl: "",
+          DescHkont: "",
 
           DescZspecieSop: "",
-          Skat: "",
-          DescKostl: "",
           //Primo quietanzante
           NumquietInitial1: false,
           //Secondo quietanzante
@@ -320,6 +320,8 @@ sap.ui.define(
           Znprovv: oSop.Znprovv,
           Seqnr: oSop.Seqnr,
           ZdirigenteAmm: oSop.ZdirigenteAmm,
+          DescKostl: oSop.DescKostl,
+          DescHkont: oSop.DescHkont,
           Position: await self._getPositions(oParameters),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -1125,10 +1127,10 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data, oResponse) {
             self.getView().setBusy(false)
-            oModelSop.setProperty("/Skat", data.Descrizione)
+            oModelSop.setProperty("/DescHkont", data.Descrizione)
             if (self.hasResponseError(oResponse)) {
               oModelSop.setProperty("/Hkont", "")
-              oModelSop.setProperty("/Skat", "")
+              oModelSop.setProperty("/DescHkont", "")
             }
           },
           error: function () {

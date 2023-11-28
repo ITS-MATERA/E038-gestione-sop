@@ -170,6 +170,7 @@ sap.ui.define(
             self.resetWizard("wizScenario1");
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
+            oModelUtility.setProperty("/EnableEdit", false)
             break;
           }
           case "Workflow": {
@@ -182,6 +183,9 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard1Step3", false)
             oModelStepScenario.setProperty("/wizard1Step2", true)
             oModelUtility.setProperty("/EnableEdit", true)
+            oModelStepScenario.setProperty("/visibleBtnForward", true)
+            oModelStepScenario.setProperty("/visibleBtnSave", false)
+            oModelStepScenario.setProperty("/visibleBtnStart", false)
             self.createModelEditPositions()
             break;
           }
@@ -259,6 +263,9 @@ sap.ui.define(
         oModelStepScenario.setProperty("/wizard1Step3", false)
         oModelStepScenario.setProperty("/wizard1Step2", true)
         oModelUtility.setProperty("/EnableEdit", true)
+        oModelStepScenario.setProperty("/visibleBtnForward", true)
+        oModelStepScenario.setProperty("/visibleBtnSave", false)
+        oModelStepScenario.setProperty("/visibleBtnStart", false)
         self.createModelEditPositions()
         return;
 

@@ -89,7 +89,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Skat}"
+                    value="{Sop>/DescHkont}"
                     editable="false"
                 >
                     <layoutData>

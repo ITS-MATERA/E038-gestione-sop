@@ -127,6 +127,7 @@ sap.ui.define(
             self.resetWizard("wizScenario2");
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
+            oModelUtility.setProperty("/EnableEdit", false)
             break;
           }
           case "Workflow": {

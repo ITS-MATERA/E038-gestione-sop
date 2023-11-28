@@ -80,10 +80,15 @@ sap.ui.define(
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
         if (bWizard1Step1) {
+          if (await self.checkWizard1()) {
+            oModelStepScenario.setProperty("/wizard1Step1", false);
+            oModelStepScenario.setProperty("/wizard1Step2", true);
+            self.setSedeBeneficiario();
+            self.setPosizioneScen4()
+          }
         } else if (bWizard1Step2) {
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
-          self.createModelModPagamento();
           self.createModelSedeBeneficiario();
           oWizard.nextStep();
         } else if (bWizard2) {
@@ -105,6 +110,7 @@ sap.ui.define(
 
         self.getView().byId("idToolbarDetail").setVisible(false)
 
+        self.resetWizard("wizScenario4");
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
@@ -116,6 +122,7 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData();
         var sKey = oEvent.getParameter("selectedKey");
         var oModelUtility = self.getModel("Utility");
+        var oModelStepScenario = self.getModel("StepScenario")
 
         oModelUtility.setProperty("/Function", sKey);
 
@@ -132,10 +139,20 @@ sap.ui.define(
             self.resetWizard("wizScenario4");
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
+            oModelUtility.setProperty("/EnableEdit", false)
             break;
           }
           case "Workflow": {
             self.createModelWF()
+            break;
+          }
+          case "Rettifica": {
+            self.resetWizard("wizScenario4");
+            oModelStepScenario.setProperty("/wizard1Step2", false)
+            oModelStepScenario.setProperty("/wizard1Step1", true)
+            oModelStepScenario.setProperty("/visibleBtnForward", true)
+            oModelStepScenario.setProperty("/visibleBtnSave", false)
+            oModelUtility.setProperty("/EnableEdit", true)
             break;
           }
         }
@@ -172,8 +189,9 @@ sap.ui.define(
         self.resetWizard("wizScenario4");
         oModelStepScenario.setProperty("/wizard1Step2", false)
         oModelStepScenario.setProperty("/wizard1Step1", true)
+        oModelStepScenario.setProperty("/visibleBtnForward", true)
+        oModelStepScenario.setProperty("/visibleBtnSave", false)
         oModelUtility.setProperty("/EnableEdit", true)
-        self.createModelEditPositions()
         return;
 
       },

@@ -55,9 +55,9 @@
                 key="Rettifica"
                 text="{i18n>iconTabEdit}"
                 icon="sap-icon://edit"
-                visible="{Utility>/EnableEdit}"
+                visible="{Utility>/EnableEditMode}"
             />
-            <IconTabSeparator visible="{Utility>/EnableEdit}" />
+            <IconTabSeparator visible="{Utility>/EnableEditMode}" />
             <IconTabFilter
                 key="Dettaglio"
                 text="{i18n>iconTabDetail}"
