@@ -36,7 +36,7 @@
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
 						${FiltersWizard1>/ZdatesiTo} ||
-                        ${Utility>/Function} === 'Rettifica'
+                        ${Utility>/EnableEdit}
 						? false : true
 					}"
                     selectionChange="onTipoBeneficiarioChange"
@@ -69,7 +69,8 @@
 						${Sop>/ZzDescebe} ||
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
-						${FiltersWizard1>/ZdatesiTo}
+						${FiltersWizard1>/ZdatesiTo} ||
+                        ${Utility>/EnableEdit}
 						? false : true
 					}"
                 >

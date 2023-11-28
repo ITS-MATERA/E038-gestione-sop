@@ -630,6 +630,8 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop")
         var oSop = oModelSop.getData()
 
+        var oPosition = oSop.Position[0]
+
         var sKey = oModel.createKey("/QuoteDocumentoScen4Set", {
           Lifnr: oSop.Lifnr,
           Zwels: oSop.Zwels,
@@ -642,6 +644,8 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data) {
             var aData = []
+            data.Znumliq = oPosition.Znumliq
+            data.Zposizione = oPosition.Zposizione
             aData.push(data)
             oModelSop.setProperty("/Position", aData)
             self.getView().setBusy(false)
@@ -1270,7 +1274,8 @@ sap.ui.define(
           return;
         }
 
-        aPosizioni.map((oPosition) => {
+        aPosizioni.map((oPosition, index) => {
+          oPosition.Index = index + 1
           aPosizioniFormatted.push({
             HeaderIndex: "1",
             Index: oPosition.Index.toString(),
@@ -3687,6 +3692,8 @@ sap.ui.define(
           case "2": {
             aPosition.map((oPosition) => {
               aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
                 Zimpres: oPosition.Zimpres,
                 Belnr: oPosition.Belnr,
                 GjahrDc: oPosition.AnnoRegDoc,
@@ -3724,6 +3731,8 @@ sap.ui.define(
           case "4": {
             aPosition.map((oPosition) => {
               aPosizioniDeep.push({
+                Znumliq: oPosition.Znumliq,
+                Zposizione: oPosition.Zposizione,
                 Wrbtr: oPosition.Zimptot,
                 ZbenaltName: oPosition.ZbenaltName,
                 Zimpliq: oPosition.Zimptot,
@@ -3916,6 +3925,7 @@ sap.ui.define(
           success: function (data) {
             self.getView().setBusy(false)
             var aMessage = data?.SopMessageSet?.results;
+            var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
                 if (aMessage[0]?.Body?.Msgty === 'E') {

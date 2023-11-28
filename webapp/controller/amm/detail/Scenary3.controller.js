@@ -179,7 +179,6 @@ sap.ui.define(
           }
           case "Rettifica": {
             self.resetWizard("wizScenario3");
-            oModelUtility.setProperty("/EditTable", true)
             oModelStepScenario.setProperty("/wizard1Step3", false)
             oModelStepScenario.setProperty("/wizard1Step2", true)
             oModelStepScenario.setProperty("/visibleBtnForward", true)
@@ -187,7 +186,6 @@ sap.ui.define(
             oModelStepScenario.setProperty("/visibleBtnStart", false)
             oModelUtility.setProperty("/EnableEdit", true)
             self.createModelEditPositions()
-            self.getView().byId("pnlCalculatorList").setVisible(true)
             break;
           }
         }
@@ -227,16 +225,14 @@ sap.ui.define(
         oModelUtility.setProperty("/EnableEditMode", true)
         oModelUtility.setProperty("/Function", "Rettifica")
         oModelUtility.setProperty("/RemoveFunctionButtons", true)
-        self.getView().byId("idTipoBeneficiario").setEditable(false)
-        self.getView().byId("iptBeneficiarioWizard1").setEditable(false)
 
         self.resetWizard("wizScenario3");
-        oModelUtility.setProperty("/EditTable", true)
         oModelStepScenario.setProperty("/wizard1Step3", false)
         oModelStepScenario.setProperty("/wizard1Step2", true)
         oModelStepScenario.setProperty("/visibleBtnForward", true)
         oModelStepScenario.setProperty("/visibleBtnSave", false)
         oModelStepScenario.setProperty("/visibleBtnStart", false)
+        oModelUtility.setProperty("/Table", "Edit")
         oModelUtility.setProperty("/EnableEdit", true)
         self.createModelEditPositions()
         return;
@@ -264,8 +260,8 @@ sap.ui.define(
                 var aPositions = oModelSop.getProperty("/Position");
 
                 aSelectedItems.map((oSelectedItem) => {
-                  oSelectedItem.Tiporiga = 'D'
                   if (oSelectedItem.Zchiavesop) {
+                    oSelectedItem.Tiporiga = 'D'
                     aDeletedPositions.push(oSelectedItem)
                   }
                   var iIndex = aPositions.findIndex((oPosition) => {

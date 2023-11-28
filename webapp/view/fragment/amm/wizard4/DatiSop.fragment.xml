@@ -127,33 +127,6 @@
                         <l:GridData span="XL8 L7 M8 S12" />
                     </layoutData>
                 </TextArea>
-                <Text
-                    text="{i18n>labelDataEsigibilita}:"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M4 S12"
-                            linebreak="true"
-                        />
-                    </layoutData>
-                </Text>
-                <DatePicker
-                    valueFormat="yyyy-MM-dd"
-                    displayFormat="dd.MM.yyyy"
-                    value="{
-                      path: 'Sop>/Zdataesig',
-                      type: 'sap.ui.model.type.Date',
-                      formatOptions: {
-                        pattern: 'dd.MM.yyyy'
-                      }
-                    }"
-                    editable="{Utility>/EnableEdit}"
-                >
-                    <layoutData>
-                        <l:GridData span="XL1 L2 M2 S12" />
-                    </layoutData>
-                </DatePicker>
                 <Label
                     text="{i18n>labelZonaIntervento}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
@@ -162,25 +135,22 @@
                     <layoutData>
                         <l:GridData
                             span="XL2 L3 M4 S12"
-                            indent="XL4"
+                            linebreak="true"
                         />
                     </layoutData>
                 </Label>
-                <FlexBox class="flexBoxWitdh">
-                    <items>
-                        <zcontrolmccross:MatchcodeCross
-                            id="iptZonaIntervento"
-                            viewId="{Utility>/ViewId}"
-                            whichMC="LocalitaPagamento"
-                            value="{Sop>/Zzonaint}"
-                            editable="{Utility>/EnableEdit}"
-                            valueHelpOnly="true"
-                        />
-                    </items>
-                    <layoutData>
-                        <l:GridData span="XL1 L2 M2 S12" />
-                    </layoutData>
-                </FlexBox>
+                <zcontrolmccross:MatchcodeCross
+                    id="iptZonaIntervento"
+                    viewId="{Utility>/ViewId}"
+                    whichMC="LocalitaPagamento"
+                    value="{Sop>/Zzonaint}"
+                    editable="{Utility>/EnableEdit}"
+                    valueHelpOnly="true"
+                >
+                    <zcontrolmccross:layoutData>
+                        <l:GridData span="XL2 L3 M4 S12" />
+                    </zcontrolmccross:layoutData>
+                </zcontrolmccross:MatchcodeCross>
             </l:Grid>
         </content>
     </Panel>

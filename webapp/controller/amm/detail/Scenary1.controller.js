@@ -179,10 +179,10 @@ sap.ui.define(
           }
           case "Rettifica": {
             self.resetWizard("wizScenario1");
-            oModelUtility.setProperty("/EditTable", true)
             oModelStepScenario.setProperty("/wizard1Step3", false)
             oModelStepScenario.setProperty("/wizard1Step2", true)
             oModelUtility.setProperty("/EnableEdit", true)
+            oModelUtility.setProperty("/Table", "Edit")
             oModelStepScenario.setProperty("/visibleBtnForward", true)
             oModelStepScenario.setProperty("/visibleBtnSave", false)
             oModelStepScenario.setProperty("/visibleBtnStart", false)
@@ -255,17 +255,15 @@ sap.ui.define(
         oModelUtility.setProperty("/EnableEditMode", true)
         oModelUtility.setProperty("/Function", "Rettifica")
         oModelUtility.setProperty("/RemoveFunctionButtons", true)
-        self.getView().byId("idTipoBeneficiario").setEditable(false)
-        self.getView().byId("iptBeneficiarioWizard1").setEditable(false)
 
         self.resetWizard("wizScenario1");
-        oModelUtility.setProperty("/EditTable", true)
         oModelStepScenario.setProperty("/wizard1Step3", false)
         oModelStepScenario.setProperty("/wizard1Step2", true)
-        oModelUtility.setProperty("/EnableEdit", true)
         oModelStepScenario.setProperty("/visibleBtnForward", true)
         oModelStepScenario.setProperty("/visibleBtnSave", false)
         oModelStepScenario.setProperty("/visibleBtnStart", false)
+        oModelUtility.setProperty("/Table", "Edit")
+        oModelUtility.setProperty("/EnableEdit", true)
         self.createModelEditPositions()
         return;
 
@@ -292,8 +290,8 @@ sap.ui.define(
                 var aPositions = oModelSop.getProperty("/Position");
 
                 aSelectedItems.map((oSelectedItem) => {
-                  oSelectedItem.Tiporiga = 'D'
                   if (oSelectedItem.Zchiavesop) {
+                    oSelectedItem.Tiporiga = 'D'
                     aDeletedPositions.push(oSelectedItem)
                   }
                   var iIndex = aPositions.findIndex((oPosition) => {
@@ -342,7 +340,6 @@ sap.ui.define(
 
         oModelUtility.setProperty("/SelectedPositions", [])
         oModelUtility.setProperty("/AddZimptot", "0.00")
-
       },
 
       onSelectedItemEdit: function (oEvent) {

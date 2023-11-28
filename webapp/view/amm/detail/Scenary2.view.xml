@@ -68,6 +68,14 @@
                             fragmentName="gestionesop.view.fragment.amm.table.scenary2.TableRiepPosizioniScen2"
                             type="XML"
                         />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.table.scenary2.TableAddPosizioniScen2"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.table.scenary2.TableEditPosizioniScen2"
+                            type="XML"
+                        />
                     </WizardStep>
                     <WizardStep title="{i18n>titleWizard2}">
                         <Panel

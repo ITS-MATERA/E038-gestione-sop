@@ -29,7 +29,12 @@ sap.ui.define([], function () {
         oDate = new Date(oDate);
       }
 
-      return new Date(oDate.toLocaleString("it", { timeZone: "Europe/Rome" }));
+      var sDay = oDate.getDate();
+      var sMonths = oDate.getMonth() + 1;
+      var sYear = oDate.getFullYear();
+      oDate = new Date(sYear + "-" + sMonths + "-" + sDay + "T00:00:00+0000")
+
+      return oDate
     },
 
     convertImport: function (sValue) {

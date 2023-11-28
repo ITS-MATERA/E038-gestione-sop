@@ -43,7 +43,7 @@
                     value="{Sop>/Lifnr}"
                     maxLength="10"
                     change="onBeneficiarioChange"
-                    editable="{= ${Utility>/EnableEdit} === false || ${Utility>/EnableEditMode} ? false : true}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

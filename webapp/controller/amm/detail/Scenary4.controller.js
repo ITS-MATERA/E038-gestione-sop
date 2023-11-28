@@ -183,7 +183,6 @@ sap.ui.define(
         oModelUtility.setProperty("/EnableEditMode", true)
         oModelUtility.setProperty("/Function", "Rettifica")
         oModelUtility.setProperty("/RemoveFunctionButtons", true)
-        self.getView().byId("iptBeneficiarioWizard1").setEditable(false)
         self.createModelModPagamento()
 
         self.resetWizard("wizScenario4");
