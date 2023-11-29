@@ -175,7 +175,6 @@ sap.ui.define(
         var self = this;
 
         var oSop = await self._getSop(oParameters)
-        var oSpecieSop = await self._setSpecieSop(oSop.ZspecieSop)
 
         var oModelSop = new JSONModel({
           Bukrs: oSop.Bukrs,
@@ -322,10 +321,10 @@ sap.ui.define(
           ZdirigenteAmm: oSop.ZdirigenteAmm,
           DescKostl: oSop.DescKostl,
           DescHkont: oSop.DescHkont,
+          DescZspecieSop: oSop.DescZspecie,
           Position: await self._getPositions(oParameters),
           Classificazione: await self._getClassificazione(oParameters),
 
-          DescZspecieSop: oSpecieSop.Descrizione,
           //Primo quietanzante
           NumquietInitial1: false,
           //Secondo quietanzante

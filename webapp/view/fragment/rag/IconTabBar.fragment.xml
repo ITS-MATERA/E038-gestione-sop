@@ -1,0 +1,31 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <IconTabBar
+        class="sapUiNoContentPadding sapMITH"
+        selectedKey="{Utility>/Function}"
+        select="onIconTabChange"
+        backgroundDesign="Transparent"
+    >
+        <items>
+            <IconTabFilter
+                key="Dettaglio"
+                text="{i18n>iconTabDetail}"
+                icon="sap-icon://detail-view"
+            />
+            <IconTabSeparator />
+            <IconTabFilter
+                key="Workflow"
+                text="{i18n>iconTabWorkflow}"
+                icon="sap-icon://history"
+            />
+            <IconTabSeparator />
+            <IconTabFilter
+                key="FascicoloElettronico"
+                text="{i18n>iconTabFascicoloElettronico}"
+                icon="sap-icon://documents"
+            />
+        </items>
+    </IconTabBar>
+</c:FragmentDefinition>

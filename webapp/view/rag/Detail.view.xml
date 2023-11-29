@@ -9,23 +9,41 @@
     <f:DynamicPage
         showFooter="true"
         class="sapUiNoContentPadding"
+        stickySubheaderProvider="wizDetail"
     >
         <f:title>
             <f:DynamicPageTitle />
         </f:title>
         <f:header>
             <f:DynamicPageHeader class="noPadding">
-                <c:Fragment
-                    fragmentName="gestionesop.view.fragment.rag.FiltersHome"
-                    type="XML"
-                />
+                <Panel
+                    class="sapUiNoContentPadding"
+                    backgroundDesign="Transparent"
+                >
+                    <c:Fragment
+                        fragmentName="gestionesop.view.fragment.amm.HeaderSop"
+                        type="XML"
+                    />
+                    <c:Fragment
+                        fragmentName="gestionesop.view.fragment.amm.IconTabBar"
+                        type="XML"
+                    />
+                </Panel>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <c:Fragment
-                fragmentName="gestionesop.view.fragment.rag.ListSop"
-                type="XML"
-            />
+            <Wizard
+                id="wizDetail"
+                showNextButton="false"
+            >
+                <WizardStep title="{i18n>titleWizard1Rag}" />
+                <WizardStep title="{i18n>titleWizard2Rag}" />
+                <WizardStep title="{i18n>titleWizard3Rag}" />
+                <WizardStep title="{i18n>titleWizard4Rag}" />
+                <WizardStep title="{i18n>titleWizard5Rag}" />
+                <WizardStep title="{i18n>titleWizard6Rag}" />
+                <WizardStep title="{i18n>titleWizard7Rag}" />
+            </Wizard>
         </f:content>
     </f:DynamicPage>
 </mvc:View>
