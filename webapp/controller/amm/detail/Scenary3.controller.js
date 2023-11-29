@@ -48,6 +48,7 @@ sap.ui.define(
         } else if (bWizard1Step2) {
           switch (sTable) {
             case "Edit": {
+              self.unlockSop()
               self.setModel(new JSONModel({}), "Sop")
               self.getRouter().navTo("amm.home", {
                 Reload: false,
@@ -68,6 +69,7 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard1Step2", true);
             return;
           }
+          self.unlockSop()
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,
@@ -406,6 +408,7 @@ sap.ui.define(
         var self = this;
         var bSelected = oEvent.getParameter("selected");
         //Load Model
+        var oTable = self.getView().byId("tblPosizioniScen3")
         var oModelPosizioni = self.getModel("PosizioniScen3");
         var oModelUtility = self.getModel("Utility");
         //Load Component
@@ -418,7 +421,15 @@ sap.ui.define(
           var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
           if (bSelected) {
-            aSelectedItems.push(oSelectedItem);
+            var oResponse = await self.lockQuoteBeneficiario(oSelectedItem)
+
+            if (oResponse.data.Type === 'S') {
+              aSelectedItems.push(oSelectedItem);
+            }
+            else {
+              MessageBox.error(oResponse.data.Message)
+              oTable.setSelectedItem(oListItem, false)
+            }
           } else {
             var iIndex = aSelectedItems.findIndex((obj) => {
               return (
@@ -433,6 +444,8 @@ sap.ui.define(
             if (iIndex > -1) {
               aSelectedItems.splice(iIndex, 1);
             }
+
+            self.unlockQuoteBeneficiario(oSelectedItem
           }
         });
 

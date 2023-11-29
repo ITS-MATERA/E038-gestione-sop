@@ -36,7 +36,7 @@
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
 						${FiltersWizard1>/ZdatesiTo} ||
-                        ${Utility>/EnableEdit}
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                     selectionChange="onTipoBeneficiarioChange"
@@ -70,7 +70,7 @@
 						${FiltersWizard1>/Zquoteesi} === false ||
 						${FiltersWizard1>/ZdatesiFrom} ||
 						${FiltersWizard1>/ZdatesiTo} ||
-                        ${Utility>/EnableEdit}
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                 >

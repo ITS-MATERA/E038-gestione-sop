@@ -38,6 +38,7 @@ sap.ui.define(
         var bEnableEditMode = oModelUtility.getProperty("/EnableEditMode")
 
         if (bWizard1Step1) {
+          self.unlockSop()
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,
@@ -48,6 +49,7 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard1Step1", true);
             return;
           }
+          self.unlockSop()
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,

@@ -9,8 +9,9 @@ sap.ui.define(
     "sap/m/MessageBox",
     "sap/ui/export/Spreadsheet",
     "sap/ui/export/library",
+    "sap/ui/core/BusyIndicator"
   ],
-  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, exportLibrary) {
+  function (Controller, UIComponent, mobileLibrary, Filter, FilterOperator, JSONModel, MessageBox, Spreadsheet, exportLibrary, BusyIndicator) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -224,7 +225,7 @@ sap.ui.define(
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
             if (bNavTo) {
-              self.getRouter().navTo("amm.home");
+              self.getRouter().navTo("amm.home")
             }
           },
           error: function (error) {
@@ -379,6 +380,62 @@ sap.ui.define(
         MessageBox.error("Operazione non eseguita correttamente");
       },
       //#endregion ---------------------------LOG---------------------------------
+
+      //#region ------------------------------GESTIONE LOCK---------------------
+
+      oDataCreateLock: async function (sEntitySet, sMethod, oEntry) {
+        BusyIndicator.show(0);
+        var oModel = this.getView().getModel("oDataLock");
+        return new Promise(function (resolve, reject) {
+          oModel.callFunction(sEntitySet, {
+            method: sMethod,
+            urlParameters: oEntry,
+            success: function (oData, oResponse) {
+              resolve(oResponse);
+              BusyIndicator.hide();
+            },
+            error: function (e) {
+              MessageBox.error("Backend Connection Error");
+              reject(e);
+              BusyIndicator.hide();
+            },
+          });
+        });
+      },
+
+      lockSop: async function (oSop) {
+        var self = this;
+        var oModelUtility = self.getModel("Utility")
+        await this.oDataCreateLock("/StartSoftState", "GET");
+
+        var sConcat = oSop.Zchiavesop + oSop.Bukrs
+        var oEntry = {
+          Tabname: "ZFSOSPESI",
+          Varkey: sConcat
+        }
+
+        var oResponse = await this.oDataCreateLock("/Lock", "POST", oEntry)
+        if (oResponse.data.Type === 'E') {
+          MessageBox.error(oResponse.data.Message)
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
+        }
+        return oResponse
+      },
+
+      unlockSop: async function () {
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+
+        var sConcat = oSop.Zchiavesop + oSop.Bukrs
+        var oEntry = {
+          Tabname: "ZFSOSPESI",
+          Varkey: sConcat
+        }
+
+        await this.oDataCreateLock("/Unlock", "POST", oEntry);
+        await this.oDataCreateLock("/StopSoftState", "GET");
+      },
+      //#endregion ---------------------------GESTIONE LOCK---------------------
     });
   }
 );

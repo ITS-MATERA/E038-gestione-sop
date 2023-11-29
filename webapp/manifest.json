@@ -69,6 +69,15 @@
           "localUri": "localService/ZSS4_SEARCH_HELP_SRV/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "lockService": {
+        "uri": "/sap/opu/odata/sap/ZSS4_LOCK_OBJ_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
       }
     }
   },
@@ -123,6 +132,11 @@
       },
       "": {
         "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      },
+      "oDataLock": {
+        "dataSource": "lockService",
         "preload": true,
         "settings": {}
       },

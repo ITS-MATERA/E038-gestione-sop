@@ -434,7 +434,8 @@ sap.ui.define(
           isLogVisible: false,
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.dateToString(new Date()),
-          RemoveFunctionButtons: true
+          RemoveFunctionButtons: true,
+          EnableEditMode: false
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -3277,12 +3278,6 @@ sap.ui.define(
 
       //#region ----------------------------WIZARD 4----------------------------
 
-      // onLocPagamentoChange: function () {
-      //   var self = this;
-      //   var oModel = self.getModel();
-      //   var oModelSop = self.getModel("Sop");
-      // },
-
       downloadFile: function (sZchiavesop) {
         var URLHelper = mobileLibrary.URLHelper;
         URLHelper.redirect(
@@ -3629,6 +3624,7 @@ sap.ui.define(
                   MessageBox.success(aMessage[0]?.Body?.Message, {
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function () {
+                      self.unlockSop()
                       self.getRouter().navTo("amm.home", {
                         Reload: true,
                       });
@@ -3953,6 +3949,7 @@ sap.ui.define(
                   MessageBox.success(aMessage[0]?.Body?.Message, {
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function () {
+                      self.unlockSop()
                       self.getRouter().navTo("amm.home", {
                         Reload: true,
                       });
@@ -4419,6 +4416,7 @@ sap.ui.define(
                 title: sTitle,
                 actions: [MessageBox.Action.CLOSE],
                 onClose: function () {
+                  self.unlockSop()
                   self.getRouter().navTo("amm.home", {
                     Reload: true,
                   });
@@ -4536,6 +4534,8 @@ sap.ui.define(
         var aClassificazione = oModelSop.getProperty("/Classificazione")
 
         oModelSop.setProperty("/Zimptot", "0.00")
+        oModelSop.setProperty("/Znumprot", "")
+        oModelSop.setProperty("/Zdataprot", null)
         oModelSop.setProperty("/Position", [])
 
         aClassificazione.map((oClassificazione) => {
@@ -4548,6 +4548,7 @@ sap.ui.define(
       onCopy: function () {
         var self = this;
         var oSop = self.getModel("Sop").getData()
+        self.unlockSop()
 
         var oParameters = {
           Gjahr: oSop.Gjahr,
@@ -4575,6 +4576,57 @@ sap.ui.define(
 
       //#endregion -------------------------COPY--------------------------------
 
+      //#region ----------------------------LOCK--------------------------------
+
+      lockQuoteBeneficiario: async function (oData) {
+        await this.oDataCreateLock("/StartSoftState", "GET");
+
+        var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
+        var oEntry = {
+          Tabname: "ZFFAT_COBE_GPAG",
+          Varkey: sConcat
+        }
+
+        var oResponse = await this.oDataCreateLock("/Lock", "POST", oEntry);
+        return oResponse
+      },
+
+      unlockQuoteBeneficiario: async function (oData) {
+        var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
+        var oEntry = {
+          Tabname: "ZFFAT_COBE_GPAG",
+          Varkey: sConcat
+        }
+
+        await this.oDataCreateLock("/Unlock", "POST", oEntry);
+        await this.oDataCreateLock("/StopSoftState", "GET");
+      },
+
+      lockQuoteRitenute: async function (oData) {
+        await this.oDataCreateLock("/StartSoftState", "GET");
+
+        var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
+        var oEntry = {
+          Tabname: "ZFFAT_COBE_GPAG",
+          Varkey: sConcat
+        }
+
+        var oResponse = await this.oDataCreateLock("/Lock", "POST", oEntry);
+        return oResponse
+      },
+
+      unlockQuoteRitenute: async function (oData) {
+        var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Witht + oData.ZzCebenra
+        var oEntry = {
+          Tabname: "ZFFAT_COBE_GPAG",
+          Varkey: sConcat
+        }
+
+        await this.oDataCreateLock("/Unlock", "POST", oEntry);
+        await this.oDataCreateLock("/StopSoftState", "GET");
+      },
+
+      //#endregion -------------------------LOCK--------------------------------
       setDataBeneficiario: function (sLifnr) {
         var self = this;
         var oModel = self.getModel();

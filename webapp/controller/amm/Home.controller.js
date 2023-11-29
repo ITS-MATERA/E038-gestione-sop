@@ -1,6 +1,7 @@
 sap.ui.define(
-  ["./BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
+  ["./BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/ui/export/Spreadsheet",
+    "sap/ui/export/library"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, Spreadsheet, exportLibrary) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.Home", {
@@ -256,6 +257,28 @@ sap.ui.define(
         this._getListSop()
       },
 
+      onExport: function () {
+        var oSheet;
+        var self = this;
+
+        var oTable = self.getView().byId("tblListSop");
+        var oTableModel = oTable.getModel("ListSop");
+
+        var aCols = this._createColumnConfig();
+        var oSettings = {
+          workbook: {
+            columns: aCols,
+          },
+          dataSource: oTableModel.getData(),
+          fileName: "Lista SOP.xlsx",
+        };
+
+        oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
+
       onRegisterSop: function () {
         var self = this;
         self.getView().byId("tblListSop").removeSelections(true);
@@ -381,7 +404,76 @@ sap.ui.define(
             self.getRouter().navTo("amm.copy.scenary4", oParameters);
             break;
         }
-      }
+      },
+
+      _createColumnConfig: function () {
+        const EDM_TYPE = exportLibrary.EdmType;
+        var self = this;
+        var oBundle = self.getResourceBundle();
+        var aCols = [
+          {
+            label: oBundle.getText("labelChiaveSop"),
+            property: "Zchiavesop",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelDataRegSop"),
+            property: "Zdatasop",
+            type: EDM_TYPE.Date,
+            format: "dd.mm.yyyy",
+          },
+          {
+            label: oBundle.getText("labelDenomBenDocCostoBrev"),
+            property: "DescLifnr",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelRitenuta"),
+            property: "DescWitht",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelEnteBeneficiario"),
+            property: "DescZzcebenra",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelPosFinanziaria"),
+            property: "Fipos",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelFistl"),
+            property: "Fistl",
+            type: EDM_TYPE.String,
+          },
+
+          {
+            label: oBundle.getText("labelImporto"),
+            property: "Zimptot",
+            type: EDM_TYPE.Number,
+            scale: 2,
+            delimiter: true,
+          },
+          {
+            label: oBundle.getText("labelCausale"),
+            property: "Zcausale",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelTipoSop"),
+            property: "DescTipologia",
+            type: EDM_TYPE.String,
+          },
+          {
+            label: oBundle.getText("labelStatoSop"),
+            property: "DescStatosop",
+            type: EDM_TYPE.String,
+          },
+        ];
+
+        return aCols;
+      },
     });
   }
 );

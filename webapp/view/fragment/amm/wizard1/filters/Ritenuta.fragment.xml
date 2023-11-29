@@ -34,7 +34,8 @@
                     selectionChange="onRitenutaChange"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${Sop>/Type} 
+						${Sop>/Type} ||
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                 >
@@ -62,7 +63,8 @@
                     maxLength="40"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${Sop>/Type} 
+						${Sop>/Type} ||
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                 >
@@ -89,7 +91,8 @@
                     selected="{Sop>/Zquoteesi}"
                     editable="{=
 						${Sop>/Lifnr} ||
-						${Sop>/Type} 
+						${Sop>/Type} ||
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                     select="onQuoteEsigibiliChange"
@@ -126,7 +129,8 @@
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
 						${Sop>/Lifnr} ||
-						${Sop>/Type}
+						${Sop>/Type} ||
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                 >
@@ -155,7 +159,8 @@
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
 						${Sop>/Lifnr} ||
-						${Sop>/Type}
+						${Sop>/Type} ||
+                        ${Utility>/EnableEditMode}
 						? false : true
 					}"
                 >
