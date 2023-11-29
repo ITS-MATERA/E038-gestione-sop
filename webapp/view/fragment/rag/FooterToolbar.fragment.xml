@@ -1,0 +1,34 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnBack}"
+        press="onNavBack"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnForward}"
+        press="onNavForward"
+        visible="{StepScenario>/visibleBtnForward}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnLog}"
+        press="onLog"
+        visible="{Utility>/isLogVisible}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+</c:FragmentDefinition>

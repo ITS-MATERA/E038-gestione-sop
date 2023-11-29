@@ -11,21 +11,21 @@
         class="sapUiNoContentPadding"
         stickySubheaderProvider="wizDetail"
     >
-        <f:title>
-            <f:DynamicPageTitle />
-        </f:title>
         <f:header>
-            <f:DynamicPageHeader class="noPadding">
+            <f:DynamicPageHeader
+                class="noPadding"
+                pinnable="false"
+            >
                 <Panel
                     class="sapUiNoContentPadding"
                     backgroundDesign="Transparent"
                 >
                     <c:Fragment
-                        fragmentName="gestionesop.view.fragment.amm.HeaderSop"
+                        fragmentName="gestionesop.view.fragment.rag.HeaderSop"
                         type="XML"
                     />
                     <c:Fragment
-                        fragmentName="gestionesop.view.fragment.amm.IconTabBar"
+                        fragmentName="gestionesop.view.fragment.rag.IconTabBar"
                         type="XML"
                     />
                 </Panel>
@@ -36,7 +36,12 @@
                 id="wizDetail"
                 showNextButton="false"
             >
-                <WizardStep title="{i18n>titleWizard1Rag}" />
+                <WizardStep title="{i18n>titleWizard1Rag}">
+                    <c:Fragment
+                        fragmentName="gestionesop.view.fragment.rag.wizard1.DatiIdentificativi"
+                        type="XML"
+                    />
+                </WizardStep>
                 <WizardStep title="{i18n>titleWizard2Rag}" />
                 <WizardStep title="{i18n>titleWizard3Rag}" />
                 <WizardStep title="{i18n>titleWizard4Rag}" />
@@ -45,5 +50,13 @@
                 <WizardStep title="{i18n>titleWizard7Rag}" />
             </Wizard>
         </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.rag.FooterToolbar"
+                    type="XML"
+                />
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

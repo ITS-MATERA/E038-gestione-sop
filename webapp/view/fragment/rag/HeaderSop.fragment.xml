@@ -258,7 +258,7 @@
                 <layoutData>
                     <l:GridData
                         span="XL1 L2 M4 S12"
-                        indent="XL2"
+                        indent="XL1"
                     />
                 </layoutData>
             </Button>

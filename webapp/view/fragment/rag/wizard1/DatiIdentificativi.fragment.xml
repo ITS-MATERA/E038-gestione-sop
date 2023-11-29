@@ -1,0 +1,216 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel backgroundDesign="Transparent">
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelEsercizioGestione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Gjahr}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleEstremiImputazione}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelEsercizioGestione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Gjahr}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelPosFinanziaria}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Fipos}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL3 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelFistl}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Fistl}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelIdAutorizzazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zgeber}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleDatiAnaImpuFinanziaria}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelMissione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZmissione}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelProgramma}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZprogramma}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelAzione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZazione}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelCapitolo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescCapitolo}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelPianoGestione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescPianoGest}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

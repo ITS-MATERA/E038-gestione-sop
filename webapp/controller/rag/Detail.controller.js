@@ -169,6 +169,12 @@ sap.ui.define(
           DescKostl: oSop.DescKostl,
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
+
+          DescZmissione: oSop.DescZmissione,
+          DescZprogramma: oSop.DescZprogramma,
+          DescZazione: oSop.DescZazione,
+          DescCapitolo: oSop.DescCapitolo,
+          DescPianoGest: oSop.DescPianoGest
         });
 
         self.setModel(oModelSop, "Sop");
