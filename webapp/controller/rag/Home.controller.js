@@ -1,10 +1,10 @@
 sap.ui.define(
-  ["./BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/ui/export/Spreadsheet",
+  ["../BaseController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/ui/export/Spreadsheet",
     "sap/ui/export/library"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, Spreadsheet, exportLibrary) {
+  function (BaseController, Filter, FilterOperator, JSONModel, formatter, Spreadsheet, exportLibrary) {
     "use strict";
 
-    return BaseAmministrazioneController.extend("gestionesop.controller.amm.Home", {
+    return BaseController.extend("gestionesop.controller.rag.Home", {
       formatter: formatter,
 
       onInit: async function () {
@@ -20,37 +20,31 @@ sap.ui.define(
           ZnumsopTo: "",
           ZcodStatosop: "99",
           ZztipologiaSop: "0",
-          Ztipopag: "TUTTI",
           ZspecieSop: "0",
-          Zricann: "NO",
           ZdatasopFrom: null,
           ZdatasopTo: null,
-          Zdataprot: null,
-          Znumprot: "",
+          Zdataprotrgs: null,
+          Znumprotrgs: "",
           Lifnr: "",
           Witht: "",
           ZzCeberna: "",
           FiposFrom: "",
           FiposTo: "",
           Fistl: "",
-          ZnumliqFrom: "",
-          ZnumliqTo: "",
-          ZdescProsp: "",
         });
 
-        this.getRouter().getRoute("amm.home").attachPatternMatched(this._onObjectMatched, this);
-        self.setModel(oModelFilters, "FiltersSop");
+        this.getRouter().getRoute("rag.home").attachPatternMatched(this._onObjectMatched, this);
+        self.setModel(oModelFilters, "FiltersHome");
       },
 
       _onObjectMatched: async function (oEvent) {
         var self = this;
-        var oModelFilters = self.getModel("FiltersSop");
+        var oModelFilters = self.getModel("FiltersHome");
         var oUrlParameters = oEvent.getParameter("arguments");
 
         var oModelUtility = new JSONModel({
           SelectedItems: [],
           EnabledBtnDetail: false,
-          EnabledBtnCopy: false
         })
         self.setModel(oModelUtility, "Utility")
 
@@ -58,7 +52,6 @@ sap.ui.define(
         await self.getPermissionSop();
 
         if (oUrlParameters.Reload === "true" && oModelFilters.getProperty("/Gjahr")) {
-
           this._getListSop()
         }
 
@@ -69,7 +62,7 @@ sap.ui.define(
       onValueHelpRagioneria: function () {
         var self = this;
         var oModelRagioneria = self.getModel("ZSS4_CO_GEST_TIPOLOGICHE_SRV");
-        var oFilters = self.getModel("FiltersSop").getData();
+        var oFilters = self.getModel("FiltersHome").getData();
         var oModel = self.getModel();
         var aFilters = [];
         var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.Ragioneria");
@@ -120,7 +113,7 @@ sap.ui.define(
 
       onValueHelpRagioneriaClose: function (oEvent) {
         var self = this;
-        var oModelFilters = self.getModel("FiltersSop");
+        var oModelFilters = self.getModel("FiltersHome");
         var oSelectedItem = oEvent.getParameter("selectedItem");
 
         oModelFilters.setProperty("/Zragdest", self.setBlank(oSelectedItem?.getTitle()));
@@ -130,7 +123,7 @@ sap.ui.define(
       onValueHelpEnteBeneficiario: function () {
         var self = this;
         var oModel = self.getModel();
-        var oFilters = self.getModel("FiltersSop").getData();
+        var oFilters = self.getModel("FiltersHome").getData();
         var aFilters = [];
         var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.EnteBeneficiario");
 
@@ -151,7 +144,7 @@ sap.ui.define(
 
       onValueHelpEnteBeneficiarioClose: function (oEvent) {
         var self = this;
-        var oModelFilters = self.getModel("FiltersSop");
+        var oModelFilters = self.getModel("FiltersHome");
         var oSelectedItem = oEvent.getParameter("selectedItem");
 
         oModelFilters.setProperty("/ZzDescebe", self.setBlank(oSelectedItem?.getTitle()));
@@ -164,7 +157,7 @@ sap.ui.define(
       //#region ---------------------SELECTION CHANGE---------------------------
       onRitenutaChange: function () {
         var self = this;
-        var oModelFilters = self.getModel("FiltersSop");
+        var oModelFilters = self.getModel("FiltersHome");
 
         oModelFilters.setProperty("/ZzCeberna", "");
       },
@@ -186,6 +179,7 @@ sap.ui.define(
             AgrName: oAuthorityCheck.AgrName,
             Fikrs: oAuthorityCheck.Fikrs,
             Prctr: oAuthorityCheck.Prctr,
+            Ragioneria: "X"
           },
           filters: aFilters,
           success: function (data, oResponse) {
@@ -205,7 +199,7 @@ sap.ui.define(
 
       _setFilters: function () {
         var self = this;
-        var oFilters = self.getModel("FiltersSop").getData();
+        var oFilters = self.getModel("FiltersHome").getData();
         var aFilters = [];
 
         self.setFilterEQ(aFilters, "Gjahr", oFilters.Gjahr);
@@ -216,23 +210,15 @@ sap.ui.define(
         self.setFilterBT(aFilters, "Znumsop", oFilters.ZnumsopFrom, oFilters.ZnumsopTo);
         self.setFilterEQ(aFilters, "ZcodStatosop", oFilters.ZcodStatosop);
         self.setFilterEQ(aFilters, "ZztipologiaSop", oFilters.ZztipologiaSop);
-        self.setFilterEQ(aFilters, "Ztipopag", oFilters.Ztipopag);
         self.setFilterEQ(aFilters, "ZspecieSop", oFilters.ZspecieSop);
-        if (oFilters.Zricann === "SI") {
-          aFilters.push(new Filter("Zricann", FilterOperator.NE, ""));
-        } else {
-          aFilters.push(new Filter("Zricann", FilterOperator.EQ, ""));
-        }
         self.setFilterBT(aFilters, "Zdatasop", formatter.UTCRome(oFilters.ZdatasopFrom), formatter.UTCRome(oFilters.ZdatasopTo));
-        self.setFilterEQ(aFilters, "Zdataprot", formatter.UTCRome(oFilters.Zdataprot));
-        self.setFilterEQ(aFilters, "Znumprot", oFilters.Znumprot);
+        self.setFilterEQ(aFilters, "Zdataprotrgs", formatter.UTCRome(oFilters.Zdataprot));
+        self.setFilterEQ(aFilters, "Znumprotrgs", oFilters.Znumprot);
         self.setFilterEQ(aFilters, "Lifnr", oFilters.Lifnr);
         self.setFilterEQ(aFilters, "Witht", oFilters.Witht);
         self.setFilterEQ(aFilters, "ZzCebenra", oFilters.ZzCebenra);
         self.setFilterBT(aFilters, "Fipos", oFilters.FiposFrom, oFilters.FiposTo);
         self.setFilterEQ(aFilters, "Fistl", oFilters.Fistl);
-        self.setFilterBT(aFilters, "Znumliq", oFilters.ZnumliqFrom, oFilters.ZnumliqTo);
-        self.setFilterCP(aFilters, "ZdescProsp", oFilters.ZdescProsp);
 
         return aFilters;
       },
@@ -265,12 +251,6 @@ sap.ui.define(
         });
       },
 
-      onRegisterSop: function () {
-        var self = this;
-        self.getView().byId("tblListSop").removeSelections(true);
-        self.getRouter().navTo("amm.selectType");
-      },
-
       onDetail: function () {
         var self = this;
         var oModelUtility = self.getModel("Utility");
@@ -288,20 +268,7 @@ sap.ui.define(
           Ztipososp: oSelectedItem.Ztipososp,
         };
 
-        switch (oSelectedItem?.Ztipopag) {
-          case "1":
-            self.getRouter().navTo("amm.detail.scenary1", oParameters);
-            break;
-          case "2":
-            self.getRouter().navTo("amm.detail.scenary2", oParameters);
-            break;
-          case "3":
-            self.getRouter().navTo("amm.detail.scenary3", oParameters);
-            break;
-          case "4":
-            self.getRouter().navTo("amm.detail.scenary4", oParameters);
-            break;
-        }
+        self.getRouter().navTo("rag.detail", oParameters);
       },
 
       onSelectedItem: function (oEvent) {
@@ -340,56 +307,8 @@ sap.ui.define(
         });
 
         oModelUtility.setProperty("/EnabledBtnDetail", aSelectedItems.length === 1);
-        oModelUtility.setProperty("/EnabledBtnCopy", false);
-        if (aSelectedItems.length === 1) {
-          var sState = aSelectedItems[0].ZcodStatosop;
-          var sZtipopag = aSelectedItems[0].Ztipopag
-          if (sZtipopag === '4') {
-            oModelUtility.setProperty("/EnabledBtnCopy", true);
-          }
-
-          if (
-            (sState === '05' || sState === '08' || sState === '07' || sState === '11' || sState === '14' || sState === '15' || sState === '17') &&
-            sZtipopag !== '4'
-          ) {
-            oModelUtility.setProperty("/EnabledBtnCopy", true);
-          }
-        }
         sap.ui.getCore().setModel(new JSONModel(aSelectedItems), "SelectedItems");
         oModelUtility.setProperty("/SelectedItems", aSelectedItems);
-      },
-
-      onCopy: function () {
-        var self = this;
-        var oModelUtility = self.getModel("Utility");
-        var oTableSop = self.getView().byId("tblListSop");
-        oTableSop.removeSelections(true);
-
-        var oSelectedItem = oModelUtility.getProperty("/SelectedItems")[0];
-        oModelUtility.setProperty("/SelectedItems", []);
-
-        var oParameters = {
-          Gjahr: oSelectedItem.Gjahr,
-          Zchiavesop: oSelectedItem.Zchiavesop,
-          Bukrs: oSelectedItem.Bukrs,
-          Zstep: oSelectedItem.Zstep,
-          Ztipososp: oSelectedItem.Ztipososp,
-        };
-
-        switch (oSelectedItem?.Ztipopag) {
-          case "1":
-            self.getRouter().navTo("amm.copy.scenary1", oParameters);
-            break;
-          case "2":
-            self.getRouter().navTo("amm.copy.scenary2", oParameters);
-            break;
-          case "3":
-            self.getRouter().navTo("amm.copy.scenary3", oParameters);
-            break;
-          case "4":
-            self.getRouter().navTo("amm.copy.scenary4", oParameters);
-            break;
-        }
       },
 
       _createColumnConfig: function () {
@@ -403,8 +322,8 @@ sap.ui.define(
             type: EDM_TYPE.String,
           },
           {
-            label: oBundle.getText("labelDataRegSop"),
-            property: "Zdatasop",
+            label: oBundle.getText("labelDataFirma"),
+            property: "DataStato",
             type: EDM_TYPE.Date,
             format: "dd.mm.yyyy",
           },
@@ -423,17 +342,6 @@ sap.ui.define(
             property: "DescZzcebenra",
             type: EDM_TYPE.String,
           },
-          {
-            label: oBundle.getText("labelPosFinanziaria"),
-            property: "Fipos",
-            type: EDM_TYPE.String,
-          },
-          {
-            label: oBundle.getText("labelFistl"),
-            property: "Fistl",
-            type: EDM_TYPE.String,
-          },
-
           {
             label: oBundle.getText("labelImporto"),
             property: "Zimptot",

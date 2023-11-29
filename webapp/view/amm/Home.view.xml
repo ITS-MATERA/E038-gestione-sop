@@ -34,7 +34,7 @@
                     type="Emphasized"
                     text="{i18n>btnCopy}"
                     press="onCopy"
-                    enabled="{Utility>/EnabledBtnCopy}"
+                    enabled="{= ${Utility>/EnabledBtnCopy} &amp;&amp; ${AuthorityCheck>/Copia} ? true : false}"
                 />
                 <Button
                     type="Emphasized"

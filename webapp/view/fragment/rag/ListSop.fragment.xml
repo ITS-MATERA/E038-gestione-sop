@@ -58,7 +58,7 @@
                             demandPopin="true"
                         >
                             <header>
-                                <Text text="{i18n>labelDataRegSop}" />
+                                <Text text="{i18n>labelDataFirma}" />
                             </header>
                         </Column>
                         <Column
@@ -83,22 +83,6 @@
                         >
                             <header>
                                 <Text text="{i18n>labelEnteBeneficiario}" />
-                            </header>
-                        </Column>
-                        <Column
-                            minScreenWidth="Desktop"
-                            demandPopin="true"
-                        >
-                            <header>
-                                <Text text="{i18n>labelPosFinanziaria}" />
-                            </header>
-                        </Column>
-                        <Column
-                            minScreenWidth="Desktop"
-                            demandPopin="true"
-                        >
-                            <header>
-                                <Text text="{i18n>labelFistl}" />
                             </header>
                         </Column>
                         <Column
@@ -140,7 +124,7 @@
                                 <ObjectIdentifier text="{ListSop>Zchiavesop}" />
                                 <Text
                                     text="{
-									path: 'ListSop>Zdatasop',
+									path: 'ListSop>DataStato',
 									type: 'sap.ui.model.type.Date',
 									formatOptions: {
 										pattern: 'dd.MM.yyyy'
@@ -150,33 +134,6 @@
                                 <Text text="{ListSop>DescLifnr}" />
                                 <Text text="{ListSop>DescWitht}" />
                                 <Text text="{ListSop>DescZzcebenra}" />
-                                <zcontrolPosFin:LinkPosizioneFinanziaria
-                                    id="linkPosFinSpesa"
-                                    anno="{ListSop>Gjahr}"
-                                    eos="S"
-                                    fikrs="{ListSop>Bukrs}"
-                                    fase="GEST"
-                                    reale="R"
-                                    versione="D"
-                                    fipex="{ListSop>Fipos}"
-                                    datbis="99991231"
-                                    text="{ListSop>Fipos}"
-                                    semanticObject="ESAMINAMODIFICA"
-                                />
-                                <zcontrollinkSar:LinkSar
-                                    id="linkSarBilancio"
-                                    anno="{ListSop>Gjahr}"
-                                    eos="E"
-                                    fikrs="{ListSop>Bukrs}"
-                                    fase="GEST"
-                                    SEM_OBJ=""
-                                    reale="R"
-                                    versione="D"
-                                    bilancio=""
-                                    fictr="{ListSop>Fistl}"
-                                    datbis="99991231"
-                                    text="{ListSop>Fistl}"
-                                />
                                 <Text
                                     text="{
 									path: 'ListSop>Zimptot',

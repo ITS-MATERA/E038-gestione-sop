@@ -142,6 +142,7 @@ sap.ui.define(
 
         self.getView().byId("idToolbarDetail").setVisible(false)
 
+        self.getPermissionSop();
         self.setModelSop(oParameters);
         self.createModelClassificazione();
         self.createModelStepScenarioDet();

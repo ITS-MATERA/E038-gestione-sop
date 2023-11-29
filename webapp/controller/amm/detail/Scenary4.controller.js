@@ -114,6 +114,7 @@ sap.ui.define(
 
         self.getView().byId("idToolbarDetail").setVisible(false)
 
+        self.getPermissionSop();
         self.resetWizard("wizScenario4");
         self.setModelSop(oParameters);
         self.createModelClassificazione();

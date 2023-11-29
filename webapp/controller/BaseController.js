@@ -225,7 +225,8 @@ sap.ui.define(
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
             if (bNavTo) {
-              self.getRouter().navTo("amm.home")
+              // self.getRouter().navTo("amm.home")
+              self.getRouter().navTo("rag.home")
             }
           },
           error: function (error) {
@@ -265,6 +266,28 @@ sap.ui.define(
         var oModel = self.getModel();
         var sKey = oModel.createKey("/UserParamSet", {
           Parid: "BUK",
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              if (self.hasResponseError(oResponse)) return;
+              resolve(data.Parva);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
+      getPrc: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/UserParamSet", {
+          Parid: "PRC",
         });
         self.getView().setBusy(true);
         return new Promise(async function (resolve, reject) {

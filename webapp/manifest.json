@@ -295,6 +295,16 @@
           "pattern": "amm.copy.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
           "name": "amm.copy.scenary4",
           "target": ["amm.copy.scenary4"]
+        },
+        {
+          "pattern": "rag.home/:Reload:",
+          "name": "rag.home",
+          "target": ["rag.home"]
+        },
+        {
+          "pattern": "rag.detail/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "rag.detail",
+          "target": ["rag.detail"]
         }
       ],
       "targets": {
@@ -377,8 +387,17 @@
           "viewName": "amm.copy.Scenary4",
           "viewId": "amm.copy.scenary4",
           "viewLevel": 2
+        },
+        "rag.home": {
+          "viewName": "rag.Home",
+          "viewId": "rag.home",
+          "viewLevel": 2
+        },
+        "rag.detail": {
+          "viewName": "rag.Detail",
+          "viewId": "rag.detail",
+          "viewLevel": 2
         }
-
       }
     },
     "rootView": {

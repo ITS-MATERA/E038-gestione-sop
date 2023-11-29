@@ -251,13 +251,15 @@
             <Button
                 visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
                 enabled="{= 
-                    ${Sop>/ZcodStatosop} === '05' ||
-                    ${Sop>/ZcodStatosop} === '07' ||
-                    ${Sop>/ZcodStatosop} === '08' ||
-                    ${Sop>/ZcodStatosop} === '11' ||
-                    ${Sop>/ZcodStatosop} === '14' ||
-                    ${Sop>/ZcodStatosop} === '15' ||
-                    ${Sop>/ZcodStatosop} === '17'
+                    (
+                        ${Sop>/ZcodStatosop} === '05' ||
+                        ${Sop>/ZcodStatosop} === '07' ||
+                        ${Sop>/ZcodStatosop} === '08' ||
+                        ${Sop>/ZcodStatosop} === '11' ||
+                        ${Sop>/ZcodStatosop} === '14' ||
+                        ${Sop>/ZcodStatosop} === '15' ||
+                        ${Sop>/ZcodStatosop} === '17'
+                    ) &amp;&amp; ${AuthorityCheck>/Copia}
                     ? true : false
                 }"
                 text="{i18n>btnCopy}"
