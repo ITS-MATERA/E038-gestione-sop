@@ -32,6 +32,12 @@
                 <ToolbarSpacer />
                 <Button
                     type="Emphasized"
+                    text="{i18n>btnCopy}"
+                    press="onCopy"
+                    enabled="{Utility>/EnabledBtnCopy}"
+                />
+                <Button
+                    type="Emphasized"
                     text="{i18n>btnRegisterSop}"
                     press="onRegisterSop"
                     enabled="{AuthorityCheck>/Registra}"

@@ -261,6 +261,26 @@
           "pattern": "amm.detail.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
           "name": "amm.detail.scenary4",
           "target": ["amm.detail.scenary4"]
+        },
+        {
+          "pattern": "amm.copy.scenary1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.copy.scenary1",
+          "target": ["amm.copy.scenary1"]
+        },
+        {
+          "pattern": "amm.copy.scenary2/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.copy.scenary2",
+          "target": ["amm.copy.scenary2"]
+        },
+        {
+          "pattern": "amm.copy.scenary3/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.copy.scenary3",
+          "target": ["amm.copy.scenary3"]
+        },
+        {
+          "pattern": "amm.copy.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.copy.scenary4",
+          "target": ["amm.copy.scenary4"]
         }
       ],
       "targets": {
@@ -323,7 +343,28 @@
           "viewName": "amm.detail.Scenary4",
           "viewId": "amm.detail.scenary4",
           "viewLevel": 3
+        },
+        "amm.copy.scenary1": {
+          "viewName": "amm.copy.Scenary1",
+          "viewId": "amm.copy.scenary1",
+          "viewLevel": 2
+        },
+        "amm.copy.scenary2": {
+          "viewName": "amm.copy.Scenary2",
+          "viewId": "amm.copy.scenary2",
+          "viewLevel": 2
+        },
+        "amm.copy.scenary3": {
+          "viewName": "amm.copy.Scenary3",
+          "viewId": "amm.copy.scenary3",
+          "viewLevel": 2
+        },
+        "amm.copy.scenary4": {
+          "viewName": "amm.copy.Scenary4",
+          "viewId": "amm.copy.scenary4",
+          "viewLevel": 2
         }
+
       }
     },
     "rootView": {

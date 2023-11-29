@@ -1,8 +1,8 @@
 sap.ui.define(
   ["../BaseController", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/m/MessageBox", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/export/library",
-    "sap/ui/export/Spreadsheet"],
+    "sap/ui/export/Spreadsheet", "sap/m/library",],
   function (BaseController, JSONModel, formatter, MessageBox, Filter, FilterOperator, exportLibrary,
-    Spreadsheet) {
+    Spreadsheet, mobileLibrary) {
     "use strict";
 
     const EDM_TYPE = exportLibrary.EdmType;
@@ -171,7 +171,7 @@ sap.ui.define(
         self.setModel(oModelSop, "Sop");
       },
 
-      setModelSop: async function (oParameters) {
+      setModelSop: async function (oParameters, bCopy = false, sModelName = null) {
         var self = this;
 
         var oSop = await self._getSop(oParameters)
@@ -333,7 +333,11 @@ sap.ui.define(
         });
 
         self.setModel(oModelSop, "Sop");
-        self.getView().byId("idToolbarDetail").setVisible(true)
+        self.getView().byId("idToolbarDetail")?.setVisible(true)
+        if (bCopy) {
+          self.createModelQuoteAssociate(sModelName)
+          self.deleteDataForCopy()
+        }
         return oModelSop
       },
 
@@ -3273,10 +3277,19 @@ sap.ui.define(
 
       //#region ----------------------------WIZARD 4----------------------------
 
-      onLocPagamentoChange: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
+      // onLocPagamentoChange: function () {
+      //   var self = this;
+      //   var oModel = self.getModel();
+      //   var oModelSop = self.getModel("Sop");
+      // },
+
+      downloadFile: function (sZchiavesop) {
+        var URLHelper = mobileLibrary.URLHelper;
+        URLHelper.redirect(
+          "/sap/opu/odata/sap/ZS4_SOP_SRV/FileSet('" + sZchiavesop + "')/$value",
+          true
+        );
+
       },
 
       setLocPagamento: function () {
@@ -3604,12 +3617,15 @@ sap.ui.define(
           success: function (data) {
             self.getView().setBusy(false)
             var aMessage = data?.SopMessageSet?.results;
+
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
                 if (aMessage[0]?.Body?.Msgty === 'E') {
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }
                 else if (aMessage[0]?.Body?.Msgty === 'S') {
+                  var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
+                  self.downloadFile(sZchiavesop)
                   MessageBox.success(aMessage[0]?.Body?.Message, {
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function () {
@@ -3932,6 +3948,8 @@ sap.ui.define(
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }
                 else if (aMessage[0]?.Body?.Msgty === 'S') {
+                  var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
+                  self.downloadFile(sZchiavesop)
                   MessageBox.success(aMessage[0]?.Body?.Message, {
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function () {
@@ -4150,7 +4168,7 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  self.managementLogFunction(data, "Firma Speciale Ordine di Pagamento")
+                  self.managementLogFunction(data, "Firma Speciale Ordine di Pagamento", true)
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -4379,7 +4397,7 @@ sap.ui.define(
         })
       },
 
-      managementLogFunction: function (data, sTitle) {
+      managementLogFunction: function (data, sTitle, bPrint = false) {
         var self = this;
         var aMessage = data?.SopMessageSet?.results;
         var oModelUtility = self.getModel("Utility")
@@ -4393,6 +4411,10 @@ sap.ui.define(
               });
             }
             else if (aMessage[0]?.Body?.Msgty === 'S') {
+              if (bPrint) {
+                var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
+                self.downloadFile(sZchiavesop)
+              }
               MessageBox.success(aMessage[0]?.Body?.Message, {
                 title: sTitle,
                 actions: [MessageBox.Action.CLOSE],
@@ -4458,7 +4480,102 @@ sap.ui.define(
 
       //#endregion -------------------------DETAIL------------------------------
 
-      setDataBeneficiario(sLifnr) {
+      //#region ----------------------------COPY--------------------------------
+      createModelStepScenarioCopy: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          wizard1Step2: true,
+          wizard1Step3: false,
+          wizard2: false,
+          wizard3: false,
+          wizard4: false,
+          visibleBtnForward: true,
+          visibleBtnStart: false,
+          visibleBtnSave: false,
+        });
+
+        self.setModel(oModelStepScenario, "StepScenario");
+      },
+
+      createModelQuoteAssociate: function (sModelName) {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oSop.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oSop.Zchiavesop)
+        self.setFilterEQ(aFilters, "Ztipososp", oSop.Ztipososp)
+
+        self.getView().setBusy(true)
+        oModel.read("/QuoteDocumentoAssociateSet", {
+          urlParameters: {
+            IsCopy: 'X'
+          },
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            self.hasResponseError(oResponse)
+
+            var aData = data?.results;
+            aData?.map((oPosition, iIndex) => {
+              oPosition.Index = iIndex + 1;
+            });
+
+            self.setModel(new JSONModel(aData), sModelName)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      deleteDataForCopy: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+        var aClassificazione = oModelSop.getProperty("/Classificazione")
+
+        oModelSop.setProperty("/Zimptot", "0.00")
+        oModelSop.setProperty("/Position", [])
+
+        aClassificazione.map((oClassificazione) => {
+          oClassificazione.ZimptotClass = "0.00"
+        })
+        self._setModelClassificazione(aClassificazione)
+
+      },
+
+      onCopy: function () {
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+
+        var oParameters = {
+          Gjahr: oSop.Gjahr,
+          Zchiavesop: oSop.Zchiavesop,
+          Bukrs: oSop.Bukrs,
+          Zstep: oSop.Zstep,
+          Ztipososp: oSop.Ztipososp,
+        };
+
+        switch (oSop?.Ztipopag) {
+          case "1":
+            self.getRouter().navTo("amm.copy.scenary1", oParameters);
+            break;
+          case "2":
+            self.getRouter().navTo("amm.copy.scenary2", oParameters);
+            break;
+          case "3":
+            self.getRouter().navTo("amm.copy.scenary3", oParameters);
+            break;
+          case "4":
+            self.getRouter().navTo("amm.copy.scenary4", oParameters);
+            break;
+        }
+      },
+
+      //#endregion -------------------------COPY--------------------------------
+
+      setDataBeneficiario: function (sLifnr) {
         var self = this;
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");

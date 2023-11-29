@@ -49,7 +49,8 @@ sap.ui.define(
 
         var oModelUtility = new JSONModel({
           SelectedItems: [],
-          EnabledBtnDetail: false
+          EnabledBtnDetail: false,
+          EnabledBtnCopy: false
         })
         self.setModel(oModelUtility, "Utility")
 
@@ -76,7 +77,7 @@ sap.ui.define(
 
       },
 
-      //#region --------------------------VALUE HELP----------------------------
+      //#region ---------------------VALUE HELP---------------------------------
 
       onValueHelpRagioneria: function () {
         var self = this;
@@ -171,7 +172,7 @@ sap.ui.define(
         self.unloadFragment();
       },
 
-      //#endregion -----------------------VALUE HELP----------------------------
+      //#endregion ------------------VALUE HELP---------------------------------
 
       //#region ---------------------SELECTION CHANGE---------------------------
       onRitenutaChange: function () {
@@ -329,14 +330,58 @@ sap.ui.define(
           }
         });
 
-        oModelUtility.setProperty(
-          "/EnabledBtnDetail",
-          aSelectedItems.length === 1
-        );
+        oModelUtility.setProperty("/EnabledBtnDetail", aSelectedItems.length === 1);
+        oModelUtility.setProperty("/EnabledBtnCopy", false);
+        if (aSelectedItems.length === 1) {
+          var sState = aSelectedItems[0].ZcodStatosop;
+          var sZtipopag = aSelectedItems[0].Ztipopag
+          if (sZtipopag === '4') {
+            oModelUtility.setProperty("/EnabledBtnCopy", true);
+          }
 
+          if (
+            (sState === '05' || sState === '08' || sState === '07' || sState === '11' || sState === '14' || sState === '15' || sState === '17') &&
+            sZtipopag !== '4'
+          ) {
+            oModelUtility.setProperty("/EnabledBtnCopy", true);
+          }
+        }
         sap.ui.getCore().setModel(new JSONModel(aSelectedItems), "SelectedItems");
         oModelUtility.setProperty("/SelectedItems", aSelectedItems);
       },
+
+      onCopy: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oTableSop = self.getView().byId("tblListSop");
+        oTableSop.removeSelections(true);
+
+        var oSelectedItem = oModelUtility.getProperty("/SelectedItems")[0];
+        oModelUtility.setProperty("/SelectedItems", []);
+
+        var oParameters = {
+          Gjahr: oSelectedItem.Gjahr,
+          Zchiavesop: oSelectedItem.Zchiavesop,
+          Bukrs: oSelectedItem.Bukrs,
+          Zstep: oSelectedItem.Zstep,
+          Ztipososp: oSelectedItem.Ztipososp,
+        };
+
+        switch (oSelectedItem?.Ztipopag) {
+          case "1":
+            self.getRouter().navTo("amm.copy.scenary1", oParameters);
+            break;
+          case "2":
+            self.getRouter().navTo("amm.copy.scenary2", oParameters);
+            break;
+          case "3":
+            self.getRouter().navTo("amm.copy.scenary3", oParameters);
+            break;
+          case "4":
+            self.getRouter().navTo("amm.copy.scenary4", oParameters);
+            break;
+        }
+      }
     });
   }
 );

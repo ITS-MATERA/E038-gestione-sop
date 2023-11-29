@@ -250,16 +250,44 @@
             <!-- #endregion -->
             <Button
                 visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
+                enabled="{= 
+                    ${Sop>/ZcodStatosop} === '05' ||
+                    ${Sop>/ZcodStatosop} === '07' ||
+                    ${Sop>/ZcodStatosop} === '08' ||
+                    ${Sop>/ZcodStatosop} === '11' ||
+                    ${Sop>/ZcodStatosop} === '14' ||
+                    ${Sop>/ZcodStatosop} === '15' ||
+                    ${Sop>/ZcodStatosop} === '17'
+                    ? true : false
+                }"
+                text="{i18n>btnCopy}"
+                icon="sap-icon://edit"
+                press="onCopy"
+                type="Emphasized"
+            >
+                <layoutData>
+                    <l:GridData span="XL1 L2 M4 S12" />
+                </layoutData>
+            </Button>
+            <Button
+                visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
+                enabled="{= 
+                    ${Sop>/ZcodStatosop} !== '05' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '07' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '08' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '11' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '14' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '15' &amp;&amp;
+                    ${Sop>/ZcodStatosop} !== '17'
+                    ? true : false
+                }"
                 text="{i18n>btnEdit}"
                 icon="sap-icon://edit"
                 press="onEdit"
                 type="Emphasized"
             >
                 <layoutData>
-                    <l:GridData
-                        span="XL1 L2 M1 S12"
-                        indent="XL1 L6 M10"
-                    />
+                    <l:GridData span="XL1 L2 M4 S12" />
                 </layoutData>
             </Button>
         </l:Grid>

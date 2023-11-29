@@ -84,6 +84,8 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard1Step1", false);
             oModelStepScenario.setProperty("/wizard1Step2", true);
             self.setSedeBeneficiario();
+            self.createModelModPagamento();
+            self.createModelSedeBeneficiario();
             self.setPosizioneScen4()
           }
         } else if (bWizard1Step2) {
