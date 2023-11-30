@@ -263,6 +263,8 @@ sap.ui.define(
           DescKostl: oSop.DescKostl,
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
+          Position: await self._getPositions(oParameters, oSop.ZspecieSop, oSop.Ztipopag),
+          Classificazione: await self._getClassificazione(oParameters),
 
           DescZmissione: oSop.DescZmissione,
           DescZprogramma: oSop.DescZprogramma,
@@ -279,7 +281,7 @@ sap.ui.define(
           Ragioneria: oSop.Ragioneria,
           DescZflagfrutt: oSop.DescZflagfrutt,
           DescZtipofirma: oSop.DescZtipofirma,
-          StrasSede: oSop.StrasSede
+          // Zcassa: oSop.Zcassa
         });
 
         self.setModel(oModelSop, "Sop");
@@ -310,6 +312,125 @@ sap.ui.define(
             }
           })
         })
+      },
+
+      _getPositions: async function (oParameters, sZspecieSop, sZtipopag) {
+        var self = this;
+        var oModel = self.getModel();
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/PosizioniSopSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              var aData = data.results;
+              aData?.map((oData) => {
+                oData.ImpQuotaDoc = oData.Wrbtr
+
+                if (sZspecieSop && (sZtipopag === '3' || sZtipopag === '4')) {
+                  oData.ImpQuotaDoc = oData.Zimpliq
+                }
+              })
+              resolve(aData)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+
+      },
+
+      _getClassificazione: async function (oParameters) {
+        var self = this;
+        var oModel = self.getModel()
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/ClassificazioneSopSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              var aData = data.results;
+              self._setModelClassificazione(aData)
+              resolve(aData)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+      },
+
+      _setModelClassificazione: function (aData) {
+        var self = this;
+
+        var oDataClassificazione = {
+          Cos: [],
+          Cpv: [],
+          Cig: [],
+          Cup: [],
+          ImpTotAssociareCos: 0.0,
+          ImpTotAssociareCpv: 0.0,
+          ImpTotAssociareCig: 0.0,
+          ImpTotAssociareCup: 0.0,
+        };
+
+        aData.map((oClassificazione) => {
+          switch (oClassificazione.Zetichetta) {
+            case "COS":
+              oDataClassificazione.ImpTotAssociareCos += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+
+              oClassificazione.Index = oDataClassificazione.Cos.length;
+              oDataClassificazione.Cos.push(oClassificazione);
+              break;
+            case "CPV":
+              oDataClassificazione.ImpTotAssociareCpv += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cpv.length;
+              oDataClassificazione.Cpv.push(oClassificazione);
+              break;
+            case "CIG":
+              oDataClassificazione.ImpTotAssociareCig += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cig.length;
+              oDataClassificazione.Cig.push(oClassificazione);
+              break;
+            case "CUP":
+              oDataClassificazione.ImpTotAssociareCup += parseFloat(
+                oClassificazione.ZimptotClass
+              );
+              oClassificazione.Index = oDataClassificazione.Cup.length;
+              oDataClassificazione.Cup.push(oClassificazione);
+              break;
+          }
+        });
+
+        oDataClassificazione.ImpTotAssociareCos =
+          oDataClassificazione.ImpTotAssociareCos.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCpv =
+          oDataClassificazione.ImpTotAssociareCpv.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCig =
+          oDataClassificazione.ImpTotAssociareCig.toFixed(2);
+        oDataClassificazione.ImpTotAssociareCup =
+          oDataClassificazione.ImpTotAssociareCup.toFixed(2);
+
+        self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
       },
     });
   })

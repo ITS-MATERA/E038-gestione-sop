@@ -17,7 +17,7 @@
         <content>
             <Table
                 id="tblCup"
-                mode="{= ${Utility>/EnableEdit} ? 'MultiSelect' : 'None'}"
+                mode="None"
                 fixedLayout="false"
                 contextualWidth="Auto"
                 growing="true"
@@ -25,44 +25,6 @@
                   path: 'Classificazione>/Cup'
                 }"
             >
-                <headerToolbar>
-                    <OverflowToolbar class="multiHeaders">
-                        <ToolbarSpacer />
-
-                        <Button
-                            class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-                            icon="sap-icon://add"
-                            text="{i18n>btnAdd}"
-                            type="Emphasized"
-                            press="onAddRow"
-                            app:etichetta="Cup"
-                            enabled="{Utility>/EnableEdit}"
-                        >
-                            <layoutData>
-                                <OverflowToolbarLayoutData
-                                    priority="NeverOverflow"
-                                />
-                            </layoutData>
-                        </Button>
-
-                        <Button
-                            class="sapUiTinyMarginEnd sapUiTinyMarginBegin sapUiTinyMarginBottom"
-                            icon="sap-icon://less"
-                            text="{i18n>btnDelete}"
-                            type="Emphasized"
-                            press="onCancelRow"
-                            app:etichetta="Cup"
-                            app:table="tblCup"
-                            enabled="{Utility>/EnableEdit}"
-                        >
-                            <layoutData>
-                                <OverflowToolbarLayoutData
-                                    priority="NeverOverflow"
-                                />
-                            </layoutData>
-                        </Button>
-                    </OverflowToolbar>
-                </headerToolbar>
                 <columns>
                     <Column
                         minScreenWidth="Tablet"
@@ -95,13 +57,9 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <Input
-                                valueHelpRequest="onValueHelpCupClassificazione"
-                                showValueHelp="true"
-                                app:index="{Classificazione>Index}"
                                 width="65%"
                                 value="{Classificazione>Zzcup}"
-                                editable="{Utility>/EnableEdit}"
-                                maxLength="15"
+                                editable="false"
                             />
                             <Input
                                 editable="false"
@@ -110,13 +68,8 @@
                             <Input
                                 id="iptImpDaAssociareCup"
                                 width="30%"
-                                type="Number"
                                 value="{Classificazione>ZimptotClass}"
-                                app:index="{Classificazione>Index}"
-                                app:etichetta="Cup"
-                                change="onImpDaAssociareChange"
-                                editable="{Utility>/EnableEdit}"
-                                maxLength="10"
+                                editable="false"
                             />
                         </cells>
                     </ColumnListItem>

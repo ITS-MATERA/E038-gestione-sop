@@ -25,3 +25,11 @@
 .sapMPanelContent {
   overflow: hidden;
 }
+
+.sapMWizardStepTitle{
+  display: none !important;
+}
+
+.sapMWizardStep{
+  padding-bottom: 0px !important
+}

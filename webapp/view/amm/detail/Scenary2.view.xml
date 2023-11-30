@@ -40,6 +40,7 @@
                     id="wizScenario2"
                     showNextButton="false"
                     visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
+                    class=".sapMWizardStepTitle sapMWizardStep"
                 >
                     <WizardStep title="{i18n>titleWizard1DocContabili}">
                         <Panel

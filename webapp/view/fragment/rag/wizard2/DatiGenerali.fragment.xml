@@ -16,7 +16,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>Amministrazione}:"
+                    text="{i18n>labelAmministrazione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
@@ -458,7 +458,7 @@
                 </Label>
                 <ComboBox
                     width="100%"
-                    editable="{Utility>/EnableEdit}"
+                    editable="false"
                 >
                     <layoutData>
                         <l:GridData span="XL10 L8 M5 S12" />

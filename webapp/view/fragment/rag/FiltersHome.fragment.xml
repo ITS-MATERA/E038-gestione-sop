@@ -44,7 +44,7 @@
                     <l:GridData span="XL2 L3 M6 S12" />
                 </layoutData>
                 <items>
-                    <Label text="{i18n>Amministrazione}:" />
+                    <Label text="{i18n>labelAmministrazione}:" />
                     <Input
                         value="{FiltersHome>/Zzamministr}"
                         maxLength="4"
