@@ -339,7 +339,7 @@ sap.ui.define(
           },
           {
             label: oBundle.getText("labelEnteBeneficiario"),
-            property: "DescZzcebenra",
+            property: "ZzDescebe",
             type: EDM_TYPE.String,
           },
           {

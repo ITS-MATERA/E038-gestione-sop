@@ -1,0 +1,324 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolanagrafica="acn.zlibanagrafica.controls"
+    xmlns:zcontrolmodpag="acn.zlibmodpag.controls"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleBeneficiario}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelBeneficiario}"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Lifnr}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <RadioButtonGroup
+                    columns="2"
+                    editable="false"
+                >
+                    <RadioButton
+                        text="{i18n>rbPersonaFisica}"
+                        selected="{= ${Sop>/Type} === '1' ? true : false }"
+                    />
+                    <RadioButton
+                        text="{i18n>rbPersonaGiuridica}"
+                        selected="{= ${Sop>/Type} === '2' || ${Sop>/Type} === '3' ? true : false }"
+                    />
+                    <layoutData>
+                        <l:GridData
+                            span="XL7 L6 M12 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </RadioButtonGroup>
+                <Text
+                    text="{i18n>labelCF}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Taxnumcf}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCFE}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Taxnumxl}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/NameFirst}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/NameLast}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelRagSoc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/ZzragSoc}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelPIVA}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Taxnum}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelSedeEstera}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zsede}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDescSedeEstera}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zdenominazione}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelEnteBeneficiario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/ZzDescebe}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDurc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{
+                      path: 'Sop>/Zdurc',
+                      formatter: '.formatter.deleteFirstZeros'
+                    }"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelStatoDurc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zdstatodes}"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelScadenzaDurc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd.MM.yyyy"
+                    editable="false"
+                    value="{
+                      path: 'Sop>/Zdscadenza',
+                      type: 'sap.ui.model.type.Date',
+                      formatOptions: {
+                        pattern: 'dd.MM.yyyy'
+                      }
+                    }"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>labelFermoAmm}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indent="XL1"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/ZfermAmm}"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

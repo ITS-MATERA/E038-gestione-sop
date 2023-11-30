@@ -1,0 +1,470 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleDatiAmministrazione}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>Amministrazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZamministr}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelCdR}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescCdr}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL8 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelUfficio}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZvimufficio}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL8 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDirigenteFirmatario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/ZdirigenteAmm}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL8 L9 M7 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleDatiSop}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelTipoSop}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescTipologia}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelSpecieSop}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZspecieSop}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelStatoSop}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescStatosop}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelNumeroSop}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Znumsop}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDataFirma}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    value="{
+                              path: 'Sop>/DataStato',
+                              type: 'sap.ui.model.type.Date',
+                              formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                              }
+                            }"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+
+                <Text
+                    text="{i18n>labelTipoProvvedimento}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Ztipoprovv}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelAutoritaEmittente}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zautemit}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNumProvvedimento}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{
+                      path: 'Sop>/Znprovv',
+                      formatter: '.formatter.deleteFirstZeros'
+					}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelDataProvvedimento}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    value="{
+                              path: 'Sop>/Zdataprovv',
+                              type: 'sap.ui.model.type.Date',
+                              formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                              }
+                            }"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>labelCausale}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zcausale}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL6 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Text
+                    text="{i18n>labelZonaIntervento}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zzonaint}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelLocalitaPagamento}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zlocpag}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleRitenute}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelRitenuta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescWitht}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelEnteBeneficiario}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/ZzDescebe}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M5 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+    </Panel>
+    <Panel backgroundDesign="Transparent">
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleDatiCompRagioneria}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelNumProtocollo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{
+                      path: 'Sop>/Znumprotrgs',
+                      formatter: '.formatter.deleteFirstZeros'
+					}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDataProtocollo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    value="{
+                              path: 'Sop>/Zdataprotrgs',
+                              type: 'sap.ui.model.type.Date',
+                              formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                              }
+                            }"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>labelRagioneria}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Ragioneria}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+
+                <Label
+                    text="{i18n>labelUffRagioneria}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Label>
+                <ComboBox
+                    width="100%"
+                    editable="{Utility>/EnableEdit}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L8 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

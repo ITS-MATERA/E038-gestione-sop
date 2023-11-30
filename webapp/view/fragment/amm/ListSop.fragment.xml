@@ -149,7 +149,7 @@
                                 />
                                 <Text text="{ListSop>DescLifnr}" />
                                 <Text text="{ListSop>DescWitht}" />
-                                <Text text="{ListSop>DescZzcebenra}" />
+                                <Text text="{ListSop>ZzDescebe}" />
                                 <zcontrolPosFin:LinkPosizioneFinanziaria
                                     id="linkPosFinSpesa"
                                     anno="{ListSop>Gjahr}"

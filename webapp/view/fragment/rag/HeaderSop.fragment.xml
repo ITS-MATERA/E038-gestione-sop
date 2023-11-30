@@ -61,7 +61,15 @@
                     text="{i18n>labelDataFirma}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/DataStato}" />
+                <Text
+                    text="{
+                              path: 'Sop>/DataStato',
+                              type: 'sap.ui.model.type.Date',
+                              formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                              }
+                            }"
+                />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>

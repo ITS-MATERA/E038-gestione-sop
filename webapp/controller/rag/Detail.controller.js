@@ -11,11 +11,105 @@ sap.ui.define(
         this.getRouter().getRoute("rag.detail").attachPatternMatched(this._onObjectMatched, this);
       },
 
+      onNavBack: function () {
+        var self = this;
+        var oView = self.getView();
+        var oWizard = oView.byId("wizDetail");
+        var oModelStepScenario = self.getModel("StepScenario");
+
+        var bWizard1 = oModelStepScenario.getProperty("/Wizard1");
+        var bWizard2 = oModelStepScenario.getProperty("/Wizard2");
+        var bWizard3 = oModelStepScenario.getProperty("/Wizard3");
+        var bWizard4 = oModelStepScenario.getProperty("/Wizard4");
+        var bWizard5 = oModelStepScenario.getProperty("/Wizard5");
+        var bWizard6 = oModelStepScenario.getProperty("/Wizard6");
+        var bWizard7 = oModelStepScenario.getProperty("/Wizard7");
+
+        if (bWizard1) {
+          self.getRouter().navTo("rag.home");
+        } else if (bWizard2) {
+          oModelStepScenario.setProperty("/Wizard2", false);
+          oModelStepScenario.setProperty("/Wizard1", true);
+          oWizard.previousStep();
+        } else if (bWizard3) {
+          oModelStepScenario.setProperty("/Wizard3", false);
+          oModelStepScenario.setProperty("/Wizard2", true);
+          oWizard.previousStep();
+        } else if (bWizard4) {
+          oModelStepScenario.setProperty("/Wizard4", false);
+          oModelStepScenario.setProperty("/Wizard3", true);
+          oWizard.previousStep();
+        } else if (bWizard5) {
+          oModelStepScenario.setProperty("/Wizard5", false);
+          oModelStepScenario.setProperty("/Wizard4", true);
+          oWizard.previousStep();
+        } else if (bWizard6) {
+          oModelStepScenario.setProperty("/Wizard6", false);
+          oModelStepScenario.setProperty("/Wizard5", true);
+          oWizard.previousStep();
+        } else if (bWizard7) {
+          oModelStepScenario.setProperty("/Wizard7", false);
+          oModelStepScenario.setProperty("/Wizard6", true);
+          oWizard.previousStep();
+        }
+      },
+
+      onNavForward: async function () {
+        var self = this;
+        var oWizard = self.getView().byId("wizDetail");
+        var oModelStepScenario = self.getModel("StepScenario");
+
+        var bWizard1 = oModelStepScenario.getProperty("/Wizard1");
+        var bWizard2 = oModelStepScenario.getProperty("/Wizard2");
+        var bWizard3 = oModelStepScenario.getProperty("/Wizard3");
+        var bWizard4 = oModelStepScenario.getProperty("/Wizard4");
+        var bWizard5 = oModelStepScenario.getProperty("/Wizard5");
+        var bWizard6 = oModelStepScenario.getProperty("/Wizard6");
+
+        if (bWizard1) {
+          oModelStepScenario.setProperty("/Wizard1", false);
+          oModelStepScenario.setProperty("/Wizard2", true);
+          oWizard.nextStep()
+        } else if (bWizard2) {
+          oModelStepScenario.setProperty("/Wizard2", false);
+          oModelStepScenario.setProperty("/Wizard3", true);
+          oWizard.nextStep()
+        } else if (bWizard3) {
+          oModelStepScenario.setProperty("/Wizard3", false);
+          oModelStepScenario.setProperty("/Wizard4", true);
+          oWizard.nextStep()
+        } else if (bWizard4) {
+          oModelStepScenario.setProperty("/Wizard4", false);
+          oModelStepScenario.setProperty("/Wizard5", true);
+          oWizard.nextStep()
+        } else if (bWizard5) {
+          oModelStepScenario.setProperty("/Wizard5", false);
+          oModelStepScenario.setProperty("/Wizard6", true);
+          oWizard.nextStep()
+        } else if (bWizard6) {
+          oModelStepScenario.setProperty("/Wizard6", false);
+          oModelStepScenario.setProperty("/Wizard7", true);
+          oWizard.nextStep()
+        }
+      },
+
       _onObjectMatched: async function (oEvent) {
         var self = this;
 
         var oParameters = oEvent.getParameter("arguments");
         self.setModelSop(oParameters)
+
+        var oModelStepScenario = new JSONModel({
+          Wizard1: true,
+          Wizard2: false,
+          Wizard3: false,
+          Wizard4: false,
+          Wizard5: false,
+          Wizard6: false,
+          Wizard7: false,
+        })
+
+        self.setModel(oModelStepScenario, "StepScenario")
       },
 
       setModelSop: async function (oParameters) {
@@ -51,7 +145,7 @@ sap.ui.define(
           Zdatarichann: oSop.Zdatarichann,
           Capitolo: oSop.Capitolo,
           DescWitht: oSop.DescWitht,
-          DescZzcebenra: oSop.DescZzcebenra,
+          ZzDescebe: oSop.ZzDescebe,
           DescLifnr: oSop.DescLifnr,
           DescStatosop: oSop.DescStatosop,
           DescTipologia: oSop.DescTipologia,
@@ -174,7 +268,18 @@ sap.ui.define(
           DescZprogramma: oSop.DescZprogramma,
           DescZazione: oSop.DescZazione,
           DescCapitolo: oSop.DescCapitolo,
-          DescPianoGest: oSop.DescPianoGest
+          DescPianoGest: oSop.DescPianoGest,
+          DescZamministr: oSop.DescZamministr,
+          DescCdr: oSop.DescCdr,
+          DescZvimufficio: oSop.DescZvimufficio,
+          ZdirigenteAmm: oSop.ZdirigenteAmm,
+          DataStato: oSop.DataStato,
+          Znumprotrgs: oSop.Znumprotrgs,
+          Zdataprotrgs: oSop.Zdataprotrgs,
+          Ragioneria: oSop.Ragioneria,
+          DescZflagfrutt: oSop.DescZflagfrutt,
+          DescZtipofirma: oSop.DescZtipofirma,
+          StrasSede: oSop.StrasSede
         });
 
         self.setModel(oModelSop, "Sop");

@@ -1,0 +1,454 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= ${Sop>/Zwels} === 'ID1' || ${Sop>/Zwels} === 'ID2'}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="{i18n>titleDatiVaglia}" />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <!-- #region Primo quietanzante -->
+                <Text
+                    text="{i18n>labelTipoFirma}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/DescZtipofirma}"
+                    editable="false"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{= ${Sop>/Zwels} === 'ID1' ? ${Sop>/ZpersNomeQuiet1} : ${Sop>/ZpersNomeVaglia} }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{= ${Sop>/Zwels} === 'ID1' ? ${Sop>/ZpersCognomeQuiet1} : ${Sop>/ZpersCognomeVaglia} }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCF}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
+                    editable="false"
+                    value="{Sop>/Zstcd1}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCFEQuiet1}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    visible="{= ${Sop>/Zwels} === 'ID1' ? true : false}"
+                    editable="false"
+                    value="{Sop>/Zstcd14}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelIndirizzo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqindiriz}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCitta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqcitta}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCap}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{
+                      path: 'Sop>/Zqcap',
+                      formatter: '.formatter.deleteFirstZeros'
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelProvResidenza}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqprovincia}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelRagSoc}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID2' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/ZqragSoc}"
+                    visible="{= ${Sop>/Zwels} === 'ID2' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Land1}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <!-- #endregion -->
+                <!-- #region Secondo quietanzante -->
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= 
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04')
+                      ? true : false 
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/ZpersNomeQuiet2}"
+                    visible="{= 
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') 
+                      ? true : false 
+                    }"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= 
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') 
+                      ? true : false 
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    visible="{= 
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp; 
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') 
+                      ? true : false 
+                    }"
+                    value="{Sop>/ZpersCognomeQuiet2}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCF}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                    value="{Sop>/Zstcd12}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCFEQuiet2}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') &amp;&amp;
+                      ${Sop>/Ztipofirma} !== '' ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                    value="{Sop>/Zstcd15}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelIndirizzo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL1 L3 M5 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqindiriz2}"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCitta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqcitta2}"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCap}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{
+                    path: 'Sop>/Zqcap2',
+                    formatter: '.formatter.deleteFirstZeros'
+                  }"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelProvResidenza}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    editable="false"
+                    value="{Sop>/Zqprovincia2}"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL1 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    visible="{=
+                      ${Sop>/Zwels} === 'ID1' &amp;&amp;
+                      (${Sop>/Ztipofirma} === '03' || ${Sop>/Ztipofirma} === '04') ? true : false
+                    }"
+                    editable="false"
+                    value="{Sop>/Land2}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <!-- #endregion -->
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>
