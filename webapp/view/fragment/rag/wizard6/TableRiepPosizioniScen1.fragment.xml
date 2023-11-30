@@ -1,0 +1,125 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Table
+        items="{
+                  path: 'Sop>/Position'
+                }"
+        fixedLayout="false"
+        growing="true"
+        visible="{= ${Sop>/Ztipopag} === '1' ? true : false }"
+    >
+        <columns>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelAnnoRegDoc}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelBelnr}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelTipoDoc}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelDataDocBen}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelNDocBeneficiario}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelDenomBenDocCosto}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text text="{i18n>labelImpDaOrd}" />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text
+                        text="{i18n>labelProspetto}"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    />
+                </header>
+            </Column>
+            <Column
+                minScreenWidth="Desktop"
+                demandPopin="true"
+            >
+                <header>
+                    <Text
+                        text="{i18n>labelRigaProspetto}"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    />
+                </header>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem
+                vAlign="Middle"
+                class="bgNotEditable"
+            >
+                <cells>
+                    <ObjectIdentifier text="{Sop>GjahrDc}" />
+                    <ObjectIdentifier text="{Sop>Belnr}" />
+                    <Text text="{Sop>Blart}" />
+                    <Text
+                        text="{
+                                path: 'Sop>Bldat',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                  pattern: 'dd.MM.yyyy'
+                                }
+                              }"
+                    />
+                    <Text text="{Sop>Xblnr}" />
+                    <Text text="{Sop>ZbenaltName}" />
+                    <Text
+                        text="{
+                                  path: 'Sop>Zimpdaord',
+                                  formatter: '.formatter.convertImport'
+                                }"
+                    />
+                    <Text text="{Sop>Znumliq}" />
+                    <Text text="{Sop>Zposizione}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</c:FragmentDefinition>

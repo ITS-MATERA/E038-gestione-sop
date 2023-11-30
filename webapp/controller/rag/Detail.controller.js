@@ -98,18 +98,9 @@ sap.ui.define(
 
         var oParameters = oEvent.getParameter("arguments");
         self.setModelSop(oParameters)
+        self.createModelStepScenario()
+        self.createModelUtility()
 
-        var oModelStepScenario = new JSONModel({
-          Wizard1: true,
-          Wizard2: false,
-          Wizard3: false,
-          Wizard4: false,
-          Wizard5: false,
-          Wizard6: false,
-          Wizard7: false,
-        })
-
-        self.setModel(oModelStepScenario, "StepScenario")
       },
 
       setModelSop: async function (oParameters) {
@@ -432,5 +423,61 @@ sap.ui.define(
 
         self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
       },
+
+      onIconTabChange: function (oEvent) {
+        var self = this;
+        var oSop = self.getModel("Sop").getData();
+        var sKey = oEvent.getParameter("selectedKey");
+        var oModelUtility = self.getModel("Utility");
+
+        oModelUtility.setProperty("/Function", sKey);
+
+        var oParameters = {
+          Gjahr: oSop.Gjahr,
+          Bukrs: oSop.Bukrs,
+          Zchiavesop: oSop.Zchiavesop,
+          Ztipososp: oSop.Ztipososp,
+          Zstep: oSop.Zstep,
+        };
+
+        switch (sKey) {
+          case "Dettaglio": {
+            self.resetWizard("wizDetail");
+            self.setModelSop(oParameters);
+            self.createModelStepScenario();
+            oModelUtility.setProperty("/EnableEdit", false)
+            break;
+          }
+          case "Workflow": {
+            self.createModelWF()
+            break;
+          }
+        }
+      },
+
+      createModelStepScenario: function () {
+        var self = this;
+        var oModelStepScenario = new JSONModel({
+          Wizard1: true,
+          Wizard2: false,
+          Wizard3: false,
+          Wizard4: false,
+          Wizard5: false,
+          Wizard6: false,
+          Wizard7: false,
+        })
+
+        self.setModel(oModelStepScenario, "StepScenario")
+      },
+
+      createModelUtility: function () {
+        var self = this;
+        var oModelUtility = new JSONModel({
+          Function: "Dettaglio",
+          EnableEdit: false
+        })
+
+        self.setModel(oModelUtility, "Utility")
+      }
     });
   })

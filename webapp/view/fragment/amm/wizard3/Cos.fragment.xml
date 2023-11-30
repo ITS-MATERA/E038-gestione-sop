@@ -8,6 +8,32 @@
         class="sapUiNoContentPadding"
         backgroundDesign="Transparent"
     >
+        <l:Grid
+            defaultSpan="XL12 L12 M12 S12"
+            hSpacing="0.5"
+        >
+            <Text
+                text="{i18n>labelImpTitDaAssociare}:"
+                class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L3 M5 S12" />
+                </layoutData>
+            </Text>
+            <Input
+                value="{Sop>/Zimptot}"
+                editable="false"
+            >
+                <layoutData>
+                    <l:GridData span="XL2 L3 M5 S12" />
+                </layoutData>
+            </Input>
+        </l:Grid>
+    </Panel>
+    <Panel
+        class="sapUiNoContentPadding"
+        backgroundDesign="Transparent"
+    >
         <headerToolbar>
             <OverflowToolbar>
                 <Title text="{i18n>titleCos}" />

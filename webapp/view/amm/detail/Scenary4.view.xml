@@ -140,7 +140,7 @@
                     </WizardStep>
                 </Wizard>
                 <c:Fragment
-                    fragmentName="gestionesop.view.fragment.amm.Workflow"
+                    fragmentName="gestionesop.view.fragment.Workflow"
                     type="XML"
                 />
                 <c:Fragment

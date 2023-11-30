@@ -459,6 +459,26 @@ sap.ui.define(
         await this.oDataCreateLock("/StopSoftState", "GET");
       },
       //#endregion ---------------------------GESTIONE LOCK---------------------
+
+      createModelWF: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oSop = self.getModel("Sop")?.getData()
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Esercizio", oSop.Gjahr);
+        self.setFilterEQ(aFilters, "Bukrs", oSop.Bukrs);
+        self.setFilterEQ(aFilters, "Zchiavesop", oSop.Zchiavesop);
+
+        self.getView().setBusy(true)
+        oModel.read("/WfSopSet", {
+          filters: aFilters,
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.setModel(new JSONModel(data.results), "WFSop");
+          },
+        });
+      },
     });
   }
 );
