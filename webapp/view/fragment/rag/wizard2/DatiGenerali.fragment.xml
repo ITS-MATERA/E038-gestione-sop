@@ -456,14 +456,14 @@
                         />
                     </layoutData>
                 </Label>
-                <ComboBox
-                    width="100%"
-                    editable="false"
+                <Input
+                    value="{Sop>/ZuffRag}"
+                    editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
                         <l:GridData span="XL10 L8 M5 S12" />
                     </layoutData>
-                </ComboBox>
+                </Input>
             </l:Grid>
         </content>
     </Panel>

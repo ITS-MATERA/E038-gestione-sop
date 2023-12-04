@@ -15,7 +15,7 @@
         type="Emphasized"
         text="{i18n>btnForward}"
         press="onNavForward"
-        visible="{StepScenario>/visibleBtnForward}"
+        visible="{= ${StepScenario>/Wizard7} || ${Utility>/Function} === 'Validazione' ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -26,6 +26,115 @@
         text="{i18n>btnLog}"
         press="onLog"
         visible="{Utility>/isLogVisible}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <ToolbarSpacer />
+    <Button
+        type="Emphasized"
+        text="{i18n>btnVerificaConferma}"
+        press="onVerificaConferma"
+        enabled="{= ${Sop>/ZcodStatosop} === '03' ? true : false}"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnRevocaConferma}"
+        press="onRevocaConferma"
+        enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnValidazione}"
+        press="onValidazione"
+        enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnRevocaValidazione}"
+        enabled="{= ${Sop>/ZcodStatosop} === '09' ? true : false}"
+        press="onRevocaValidazione"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnRegistraRilievo}"
+        visible="{= 
+            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/Function} === 'VerificaConferma' ? true : false 
+        }"
+        enabled="{StepScenario>/Wizard7}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnRettificaRilievo}"
+        enabled="true"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnCancellazioneRilievo}"
+        enabled="true"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnValidazioneRilievo}"
+        enabled="true"
+        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnConferma}"
+        visible="{= ${Utility>/Function} === 'VerificaConferma' ? true : false}"
+        enabled="{StepScenario>/Wizard7}"
+        press="onConferma"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnValida}"
+        visible="{= ${Utility>/Function} === 'Validazione' ? true : false}"
+        press="onValida"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />

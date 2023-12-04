@@ -1,0 +1,25 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Dialog
+        id="dlgNote"
+        title="{i18n>titleNota}"
+        contentWidth="50%"
+    >
+        <TextArea
+            cols="40"
+            rows="5"
+            width="100%"
+            value="{Sop>/Znotpag}"
+            editable="false"
+        />
+        <endButton>
+            <Button
+                text="{i18n>btnClose}"
+                press="onCloseNote"
+                type="Emphasized"
+            />
+        </endButton>
+    </Dialog>
+</c:FragmentDefinition>

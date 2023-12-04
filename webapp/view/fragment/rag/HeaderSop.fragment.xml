@@ -262,6 +262,7 @@
                 text="{i18n>btnRichiestaDocAgg}"
                 icon="sap-icon://edit"
                 type="Emphasized"
+                enabled="{= ${Utility>/Function} === 'VerificaConferma' }"
             >
                 <layoutData>
                     <l:GridData

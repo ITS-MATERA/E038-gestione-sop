@@ -10,6 +10,20 @@
     >
         <items>
             <IconTabFilter
+                key="Validazione"
+                text="{i18n>iconTabValidazione}"
+                icon="sap-icon://edit"
+                visible="{Utility>/EnableValidazione}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableValidazione}" />
+            <IconTabFilter
+                key="VerificaConferma"
+                text="{i18n>iconTabVerifica}"
+                icon="sap-icon://edit"
+                visible="{Utility>/EnableVerificaConferma}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableVerificaConferma}" />
+            <IconTabFilter
                 key="Dettaglio"
                 text="{i18n>iconTabDetail}"
                 icon="sap-icon://detail-view"

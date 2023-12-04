@@ -1,7 +1,7 @@
 sap.ui.define(
   ["../BaseController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../model/formatter", "sap/ui/export/Spreadsheet",
-    "sap/ui/export/library"],
-  function (BaseController, Filter, FilterOperator, JSONModel, formatter, Spreadsheet, exportLibrary) {
+    "sap/ui/export/library", "sap/m/MessageBox"],
+  function (BaseController, Filter, FilterOperator, JSONModel, formatter, Spreadsheet, exportLibrary, MessageBox) {
     "use strict";
 
     return BaseController.extend("gestionesop.controller.rag.Detail", {
@@ -100,6 +100,8 @@ sap.ui.define(
         self.setModelSop(oParameters)
         self.createModelStepScenario()
         self.createModelUtility()
+        self.getView().byId("idToolbarDetail")?.setVisible(false)
+
 
       },
 
@@ -273,9 +275,13 @@ sap.ui.define(
           DescZflagfrutt: oSop.DescZflagfrutt,
           DescZtipofirma: oSop.DescZtipofirma,
           // Zcassa: oSop.Zcassa
+          ZuffRag: oSop.ZuffRag,
+          Znotpag: oSop.Znotpag
         });
 
         self.setModel(oModelSop, "Sop");
+        self.getView().byId("idToolbarDetail")?.setVisible(true)
+
         return oModelSop
       },
 
@@ -452,6 +458,12 @@ sap.ui.define(
             self.createModelWF()
             break;
           }
+          default: {
+            self.resetWizard("wizDetail");
+            self.createModelStepScenario();
+            oModelUtility.setProperty("/EnableEdit", true)
+            break;
+          }
         }
       },
 
@@ -472,12 +484,273 @@ sap.ui.define(
 
       createModelUtility: function () {
         var self = this;
+
         var oModelUtility = new JSONModel({
           Function: "Dettaglio",
-          EnableEdit: false
+          EnableEdit: false,
+          isLogVisible: false,
+          RemoveFuctionButtons: false,
+          Soa: [],
+          EnableVerificaConferma: false,
+          EnableValidazione: false
         })
 
         self.setModel(oModelUtility, "Utility")
-      }
+      },
+
+
+      //#region ------------------------Functions-------------------------------
+
+      onVerificaConferma: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+        self.resetWizard("wizDetail");
+        self.createModelStepScenario();
+        oModelUtility.setProperty("/Function", "VerificaConferma")
+        oModelUtility.setProperty("/EnableVerificaConferma", true)
+        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+      },
+
+      onConferma: function () {
+        var self = this;
+        var oDialog = self.loadFragment("gestionesop.view.fragment.rag.Motivazione")
+        oDialog.open()
+      },
+
+      onRevocaConferma: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData();
+
+        MessageBox.warning("Procedere con la Revoca della conferma del SOP selezionato?", {
+          title: "Revoca Conferma",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oSopDeep = {
+                Operazione: "REVOCA_CONFERMA",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Revoca Conferma")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onValidazione: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData()
+
+        oModelUtility.setProperty("/Function", "Validazione")
+        oModelUtility.setProperty("/EnableValidazione", true)
+        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+        oModelUtility.setProperty("/Sop", [oSop])
+      },
+
+      onValida: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        var oSopDeep = {
+          Operazione: "VALIDAZIONE",
+          Bukrs: "",
+          Zchiavesop: "",
+          SopAmministrazioneSet: {
+            Bukrs: oSop.Bukrs,
+            Gjahr: oSop.Gjahr,
+            Zchiavesop: oSop.Zchiavesop,
+          },
+          PosizioniSopSet: [],
+          ClassificazioneSopSet: [],
+          SopMessageSet: []
+        }
+
+        self.getView().setBusy(true)
+        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.managementLogFunction(data, "Validazione SOP")
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          },
+        });
+      },
+
+      onRevocaValidazione: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData();
+
+        MessageBox.warning("Procedere con la Revoca della validazione del SOP selezionato?", {
+          title: "Revoca Validazione",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oSopDeep = {
+                Operazione: "REVOCA_VALIDAZIONE",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Revoca Validazione")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      //#region ---------------------------Methods------------------------------
+
+      onOkMotivazione: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var sMotivazione = sap.ui.getCore().byId("txtMotivazione")?.getValue();
+        var oDialogMotivazione = sap.ui.getCore().byId("dlgMotivazione");
+
+        oDialogMotivazione.close();
+        self.unloadFragment();
+
+        var oSopDeep = {
+          Operazione: "Conferma",
+          Bukrs: "",
+          Zchiavesop: "",
+          SopAmministrazioneSet: {
+            Bukrs: oSop.Bukrs,
+            Gjahr: oSop.Gjahr,
+            Zchiavesop: oSop.Zchiavesop,
+            Znotpag: sMotivazione,
+            ZuffRag: oSop.ZuffRag
+          },
+          PosizioniSopSet: [],
+          ClassificazioneSopSet: [],
+          SopMessageSet: []
+        }
+
+        self.getView().setBusy(true)
+        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.managementLogFunction(data, "Conferma SOP")
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          },
+        });
+      },
+
+      onCancelMotivazione: function () {
+        var self = this;
+        var oDialog = sap.ui.getCore().byId("dlgMotivazione");
+        oDialog.close();
+        self.unloadFragment();
+      },
+
+      managementLogFunction: function (data, sTitle) {
+        var self = this;
+        var aMessage = data?.SopMessageSet?.results;
+        var oModelUtility = self.getModel("Utility")
+        var aMessageFormatted = []
+
+        if (aMessage.length > 0) {
+          if (aMessage.length === 1) {
+            if (aMessage[0]?.Body?.Msgty === 'E') {
+              MessageBox.error(aMessage[0]?.Body?.Message, {
+                title: sTitle,
+              });
+            }
+            else if (aMessage[0]?.Body?.Msgty === 'S') {
+              MessageBox.success(aMessage[0]?.Body?.Message, {
+                title: sTitle,
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function () {
+                  self.unlockSop()
+                  self.getRouter().navTo("rag.home", {
+                    Reload: true,
+                  });
+                },
+              });
+
+            }
+            return;
+          }
+
+          aMessage.map((oMessage) => {
+            aMessageFormatted.push({
+              Msgid: oMessage?.Body?.Msgid,
+              Msgty: oMessage?.Body?.Msgty,
+              Msgno: oMessage?.Body?.Msgno,
+              Message: oMessage?.Body?.Message,
+            });
+          });
+
+          oModelUtility.setProperty("/isLogVisible");
+          self.setModel(new JSONModel(aMessageFormatted), "Log");
+          MessageBox.error("Operazione non eseguita correttamente");
+        }
+      },
+
+      onOpenNote: function () {
+        var self = this;
+
+        var oDialog = self.loadFragment("gestionesop.view.fragment.rag.function.Nota")
+        oDialog.open()
+      },
+
+      onCloseNote: function () {
+        var self = this;
+        var oDialog = sap.ui.getCore().byId("dlgNote")
+        oDialog.close()
+        self.unloadFragment();
+      },
+
+      //#endregion ------------------------Methods------------------------------
+
+      //#endregion ------------------------Functions----------------------------
+
+
     });
   })

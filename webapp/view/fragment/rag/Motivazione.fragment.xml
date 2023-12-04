@@ -1,0 +1,32 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Dialog
+        id="dlgMotivazione"
+        title="{i18n>titleMotivazioneConferma}"
+        icon="sap-icon://alert"
+        contentWidth="50%"
+    >
+        <TextArea
+            cols="40"
+            rows="5"
+            width="100%"
+            id="txtMotivazione"
+        />
+        <beginButton>
+            <Button
+                text="{i18n>btnOk}"
+                press="onOkMotivazione"
+                type="Emphasized"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="{i18n>btnCancel}"
+                press="onCancelMotivazione"
+                type="Emphasized"
+            />
+        </endButton>
+    </Dialog>
+</c:FragmentDefinition>

@@ -40,7 +40,10 @@
                     id="wizDetail"
                     showNextButton="false"
                     class=".sapMWizardStepTitle sapMWizardStep"
-                    visible="{= ${Utility>/Function} !== 'Workflow' ? true : false}"
+                    visible="{= 
+                        ${Utility>/Function} === 'Dettaglio' ||
+                        ${Utility>/Function} === 'VerificaConferma'
+                        ? true : false}"
                 >
                     <WizardStep title="{i18n>titleWizard1Rag}">
                         <Panel
@@ -190,10 +193,14 @@
                     fragmentName="gestionesop.view.fragment.Workflow"
                     type="XML"
                 />
+                <c:Fragment
+                    fragmentName="gestionesop.view.fragment.rag.function.TableSopFunction"
+                    type="XML"
+                />
             </Panel>
         </f:content>
         <f:footer>
-            <OverflowToolbar>
+            <OverflowToolbar id="idToolbarDetail">
                 <c:Fragment
                     fragmentName="gestionesop.view.fragment.rag.FooterToolbar"
                     type="XML"
