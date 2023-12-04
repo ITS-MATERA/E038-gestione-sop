@@ -145,10 +145,12 @@ sap.ui.define(
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
             oModelUtility.setProperty("/EnableEdit", false)
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
           case "Workflow": {
             self.createModelWF()
+            self.getView().byId("idToolbarDetail").setVisible(false)
             break;
           }
           case "Rettifica": {
@@ -158,6 +160,9 @@ sap.ui.define(
             oModelStepScenario.setProperty("/visibleBtnForward", true)
             oModelStepScenario.setProperty("/visibleBtnSave", false)
             oModelUtility.setProperty("/EnableEdit", true)
+            break;
+          } case "FascicoloElettronico": {
+            self.getView().byId("idToolbarDetail").setVisible(false)
             break;
           }
         }

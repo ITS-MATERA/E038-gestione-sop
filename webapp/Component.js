@@ -51,8 +51,7 @@ sap.ui.define([
             }, 300000); //5 minutes
 
             window.addEventListener("beforeunload", (event) => {
-                var self = this;
-                var oModel = self.getModel("oDataLock")
+                var oModel = this.getView().getModel("oDataLock")
                 return new Promise(function (resolve, reject) {
                     oModel.read("/StopSoftState", {
                         async: false,

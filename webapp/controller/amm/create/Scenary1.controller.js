@@ -214,12 +214,14 @@ sap.ui.define(
 
             if (oResponse.data.Type === 'S') {
               aSelectedItems.push(oSelectedItem);
+              oModelSop.setProperty("/Position", aSelectedItems);
+              oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+              oModelSop.setProperty("/Zimptot", "0.00");
             }
             else {
               MessageBox.error(oResponse.data.Message)
               oTable.setSelectedItem(oListItem, false)
             }
-
           } else {
             var iIndex = aSelectedItems.findIndex((obj) => {
               return (
@@ -239,12 +241,14 @@ sap.ui.define(
             } else {
               self.unlockQuoteRitenute(oSelectedItem)
             }
+
+            oModelSop.setProperty("/Position", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelSop.setProperty("/Zimptot", "0.00");
           }
         });
 
-        oModelSop.setProperty("/Position", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelSop.setProperty("/Zimptot", "0.00");
+
       },
     });
   }

@@ -212,6 +212,9 @@ sap.ui.define(
 
             if (oResponse.data.Type === 'S') {
               aSelectedItems.push(oSelectedItem);
+              oModelSop.setProperty("/Position", aSelectedItems);
+              oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+              oModelSop.setProperty("/Zimptot", "0.00");
             }
             else {
               MessageBox.error(oResponse.data.Message)
@@ -233,12 +236,13 @@ sap.ui.define(
             }
 
             self.unlockQuoteBeneficiario(oSelectedItem)
+            oModelSop.setProperty("/Position", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelSop.setProperty("/Zimptot", "0.00");
           }
         });
 
-        oModelSop.setProperty("/Position", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelSop.setProperty("/Zimptot", "0.00");
+
       },
 
       checkExistDocumentForUser: function () {

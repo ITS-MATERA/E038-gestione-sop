@@ -171,7 +171,8 @@
                     fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
                     type="XML"
                 />
-                <c:Fragment
+                <!-- TODO - Deploy -->
+                <!-- <c:Fragment
                     fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
                     type="XML"
                 />
@@ -184,7 +185,7 @@
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
-                </Button>
+                </Button> -->
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

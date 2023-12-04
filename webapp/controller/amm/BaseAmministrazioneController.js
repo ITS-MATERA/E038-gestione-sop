@@ -625,8 +625,8 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data) {
             var aData = []
-            data.Znumliq = oPosition.Znumliq
-            data.Zposizione = oPosition.Zposizione
+            data.Znumliq = oPosition?.Znumliq
+            data.Zposizione = oPosition?.Zposizione
             aData.push(data)
             oModelSop.setProperty("/Position", aData)
             self.getView().setBusy(false)
@@ -1692,7 +1692,7 @@ sap.ui.define(
         this.setDataIban();
       },
 
-      onModalitaPagamentoChange: function (oEvent) {
+      onModalitaPagamentoChange: async function (oEvent) {
         var self = this;
         var oModel = self.getModel()
         var oModelSop = self.getModel("Sop");
@@ -1711,7 +1711,7 @@ sap.ui.define(
         if (oModelUtility.getProperty("/isVersanteEditable") && (oModelSop.getProperty("/Zwels") === "ID4" || oModelSop.getProperty("/Zwels") === "ID3")) {
           this._getCodProvenienza();
         }
-        this._resetDataModalitaPagamento();
+        await this._resetDataModalitaPagamento();
 
         if (!sZwels) {
           return;
@@ -2270,7 +2270,6 @@ sap.ui.define(
           oModelSop.setProperty("/Ort01Banca", "");
           oModelSop.setProperty("/RegioBanca", "");
           oModelSop.setProperty("/PstlzBanca", "");
-          oModelSop.setProperty("/Land1", "");
           return;
         }
 
@@ -3203,7 +3202,7 @@ sap.ui.define(
               aCos.push({
                 Zchiavesop: "",
                 Bukrs: "",
-                Zetichetta: "",
+                Zetichetta: "CIG",
                 Zposizione: "",
                 ZstepSop: "",
                 Zzcig: oData.ZcodiCig,
@@ -3290,45 +3289,41 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData()
+        var sBukrs = await self.getBukrs()
 
-        this._registerSop()
-        //TODO - Decommentare quando ci saranno tutti i parametri per entrare nel FM chiamo nel FI
-        // var sBukrs = await self.getBukrs()
-
-        // self.getView().setBusy(true)
-        // oModel.callFunction("/CheckDispCassa", {
-        //   urlParameters: {
-        //     Bukrs: sBukrs,
-        //     Fipos: oSop.Fipos,
-        //     Fistl: oSop.Fistl,
-        //     Gjahr: oSop.Gjahr,
-        //     Zgeber: oSop.Zgeber,
-        //     Zimptot: oSop.Zimptot
-        //   },
-        //   success: function (data) {
-        //     self.getView().setBusy(false)
-        //     this._registerSop()
-        //     var aMessage = data?.results;
-        //     self.getView().setBusy(false);
-        //     if (aMessage.length > 0) {
-        //       MessageBox.warning("La disponibilità di cassa è sufficiente per l’emissione di un Mandato Informatico. Si vuole procedere con l’emissione del SOP?", {
-        //         actions: [MessageBox.Action.CLOSE, MessageBox.Action.OK],
-        //         onClose: function (oAction) {
-        //           if (oAction === 'OK') {
-        //             this._registerSop()
-        //             return
-        //           }
-        //         },
-        //       })
-        //     }
-        //     else {
-        //       this._registerSop()
-        //     }
-        //   },
-        //   error: function () {
-        //     self.getView().setBusy(false)
-        //   }
-        // })
+        self.getView().setBusy(true)
+        oModel.callFunction("/CheckDispCassa", {
+          urlParameters: {
+            Bukrs: sBukrs,
+            Fipos: oSop.Fipos,
+            Fistl: oSop.Fistl,
+            Gjahr: oSop.Gjahr,
+            Zgeber: oSop.Zgeber,
+            Zimptot: oSop.Zimptot
+          },
+          success: function (data) {
+            self.getView().setBusy(false)
+            var aMessage = data?.results;
+            self.getView().setBusy(false);
+            if (aMessage.length > 0) {
+              MessageBox.warning("La disponibilità di cassa è sufficiente per l’emissione di un Mandato Informatico. Si vuole procedere con l’emissione del SOP?", {
+                actions: [MessageBox.Action.CLOSE, MessageBox.Action.OK],
+                onClose: function (oAction) {
+                  if (oAction === 'OK') {
+                    self._registerSop()
+                    return
+                  }
+                },
+              })
+            }
+            else {
+              self._registerSop()
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       _registerSop: function () {

@@ -174,9 +174,11 @@ sap.ui.define(
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
             oModelUtility.setProperty("/EnableEdit", false)
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
           case "Workflow": {
+            self.getView().byId("idToolbarDetail").setVisible(false)
             self.createModelWF()
             break;
           }
@@ -189,6 +191,9 @@ sap.ui.define(
             oModelStepScenario.setProperty("/visibleBtnStart", false)
             oModelUtility.setProperty("/EnableEdit", true)
             self.createModelEditPositions()
+            break;
+          } case "FascicoloElettronico": {
+            self.getView().byId("idToolbarDetail").setVisible(false)
             break;
           }
         }
@@ -418,7 +423,7 @@ sap.ui.define(
         var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
         var aListItems = oEvent.getParameter("listItems");
 
-        aListItems.map((oListItem) => {
+        aListItems.map(async function (oListItem) {
           var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
           if (bSelected) {
@@ -426,6 +431,9 @@ sap.ui.define(
 
             if (oResponse.data.Type === 'S') {
               aSelectedItems.push(oSelectedItem);
+              oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+              oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+              oModelUtility.setProperty("/AddZimptot", "0.00");
             }
             else {
               MessageBox.error(oResponse.data.Message)
@@ -446,13 +454,15 @@ sap.ui.define(
               aSelectedItems.splice(iIndex, 1);
             }
 
-            self.unlockQuoteBeneficiario(oSelectedItem
+            self.unlockQuoteBeneficiario(oSelectedItem)
+
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelUtility.setProperty("/AddZimptot", "0.00");
           }
         });
 
-        oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelUtility.setProperty("/AddZimptot", "0.00");
+
       },
 
       onImpDaOrdinareChangeAdd: function (oEvent) {

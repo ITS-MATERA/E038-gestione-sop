@@ -248,9 +248,11 @@ sap.ui.define(
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
             oModelUtility.setProperty("/EnableEdit", false)
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
           case "Workflow": {
+            self.getView().byId("idToolbarDetail").setVisible(false)
             self.createModelWF()
             break;
           }
@@ -264,6 +266,10 @@ sap.ui.define(
             oModelUtility.setProperty("/Table", "Edit")
             oModelUtility.setProperty("/EnableEdit", true)
             self.createModelEditPositions()
+            break;
+          }
+          case "FascicoloElettronico": {
+            self.getView().byId("idToolbarDetail").setVisible(false)
             break;
           }
         }
@@ -404,6 +410,9 @@ sap.ui.define(
 
             if (oResponse.data.Type === 'S') {
               aSelectedItems.push(oSelectedItem);
+              oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+              oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+              oModelUtility.setProperty("/AddZimptot", "0.00");
             }
             else {
               MessageBox.error(oResponse.data.Message)
@@ -429,12 +438,14 @@ sap.ui.define(
             } else {
               self.unlockQuoteRitenute(oSelectedItem)
             }
+
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelUtility.setProperty("/AddZimptot", "0.00");
           }
         });
 
-        oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelUtility.setProperty("/AddZimptot", "0.00");
+
       },
 
       onImpDaOrdinareChangeAdd: function (oEvent) {
