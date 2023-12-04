@@ -223,9 +223,8 @@ sap.ui.define(
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
             if (bNavTo) {
-              self.getRouter().navTo("amm.home")
-              //TODO - Deploy
-              // self.getRouter().navTo("rag.home")
+              // self.getRouter().navTo("amm.home")
+              self.getRouter().navTo("rag.home")
             }
           },
           error: function (error) {

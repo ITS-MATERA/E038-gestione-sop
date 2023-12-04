@@ -248,8 +248,7 @@
                 </layoutData>
             </HBox>
             <!-- #endregion -->
-            <!-- TODO - Deploy -->
-            <!-- <Button
+            <Button
                 visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
                 enabled="{= 
                     (
@@ -292,7 +291,7 @@
                 <layoutData>
                     <l:GridData span="XL1 L2 M4 S12" />
                 </layoutData>
-            </Button> -->
+            </Button>
         </l:Grid>
     </Panel>
 </c:FragmentDefinition>

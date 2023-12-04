@@ -34,10 +34,8 @@
                     type="Emphasized"
                     text="{i18n>btnCopy}"
                     press="onCopy"
-                    enabled="false"
+                    enabled="{= ${Utility>/EnabledBtnCopy} &amp;&amp; ${AuthorityCheck>/Copia} ? true : false}"
                 />
-                <!-- TODO - Deploy -->
-                <!-- enabled="{= ${Utility>/EnabledBtnCopy} &amp;&amp; ${AuthorityCheck>/Copia} ? true : false}" -->
                 <Button
                     type="Emphasized"
                     text="{i18n>btnRegisterSop}"
