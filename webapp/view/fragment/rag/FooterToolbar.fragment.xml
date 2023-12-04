@@ -15,7 +15,13 @@
         type="Emphasized"
         text="{i18n>btnForward}"
         press="onNavForward"
-        visible="{= ${StepScenario>/Wizard7} || ${Utility>/Function} === 'Validazione' ? false : true}"
+        visible="{= 
+            ${StepScenario>/Wizard7} || 
+            ${Utility>/Function} === 'Validazione' || 
+            ${Utility>/Function} === 'RegistraRilievo' ||
+            ${Utility>/Function} === 'Workflow' ||
+            ${Utility>/Function} === 'FascicoloElettronico' ||
+            ${Utility>/Function} === 'RettificaRilievo' ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -81,9 +87,11 @@
         text="{i18n>btnRegistraRilievo}"
         visible="{= 
             ${Utility>/RemoveFuctionButtons} === false || 
-            ${Utility>/Function} === 'VerificaConferma' ? true : false 
+            ${Utility>/Function} === 'VerificaConferma' ||
+            ${Utility>/Function} === 'RegistraRilievo'? true : false 
         }"
-        enabled="{StepScenario>/Wizard7}"
+        enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
+        press="onRegistraRilievo"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -92,8 +100,12 @@
     <Button
         type="Emphasized"
         text="{i18n>btnRettificaRilievo}"
-        enabled="true"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
+        visible="{= 
+            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/Function} === 'RettificaRilievo'? true : false 
+        }"
+        press="onRettificaRilievo"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -102,8 +114,12 @@
     <Button
         type="Emphasized"
         text="{i18n>btnCancellazioneRilievo}"
-        enabled="true"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
+        visible="{= 
+            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/Function} === 'CancellaRilievo'? true : false 
+        }"
+        press="onCancellaRilievo"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />

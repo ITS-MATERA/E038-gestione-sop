@@ -95,14 +95,14 @@ sap.ui.define(
 
       _onObjectMatched: async function (oEvent) {
         var self = this;
-
         var oParameters = oEvent.getParameter("arguments");
+
+        self.resetWizard("wizDetail");
+        self.createModelStepScenario();
         self.setModelSop(oParameters)
         self.createModelStepScenario()
         self.createModelUtility()
         self.getView().byId("idToolbarDetail")?.setVisible(false)
-
-
       },
 
       setModelSop: async function (oParameters) {
@@ -492,12 +492,14 @@ sap.ui.define(
           RemoveFuctionButtons: false,
           Soa: [],
           EnableVerificaConferma: false,
-          EnableValidazione: false
+          EnableValidazione: false,
+          EnableRegistraRilievo: false,
+          EnableRettificaRilievo: false,
+          EnableCancellaRilievo: false
         })
 
         self.setModel(oModelUtility, "Utility")
       },
-
 
       //#region ------------------------Functions-------------------------------
 
@@ -642,6 +644,160 @@ sap.ui.define(
         })
       },
 
+      onRegistraRilievo: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        if (!oModelUtility.getProperty("/EnableRegistraRilievo")) {
+          self.resetWizard("wizDetail");
+          self.createModelStepScenario();
+          oModelUtility.setProperty("/Function", "RegistraRilievo")
+          oModelUtility.setProperty("/EnableRegistraRilievo", true)
+          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/Sop", [oSop])
+          self.createModelDatiUtente()
+          return
+        }
+
+        MessageBox.warning("Procedere con la Registrazione del rilievo per il SOP selezionato?", {
+          title: "Registrazione Rilievo",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oDatiUtente = self.getModel("DatiUtente").getData()
+              var oSopDeep = {
+                Operazione: "REGISTRA_RILIEVO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Zmotrilievo: oDatiUtente.Zmotrilievo
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Registrazione Rilievo")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
+      onRettificaRilievo: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        if (!oModelUtility.getProperty("/EnableRettificaRilievo")) {
+          self.resetWizard("wizDetail");
+          self.createModelStepScenario();
+          oModelUtility.setProperty("/Function", "RettificaRilievo")
+          oModelUtility.setProperty("/EnableRettificaRilievo", true)
+          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/Sop", [oSop])
+          self.createModelDatiUtente()
+          return
+        }
+
+
+        var oDatiUtente = self.getModel("DatiUtente").getData()
+        var oSopDeep = {
+          Operazione: "RETTIFICA_RILIEVO",
+          Bukrs: "",
+          Zchiavesop: "",
+          SopAmministrazioneSet: {
+            Bukrs: oSop.Bukrs,
+            Gjahr: oSop.Gjahr,
+            Zchiavesop: oSop.Zchiavesop,
+            Zmotrilievo: oDatiUtente.Zmotrilievo
+          },
+          PosizioniSopSet: [],
+          ClassificazioneSopSet: [],
+          SopMessageSet: []
+        }
+
+        self.getView().setBusy(true)
+        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.managementLogFunction(data, "Registrazione Rilievo")
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          },
+        });
+      },
+
+      onCancellaRilievo: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        if (!oModelUtility.getProperty("/EnableCancellaRilievo")) {
+          self.resetWizard("wizDetail");
+          self.createModelStepScenario();
+          oModelUtility.setProperty("/Function", "CancellaRilievo")
+          oModelUtility.setProperty("/EnableCancellaRilievo", true)
+          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/Sop", [oSop])
+          self.createModelDatiUtente()
+          return
+        }
+
+        MessageBox.warning("Procedere con la cancellazione del rilievo per il SOP selezionato?", {
+          title: "Cancellazione Rilievo",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+
+              var oSopDeep = {
+                Operazione: "CANCELLA_RILIEVO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Cancellazione Rilievo")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
+          },
+        })
+      },
+
       //#region ---------------------------Methods------------------------------
 
       onOkMotivazione: function () {
@@ -745,6 +901,27 @@ sap.ui.define(
         var oDialog = sap.ui.getCore().byId("dlgNote")
         oDialog.close()
         self.unloadFragment();
+      },
+
+      createModelDatiUtente: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        var sKey = oModel.createKey("/RilievoSet", {
+          Zchiavesop: oSop.Zchiavesop
+        })
+
+        self.getView().setBusy(true)
+        oModel.read(sKey, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.setModel(new JSONModel(data), "DatiUtente")
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
       },
 
       //#endregion ------------------------Methods------------------------------

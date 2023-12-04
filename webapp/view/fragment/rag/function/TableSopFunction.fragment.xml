@@ -7,7 +7,10 @@
     <Panel
         backgroundDesign="Transparent"
         visible="{= 
-            ${Utility>/Function} === 'Validazione' ? true : false}"
+            ${Utility>/Function} === 'Validazione' || 
+            ${Utility>/Function} === 'RegistraRilievo' ||
+            ${Utility>/Function} === 'RettificaRilievo' ||
+            ${Utility>/Function} === 'CancellaRilievo' ? true : false}"
     >
         <Table
             id="tblSoaFunction"
@@ -80,14 +83,6 @@
                     demandPopin="true"
                 >
                     <header>
-                        <Text text="{i18n>labelSpecieSop}" />
-                    </header>
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                >
-                    <header>
                         <Text text="{i18n>labelImporto}" />
                     </header>
                 </Column>
@@ -102,6 +97,7 @@
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
+                    visible="{= ${Utility>/Function} === 'Validazione' ? true : false}"
                 >
                     <header>
                         <Text text="{i18n>labelCampoNote}" />
@@ -134,7 +130,6 @@
                             visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
                         />
                         <Text text="{Utility>DescTipologia}" />
-                        <Text text="{Utility>DescZspecieSop}" />
                         <Text
                             text="{
 								path: 'Utility>Zimptot',

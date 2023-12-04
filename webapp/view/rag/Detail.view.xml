@@ -194,6 +194,10 @@
                     type="XML"
                 />
                 <c:Fragment
+                    fragmentName="gestionesop.view.fragment.rag.function.DatiUtenteRilievo"
+                    type="XML"
+                />
+                <c:Fragment
                     fragmentName="gestionesop.view.fragment.rag.function.TableSopFunction"
                     type="XML"
                 />

@@ -1,0 +1,112 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= 
+            ${Utility>/Function} === 'RegistraRilievo' ||
+            ${Utility>/Function} === 'RettificaRilievo' ||
+            ${Utility>/Function} === 'CancellaRilievo' ? true : false}"
+    >
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title
+                    text="{= 
+					${Utility>/EnableRegitraRilievo} ? ${i18n>titleDatiUtenteRegRilievo} : 
+                    ${Utility>/EnableRettificaRilievo} ? ${i18n>titleDatiUtenteRetRilievo} : ''
+				}"
+                />
+            </OverflowToolbar>
+        </headerToolbar>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiUtente>/Znome}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiUtente>/Zcognome}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDataRegRilievo}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    value="{
+						path: 'DatiUtente>/DataStato',
+						type: 'sap.ui.model.type.Date',
+						formatOptions: {
+							pattern: 'dd.MM.yyyy'
+						}
+					}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12" />
+                    </layoutData>
+                </DatePicker>
+
+                <Label
+                    text="{i18n>labelMotivazione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M12 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Label>
+                <TextArea
+                    maxLength="1000"
+                    value="{DatiUtente>/Zmotrilievo}"
+                    width="100%"
+                    cols="100"
+                    editable="{= 
+                        ${Utility>/Function} === 'RegistraRilievo' || 
+                        ${Utility>/Function} === 'RettificaRilievo' ? true : false
+                    }"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M12 S12" />
+                    </layoutData>
+                </TextArea>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

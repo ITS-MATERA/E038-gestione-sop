@@ -8,6 +8,7 @@
     xmlns:l="sap.ui.layout"
     xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
     xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <f:DynamicPage
         showFooter="true"
@@ -86,14 +87,15 @@
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <Input
-                            editable="false"
+                        <zcontrolmccross:MatchcodeCross
+                            whichMC="CodiceAmmFD"
                             value="{FirstSop>/Zzamministr}"
+                            maxLength="4"
                         >
-                            <layoutData>
+                            <zcontrolmccross:layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
-                            </layoutData>
-                        </Input>
+                            </zcontrolmccross:layoutData>
+                        </zcontrolmccross:MatchcodeCross>
                     </l:Grid>
                 </Panel>
                 <!-- #endregion -->

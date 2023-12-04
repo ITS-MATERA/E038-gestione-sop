@@ -10,16 +10,44 @@
     >
         <items>
             <IconTabFilter
+                key="CancellaRilievo"
+                text="{i18n>iconTabCancellaRilievo}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableCancellaRilievo}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRegistraRilievo}" />
+            <IconTabFilter
+                key="RettificaRilievo"
+                text="{i18n>iconTabRettificaRilievo}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRettificaRilievo}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRegistraRilievo}" />
+            <IconTabFilter
+                key="RegistraRilievo"
+                text="{i18n>iconTabRegistraRilievo}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRegistraRilievo}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRegistraRilievo}" />
+            <IconTabFilter
+                key="RegistraRilievo"
+                text="{i18n>iconTabRegistraRilievo}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableRegistraRilievo}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableRegistraRilievo}" />
+            <IconTabFilter
                 key="Validazione"
                 text="{i18n>iconTabValidazione}"
-                icon="sap-icon://edit"
+                icon="sap-icon://list"
                 visible="{Utility>/EnableValidazione}"
             />
             <IconTabSeparator visible="{Utility>/EnableValidazione}" />
             <IconTabFilter
                 key="VerificaConferma"
                 text="{i18n>iconTabVerifica}"
-                icon="sap-icon://edit"
+                icon="sap-icon://list"
                 visible="{Utility>/EnableVerificaConferma}"
             />
             <IconTabSeparator visible="{Utility>/EnableVerificaConferma}" />

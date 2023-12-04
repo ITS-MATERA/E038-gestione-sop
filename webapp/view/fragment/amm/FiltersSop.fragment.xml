@@ -45,8 +45,9 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelAmministrazione}:" />
-                    <Input
-                        value="{FiltersSop>/Zzamministr}"
+                    <zcontrolmccross:MatchcodeCross
+                        whichMC="CodiceAmmFD"
+                        value="{FilterSop>/Zzamministr}"
                         maxLength="4"
                     />
                 </items>
