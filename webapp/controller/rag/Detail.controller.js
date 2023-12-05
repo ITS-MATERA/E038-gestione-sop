@@ -96,6 +96,7 @@ sap.ui.define(
       _onObjectMatched: async function (oEvent) {
         var self = this;
         var oParameters = oEvent.getParameter("arguments");
+        self.checkPermissions("R", "Dettaglio")
 
         self.resetWizard("wizDetail");
         self.createModelStepScenario();
@@ -103,6 +104,7 @@ sap.ui.define(
         self.createModelStepScenario()
         self.createModelUtility()
         self.getView().byId("idToolbarDetail")?.setVisible(false)
+        self.lockSop(oParameters);
       },
 
       setModelSop: async function (oParameters) {
@@ -495,7 +497,8 @@ sap.ui.define(
           EnableValidazione: false,
           EnableRegistraRilievo: false,
           EnableRettificaRilievo: false,
-          EnableCancellaRilievo: false
+          EnableCancellaRilievo: false,
+          EnableValidaRilievo: false
         })
 
         self.setModel(oModelUtility, "Utility")
@@ -795,6 +798,59 @@ sap.ui.define(
               return
             }
           },
+        })
+      },
+
+      onValidazioneRilievo: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+        var oSop = self.getModel("Sop").getData()
+
+        self.resetWizard("wizDetail");
+        self.createModelStepScenario();
+        oModelUtility.setProperty("/Function", "ValidaRilievo")
+        oModelUtility.setProperty("/EnableValidaRilievo", true)
+        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+        oModelUtility.setProperty("/Sop", [oSop])
+        self.createModelDatiUtente()
+      },
+
+      onValidaRilievo: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        MessageBox.warning("Procedere con la validazione del rilievo per il SOP selezionato?", {
+          title: "Validazione Rilievo",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
+              var oSopDeep = {
+                Operazione: "VALIDA_RILIEVO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
+
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Validazione Rilievo")
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+            }
+          }
         })
       },
 

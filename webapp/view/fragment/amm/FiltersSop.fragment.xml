@@ -47,7 +47,7 @@
                     <Label text="{i18n>labelAmministrazione}:" />
                     <zcontrolmccross:MatchcodeCross
                         whichMC="CodiceAmmFD"
-                        value="{FilterSop>/Zzamministr}"
+                        value="{FiltersSop>/Zzamministr}"
                         maxLength="4"
                     />
                 </items>

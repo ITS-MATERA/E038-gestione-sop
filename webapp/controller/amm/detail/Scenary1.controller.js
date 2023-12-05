@@ -139,6 +139,7 @@ sap.ui.define(
       _onObjectMatched: function (oEvent) {
         var self = this;
         var oParameters = oEvent.getParameter("arguments");
+        self.checkPermissions("A", "Dettaglio")
 
         self.getView().byId("idToolbarDetail").setVisible(false)
 

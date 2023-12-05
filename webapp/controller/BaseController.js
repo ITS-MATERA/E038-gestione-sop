@@ -213,7 +213,7 @@ sap.ui.define(
 
         oAuthModel.read("/ZES_CONIAUTH_SET", {
           filters: aFilters,
-          success: function (data) {
+          success: async function (data) {
             var aData = data.results;
             oAuth.AgrName = aData[0].AGR_NAME;
             oAuth.Fikrs = aData[0].FIKRS;
@@ -222,15 +222,144 @@ sap.ui.define(
             oAuth.Registra = self._isUserAuthorized(aData, "ACTV_1", "Z01");
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
+
             if (bNavTo) {
-              // self.getRouter().navTo("amm.home")
-              self.getRouter().navTo("rag.home")
+              var sUserRole = await self._getUserRole()
+              switch (sUserRole) {
+                case "A": {
+                  self.getRouter().navTo("amm.home")
+                  break;
+                }
+                case "R": {
+                  self.getRouter().navTo("rag.home")
+                  break;
+                }
+              }
             }
           },
           error: function (error) {
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
           },
         });
+      },
+
+      _getUserRole: async function () {
+        var self = this;
+        var oModel = self.getModel()
+
+        var sKey = oModel.createKey("/ControlloAppSet", {
+          App: ""
+        })
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              resolve(data.App);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+
+      },
+
+      _createModelPermissions: async function () {
+        var self = this;
+        var oAuthModel = this.getModel("ZSS4_CA_CONI_VISIBILITA_SRV");
+
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "SEM_OBJ", "ZS4_SOP_SRV");
+        self.setFilterEQ(aFilters, "AUTH_OBJ", "Z_GEST_SOP");
+
+        var oAuth = {
+          AgrName: "",
+          Fikrs: "",
+          Prctr: "",
+          Registra: false,
+          Dettaglio: false,
+          Copia: false,
+        };
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oAuthModel.read("/ZES_CONIAUTH_SET", {
+            filters: aFilters,
+            success: async function (data) {
+              var aData = data.results;
+              oAuth.AgrName = aData[0].AGR_NAME;
+              oAuth.Fikrs = aData[0].FIKRS;
+              oAuth.Prctr = aData[0].PRCTR;
+              oAuth.Copia = self._isUserAuthorized(aData, "ACTV_4", "Z10");
+              oAuth.Registra = self._isUserAuthorized(aData, "ACTV_1", "Z01");
+              oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
+              resolve(oAuth)
+              self.getView().setBusy(false)
+            },
+            error: function (error) {
+              self.getView().setBusy(false)
+              self.setModel(new JSONModel(oAuth), "AuthorityCheck");
+            },
+          });
+        })
+      },
+
+      checkPermissions: async function (sRole, sPermission = "") {
+        var self = this;
+
+        // TODO - Deploy
+        return
+        var sUserRole = await self._getUserRole()
+        var oPermissions = await self._createModelPermissions()
+        var sHome = sUserRole === 'A' ? "amm.home" : "rag.home";
+        var sMessage = sRole === 'A' ? "Amministrazione" : "Ragioneria";
+
+        if (sUserRole !== sRole) {
+          MessageBox.error("Utente non abilitato per '" + sMessage + "'", {
+            onClose: function () {
+              self.getRouter().navTo(sHome)
+            }
+          })
+          return;
+        }
+
+        if (sPermission) {
+          switch (sPermission) {
+            case "Registra": {
+              if (!oPermissions.Registra) {
+                MessageBox.error("Utente non abilitato per la 'Registrazione'", {
+                  onClose: function () {
+                    self.getRouter().navTo(sHome)
+                  }
+                })
+              }
+              break;
+            }
+            case "Copia": {
+              if (!oPermissions.Copia) {
+                MessageBox.error("Utente non abilitato per la 'Copia'", {
+                  onClose: function () {
+                    self.getRouter().navTo(sHome)
+                  }
+                })
+              }
+              break;
+            }
+            case "Dettaglio": {
+              if (!oPermissions.Dettaglio) {
+                MessageBox.error("Utente non abilitato per il 'Dettaglio'", {
+                  onClose: function () {
+                    self.getRouter().navTo(sHome)
+                  }
+                })
+              }
+              break;
+            }
+          }
+        }
       },
 
       _isUserAuthorized: function (array, param, value) {

@@ -107,6 +107,7 @@ sap.ui.define(
       _onObjectMatched: function (oEvent) {
         var self = this;
         var oArguments = oEvent.getParameter("arguments");
+        self.checkPermissions("A", "Copia")
 
         self.resetWizard("wizScenario1")
         self.setModelSop(oArguments, true, "PosizioniScen1");

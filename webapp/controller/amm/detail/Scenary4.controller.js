@@ -111,6 +111,7 @@ sap.ui.define(
       _onObjectMatched: async function (oEvent) {
         var self = this;
         var oParameters = oEvent.getParameter("arguments");
+        self.checkPermissions("A", "Dettaglio")
 
         self.getView().byId("idToolbarDetail").setVisible(false)
 
@@ -120,6 +121,7 @@ sap.ui.define(
         self.createModelClassificazione();
         self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
         self.createModelStepScenarioDet();
+        self.lockSop(oParameters);
       },
 
       onIconTabChange: function (oEvent) {

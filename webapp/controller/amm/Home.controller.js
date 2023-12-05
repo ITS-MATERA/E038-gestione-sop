@@ -46,6 +46,7 @@ sap.ui.define(
         var self = this;
         var oModelFilters = self.getModel("FiltersSop");
         var oUrlParameters = oEvent.getParameter("arguments");
+        self.checkPermissions("A")
 
         var oModelUtility = new JSONModel({
           SelectedItems: [],

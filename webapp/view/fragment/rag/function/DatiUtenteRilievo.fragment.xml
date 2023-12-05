@@ -8,14 +8,17 @@
         visible="{= 
             ${Utility>/Function} === 'RegistraRilievo' ||
             ${Utility>/Function} === 'RettificaRilievo' ||
-            ${Utility>/Function} === 'CancellaRilievo' ? true : false}"
+            ${Utility>/Function} === 'CancellaRilievo' || 
+            ${Utility>/Function} === 'ValidaRilievo' ? true : false}"
     >
         <headerToolbar>
             <OverflowToolbar>
                 <Title
                     text="{= 
 					${Utility>/EnableRegitraRilievo} ? ${i18n>titleDatiUtenteRegRilievo} : 
-                    ${Utility>/EnableRettificaRilievo} ? ${i18n>titleDatiUtenteRetRilievo} : ''
+                    ${Utility>/EnableRettificaRilievo} ? ${i18n>titleDatiUtenteRetRilievo} :
+                    ${Utility>/EnableCancellaRilievo} ? ${i18n>titleDatiRilievo} : 
+                    ${Utility>/EnableValidaRilievo} ? ${i18n>titleDatiUtenteValRilievo} : ''
 				}"
                 />
             </OverflowToolbar>
@@ -83,7 +86,10 @@
                 <Label
                     text="{i18n>labelMotivazione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                    required="true"
+                    required="{= 
+                        ${Utility>/Function} === 'RegistraRilievo' || 
+                        ${Utility>/Function} === 'RettificaRilievo' ? true : false
+                    }"
                 >
                     <layoutData>
                         <l:GridData

@@ -112,6 +112,7 @@ sap.ui.define(
       _onObjectMatched: function (oEvent) {
         var self = this;
         var oArguments = oEvent.getParameter("arguments");
+        self.checkPermissions("A", "Registra")
 
         this._sTypeSop = oArguments.TypeSop;
 

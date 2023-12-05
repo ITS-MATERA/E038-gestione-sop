@@ -2,6 +2,15 @@ sap.ui.define(["./BaseAmministrazioneController"], function (BaseAmministrazione
   "use strict";
 
   return BaseAmministrazioneController.extend("gestionesop.controller.amm.SelectType", {
+    onInit: function () {
+      this.getRouter().getRoute("amm.selectType").attachPatternMatched(this._onObjectMatched, this);
+    },
+
+    _onObjectMatched: function () {
+      var self = this;
+      self.checkPermissions("A", "Registra")
+    },
+
     onNavBack: function () {
       var self = this;
       self.getRouter().navTo("amm.home");

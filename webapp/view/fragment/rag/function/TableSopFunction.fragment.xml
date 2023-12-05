@@ -10,7 +10,8 @@
             ${Utility>/Function} === 'Validazione' || 
             ${Utility>/Function} === 'RegistraRilievo' ||
             ${Utility>/Function} === 'RettificaRilievo' ||
-            ${Utility>/Function} === 'CancellaRilievo' ? true : false}"
+            ${Utility>/Function} === 'CancellaRilievo' || 
+            ${Utility>/Function} === 'ValidaRilievo' ? true : false}"
     >
         <Table
             id="tblSoaFunction"

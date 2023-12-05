@@ -39,6 +39,7 @@ sap.ui.define(
 
       _onObjectMatched: async function (oEvent) {
         var self = this;
+        self.checkPermissions("R")
         var oModelFilters = self.getModel("FiltersHome");
         var oUrlParameters = oEvent.getParameter("arguments");
 

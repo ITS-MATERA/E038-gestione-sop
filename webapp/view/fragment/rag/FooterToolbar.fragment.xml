@@ -21,7 +21,9 @@
             ${Utility>/Function} === 'RegistraRilievo' ||
             ${Utility>/Function} === 'Workflow' ||
             ${Utility>/Function} === 'FascicoloElettronico' ||
-            ${Utility>/Function} === 'RettificaRilievo' ? false : true}"
+            ${Utility>/Function} === 'RettificaRilievo' ||
+            ${Utility>/Function} === 'CancellaRilievo' ||
+            ${Utility>/Function} === 'ValidaRilievo' ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -128,8 +130,20 @@
     <Button
         type="Emphasized"
         text="{i18n>btnValidazioneRilievo}"
-        enabled="true"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
+        visible="{= 
+            ${Utility>/RemoveFuctionButtons} === false ? true : false}"
+        press="onValidazioneRilievo"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnValidaRilievo}"
+        visible="{=  ${Utility>/Function} === 'ValidaRilievo' ? true : false}"
+        press="onValidaRilievo"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />

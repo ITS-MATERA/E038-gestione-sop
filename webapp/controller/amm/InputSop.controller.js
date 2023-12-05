@@ -22,6 +22,7 @@ sap.ui.define(
 
       _onObjectMatched: async function (oEvent) {
         var self = this;
+        self.checkPermissions("A", "Registra")
         var oModel = self.getModel();
         var oArguments = oEvent.getParameter("arguments");
 
