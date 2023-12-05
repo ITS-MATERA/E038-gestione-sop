@@ -32,138 +32,148 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <Panel
-                class="sapUiNoContentPadding"
-                backgroundDesign="Transparent"
-            >
-                <Wizard
-                    id="wizScenario3"
-                    showNextButton="false"
-                    visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
-                    class=".sapMWizardStepTitle sapMWizardStep"
-                >
-                    <WizardStep title="{i18n>titleWizard1ProspLiquidazione}">
-                        <Panel
-                            class="sapUiNoContentPadding"
-                            backgroundDesign="Transparent"
-                            visible="{StepScenario>/wizard1Step1}"
-                        >
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Ritenuta"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Beneficiario"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.ProspettiLiquidazione"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.DocumentiCosto"
-                                type="XML"
-                            />
-                        </Panel>
-                        <c:Fragment
-                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableRiepPosizioniScen3"
-                            type="XML"
-                        />
-                        <c:Fragment
-                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableAddPosizioniScen3"
-                            type="XML"
-                        />
-                        <c:Fragment
-                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableEditPosizioniScen3"
-                            type="XML"
-                        />
-                    </WizardStep>
-                    <WizardStep title="{i18n>titleWizard2}">
-                        <Panel
-                            class="sapUiNoContentPadding"
-                            backgroundDesign="Transparent"
-                            visible="{StepScenario>/wizard2}"
-                        >
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.Beneficiario"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.ModalitaPagamento"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.Quietanzante"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.Versante"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.BancaAccredito"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.Intermediario1"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard2.SedeBeneficiario"
-                                type="XML"
-                            />
-                        </Panel>
-                    </WizardStep>
-                    <WizardStep title="{i18n>titleWizard3}">
-                        <Panel
-                            class="sapUiNoContentPadding"
-                            backgroundDesign="Transparent"
-                            visible="{StepScenario>/wizard3}"
-                        >
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cos"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cpv"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cup"
-                                type="XML"
-                            />
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cig"
-                                type="XML"
-                            />
-                        </Panel>
-                    </WizardStep>
-                    <WizardStep title="{i18n>titleWizard4}">
-                        <Panel
-                            class="sapUiNoContentPadding"
-                            backgroundDesign="Transparent"
-                            visible="{StepScenario>/wizard4}"
-                        >
-                            <c:Fragment
-                                fragmentName="gestionesop.view.fragment.amm.wizard4.DatiSop"
-                                type="XML"
-                            />
-                        </Panel>
-                    </WizardStep>
-                </Wizard>
-                <c:Fragment
-                    fragmentName="gestionesop.view.fragment.Workflow"
-                    type="XML"
-                />
-                <c:Fragment
-                    fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
-                    type="XML"
-                />
-                <c:Fragment
-                    fragmentName="gestionesop.view.fragment.amm.table.TableSopFunction"
-                    type="XML"
-                />
-            </Panel>
+            <NavContainer>
+                <pages>
+                    <Page showHeader="false">
+                        <content>
+                            <Panel
+                                class="sapUiNoContentPadding"
+                                backgroundDesign="Transparent"
+                            >
+                                <Wizard
+                                    id="wizScenario3"
+                                    showNextButton="false"
+                                    visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
+                                    class=".sapMWizardStepTitle sapMWizardStep"
+                                >
+                                    <WizardStep
+                                        title="{i18n>titleWizard1ProspLiquidazione}"
+                                    >
+                                        <Panel
+                                            class="sapUiNoContentPadding"
+                                            backgroundDesign="Transparent"
+                                            visible="{StepScenario>/wizard1Step1}"
+                                        >
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Ritenuta"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Beneficiario"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.ProspettiLiquidazione"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard1.filters.DocumentiCosto"
+                                                type="XML"
+                                            />
+                                        </Panel>
+                                        <c:Fragment
+                                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableRiepPosizioniScen3"
+                                            type="XML"
+                                        />
+                                        <c:Fragment
+                                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableAddPosizioniScen3"
+                                            type="XML"
+                                        />
+                                        <c:Fragment
+                                            fragmentName="gestionesop.view.fragment.amm.table.scenary3.TableEditPosizioniScen3"
+                                            type="XML"
+                                        />
+                                    </WizardStep>
+                                    <WizardStep title="{i18n>titleWizard2}">
+                                        <Panel
+                                            class="sapUiNoContentPadding"
+                                            backgroundDesign="Transparent"
+                                            visible="{StepScenario>/wizard2}"
+                                        >
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.Beneficiario"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.ModalitaPagamento"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.Quietanzante"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.Versante"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.BancaAccredito"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.Intermediario1"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard2.SedeBeneficiario"
+                                                type="XML"
+                                            />
+                                        </Panel>
+                                    </WizardStep>
+                                    <WizardStep title="{i18n>titleWizard3}">
+                                        <Panel
+                                            class="sapUiNoContentPadding"
+                                            backgroundDesign="Transparent"
+                                            visible="{StepScenario>/wizard3}"
+                                        >
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cos"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cpv"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cup"
+                                                type="XML"
+                                            />
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard3.Cig"
+                                                type="XML"
+                                            />
+                                        </Panel>
+                                    </WizardStep>
+                                    <WizardStep title="{i18n>titleWizard4}">
+                                        <Panel
+                                            class="sapUiNoContentPadding"
+                                            backgroundDesign="Transparent"
+                                            visible="{StepScenario>/wizard4}"
+                                        >
+                                            <c:Fragment
+                                                fragmentName="gestionesop.view.fragment.amm.wizard4.DatiSop"
+                                                type="XML"
+                                            />
+                                        </Panel>
+                                    </WizardStep>
+                                </Wizard>
+                                <c:Fragment
+                                    fragmentName="gestionesop.view.fragment.Workflow"
+                                    type="XML"
+                                />
+                                <c:Fragment
+                                    fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
+                                    type="XML"
+                                />
+                                <c:Fragment
+                                    fragmentName="gestionesop.view.fragment.amm.table.TableSopFunction"
+                                    type="XML"
+                                />
+                            </Panel>
+                        </content>
+                    </Page>
+                </pages>
+            </NavContainer>
         </f:content>
         <f:footer>
             <OverflowToolbar
@@ -175,7 +185,7 @@
                     type="XML"
                 />
                 <!-- TODO - Deploy -->
-                <c:Fragment
+                <!-- <c:Fragment
                     fragmentName="gestionesop.view.fragment.amm.detail.ToolbarFunzionalita"
                     type="XML"
                 />
@@ -188,7 +198,7 @@
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
-                </Button>
+                </Button> -->
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

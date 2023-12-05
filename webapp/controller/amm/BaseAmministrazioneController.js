@@ -4739,6 +4739,7 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
         var oStepScenario = self.getModel("StepScenario").getData()
+        var oSop = oModelSop.getData()
 
         if (obj?.Iban && obj?.Banks) {
           if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {

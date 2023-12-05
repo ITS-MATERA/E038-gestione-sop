@@ -31,7 +31,7 @@
             <OverflowToolbar>
                 <ToolbarSpacer />
                 <!-- TODO - Deploy -->
-                <Button
+                <!-- <Button
                     type="Emphasized"
                     text="{i18n>btnCopy}"
                     press="onCopy"
@@ -42,7 +42,7 @@
                     text="{i18n>btnRegisterSop}"
                     press="onRegisterSop"
                     enabled="{AuthorityCheck>/Registra}"
-                />
+                /> -->
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
