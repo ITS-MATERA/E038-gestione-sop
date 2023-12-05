@@ -29,6 +29,28 @@
                 class=".sapMWizardStepTitle sapMWizardStep"
             >
                 <WizardStep title="{i18n>titleWizard1DocContabili}">
+                    <Panel
+                        class="sapUiNoContentPadding"
+                        backgroundDesign="Transparent"
+                        visible="{StepScenario>/wizard1Step1}"
+                    >
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Ritenuta"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Beneficiario"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.ProspettiLiquidazione"
+                            type="XML"
+                        />
+                        <c:Fragment
+                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.DocumentiCosto"
+                            type="XML"
+                        />
+                    </Panel>
                     <c:Fragment
                         fragmentName="gestionesop.view.fragment.amm.table.scenary2.TablePosizioniScen2"
                         type="XML"

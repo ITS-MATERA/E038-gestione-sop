@@ -4453,6 +4453,7 @@ sap.ui.define(
       createModelStepScenarioCopy: function () {
         var self = this;
         var oModelStepScenario = new JSONModel({
+          wizard1Step1: false,
           wizard1Step2: true,
           wizard1Step3: false,
           wizard2: false,

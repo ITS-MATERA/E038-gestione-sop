@@ -30,23 +30,24 @@ sap.ui.define(
         var oWizard = oView.byId("wizScenario2");
         var oModelStepScenario = self.getModel("StepScenario");
         var oModelSop = self.getModel("Sop");
-        var sZtipopag = oModelSop.getProperty("/Ztipopag")
-        var sType = "2"
 
-        if (sZtipopag === "1" || sZtipopag === "2") {
-          sType = "1"
-        }
-
+        var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
         var bWizard1Step3 = oModelStepScenario.getProperty("/wizard1Step3");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
         var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
-        if (bWizard1Step2) {
-          self.getRouter().navTo("amm.inputSop", {
-            type: sType,
-          });
+        if (bWizard1Step1) {
+          self.getRouter().navTo("amm.home");
+        }
+        else if (bWizard1Step2) {
+          oModelStepScenario.setProperty("/wizard1Step2", false);
+          oModelStepScenario.setProperty("/wizard1Step1", true);
+          oModelStepScenario.setProperty("/visibleBtnForward", false);
+          oModelStepScenario.setProperty("/visibleBtnStart", true);
+          oModelSop.setProperty("/Position", []);
+          oModelSop.setProperty("/Zimptot", "0.00");
         } else if (bWizard1Step3) {
           oModelStepScenario.setProperty("/wizard1Step3", false);
           oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -112,6 +113,7 @@ sap.ui.define(
         self.setModelSop(oArguments, true, "PosizioniScen2");
         self.createModelClassificazione();
         self.createModelStepScenarioCopy();
+        self.createModelFiltersWizard1();
         self.createModelUtilityReg("gestionesop.view.amm.copy.Scenary2");
         self.getView().byId("pnlCalculatorList").setVisible(true)
 
@@ -170,6 +172,41 @@ sap.ui.define(
         oModelSop.setProperty("/Position", aSelectedItems);
         oButtonCalculate.setVisible(aSelectedItems.length !== 0);
         oModelSop.setProperty("/Zimptot", "0.00");
+      },
+
+      onStart: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelStepScenario = self.getModel("StepScenario");
+        var aFilters = self.setFiltersWizard1();
+        var oPanelCalculator = self.getView().byId("pnlCalculatorList");
+
+        self.getView().setBusy(true);
+
+        oModel.read("/QuoteDocumentoSet", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            if (!self.hasResponseError(oResponse)) {
+              oModelStepScenario.setProperty("/wizard1Step1", false);
+              oModelStepScenario.setProperty("/wizard1Step2", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", true);
+              oModelStepScenario.setProperty("/visibleBtnStart", false);
+            }
+
+
+            var aData = data?.results;
+            aData?.map((oPosition, iIndex) => {
+              oPosition.Index = iIndex + 1;
+            });
+            self.setModel(new JSONModel(aData), "PosizioniScen2");
+            oPanelCalculator.setVisible(aData.length !== 0);
+
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
     });
   }
