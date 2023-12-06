@@ -303,6 +303,28 @@ sap.ui.define(
           });
         });
       },
+
+      onFiposChange: function (oEvent) {
+        var self = this;
+
+        var oModelFirstSop = self.getModel("FirstSop")
+        oModelFirstSop.setProperty("/Fipos", oEvent.getParameter("value"))
+      },
+
+      onFistlChange: function (oEvent) {
+        var self = this;
+
+
+        var oModelFirstSop = self.getModel("FirstSop")
+        oModelFirstSop.setProperty("/Fistl", oEvent.getParameter("value"))
+      },
+
+      onAmministrazioneChange: function (oEvent) {
+        var self = this
+
+        var oModelFirstSop = self.getModel("FirstSop")
+        oModelFirstSop.setProperty("/Zzamministr", oEvent.getParameter("value"))
+      }
     });
   }
 );

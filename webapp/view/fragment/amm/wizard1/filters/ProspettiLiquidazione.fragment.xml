@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -73,6 +74,8 @@
                     viewId="{Utility>/ViewId}"
                     whichMC="ProspettoLiquidazione"
                     value="{FiltersWizard1>/ZnumliqFrom}"
+                    app:property="ZnumliqFrom"
+                    liveChange="onNProspLiquidazioneChange"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
@@ -99,6 +102,8 @@
                     viewId="{Utility>/ViewId}"
                     whichMC="ProspettoLiquidazione"
                     value="{FiltersWizard1>/ZnumliqTo}"
+                    app:property="ZnumliqTo"
+                    liveChange="onNProspLiquidazioneChange"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

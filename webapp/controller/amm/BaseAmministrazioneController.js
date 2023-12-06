@@ -1151,6 +1151,21 @@ sap.ui.define(
         );
         oWizard.nextStep();
       },
+
+      onBeneficiarioDocCostoChange: function (oEvent) {
+        var self = this;
+
+        var oModelFiltersWizard1 = self.getModel("FiltersWizard1")
+        oModelFiltersWizard1.setProperty("/Zbenalt", oEvent.getParameter("value"))
+      },
+
+      onNProspLiquidazioneChange: function (oEvent) {
+        var self = this;
+        var sProperty = oEvent.getSource().data("property")
+
+        var oModelFiltersWizard1 = self.getModel("FiltersWizard1")
+        oModelFiltersWizard1.setProperty("/" + sProperty, oEvent.getParameter("value"))
+      },
       //#endregion ----------------SELECTION CHANGE-------------------------------
 
       //#region ----------------------------METHODS-------------------------------
@@ -3953,6 +3968,33 @@ sap.ui.define(
         });
       },
 
+      onLocPagamentoChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelSop = self.getModel()
+
+        console.log(oEvent)
+
+        var sKey = oModel.createKey("/LocPagamentoSet", {
+          Regio: "",
+          Zlocpag: oEvent.getParameter("value")
+        })
+
+        self.getView().setBusy(true)
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false)
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zlocpag", "")
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+
+      },
+
       //#endregion -------------------------WIZARD 4----------------------------
 
       //#region ----------------------------DETAIL------------------------------
@@ -4658,7 +4700,7 @@ sap.ui.define(
         if (!oStepScenario.wizard2) {
           oModelSop.setProperty("/Zquoteesi", false);
           self._createModelAnnoDocBen();
-          if (!oEvent.getParameter("value")) {
+          if (!oModelSop.getProperty("/Lifnr")) {
             oModelSop.setProperty("/ZspecieSop", "");
             oModelSop.setProperty("/DescZspecieSop", "");
           } else {
@@ -4671,7 +4713,7 @@ sap.ui.define(
           self.createModelModPagamento()
         }
 
-        this.setDataBeneficiario(oEvent.getParameter("value"));
+        this.setDataBeneficiario(oModelSop.getProperty("/Lifnr"));
       },
 
       _setModelClassificazione: function (aData) {

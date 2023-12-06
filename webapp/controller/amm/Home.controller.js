@@ -170,6 +170,43 @@ sap.ui.define(
         oModelFilters.setProperty("/ZzCeberna", "");
       },
 
+      onFiposChange: function (oEvent) {
+        var self = this;
+        var sProperty = oEvent.getSource().data("property")
+
+        var oModelFiltersSop = self.getModel("FiltersSop")
+        oModelFiltersSop.setProperty("/" + sProperty, oEvent.getParameter("value"))
+      },
+
+      onFistlChange: function (oEvent) {
+        var self = this;
+
+        var oModelFiltersSop = self.getModel("FiltersSop")
+        oModelFiltersSop.setProperty("/Fistl", oEvent.getParameter("value"))
+      },
+
+      onBeneficiarioChange: function (oEvent) {
+        var self = this
+
+        var oModelFiltersSop = self.getModel("FiltersSop")
+        oModelFiltersSop.setProperty("/Lifnr", oEvent.getParameter("value"))
+      },
+
+      onAmministrazioneChange: function (oEvent) {
+        var self = this
+
+        var oModelFiltersSop = self.getModel("FiltersSop")
+        oModelFiltersSop.setProperty("/Zzamministr", oEvent.getParameter("value"))
+      },
+
+      onNProspLiquidazioneChange: function (oEvent) {
+        var self = this;
+        var sProperty = oEvent.getSource().data("property")
+
+        var oModelFiltersSop = self.getModel("FiltersSop")
+        oModelFiltersSop.setProperty("/" + sProperty, oEvent.getParameter("value"))
+      },
+
       //#endregion ------------------SELECTION CHANGE---------------------------
 
       //#region ---------------------METHODS------------------------------------

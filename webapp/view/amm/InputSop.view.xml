@@ -91,6 +91,7 @@
                             whichMC="CodiceAmmFD"
                             value="{FirstSop>/Zzamministr}"
                             maxLength="4"
+                            liveChange="onAmministrazioneChange"
                         >
                             <zcontrolmccross:layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -128,6 +129,7 @@
                             maxSuggestionWidth="100%"
                             width="100%"
                             value="{FirstSop>/Fipos}"
+                            liveChange="onFiposChange"
                         >
                             <zcontrol:layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -154,6 +156,7 @@
                             width="100%"
                             placeholder="Scegli struttura amministrativa"
                             value="{FirstSop>/Fistl}"
+                            liveChange="onFistlChange"
                         >
                             <zcontrolMatchSar:layoutData>
                                 <l:GridData span="XL3 L3 M5 S12" />

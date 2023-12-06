@@ -178,6 +178,7 @@
                     whichMC="Beneficiario"
                     value="{FiltersWizard1>/Zbenalt}"
                     maxLength="10"
+                    liveChange="onBeneficiarioDocCostoChange"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

@@ -492,7 +492,7 @@ sap.ui.define(
           EnableEdit: false,
           isLogVisible: false,
           RemoveFuctionButtons: false,
-          Soa: [],
+          Sop: [],
           EnableVerificaConferma: false,
           EnableValidazione: false,
           EnableRegistraRilievo: false,

@@ -49,6 +49,7 @@
                         whichMC="CodiceAmmFD"
                         value="{FiltersSop>/Zzamministr}"
                         maxLength="4"
+                        liveChange="onAmministrazioneChange"
                     />
                 </items>
             </VBox>
@@ -295,6 +296,7 @@
                         whichMC="Beneficiario"
                         value="{FiltersSop>/Lifnr}"
                         maxLength="10"
+                        liveChange="onBeneficiarioChange"
                     />
                 </items>
             </VBox>
@@ -349,6 +351,8 @@
                         maxSuggestionWidth="100%"
                         width="100%"
                         value="{FiltersSop>/FiposFrom}"
+                        app:property="FiposFrom"
+                        liveChange="onFiposChange"
                     />
                 </items>
             </VBox>
@@ -368,6 +372,8 @@
                         maxSuggestionWidth="100%"
                         width="100%"
                         value="{FiltersSop>/FiposTo}"
+                        app:property="FiposTo"
+                        liveChange="onFiposChange"
                     />
                 </items>
             </VBox>
@@ -388,6 +394,7 @@
                         width="100%"
                         placeholder="Scegli struttura amministrativa"
                         value="{FiltersSop>/Fistl}"
+                        liveChange="onFistlChange"
                     />
                 </items>
             </VBox>
@@ -405,6 +412,8 @@
                         viewId="gestionesop.view.amm.Home"
                         whichMC="ProspettoLiquidazione"
                         value="{FiltersSop>/ZnumliqFrom}"
+                        app:property="ZnumliqFrom"
+                        liveChange="onNProspLiquidazioneChange"
                     />
                 </items>
             </VBox>
@@ -419,6 +428,8 @@
                         viewId="gestionesop.view.amm.Home"
                         whichMC="ProspettoLiquidazione"
                         value="{FiltersSop>/ZnumliqTo}"
+                        app:property="ZnumliqTo"
+                        liveChange="onNProspLiquidazioneChange"
                     />
                 </items>
             </VBox>
