@@ -111,7 +111,6 @@ sap.ui.define(
 
         self.resetWizard("wizScenario3")
         self.setModelSop(oArguments, true, "PosizioniScen3");
-        self.createModelClassificazione();
         self.createModelStepScenarioCopy();
         self.createModelFiltersWizard1();
         self.createModelUtilityReg("gestionesop.view.amm.copy.Scenary3");

@@ -45,7 +45,7 @@
         text="{i18n>btnVerificaConferma}"
         press="onVerificaConferma"
         enabled="{= ${Sop>/ZcodStatosop} === '03' ? true : false}"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === true ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -56,7 +56,7 @@
         text="{i18n>btnRevocaConferma}"
         press="onRevocaConferma"
         enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === true ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -67,7 +67,7 @@
         text="{i18n>btnValidazione}"
         press="onValidazione"
         enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === true ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -78,7 +78,7 @@
         text="{i18n>btnRevocaValidazione}"
         enabled="{= ${Sop>/ZcodStatosop} === '09' ? true : false}"
         press="onRevocaValidazione"
-        visible="{= ${Utility>/RemoveFuctionButtons} === true ? false : true}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === true ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -88,7 +88,7 @@
         type="Emphasized"
         text="{i18n>btnRegistraRilievo}"
         visible="{= 
-            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/RemoveFunctionButtons} === false || 
             ${Utility>/Function} === 'VerificaConferma' ||
             ${Utility>/Function} === 'RegistraRilievo'? true : false 
         }"
@@ -104,7 +104,7 @@
         text="{i18n>btnRettificaRilievo}"
         enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
         visible="{= 
-            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/RemoveFunctionButtons} === false || 
             ${Utility>/Function} === 'RettificaRilievo'? true : false 
         }"
         press="onRettificaRilievo"
@@ -118,7 +118,7 @@
         text="{i18n>btnCancellazioneRilievo}"
         enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
         visible="{= 
-            ${Utility>/RemoveFuctionButtons} === false || 
+            ${Utility>/RemoveFunctionButtons} === false || 
             ${Utility>/Function} === 'CancellaRilievo'? true : false 
         }"
         press="onCancellaRilievo"
@@ -132,7 +132,7 @@
         text="{i18n>btnValidazioneRilievo}"
         enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
         visible="{= 
-            ${Utility>/RemoveFuctionButtons} === false ? true : false}"
+            ${Utility>/RemoveFunctionButtons} === false ? true : false}"
         press="onValidazioneRilievo"
     >
         <layoutData>

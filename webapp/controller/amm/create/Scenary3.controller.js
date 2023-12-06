@@ -3,7 +3,7 @@ sap.ui.define(
   function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, MessageBox) {
     "use strict";
 
-    return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary1", {
+    return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary3", {
       formatter: formatter,
 
       onInit: function () {

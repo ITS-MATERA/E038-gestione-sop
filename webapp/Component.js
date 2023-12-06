@@ -35,7 +35,7 @@ sap.ui.define([
             this.getRouter().initialize();
 
             const interval = setInterval(function () {
-                var oModel = this.getModel("oDataLock")
+                var oModel = self.getView().getModel("oDataLock")
                 return new Promise(function (resolve, reject) {
                     oModel.read("/StartSoftState", {
                         async: false,

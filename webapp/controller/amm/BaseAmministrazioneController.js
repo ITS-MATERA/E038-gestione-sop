@@ -335,6 +335,7 @@ sap.ui.define(
         self.getView().byId("idToolbarDetail")?.setVisible(true)
         if (bCopy) {
           self.createModelQuoteAssociate(sModelName)
+          self.createModelModPagamento()
           self.deleteDataForCopy()
         }
         return oModelSop
@@ -4545,12 +4546,16 @@ sap.ui.define(
       deleteDataForCopy: function () {
         var self = this;
         var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData()
         var aClassificazione = oModelSop.getProperty("/Classificazione")
 
-        oModelSop.setProperty("/Zimptot", "0.00")
+        if (oSop.Ztipopag !== '4') {
+          oModelSop.setProperty("/Zimptot", "0.00")
+          oModelSop.setProperty("/Position", [])
+        }
+
         oModelSop.setProperty("/Znumprot", "")
         oModelSop.setProperty("/Zdataprot", null)
-        oModelSop.setProperty("/Position", [])
 
         aClassificazione.map((oClassificazione) => {
           oClassificazione.ZimptotClass = "0.00"

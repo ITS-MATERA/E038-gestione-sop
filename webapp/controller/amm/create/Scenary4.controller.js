@@ -3,7 +3,7 @@ sap.ui.define(
   function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
     "use strict";
 
-    return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary1", {
+    return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary4", {
       formatter: formatter,
 
       onInit: function () {
@@ -15,7 +15,6 @@ sap.ui.define(
 
         self.setModel(oModelUtility, "Utility");
 
-        // self.acceptOnlyImport("iptImpDaOrd");
         self.acceptOnlyImport("iptImpDaAssociareCos");
         self.acceptOnlyImport("iptImpDaAssociareCpv");
         self.acceptOnlyImport("iptImpDaAssociareCig");

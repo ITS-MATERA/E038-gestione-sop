@@ -491,7 +491,7 @@ sap.ui.define(
           Function: "Dettaglio",
           EnableEdit: false,
           isLogVisible: false,
-          RemoveFuctionButtons: false,
+          RemoveFunctionButtons: false,
           Sop: [],
           EnableVerificaConferma: false,
           EnableValidazione: false,
@@ -514,7 +514,7 @@ sap.ui.define(
         self.createModelStepScenario();
         oModelUtility.setProperty("/Function", "VerificaConferma")
         oModelUtility.setProperty("/EnableVerificaConferma", true)
-        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
       },
 
       onConferma: function () {
@@ -571,7 +571,7 @@ sap.ui.define(
 
         oModelUtility.setProperty("/Function", "Validazione")
         oModelUtility.setProperty("/EnableValidazione", true)
-        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
         oModelUtility.setProperty("/Sop", [oSop])
       },
 
@@ -658,7 +658,7 @@ sap.ui.define(
           self.createModelStepScenario();
           oModelUtility.setProperty("/Function", "RegistraRilievo")
           oModelUtility.setProperty("/EnableRegistraRilievo", true)
-          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
           oModelUtility.setProperty("/Sop", [oSop])
           self.createModelDatiUtente()
           return
@@ -713,7 +713,7 @@ sap.ui.define(
           self.createModelStepScenario();
           oModelUtility.setProperty("/Function", "RettificaRilievo")
           oModelUtility.setProperty("/EnableRettificaRilievo", true)
-          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
           oModelUtility.setProperty("/Sop", [oSop])
           self.createModelDatiUtente()
           return
@@ -759,7 +759,7 @@ sap.ui.define(
           self.createModelStepScenario();
           oModelUtility.setProperty("/Function", "CancellaRilievo")
           oModelUtility.setProperty("/EnableCancellaRilievo", true)
-          oModelUtility.setProperty("/RemoveFuctionButtons", true)
+          oModelUtility.setProperty("/RemoveFunctionButtons", true)
           oModelUtility.setProperty("/Sop", [oSop])
           self.createModelDatiUtente()
           return
@@ -810,7 +810,7 @@ sap.ui.define(
         self.createModelStepScenario();
         oModelUtility.setProperty("/Function", "ValidaRilievo")
         oModelUtility.setProperty("/EnableValidaRilievo", true)
-        oModelUtility.setProperty("/RemoveFuctionButtons", true)
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
         oModelUtility.setProperty("/Sop", [oSop])
         self.createModelDatiUtente()
       },
