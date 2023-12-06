@@ -556,6 +556,7 @@ sap.ui.define(
       },
 
       lockSop: async function (oSop) {
+        return
         var self = this;
         var oModelUtility = self.getModel("Utility")
         await this.oDataCreateLock("/StartSoftState", "GET");

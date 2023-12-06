@@ -13,25 +13,6 @@ sap.ui.define(
 
         this.getRouter().getRoute("amm.inputSop").attachPatternMatched(this._onObjectMatched, this);
 
-      },
-
-      onNavBack: function () {
-        var self = this;
-        self.getRouter().navTo("amm.selectType");
-      },
-
-      _onObjectMatched: async function (oEvent) {
-        var self = this;
-        self.checkPermissions("A", "Registra")
-        var oModel = self.getModel();
-        var oArguments = oEvent.getParameter("arguments");
-
-        if (!self.getModel("AuthorityCheck")) {
-          self.getPermissionSop();
-        }
-
-        this._sTypeSop = oArguments.type;
-
         var oModelFirstSop = new JSONModel({
           Gjahr: "",
           Zragdest: "",
@@ -50,6 +31,28 @@ sap.ui.define(
           Zcausale: "",
         });
 
+        self.setModel(oModelFirstSop, "FirstSop");
+
+      },
+
+      onNavBack: function () {
+        var self = this;
+        self.getRouter().navTo("amm.selectType");
+      },
+
+      _onObjectMatched: async function (oEvent) {
+        var self = this;
+        self.checkPermissions("A", "Registra")
+        var oModel = self.getModel();
+        var oArguments = oEvent.getParameter("arguments");
+        var oModelFirstSop = self.getModel("FirstSop")
+
+        if (!self.getModel("AuthorityCheck")) {
+          self.getPermissionSop();
+        }
+
+        this._sTypeSop = oArguments.type;
+
         self.getView().setBusy(true);
         oModel.read("/UserParamSet('PRC')", {
           success: function (data, oResponse) {
@@ -62,7 +65,7 @@ sap.ui.define(
           },
         });
 
-        self.setModel(oModelFirstSop, "FirstSop");
+
 
         this._setDataUfficio();
       },
@@ -185,7 +188,7 @@ sap.ui.define(
       },
 
       onUfficioChange: function () {
-        this._setDataUfficio();
+        this._setDataUfficio(true);
       },
 
       onNavForward: async function () {
@@ -230,7 +233,7 @@ sap.ui.define(
         }
       },
 
-      _setDataUfficio: async function () {
+      _setDataUfficio: async function (bMessageError = false) {
         var self = this;
         var oModel = self.getModel();
         var oModelFirstSop = self.getModel("FirstSop");
@@ -257,7 +260,10 @@ sap.ui.define(
             oModelFirstSop.setProperty("/Descufficio", self.setBlank(data.Descufficio));
             oModelFirstSop.setProperty("/Zfunzdel", self.setBlank(data.Zfunzdel));
             oModelFirstSop.setProperty("/Zdescriz", self.setBlank(data.Zdescriz));
-            self.hasResponseError(oResponse);
+            if (bMessageError) {
+              self.hasResponseError(oResponse);
+            }
+
           },
         });
       },

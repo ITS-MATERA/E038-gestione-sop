@@ -1720,9 +1720,9 @@ sap.ui.define(
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
         }
-        if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4" || sZwels === "ID5") {
-          oModelUtility.setProperty("/isIbanPrevalorizzato", true);
-        }
+        // if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4" || sZwels === "ID5") {
+        //   oModelUtility.setProperty("/isIbanPrevalorizzato", true);
+        // }
 
         if (oModelUtility.getProperty("/isVersanteEditable") && (oModelSop.getProperty("/Zwels") === "ID4" || oModelSop.getProperty("/Zwels") === "ID3")) {
           this._getCodProvenienza();
@@ -1825,6 +1825,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
+        var sZspecieSop = oSop.ZspecieSop
 
         var sKey = oModel.createKey("/IbanBeneficiarioSet", {
           ZspecieSop: oSop.ZspecieSop,
@@ -1844,12 +1845,22 @@ sap.ui.define(
           success: function (data, oResponse) {
             self.getView().setBusy(false);
 
-            if (oSop.Zwels === "ID1" || oSop.Zwels === "ID2" || oSop.Zwels === "ID3" || oSop.Zwels === "ID4" || oSop.Zwels === "ID5") {
-              oModelSop.setProperty("/Iban", data?.Iban);
+            switch (sZspecieSop) {
+              case "1": {
+                if (oSop.Zwels === "ID1" || oSop.Zwels === "ID2" || oSop.Zwels === "ID3" || oSop.Zwels === "ID4") {
+                  oModelSop.setProperty("/Iban", data?.Iban);
+                }
+                break;
+              }
+              case "2": {
+                if (oSop.Zwels === "ID3" || oSop.Zwels === "ID4" || oSop.Zwels === "ID5") {
+                  oModelSop.setProperty("/Iban", data?.Iban);
+                }
+                break;
+              }
             }
 
             self.checkIban();
-            self.setDataIban();
           },
           error: function () {
             self.getView().setBusy(false);
@@ -4598,6 +4609,8 @@ sap.ui.define(
       //#region ----------------------------LOCK--------------------------------
 
       lockQuoteBeneficiario: async function (oData) {
+        var oResponse = { data: { Type: 'S' } }
+        return oResponse
         await this.oDataCreateLock("/StartSoftState", "GET");
 
         var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
