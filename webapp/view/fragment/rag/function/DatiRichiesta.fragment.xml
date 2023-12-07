@@ -1,0 +1,143 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Panel
+        backgroundDesign="Transparent"
+        visible="{= 
+            ${Utility>/Function} === 'DocAggiuntiva' ? true : false}"
+    >
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
+                    text="{i18n>labelUfficio}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiRichiesta>/ZuffDocagg}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelDescrizione}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiRichiesta>/ZvimDescrufficio}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL6 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelNome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiRichiesta>/NomeDocAgg}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelCognome}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiRichiesta>/CognomeDocAgg}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Text
+                    text="{i18n>labelData}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <DatePicker
+                    value="{
+                      path: 'DatiRichiesta>/DataRichiesta',
+                      type: 'sap.ui.model.type.Date',
+                      formatOptions: {
+                        pattern: 'dd.MM.yyyy'
+                      }
+                    }"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </DatePicker>
+                <Text
+                    text="{i18n>labelNRichiesta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{DatiRichiesta>/ZnumRichiesta}"
+                    editable="false"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+                <Label
+                    text="{i18n>labelDocRichiesta}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
+                >
+                    <layoutData>
+                        <l:GridData
+                            span="XL2 L3 M12 S12"
+                            linebreak="true"
+                        />
+                    </layoutData>
+                </Label>
+                <TextArea
+                    maxLength="1000"
+                    value="{DatiRichiesta>/DocumentRich}"
+                    width="100%"
+                    cols="100"
+                >
+                    <layoutData>
+                        <l:GridData span="XL10 L9 M12 S12" />
+                    </layoutData>
+                </TextArea>
+            </l:Grid>
+        </content>
+    </Panel>
+</c:FragmentDefinition>

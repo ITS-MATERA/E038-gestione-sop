@@ -263,6 +263,8 @@
                 icon="sap-icon://edit"
                 type="Emphasized"
                 enabled="{= ${Utility>/Function} === 'VerificaConferma' }"
+                press="onRichiestaDocAgg"
+                visible="{= ${Utility>/RemoveFunctionButtons} === true &amp;&amp; ${Utility>/EnableDocAggiuntiva} === true ? false : true}"
             >
                 <layoutData>
                     <l:GridData

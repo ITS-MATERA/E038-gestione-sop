@@ -1980,6 +1980,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
+        var oModelUtility = self.getModel("Utility")
 
         var sKey = oModel.createKey("/IbanBeneficiarioSet", {
           ZspecieSop: oSop.ZspecieSop,
@@ -3612,7 +3613,7 @@ sap.ui.define(
           success: function (data) {
             self.getView().setBusy(false)
             var aMessage = data?.SopMessageSet?.results;
-
+            var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
                 if (aMessage[0]?.Body?.Msgty === 'E') {

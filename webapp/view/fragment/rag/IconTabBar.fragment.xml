@@ -10,6 +10,13 @@
     >
         <items>
             <IconTabFilter
+                key="DocAggiuntiva"
+                text="{i18n>iconTabDocAggiuntiva}"
+                icon="sap-icon://list"
+                visible="{Utility>/EnableDocAggiuntiva}"
+            />
+            <IconTabSeparator visible="{Utility>/EnableDocAggiuntiva}" />
+            <IconTabFilter
                 key="ValidaRilievo"
                 text="{i18n>iconTabValidaRilievo}"
                 icon="sap-icon://list"

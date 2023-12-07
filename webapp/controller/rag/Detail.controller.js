@@ -498,11 +498,13 @@ sap.ui.define(
           EnableRegistraRilievo: false,
           EnableRettificaRilievo: false,
           EnableCancellaRilievo: false,
-          EnableValidaRilievo: false
+          EnableValidaRilievo: false,
+          EnableDocAggiuntiva: false
         })
 
         self.setModel(oModelUtility, "Utility")
       },
+
 
       //#region ------------------------Functions-------------------------------
 
@@ -854,6 +856,54 @@ sap.ui.define(
         })
       },
 
+      onRichiestaDocAgg: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+
+        self.resetWizard("wizDetail");
+        self.createModelStepScenario();
+        oModelUtility.setProperty("/Function", "DocAggiuntiva")
+        oModelUtility.setProperty("/EnableDocAggiuntiva", true)
+        oModelUtility.setProperty("/EnableVerificaConferma", false)
+        oModelUtility.setProperty("/RemoveFunctionButtons", true)
+        self.createModelDatiRichiesta()
+
+      },
+
+      onSaveDocAggiuntiva: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oDatiRichiesta = self.getModel("DatiRichiesta")
+        var oSop = self.getModel("Sop").getData()
+
+        var oSopDeep = {
+          Operazione: "RICHIESTA_DOCUMENTAZIONE",
+          Bukrs: "",
+          Zchiavesop: "",
+          SopAmministrazioneSet: {
+            Bukrs: oSop.Bukrs,
+            Gjahr: oSop.Gjahr,
+            Zchiavesop: oSop.Zchiavesop,
+            ZuffDocagg: oDatiRichiesta.ZuffDocagg
+          },
+          PosizioniSopSet: [],
+          ClassificazioneSopSet: [],
+          SopMessageSet: []
+        }
+
+        self.getView().setBusy(true)
+        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+          success: function (data) {
+            self.getView().setBusy(false)
+            self.managementLogFunction(data, "Richiesta documentazione aggiuntiva")
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          },
+        });
+      },
+
       //#region ---------------------------Methods------------------------------
 
       onOkMotivazione: function () {
@@ -979,6 +1029,76 @@ sap.ui.define(
           }
         })
       },
+
+      createModelDatiRichiesta: async function () {
+        var self = this;
+        var sUfficio = await self.getUfficio()
+        var oAnagrafica = await self._getNomeCognome()
+
+        var oModelDatiRichiesta = new JSONModel({
+          ZuffDocagg: sUfficio,
+          ZvimDescrufficio: await self._getDescUfficio(sUfficio),
+          NomeDocAgg: oAnagrafica.NomeDocAgg,
+          CognomeDocAgg: oAnagrafica.CognomeDocAgg,
+          DataRichiesta: new Date(),
+          DocumentRich: "",
+          ZnumRichiesta: ""
+        })
+
+        self.setModel(oModelDatiRichiesta, "DatiRichiesta")
+      },
+
+      _getDescUfficio: async function (sUfficio) {
+        var self = this;
+        var oModel = self.getModel()
+        var oModelDatiRichiesta = self.getModel("DatiRichiesta")
+
+        if (!sUfficio) {
+          oModelDatiRichiesta.setProperty("/ZvimDescrufficio")
+          return
+        }
+
+        var sKey = oModel.createKey("/DescrizioneUfficioSet", {
+          ZvimUfficio: sUfficio
+        })
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: async function (data) {
+              resolve(data.ZvimDescrufficio)
+              self.getView().setBusy(false)
+            },
+            error: function (error) {
+              self.getView().setBusy(false)
+            },
+          });
+        })
+      },
+
+      _getNomeCognome: async function () {
+        var self = this;
+        var oModel = self.getModel()
+        var sKey = oModel.createKey("/RilievoSet", {
+          Zchiavesop: ""
+        })
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: async function (data) {
+              resolve({
+                NomeDocAgg: data.Znome,
+                CognomeDocAgg: data.Zcognome
+              })
+              self.getView().setBusy(false)
+            },
+            error: function (error) {
+              self.getView().setBusy(false)
+            },
+          });
+        })
+      }
 
       //#endregion ------------------------Methods------------------------------
 

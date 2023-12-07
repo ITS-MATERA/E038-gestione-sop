@@ -23,7 +23,8 @@
             ${Utility>/Function} === 'FascicoloElettronico' ||
             ${Utility>/Function} === 'RettificaRilievo' ||
             ${Utility>/Function} === 'CancellaRilievo' ||
-            ${Utility>/Function} === 'ValidaRilievo' ? false : true}"
+            ${Utility>/Function} === 'ValidaRilievo' ||
+            ${Utility>/Function} === 'DocAggiuntiva' ? false : true}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -165,6 +166,16 @@
         text="{i18n>btnValida}"
         visible="{= ${Utility>/Function} === 'Validazione' ? true : false}"
         press="onValida"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnSave}"
+        press="onSaveDocAggiuntiva"
+        visible="{Utility>/EnableDocAggiuntiva}"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />
