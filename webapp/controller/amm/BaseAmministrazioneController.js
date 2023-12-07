@@ -1698,14 +1698,7 @@ sap.ui.define(
       onIbanChange: function () {
         var self = this;
         var oModelUtility = self.getModel("Utility");
-        if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
-          var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
-          oModelUtility.setProperty("/isIbanPrevalorizzato", false);
-          oDialogMotivazione.open();
-        }
-
         this.checkIban();
-        this.setDataIban();
       },
 
       onModalitaPagamentoChange: async function (oEvent) {
@@ -1720,7 +1713,7 @@ sap.ui.define(
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
         }
-        // if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4" || sZwels === "ID5") {
+        // if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4") {
         //   oModelUtility.setProperty("/isIbanPrevalorizzato", true);
         // }
 
@@ -1914,6 +1907,7 @@ sap.ui.define(
             oModelSop.setProperty("/Iban", data?.Iban);
             if (data?.Iban) {
               oModelUtility.setProperty("/isIbanPrevalorizzato", true);
+              self._sIbanPrevalorizzato = data?.Iban
             } else {
               oModelUtility.setProperty("/isIbanPrevalorizzato", false);
             }
@@ -2008,6 +2002,14 @@ sap.ui.define(
               oModelSop.setProperty("/Iban", "");
               oModelSop.setProperty("/Banks", "");
               return;
+            }
+            if (
+              oModelUtility.getProperty("/isIbanPrevalorizzato") &&
+              self._sIbanPrevalorizzato !== oModelSop.getProperty("/Iban")
+            ) {
+              var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
+              oModelUtility.setProperty("/isIbanPrevalorizzato", false);
+              oDialogMotivazione.open();
             }
             self.setDataIban();
           },
