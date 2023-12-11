@@ -29,6 +29,8 @@ sap.ui.define(
           Zdataprovv: null,
           Znprovv: "",
           Zcausale: "",
+          ZztipologiaSop: "",
+          DescTipologia: ""
         });
 
         self.setModel(oModelFirstSop, "FirstSop");
@@ -38,6 +40,7 @@ sap.ui.define(
       onNavBack: function () {
         var self = this;
         self.getRouter().navTo("amm.selectType");
+        self.resetPreWizard()
       },
 
       _onObjectMatched: async function (oEvent) {
@@ -211,6 +214,8 @@ sap.ui.define(
           Znprovv: oFirstSop.Znprovv,
           Zcausale: oFirstSop.Zcausale,
           TypeSop: this._sTypeSop,
+          ZztipologiaSop: oFirstSop.ZztipologiaSop,
+          DescTipologia: oFirstSop.DescTipologia
         };
 
         var bCheck = await this._checkFirstSop();
@@ -260,6 +265,8 @@ sap.ui.define(
             oModelFirstSop.setProperty("/Descufficio", self.setBlank(data.Descufficio));
             oModelFirstSop.setProperty("/Zfunzdel", self.setBlank(data.Zfunzdel));
             oModelFirstSop.setProperty("/Zdescriz", self.setBlank(data.Zdescriz));
+            oModelFirstSop.setProperty("/ZztipologiaSop", self.setBlank(data.ZztipologiaSop));
+            oModelFirstSop.setProperty("/DescTipologia", self.setBlank(data.DescTipologia));
             if (bMessageError) {
               self.hasResponseError(oResponse);
             }

@@ -249,6 +249,7 @@
                 <Text
                     text="{i18n>labelCoordEstere}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -263,6 +264,7 @@
                         ${Utility>/isZcoordEsterPrevalorizzato} === false &amp;&amp;
                         ${Sop>/Iban} === ''? true : false}"
                     value="{Sop>/Zcoordest}"
+                    visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"
                     change="onCoordinateEstereChange"
                 >
                     <layoutData>

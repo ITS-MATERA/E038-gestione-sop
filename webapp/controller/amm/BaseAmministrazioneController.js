@@ -10,7 +10,7 @@ sap.ui.define(
     return BaseController.extend("gestionesop.controller.amm.BaseAmministrazioneController", {
       formatter: formatter,
 
-      createModelSop: function (sZtipopag) {
+      createModelSop: async function (sZtipopag) {
         var self = this;
 
         var oModelSop = new JSONModel({
@@ -532,7 +532,7 @@ sap.ui.define(
 
       //#region ----------------------------WIZARD 1----------------------------
 
-      setFirstSopData: function (oParamenters) {
+      setFirstSopData: async function (oParamenters) {
         var self = this;
         var oModelSop = self.getModel("Sop");
 
@@ -549,6 +549,9 @@ sap.ui.define(
         oModelSop.setProperty("/Zdataprovv", new Date(oParamenters?.Zdataprovv));
         oModelSop.setProperty("/Znprovv", oParamenters?.Znprovv);
         oModelSop.setProperty("/Zcausale", oParamenters?.Zcausale);
+        oModelSop.setProperty("/ZztipologiaSop", oParamenters?.ZztipologiaSop);
+        oModelSop.setProperty("/DescTipologia", oParamenters?.DescTipologia);
+        oModelSop.setProperty("/Bukrs", await self.getBukrs());
       },
 
       createModelFiltersWizard1: async function () {
@@ -1648,6 +1651,10 @@ sap.ui.define(
         var self = this;
         var sTipoFirma = oEvent.getSource().getSelectedKey();
 
+        this.resetQuietanzante1();
+        this.resetQuietanzante2();
+
+
         if (sTipoFirma) {
           self.setQuietanzante1();
         }
@@ -1656,11 +1663,7 @@ sap.ui.define(
           this.setQuietanzante2();
         }
 
-        self.setQuietanzante1();
 
-        if (sTipoFirma !== "03" && sTipoFirma !== "04") {
-          this.resetQuietanzante2();
-        }
       },
 
       onQuietanzante1Change: function (oEvent) {
@@ -1696,8 +1699,6 @@ sap.ui.define(
       },
 
       onIbanChange: function () {
-        var self = this;
-        var oModelUtility = self.getModel("Utility");
         this.checkIban();
       },
 
@@ -1709,13 +1710,11 @@ sap.ui.define(
         var oModelUtility = self.getModel("Utility");
         var sZwels = oEvent.getSource().getSelectedKey();
         oModelSop.setProperty("/DescZwels", self.setBlank(oEvent.getSource()?.getSelectedItem()?.getText()))
+
         if (!oModelUtility.getProperty("/isIbanPrevalorizzato") || !sZwels) {
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
         }
-        // if (sZwels === "ID1" || sZwels === "ID2" || sZwels === "ID3" || sZwels === "ID4") {
-        //   oModelUtility.setProperty("/isIbanPrevalorizzato", true);
-        // }
 
         if (oModelUtility.getProperty("/isVersanteEditable") && (oModelSop.getProperty("/Zwels") === "ID4" || oModelSop.getProperty("/Zwels") === "ID3")) {
           this._getCodProvenienza();
@@ -1726,7 +1725,7 @@ sap.ui.define(
           return;
         }
 
-        this.setIban();
+        this.setIban(true);
         this.setCoordinateEstere();
 
         if (sZwels === 'ID2') {
@@ -1736,7 +1735,8 @@ sap.ui.define(
             Lifnr: oSop.Lifnr,
             NumquietInitial: true,
             Qsskz: oSop.Witht,
-            ZzCebenra: oSop.ZzCebenra
+            ZzCebenra: oSop.ZzCebenra,
+            Ztipofirma: oSop.Ztipofirma
           });
 
           self.getView().setBusy(true);
@@ -1813,7 +1813,7 @@ sap.ui.define(
         });
       },
 
-      setIban: function () {
+      setIban: function (bModalitaPagamento = false) {
         var self = this;
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
@@ -1853,7 +1853,7 @@ sap.ui.define(
               }
             }
 
-            self.checkIban();
+            self.checkIban(bModalitaPagamento);
           },
           error: function () {
             self.getView().setBusy(false);
@@ -1975,7 +1975,7 @@ sap.ui.define(
         });
       },
 
-      checkIban: function () {
+      checkIban: function (bModalitaPagamento) {
         var self = this;
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
@@ -2006,7 +2006,8 @@ sap.ui.define(
             }
             if (
               oModelUtility.getProperty("/isIbanPrevalorizzato") &&
-              self._sIbanPrevalorizzato !== oModelSop.getProperty("/Iban")
+              self._sIbanPrevalorizzato !== oModelSop.getProperty("/Iban") &&
+              !bModalitaPagamento
             ) {
               var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
               oModelUtility.setProperty("/isIbanPrevalorizzato", false);
@@ -2072,7 +2073,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
         });
 
         self.getView().setBusy(true);
@@ -2091,7 +2093,9 @@ sap.ui.define(
             oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
             oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
             oModelSop.setProperty("/Znumquiet", data.Znumquiet);
-            self.hasResponseError(oResponse);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd1", "")
+            };
           },
           error: function () {
             self.getView().setBusy(false);
@@ -2188,7 +2192,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
         });
 
         self.getView().setBusy(true);
@@ -2204,7 +2209,9 @@ sap.ui.define(
             oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
             oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
-            self.hasResponseError(oResponse);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd12", "")
+            };
           },
           error: function () {
             self.getView().setBusy(false);
@@ -2223,7 +2230,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
         });
 
         self.getView().setBusy(true);
@@ -2240,7 +2248,9 @@ sap.ui.define(
             oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
             oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
             oModelSop.setProperty("/Znumquiet", data.Znumquiet);
-            self.hasResponseError(oResponse);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd14", "");
+            };
           },
           error: function () {
             self.getView().setBusy(false);
@@ -2259,7 +2269,8 @@ sap.ui.define(
           Lifnr: oSop.Lifnr,
           NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
         });
 
         self.getView().setBusy(true);
@@ -2275,7 +2286,9 @@ sap.ui.define(
             oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
             oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
-            self.hasResponseError(oResponse);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd15", "");
+            };
           },
           error: function () {
             self.getView().setBusy(false);
@@ -3479,11 +3492,11 @@ sap.ui.define(
             Fipos: oSop.Fipos,
             Fistl: oSop.Fistl,
             Znumprot: oSop.Znumprot,
-            Zdataprot: oSop.Zdataprot,
+            Zdataprot: formatter.UTCRome(oSop.Zdataprot),
             ZcodStatosop: oSop.ZcodStatosop,
             ZspecieSop: oSop.ZspecieSop,
             Zricann: oSop.Zricann,
-            Zdatarichann: oSop.Zdatarichann,
+            Zdatarichann: formatter.UTCRome(oSop.Zdatarichann),
             Capitolo: oSop.Capitolo,
             DescWitht: oSop.DescWitht,
             ZzDescebe: oSop.ZzDescebe,
@@ -3547,13 +3560,13 @@ sap.ui.define(
             Zcodprov: oSop.Zcodprov,
             Zcfcommit: oSop.Zcfcommit,
             Zcodtrib: oSop.Zcodtrib,
-            Zperiodrifda: oSop.Zperiodrifda,
-            Zperiodrifa: oSop.Zperiodrifa,
+            Zperiodrifda: formatter.UTCRome(oSop.Zperiodrifda),
+            Zperiodrifa: formatter.UTCRome(oSop.Zperiodrifa),
             Zcodinps: oSop.Zcodinps,
             Zcodvers: oSop.Zcodvers,
             Zcfvers: oSop.Zcfvers,
             Zdescvers: oSop.Zdescvers,
-            Zdatavers: oSop.Zdatavers,
+            Zdatavers: formatter.UTCRome(oSop.Zdatavers),
             Zprovvers: oSop.Zprovvers,
             Zsedevers: oSop.Zsedevers,
             Zibanb: oSop.Zibanb,
@@ -3597,7 +3610,7 @@ sap.ui.define(
             Znumquiet2: oSop.Znumquiet2,
             Ztipoprovv: oSop.Ztipoprovv,
             Zautemit: oSop.Zautemit,
-            Zdataprovv: oSop.Zdataprovv,
+            Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
             Seqnr: oSop.Seqnr
           },
@@ -3626,6 +3639,7 @@ sap.ui.define(
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function () {
                       self.unlockSop()
+                      self.resetPreWizard()
                       self.getRouter().navTo("amm.home", {
                         Reload: true,
                       });
@@ -3804,7 +3818,7 @@ sap.ui.define(
             Fipos: oSop.Fipos,
             Fistl: oSop.Fistl,
             Znumprot: oSop.Znumprot,
-            Zdataprot: oSop.Zdataprot,
+            Zdataprot: formatter.UTCRome(oSop.Zdataprot),
             ZcodStatosop: oSop.ZcodStatosop,
             ZspecieSop: oSop.ZspecieSop,
             Zricann: oSop.Zricann,
@@ -3872,13 +3886,13 @@ sap.ui.define(
             Zcodprov: oSop.Zcodprov,
             Zcfcommit: oSop.Zcfcommit,
             Zcodtrib: oSop.Zcodtrib,
-            Zperiodrifda: oSop.Zperiodrifda,
-            Zperiodrifa: oSop.Zperiodrifa,
+            Zperiodrifda: formatter.UTCRome(oSop.Zperiodrifda),
+            Zperiodrifa: formatter.UTCRome(oSop.Zperiodrifa),
             Zcodinps: oSop.Zcodinps,
             Zcodvers: oSop.Zcodvers,
             Zcfvers: oSop.Zcfvers,
             Zdescvers: oSop.Zdescvers,
-            Zdatavers: oSop.Zdatavers,
+            Zdatavers: formatter.UTCRome(oSop.Zdatavers),
             Zprovvers: oSop.Zprovvers,
             Zsedevers: oSop.Zsedevers,
             Zibanb: oSop.Zibanb,
@@ -3922,7 +3936,7 @@ sap.ui.define(
             Znumquiet2: oSop.Znumquiet2,
             Ztipoprovv: oSop.Ztipoprovv,
             Zautemit: oSop.Zautemit,
-            Zdataprovv: oSop.Zdataprovv,
+            Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
             Seqnr: oSop.Seqnr
           },
@@ -4089,7 +4103,7 @@ sap.ui.define(
                   ZdirigenteAmm: oDatiFirmatario.ZdirigenteAmm,
                   Zcdr: oDatiFirmatario.Fistl,
                   Znumprot: oSop.Znumprot,
-                  Zdataprot: oSop.Zdataprot
+                  Zdataprot: formatter.UTCRome(oSop.Zdataprot)
                 },
                 PosizioniSopSet: [],
                 ClassificazioneSopSet: [],
@@ -4852,6 +4866,32 @@ sap.ui.define(
           oModelSop.setProperty("/Zperiodrifda", obj.Zperiodrifda ? obj.Zperiodrifda : null);
           return;
         }
+      },
+
+      resetPreWizard: function () {
+        var self = this;
+
+        var oModelFirstSop = new JSONModel({
+          Gjahr: "",
+          Zragdest: "",
+          Zzamministr: "",
+          Fipos: "",
+          Fistl: "",
+          Zgeber: "",
+          ZufficioCont: "",
+          Descufficio: "",
+          Zfunzdel: "",
+          Zdescriz: "",
+          Ztipoprovv: "",
+          Zautemit: "",
+          Zdataprovv: null,
+          Znprovv: "",
+          Zcausale: "",
+          ZztipologiaSop: "",
+          DescTipologia: ""
+        });
+
+        self.setModel(oModelFirstSop, "FirstSop");
       },
 
       //#region ---------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
