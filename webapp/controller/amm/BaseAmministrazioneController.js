@@ -1453,6 +1453,9 @@ sap.ui.define(
         var oSop = oModelSop.getData();
         var oSelectedItem = oEvent?.getParameter("selectedItem");
         var sCodiceFiscale = self.setBlank(oSelectedItem?.getTitle());
+        if (!sCodiceFiscale) {
+          self.resetQuietanzante1()
+        }
         var sZnumquiet = oEvent?.getParameter("selectedItem")?.data("Znumquiet");
         var bNumquietInitial1 = oEvent?.getParameter("selectedItem")?.data("NumquietInitial");
 
@@ -1495,6 +1498,9 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSelectedItem = oEvent?.getParameter("selectedItem");
         var sCodiceFiscale = self.setBlank(oSelectedItem?.getTitle());
+        if (!sCodiceFiscale) {
+          self.resetQuietanzante2()
+        }
         var sZnumquiet2 = oEvent?.getParameter("selectedItem")?.data("Znumquiet2");
         var bNumquietInitial1 = oEvent?.getParameter("selectedItem")?.data("NumquietInitial");
 
@@ -1533,6 +1539,9 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSelectedItem = oEvent?.getParameter("selectedItem");
         var sCodiceFiscale = self.setBlank(oSelectedItem?.getTitle());
+        if (!sCodiceFiscale) {
+          self.resetQuietanzante1()
+        }
         var bNumquietInitial1 = oEvent?.getParameter("selectedItem")?.data("NumquietInitial");
 
         oModelSop.setProperty("/NumquietInitial2", bNumquietInitial1);
@@ -1569,6 +1578,9 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSelectedItem = oEvent?.getParameter("selectedItem");
         var sCodiceFiscale = self.setBlank(oSelectedItem?.getTitle());
+        if (!sCodiceFiscale) {
+          self.resetQuietanzante2()
+        }
         var bNumquietInitial1 = oEvent?.getParameter("selectedItem")?.data("NumquietInitial");
 
         oModelSop.setProperty("/NumquietInitial2", bNumquietInitial1);
