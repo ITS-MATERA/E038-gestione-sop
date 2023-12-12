@@ -38,6 +38,7 @@ sap.ui.define(
         if (bWizard1Step1) {
           self.getRouter().navTo("amm.inputSop", {
             type: this._sTypeSop,
+            Reset: false
           });
         } else if (bWizard1Step2) {
           oModelStepScenario.setProperty("/wizard1Step2", false);

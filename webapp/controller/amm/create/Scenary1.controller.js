@@ -41,6 +41,7 @@ sap.ui.define(
         if (bWizard1Step1) {
           self.getRouter().navTo("amm.inputSop", {
             type: this._sTypeSop,
+            Reset: false
           });
         } else if (bWizard1Step2) {
           oModelStepScenario.setProperty("/wizard1Step2", false);
@@ -149,23 +150,6 @@ sap.ui.define(
             });
             self.setModel(new JSONModel(aData), "PosizioniScen1");
             oPanelCalculator.setVisible(aData.length !== 0);
-
-            // if (data.results !== 0) {
-            //   data.results.map((oItem, iIndex) => {
-            //     //Vengono selezionati i record quando viene caricata l'entità
-            //     aListRiepilogo.map((oSelectedItem) => {
-            //       if (
-            //         oItem.Bukrs === oSelectedItem.Bukrs &&
-            //         oItem.Znumliq === oSelectedItem.Znumliq &&
-            //         oItem.Zposizione === oSelectedItem.Zposizione &&
-            //         oItem.Zversione === oSelectedItem.Zversione &&
-            //         oItem.ZversioneOrig === oSelectedItem.ZversioneOrig
-            //       ) {
-            //         oTableDocumenti.setSelectedItem(oTableDocumenti.getItems()[iIndex]);
-            //       }
-            //     });
-            //   });
-            // }
           },
           error: function () {
             self.getView().setBusy(false);

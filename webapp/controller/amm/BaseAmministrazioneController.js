@@ -1025,15 +1025,16 @@ sap.ui.define(
         oModelFilter.setProperty("/ZdatesiTo", null);
       },
 
-      onRitenutaChange: async function (oEvent) {
+      onRitenutaChange: async function () {
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oSpecieSop = await self._setSpecieSop("2");
-        var sDescWitht = oEvent.getSource()?.getSelectedItem()?.getText()
+        var oInput = self.getView().byId("iptRitenuta")
+        var sDescWitht = oInput?.getSelectedItem()?.getText()
 
         oModelSop.setProperty("/DescWitht", sDescWitht)
 
-        if (!oEvent.getSource().getSelectedKey()) {
+        if (!oInput.getSelectedKey()) {
           oModelSop.setProperty("/ZspecieSop", "");
           oModelSop.setProperty("/DescZspecieSop", "");
         } else {
@@ -1640,7 +1641,7 @@ sap.ui.define(
         oModel.read(sPath, {
           success: function (data) {
             oModelSop.setProperty("/AccTypeId", data.AccTypeId);
-            oModelSop.setProperty("/Regio", data.Regio);
+            oModelSop.setProperty("/RegioConto", data.Regio);
             oModelSop.setProperty("/ZaccText", data.ZaccText);
           },
           error: function () { },
@@ -3373,6 +3374,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
+        var oModelUtility = self.getModel("Utility")
         var oSop = oModelSop.getData()
         var aPosition = oSop.Position
         var aClassificazione = oSop.Classificazione
@@ -4692,6 +4694,8 @@ sap.ui.define(
           oModelSop.setProperty("/Zdstatodes", "");
           oModelSop.setProperty("/Zdscadenza", "");
           oModelSop.setProperty("/ZfermAmm", "");
+          oModelSop.setProperty("/Zsede", "");
+          oModelSop.setProperty("/Zdenominazione", "");
           return;
         }
 
@@ -4718,6 +4722,8 @@ sap.ui.define(
             oModelSop.setProperty("/Zdstatodes", data?.Zdstatodes);
             oModelSop.setProperty("/Zdscadenza", data?.Zdscadenza);
             oModelSop.setProperty("/ZfermAmm", data?.ZfermAmm);
+            oModelSop.setProperty("/Zsede", data?.Zsede);
+            oModelSop.setProperty("/Zdenominazione", data?.Zdenominazione);
           },
           error: function () {
             self.getView().setBusy(false);

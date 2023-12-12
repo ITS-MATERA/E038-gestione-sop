@@ -50,6 +50,30 @@ sap.ui.define(
         var oArguments = oEvent.getParameter("arguments");
         var oModelFirstSop = self.getModel("FirstSop")
 
+        if (oArguments.Reset === "true") {
+          var oModelFirstSop = new JSONModel({
+            Gjahr: "",
+            Zragdest: "",
+            Zzamministr: "",
+            Fipos: "",
+            Fistl: "",
+            Zgeber: "",
+            ZufficioCont: "",
+            Descufficio: "",
+            Zfunzdel: "",
+            Zdescriz: "",
+            Ztipoprovv: "",
+            Zautemit: "",
+            Zdataprovv: null,
+            Znprovv: "",
+            Zcausale: "",
+            ZztipologiaSop: "",
+            DescTipologia: ""
+          });
+
+          self.setModel(oModelFirstSop, "FirstSop");
+        }
+
         if (!self.getModel("AuthorityCheck")) {
           self.getPermissionSop();
         }

@@ -20,6 +20,7 @@ sap.ui.define(["./BaseAmministrazioneController"], function (BaseAmministrazione
       var self = this;
       self.getRouter().navTo("amm.inputSop", {
         type: 1,
+        Reset: true
       });
     },
 
@@ -27,6 +28,7 @@ sap.ui.define(["./BaseAmministrazioneController"], function (BaseAmministrazione
       var self = this;
       self.getRouter().navTo("amm.inputSop", {
         type: 2,
+        Reset: true
       });
     },
   });

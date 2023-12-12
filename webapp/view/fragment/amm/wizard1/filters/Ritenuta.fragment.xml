@@ -26,6 +26,7 @@
                     </layoutData>
                 </Text>
                 <ComboBox
+                    id="iptRitenuta"
                     width="100%"
                     items="{
                           path: '/RitenutaMCSet'

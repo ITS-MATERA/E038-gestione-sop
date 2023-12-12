@@ -232,7 +232,7 @@
           "target": ["amm.selectType"]
         },
         {
-          "pattern": "amm.inputSop/{type}",
+          "pattern": "amm.inputSop/{type}/:Reset:",
           "name": "amm.inputSop",
           "target": ["amm.inputSop"]
         },
