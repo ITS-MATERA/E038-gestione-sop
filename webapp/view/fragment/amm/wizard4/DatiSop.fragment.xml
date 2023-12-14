@@ -146,7 +146,6 @@
                     value="{Sop>/Zzonaint}"
                     editable="{Utility>/EnableEdit}"
                     valueHelpOnly="true"
-                    change="onZonaInterventoChange"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M4 S12" />

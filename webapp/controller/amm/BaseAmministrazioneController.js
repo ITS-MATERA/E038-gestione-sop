@@ -1621,6 +1621,8 @@ sap.ui.define(
         oModelSop.setProperty("/Zcoordest", self.setBlank(oSelectedItem?.getTitle()));
         self.setPaeseResidenza();
         self.setBic();
+        this.setBancaAccredito();
+        this.setIntermediario1();
 
         self.unloadFragment();
       },
@@ -1781,6 +1783,8 @@ sap.ui.define(
         this._checkCoordinateEstere();
         this.setPaeseResidenza();
         this.setBic();
+        this.setBancaAccredito();
+        this.setIntermediario1();
       },
 
       onSedeBeneficiarioChange: function () {

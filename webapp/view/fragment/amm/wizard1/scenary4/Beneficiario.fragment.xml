@@ -18,7 +18,7 @@
                 <zcontrolmodpag:ModPagamentoPopup
                     viewId="{Utility>/ViewId}"
                     Lifnr="{Sop>/Lifnr}"
-                    enabled="false"
+                    enabled="true"
                 />
             </OverflowToolbar>
         </headerToolbar>
