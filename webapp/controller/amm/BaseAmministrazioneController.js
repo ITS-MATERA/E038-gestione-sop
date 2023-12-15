@@ -1599,6 +1599,7 @@ sap.ui.define(
         var aFilters = [];
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
+        self.setFilterEQ(aFilters, "Zwels", oModelSop?.getProperty("/Zwels"));
         self.getView().setBusy(true);
 
         oModel.read("/CoordinateEstereSet", {
@@ -2338,7 +2339,8 @@ sap.ui.define(
           Iban: oSop.Iban,
           Zcoordest: oSop.Zcoordest,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Zwels: oSop.Zwels
         });
         self.getView().setBusy(true);
 
@@ -2389,7 +2391,8 @@ sap.ui.define(
           Iban: oSop.Iban,
           Zcoordest: oSop.Zcoordest,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Zwels: oSop.Zwels
         });
         self.getView().setBusy(true);
 
@@ -2464,10 +2467,61 @@ sap.ui.define(
         });
       },
 
-      _resetDataModalitaPagamento: function () {
+      _resetDataModalitaPagamento: function (bAll = false) {
         var self = this;
         var oModelSop = self.getModel("Sop");
         var sZwels = oModelSop.getProperty("/Zwels");
+
+        if (bAll) {
+          oModelSop.setProperty("/Zwels", "")
+          oModelSop.setProperty("/DescZwels", "")
+          oModelSop.setProperty("/Zalias", "");
+          oModelSop.setProperty("/AccTypeId", "");
+          oModelSop.setProperty("/RegioConto", "");
+          oModelSop.setProperty("/ZaccText", "");
+          oModelSop.setProperty("/Zflagfrutt", "");
+          oModelSop.setProperty("/Zcausben", "");
+          oModelSop.setProperty("/Zzposfinent", "");
+          oModelSop.setProperty("/Swift", "");
+          oModelSop.setProperty("/Zcoordest", "");
+          oModelSop.setProperty("/Zpurpose", "");
+          oModelSop.setProperty("/Zibanb", "");
+          oModelSop.setProperty("/Zbicb", "");
+          oModelSop.setProperty("/Zcoordestb", "");
+          oModelSop.setProperty("/Zdenbanca", "");
+          oModelSop.setProperty("/Zclearsyst", "");
+          oModelSop.setProperty("/StrasBanca", "");
+          oModelSop.setProperty("/Zcivico", "");
+          oModelSop.setProperty("/Ort01Banca", "");
+          oModelSop.setProperty("/RegioBanca", "");
+          oModelSop.setProperty("/PstlzBanca", "");
+          oModelSop.setProperty("/Land1", "");
+          oModelSop.setProperty("/Zibani", "");
+          oModelSop.setProperty("/Zbici", "");
+          oModelSop.setProperty("/Zcoordesti", "");
+          oModelSop.setProperty("/Zdenbancai", "");
+          oModelSop.setProperty("/Zclearsysti", "");
+          oModelSop.setProperty("/Zstrasi", "");
+          oModelSop.setProperty("/Zcivicoi", "");
+          oModelSop.setProperty("/Zort01i", "");
+          oModelSop.setProperty("/Zregioi", "");
+          oModelSop.setProperty("/Zpstlzi", "");
+          oModelSop.setProperty("/Zland1i", "");
+          oModelSop.setProperty("/Ztipofirma", "");
+          this.resetQuietanzante1();
+          this.resetQuietanzante2();
+          oModelSop.setProperty("/Zcodprov", "");
+          oModelSop.setProperty("/Zcfcommit", "");
+          oModelSop.setProperty("/Zcodtrib", "");
+          oModelSop.setProperty("/Zperiodrifda", null);
+          oModelSop.setProperty("/Zperiodrifa", null);
+          oModelSop.setProperty("/Zcodinps", "");
+          oModelSop.setProperty("/Zdescvers", "");
+          oModelSop.setProperty("/Zdatavers", null);
+          oModelSop.setProperty("/Zprovvers", "");
+          oModelSop.setProperty("/Zsedevers", "");
+          return
+        }
 
         if (sZwels !== "ID3") {
           oModelSop.setProperty("/Zalias", "");
@@ -2537,6 +2591,7 @@ sap.ui.define(
         var aFilters = [];
 
         self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
+        self.setFilterEQ(aFilters, "Zwels", oModelSop?.getProperty("/Zwels"));
 
         if (oSop.Zwels !== "ID6" && oSop.Zwels !== "ID10") {
           return;
@@ -2550,9 +2605,12 @@ sap.ui.define(
             var aData = data.results;
             if (aData.length === 1) {
               oModelSop.setProperty("/Zcoordest", aData[0]?.Zcoordest);
+              oModelSop.setProperty("/Iban", "")
               oModelUtility.setProperty("/isZcoordEsterPrevalorizzato", true);
               self.setPaeseResidenza();
               self.setBic();
+              self.setBancaAccredito()
+              self.setIntermediario1()
             }
           },
           error: function () {
@@ -2570,6 +2628,7 @@ sap.ui.define(
         var sKey = oModel.createKey("/CoordinateEstereSet", {
           Lifnr: oSop.Lifnr,
           Zcoordest: oSop.Zcoordest,
+          Zwels: oSop.Zwels
         });
 
         self.getView().setBusy(true);

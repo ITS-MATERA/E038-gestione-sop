@@ -56,6 +56,7 @@ sap.ui.define(
             "/visibleBtnInserisciProspLiquidazione",
             true
           );
+          self._resetDataModalitaPagamento(true)
           oWizard.previousStep();
         } else if (bWizard3) {
           oModelStepScenario.setProperty("/wizard3", false);

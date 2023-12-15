@@ -56,6 +56,7 @@ sap.ui.define(
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard1Step3", true);
+          self._resetDataModalitaPagamento(true)
           oWizard.previousStep();
         } else if (bWizard3) {
           oModelStepScenario.setProperty("/wizard3", false);
