@@ -21,7 +21,7 @@
                     backgroundDesign="Transparent"
                 >
                     <c:Fragment
-                        fragmentName="gestionesop.view.fragment.amm.HeaderSop"
+                        fragmentName="gestionesop.view.fragment.amm.HeaderSopDetail"
                         type="XML"
                     />
                     <c:Fragment
@@ -167,8 +167,7 @@
                     fragmentName="gestionesop.view.fragment.amm.create.FooterToolbar"
                     type="XML"
                 />
-                <!-- TODO - Deploy -->
-                <!-- <Button
+                <Button
                     type="Emphasized"
                     text="{i18n>btnInserisciProspettoLiquidazione}"
                     press="onInserisciProspettoLiquidazione"
@@ -191,7 +190,7 @@
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
-                </Button> -->
+                </Button>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

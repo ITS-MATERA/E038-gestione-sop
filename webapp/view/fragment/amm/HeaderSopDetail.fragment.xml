@@ -39,6 +39,16 @@
             </HBox>
             <HBox>
                 <Label
+                    text="{i18n>labelChiaveSop}:"
+                    class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                />
+                <Text text="{Sop>/Zchiavesop}" />
+                <layoutData>
+                    <l:GridData span="XL3 L4 M6 S12" />
+                </layoutData>
+            </HBox>
+            <HBox>
+                <Label
                     text="{i18n>labelImporto}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
@@ -54,7 +64,7 @@
                 />
                 <Text text="{Sop>/Zzamministr}" />
                 <layoutData>
-                    <l:GridData span="XL3 L4 M6 S12" />
+                    <l:GridData span="XL2 L4 M6 S12" />
                 </layoutData>
             </HBox>
             <HBox>
@@ -274,13 +284,14 @@
             <Button
                 visible="{= ${Utility>/RemoveFunctionButtons} ? false : true}"
                 enabled="{= 
-                    ${Sop>/ZcodStatosop} !== '05' &amp;&amp;
+                    (${Sop>/ZcodStatosop} !== '05' &amp;&amp;
                     ${Sop>/ZcodStatosop} !== '07' &amp;&amp;
                     ${Sop>/ZcodStatosop} !== '08' &amp;&amp;
                     ${Sop>/ZcodStatosop} !== '11' &amp;&amp;
                     ${Sop>/ZcodStatosop} !== '14' &amp;&amp;
                     ${Sop>/ZcodStatosop} !== '15' &amp;&amp;
-                    ${Sop>/ZcodStatosop} !== '17'
+                    ${Sop>/ZcodStatosop} !== '17') &amp;&amp;
+                    ${AuthorityCheck>/Rettifica}
                     ? true : false
                 }"
                 text="{i18n>btnEdit}"

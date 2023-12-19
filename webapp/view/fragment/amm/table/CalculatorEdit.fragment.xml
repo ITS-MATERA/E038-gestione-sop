@@ -24,7 +24,7 @@
             </Text>
             <Input
                 value="{
-                path: 'Sop>/Zimptot',
+                path: 'Soa>/Zimptot',
                   formatter: '.formatter.convertImport'
                 }"
                 editable="false"

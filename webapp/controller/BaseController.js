@@ -209,6 +209,14 @@ sap.ui.define(
           Registra: false,
           Dettaglio: false,
           Copia: false,
+          Rettifica: false,
+          Annullamento: false,
+          InvioFirma: false,
+          RevocaInvioFirma: false,
+          Firma: false,
+          Richiamo: false,
+          RegRichiestaAnn: false,
+          CancRichiestaAnn: false
         };
 
         oAuthModel.read("/ZES_CONIAUTH_SET", {
@@ -221,6 +229,14 @@ sap.ui.define(
             oAuth.Copia = self._isUserAuthorized(aData, "ACTV_4", "Z10");
             oAuth.Registra = self._isUserAuthorized(aData, "ACTV_1", "Z01");
             oAuth.Dettaglio = self._isUserAuthorized(aData, "ACTV_3", "Z03");
+            oAuth.Rettifica = self._isUserAuthorized(aData, "ACTV_2", "Z02");
+            oAuth.Annullamento = self._isUserAuthorized(aData, "ACTV_4", "Z07");
+            oAuth.InvioFirma = self._isUserAuthorized(aData, "ACTV_4", "Z04");
+            oAuth.RevocaInvioFirma = self._isUserAuthorized(aData, "ACTV_4", "Z05");
+            oAuth.Firma = self._isUserAuthorized(aData, "ACTV_4", "Z06");
+            oAuth.Richiamo = self._isUserAuthorized(aData, "ACTV_4", "Z17");
+            oAuth.RegRichiestaAnn = self._isUserAuthorized(aData, "ACTV_4", "Z08");
+            oAuth.CancRichiestaAnn = self._isUserAuthorized(aData, "ACTV_4", "Z09");
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
 
             if (bNavTo) {
@@ -556,7 +572,6 @@ sap.ui.define(
       },
 
       lockSop: async function (oSop) {
-        return
         var self = this;
         var oModelUtility = self.getModel("Utility")
         await this.oDataCreateLock("/StartSoftState", "GET");

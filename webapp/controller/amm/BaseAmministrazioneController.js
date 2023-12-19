@@ -2768,6 +2768,7 @@ sap.ui.define(
           Zzposfinent: oSop?.Zzposfinent,
           Zflagfrutt: oSop?.Zflagfrutt,
           Zimptot: oSop?.Zimptot,
+          Zpurpose: oSop?.Zpurpose
         };
 
         self.getView().setBusy(true);
@@ -4079,8 +4080,6 @@ sap.ui.define(
         var oModel = self.getModel()
         var oModelSop = self.getModel()
 
-        console.log(oEvent)
-
         var sKey = oModel.createKey("/LocPagamentoSet", {
           Regio: "",
           Zlocpag: oEvent.getParameter("value")
@@ -4179,8 +4178,8 @@ sap.ui.define(
                   ZuffcontFirm: oDatiFirmatario.ZuffcontFirm,
                   ZdirigenteAmm: oDatiFirmatario.ZdirigenteAmm,
                   Zcdr: oDatiFirmatario.Fistl,
-                  Znumprot: oSop.Znumprot,
-                  Zdataprot: formatter.UTCRome(oSop.Zdataprot)
+                  Znumprot: oDatiFirmatario.Sop[0].Znumprot,
+                  Zdataprot: formatter.UTCRome(oDatiFirmatario.Sop[0].Zdataprot)
                 },
                 PosizioniSopSet: [],
                 ClassificazioneSopSet: [],

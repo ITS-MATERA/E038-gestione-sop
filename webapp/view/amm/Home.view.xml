@@ -30,13 +30,12 @@
         <f:footer>
             <OverflowToolbar>
                 <ToolbarSpacer />
-                <!-- TODO - Deploy -->
-                <!-- <Button
+                <Button
                     type="Emphasized"
                     text="{i18n>btnCopy}"
                     press="onCopy"
                     enabled="{= ${Utility>/EnabledBtnCopy} &amp;&amp; ${AuthorityCheck>/Copia} ? true : false}"
-                /> -->
+                />
                 <Button
                     type="Emphasized"
                     text="{i18n>btnRegisterSop}"

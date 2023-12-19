@@ -140,6 +140,7 @@
                     text="{i18n>labelMotivazione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                     required="true"
+                    visible="{= ${Utility>/Function} === 'Richiamo' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
