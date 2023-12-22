@@ -8,7 +8,7 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>titleTablePosizioniScen3}" />
+                <Title text="{i18n>titleTablePosizioniScen1}" />
             </OverflowToolbar>
         </headerToolbar>
         <content>

@@ -96,9 +96,7 @@ sap.ui.define(
           self.createModelSedeBeneficiario();
           oWizard.nextStep();
         } else if (bWizard2) {
-          oModelStepScenario.setProperty("/wizard2", false);
-          oModelStepScenario.setProperty("/wizard3", true);
-          oWizard.nextStep();
+          self.checkWizard2(oWizard);
         } else if (bWizard3) {
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard4", true);
@@ -220,7 +218,9 @@ sap.ui.define(
               Iban: oSop.Iban,
               Lifnr: oSop.Lifnr,
               Zwels: oSop.Zwels,
-              Zimptot: oSop.Zimptot
+              Zimptot: oSop.Zimptot,
+              Hkont: oSop.Hkont,
+              Kostl: oSop.Kostl
             },
             success: function (data) {
               self.getView().setBusy(false);

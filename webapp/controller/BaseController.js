@@ -240,19 +240,17 @@ sap.ui.define(
             self.setModel(new JSONModel(oAuth), "AuthorityCheck");
 
             if (bNavTo) {
-              self.getRouter().navTo("amm.home")
               var sUserRole = await self._getUserRole()
-              //TODO - Deploy
-              // switch (sUserRole) {
-              //   case "A": {
-              //     self.getRouter().navTo("amm.home")
-              //     break;
-              //   }
-              //   case "R": {
-              //     self.getRouter().navTo("rag.home")
-              //     break;
-              //   }
-              // }
+              switch (sUserRole) {
+                case "A": {
+                  self.getRouter().navTo("amm.home")
+                  break;
+                }
+                case "R": {
+                  self.getRouter().navTo("rag.home")
+                  break;
+                }
+              }
             }
           },
           error: function (error) {
@@ -327,9 +325,6 @@ sap.ui.define(
 
       checkPermissions: async function (sRole, sPermission = "") {
         var self = this;
-
-        // TODO - Deploy
-        return
         var sUserRole = await self._getUserRole()
         var oPermissions = await self._createModelPermissions()
         var sHome = sUserRole === 'A' ? "amm.home" : "rag.home";

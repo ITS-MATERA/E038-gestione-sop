@@ -3238,16 +3238,34 @@ sap.ui.define(
         }
 
         //Controllo il totale degli importi con l'importo associato
-        var iImpAssociato = parseFloat(oModelSop.getProperty("/Zimptot"));
-        var iImpAssociatoCodiceGestione = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCos"));
-        var iImpCpv = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCpv"));
-        var iImpCig = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCig"));
-        var iImpCup = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCup"));
+        var iZimptot = parseFloat(oModelSop.getProperty("/Zimptot"));
+        var iCos = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCos"));
+        var iCpv = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCpv"));
+        var iCig = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCig"));
+        var iCup = parseFloat(oModelClassificazione.getProperty("/ImpTotAssociareCup"));
 
-        var iTotaImpAssociato = iImpAssociatoCodiceGestione + iImpCpv + iImpCig + iImpCup;
+        if (iCos < iZimptot) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpAssMinore"));
+          return false;
+        }
 
-        if (iImpAssociato !== iTotaImpAssociato) {
-          sap.m.MessageBox.error(oBundle.getText("msgDifferentImpAssociato", formatter.convertImport(parseFloat(iImpAssociato).toFixed(2))));
+        if (iCos > iZimptot) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpAssMaggiore"));
+          return false;
+        }
+
+        if (iCpv > iZimptot) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpAssMaggiore"));
+          return false;
+        }
+
+        if (iCig > iZimptot) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpAssMaggiore"));
+          return false;
+        }
+
+        if (iCup > iZimptot) {
+          sap.m.MessageBox.error(oBundle.getText("msgImpAssMaggiore"));
           return false;
         }
 
@@ -4975,7 +4993,7 @@ sap.ui.define(
       },
 
       //#region ---------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
-      functionReturnValueAnag: function (obj) {
+      functionReturnValueAnag: async function (obj) {
         var oData = obj?.data;
         var aDataQuietaVaglia = obj?.data?.QuietVaglia?.results;
         var self = this;
@@ -4984,6 +5002,10 @@ sap.ui.define(
         if (oData.MessageType !== "S") {
           return;
         }
+
+        var oSpecieSop = await self._setSpecieSop("1");
+        oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
+        oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
 
         //Dati beneficiario
         oModelSop.setProperty("/Lifnr", oData.Lifnr);
@@ -5042,6 +5064,7 @@ sap.ui.define(
         oModelSop.setProperty("/Stras", oData.Street + ", " + oData.Housenum);
 
         this._setDatiQuagliaVaglia(aDataQuietaVaglia, false);
+        self.createModelModPagamento();
       },
 
       functionReturnValueModPag: function (obj) {
@@ -5053,6 +5076,7 @@ sap.ui.define(
         }
 
         this._setDatiQuagliaVaglia(aDataQuietaVaglia, true);
+
       },
 
       _setDatiQuagliaVaglia: function (aData, bModPag) {

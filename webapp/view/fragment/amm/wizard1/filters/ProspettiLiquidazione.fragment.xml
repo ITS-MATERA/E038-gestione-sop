@@ -61,6 +61,31 @@
                     </layoutData>
                 </MultiInput>
                 <Text
+                    text="{i18n>labelUffPagatore}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Ztipopag} === '3' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{FiltersWizard1>/ZzuffPag}"
+                    maxLength="16"
+                    visible="{= ${Sop>/Ztipopag} === '3' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M6 S12" />
+                    </layoutData>
+                </Input>
+            </l:Grid>
+        </content>
+        <content>
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                hSpacing="0.5"
+            >
+                <Text
                     text="{i18n>labelNProspettoLiquidazioneFrom}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
@@ -81,13 +106,6 @@
                         <l:GridData span="XL2 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
-            </l:Grid>
-        </content>
-        <content>
-            <l:Grid
-                defaultSpan="XL12 L12 M12 S12"
-                hSpacing="0.5"
-            >
                 <Text
                     text="{i18n>labelNProspettoLiquidazioneTo}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"

@@ -145,7 +145,9 @@ sap.ui.define(
               Iban: oSop.Iban,
               Lifnr: oSop.Lifnr,
               Zwels: oSop.Zwels,
-              Zimptot: oSop.Zimptot
+              Zimptot: oSop.Zimptot,
+              Hkont: oSop.Hkont,
+              Kostl: oSop.Kostl
             },
             success: function (data) {
               self.getView().setBusy(false);
