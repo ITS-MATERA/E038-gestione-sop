@@ -2768,7 +2768,9 @@ sap.ui.define(
           Zzposfinent: oSop?.Zzposfinent,
           Zflagfrutt: oSop?.Zflagfrutt,
           Zimptot: oSop?.Zimptot,
-          Zpurpose: oSop?.Zpurpose
+          Zpurpose: oSop?.Zpurpose,
+          Banks: oSop?.Banks,
+          ZCausaleval: oSop?.ZCausaleval
         };
 
         self.getView().setBusy(true);
@@ -4170,11 +4172,14 @@ sap.ui.define(
         var oModel = self.getModel()
         var oModelUtility = self.getModel("Utility");
         var oSop = self.getModel("Sop").getData();
+        var oModelStepScenario = self.getModel("StepScenario")
+
 
         if (!oModelUtility.getProperty("/EnableInvioFirma")) {
           oModelUtility.setProperty("/EnableInvioFirma", true)
           oModelUtility.setProperty("/Function", "InvioFirma")
           oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          oModelStepScenario.setProperty("/visibleBtnForward", false)
           self.createModelDatiFirmatario()
           return;
         }
@@ -4266,11 +4271,13 @@ sap.ui.define(
         var oModel = self.getModel()
         var oModelUtility = self.getModel("Utility");
         var oSop = self.getModel("Sop").getData();
+        var oModelStepScenario = self.getModel("StepScenario")
 
         if (!oModelUtility.getProperty("/EnableFirma")) {
           oModelUtility.setProperty("/EnableFirma", true)
           oModelUtility.setProperty("/Function", "Firma")
           oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          oModelStepScenario.setProperty("/visibleBtnForward", false)
           self.createModelDatiFirmatario()
           return;
         }
@@ -4369,10 +4376,12 @@ sap.ui.define(
         var oModel = self.getModel()
         var oModelUtility = self.getModel("Utility");
         var oSop = self.getModel("Sop").getData();
+        var oModelStepScenario = self.getModel("StepScenario")
 
         if (!oModelUtility.getProperty("/EnableRegistrazioneRichAnn")) {
           oModelUtility.setProperty("/EnableRegistrazioneRichAnn", true)
           oModelUtility.setProperty("/Function", "RegistrazioneRichAnn")
+          oModelStepScenario.setProperty("/visibleBtnForward", false)
           oModelUtility.setProperty("/RemoveFunctionButtons", true)
           self.createModelDatiFirmatario()
           return;
@@ -4394,7 +4403,7 @@ sap.ui.define(
                   Gjahr: oSop.Gjahr,
                   ZuffcontRicann: oDatiFirmatario.ZuffcontFirm,
                   ZdirigenteRicann: oDatiFirmatario.ZdirigenteAmm,
-                  ZcdrRicann: oDatiFirmatario.Zcdr,
+                  CdrRicann: oDatiFirmatario.Fistl,
                   ZxmlFirmato: oDatiFirmatario.ZxmlFirmato
                 },
                 PosizioniSopSet: [],
@@ -4423,11 +4432,13 @@ sap.ui.define(
         var oModel = self.getModel()
         var oModelUtility = self.getModel("Utility");
         var oSop = self.getModel("Sop").getData();
+        var oModelStepScenario = self.getModel("StepScenario")
 
         if (!oModelUtility.getProperty("/EnableCancellazioneRichAnn")) {
           oModelUtility.setProperty("/EnableCancellazioneRichAnn", true)
           oModelUtility.setProperty("/Function", "CancellazioneRichAnn")
           oModelUtility.setProperty("/RemoveFunctionButtons", true)
+          oModelStepScenario.setProperty("/visibleBtnForward", false)
           self.createModelDatiFirmatario()
           return;
         }
@@ -4446,9 +4457,9 @@ sap.ui.define(
                   Bukrs: oSop.Bukrs,
                   Zchiavesop: oSop.Zchiavesop,
                   Gjahr: oSop.Gjahr,
-                  ZuffcontRicann: oDatiFirmatario.ZuffcontFirm,
-                  ZdirigenteRicann: oDatiFirmatario.ZdirigenteAmm,
-                  ZcdrRicann: oDatiFirmatario.Zcdr,
+                  ZuffcontCancricann: oDatiFirmatario.ZuffcontFirm,
+                  ZdirigenteCancricann: oDatiFirmatario.ZdirigenteAmm,
+                  CdrCancricann: oDatiFirmatario.Fistl,
                   ZxmlFirmato: oDatiFirmatario.ZxmlFirmato
                 },
                 PosizioniSopSet: [],

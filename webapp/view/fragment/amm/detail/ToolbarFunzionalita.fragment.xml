@@ -44,7 +44,7 @@
         press="onRichiamo"
     />
     <Button
-        text="{i18n>btnRegistraRichiestaAnnullamento}"
+        text="{= ${Utility>/EnableRegistrazioneRichAnn} ? ${i18n>btnRegistraRichAnn} : ${i18n>btnRegistraRichiestaAnnullamento} }"
         type="Emphasized"
         enabled="{=             
             (
@@ -56,7 +56,7 @@
         press="onRegistraRichAnn"
     />
     <Button
-        text="{i18n>btnCancellazioneRichiestaAnnullamento}"
+        text="{= ${Utility>/EnableCancellazioneRichAnn} ? ${i18n>btnCancellaRichiestaAnnullamento} : ${i18n>btnCancellazioneRichiestaAnnullamento} }"
         type="Emphasized"
         enabled="{=             
             (
