@@ -206,7 +206,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Ztipoprovv}"
+                    value="{Sop>/DescZtipoprovv}"
                     editable="false"
                 >
                     <layoutData>
@@ -222,7 +222,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zautemit}"
+                    value="{Sop>/DescZautemit}"
                     editable="false"
                 >
                     <layoutData>

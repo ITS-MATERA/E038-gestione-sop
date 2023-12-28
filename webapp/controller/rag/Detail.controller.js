@@ -259,6 +259,7 @@ sap.ui.define(
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
           Position: await self._getPositions(oParameters, oSop.ZspecieSop, oSop.Ztipopag),
+          PositionAssociate: await self._getPositionsAssociate(oParameters, oSop.ZspecieSop),
           Classificazione: await self._getClassificazione(oParameters),
 
           DescZmissione: oSop.DescZmissione,
@@ -276,9 +277,11 @@ sap.ui.define(
           Ragioneria: oSop.Ragioneria,
           DescZflagfrutt: oSop.DescZflagfrutt,
           DescZtipofirma: oSop.DescZtipofirma,
-          // Zcassa: oSop.Zcassa
+          Zcassa: oSop.Zcassa,
           ZuffRag: oSop.ZuffRag,
-          Znotpag: oSop.Znotpag
+          Znotpag: oSop.Znotpag,
+          DescZautemit: oSop.DescZautemit,
+          DescZtipoprovv: oSop.DescZtipoprovv
         });
 
         self.setModel(oModelSop, "Sop");
@@ -336,6 +339,34 @@ sap.ui.define(
                   oData.ImpQuotaDoc = oData.Zimpliq
                 }
               })
+              resolve(aData)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+
+      },
+
+      _getPositionsAssociate: async function (oParameters, sZspecieSop) {
+        var self = this;
+        var oModel = self.getModel();
+        var aFilters = []
+
+        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
+        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
+        self.setFilterEQ(aFilters, "Ztipososp", oParameters.Ztipososp)
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/QuoteDocumentoAssociateSet", {
+            urlParameters: { isCopy: "" },
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false)
+              self.hasResponseError(oResponse)
+              var aData = data.results;
               resolve(aData)
             },
             error: function () {

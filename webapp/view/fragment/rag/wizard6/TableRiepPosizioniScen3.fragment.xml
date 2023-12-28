@@ -4,9 +4,8 @@
 >
     <Table
         id="tblPosizioniScen3"
-        mode="MultiSelect"
         items="{
-                  path: 'PosizioniScen3>/'
+                  path: 'Sop>/PositionAssociate'
                 }"
         selectionChange="onSelectedItem"
         fixedLayout="false"
@@ -76,30 +75,29 @@
                 <cells>
                     <Text
                         text="{
-                                  path: 'PosizioniScen3>Znumliq'
+                                  path: 'Sop>Znumliq'
                                 }"
                     />
-                    <Text text="{PosizioniScen3>Zposizione}" />
-                    <Text text="{PosizioniScen3>ZdescProsp}" />
-                    <Text text="{PosizioniScen3>Belnr}" />
+                    <Text text="{Sop>Zposizione}" />
+                    <Text text="{Sop>ZdescProsp}" />
+                    <Text text="{Sop>Belnr}" />
                     <Text
                         text="{
-                                  path: 'PosizioniScen3>Zimpliq',
+                                  path: 'Sop>Zimpliq',
                                   formatter: '.formatter.convertImport'
                                 }"
                     />
                     <Text
                         text="{
-                                  path: 'PosizioniScen3>Zimppag',
+                                  path: 'Sop>Zimppag',
                                   formatter: '.formatter.convertImport'
                                 }"
                     />
-                    <Input
+                    <Text
                         id="iptImpDaOrd"
-                        change="onImpDaOrdinareChange"
-                        type="Number"
-                        value="{
-                                  path: 'PosizioniScen3>Zimpdaord'
+                        text="{
+                                  path: 'Sop>Zimpdaord',
+                                  formatter: '.formatter.convertImport'
                                 }"
                     />
                 </cells>

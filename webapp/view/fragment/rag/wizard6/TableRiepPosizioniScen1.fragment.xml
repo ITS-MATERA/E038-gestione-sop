@@ -4,7 +4,7 @@
 >
     <Table
         items="{
-                  path: 'Sop>/Position'
+                  path: 'Sop>/PositionAssociate'
                 }"
         fixedLayout="false"
         growing="true"

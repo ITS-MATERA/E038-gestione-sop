@@ -129,7 +129,15 @@
                                         />
                                     </Panel>
                                 </WizardStep>
-                                <WizardStep title="{i18n>titleWizard6Rag}">
+                                <WizardStep
+                                    title="
+                                {= 
+                                    ${Sop>/Ztipopag} === '1' ? ${i18n>titleWizard6Rag} : 
+                                    ${Sop>/Ztipopag} === '2' ? ${i18n>titleWizard6Rag} : 
+                                    ${Sop>/Ztipopag} === '3' ? ${i18n>titleRiepilogoPosizioniScen3} : 
+                                    ${Sop>/Ztipopag} === '4' ? ${i18n>titleRiepilogoPosizioniScen3} : '' 
+                                }"
+                                >
                                     <Panel
                                         class="sapUiNoContentPadding"
                                         backgroundDesign="Transparent"

@@ -6,7 +6,7 @@
         <Table
             id="tblPosizioniScen4"
             items="{
-                      path: 'Sop>/Position'
+                      path: 'Sop>/PositionAssociate'
                     }"
             fixedLayout="false"
             width="120%"

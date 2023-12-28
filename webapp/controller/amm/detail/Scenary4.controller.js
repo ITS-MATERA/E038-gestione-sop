@@ -98,11 +98,13 @@ sap.ui.define(
         } else if (bWizard2) {
           self.checkWizard2(oWizard);
         } else if (bWizard3) {
-          oModelStepScenario.setProperty("/wizard3", false);
-          oModelStepScenario.setProperty("/wizard4", true);
-          oModelStepScenario.setProperty("/visibleBtnForward", false);
-          oModelStepScenario.setProperty("/visibleBtnSave", true);
-          oWizard.nextStep();
+          if (self.checkClassificazione()) {
+            oModelStepScenario.setProperty("/wizard3", false);
+            oModelStepScenario.setProperty("/wizard4", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", false);
+            oModelStepScenario.setProperty("/visibleBtnSave", true);
+            oWizard.nextStep();
+          }
         }
       },
 

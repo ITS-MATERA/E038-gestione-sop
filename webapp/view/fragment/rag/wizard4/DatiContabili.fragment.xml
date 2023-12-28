@@ -24,7 +24,10 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zimptot}"
+                    value="{
+                      path: 'Sop>/Zimptot',
+                      formatter: '.formatter.convertImport'
+					}"
                     editable="false"
                 >
                     <layoutData>
@@ -108,7 +111,10 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zcassa}"
+                    value="{
+                      path: 'Sop>/Zcassa',
+                      formatter: '.formatter.convertImport'
+					}"
                     editable="false"
                 >
                     <layoutData>
