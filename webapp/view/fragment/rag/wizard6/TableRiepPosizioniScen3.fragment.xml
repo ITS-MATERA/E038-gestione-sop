@@ -5,7 +5,7 @@
     <Table
         id="tblPosizioniScen3"
         items="{
-                  path: 'Sop>/PositionAssociate'
+                  path: 'Sop>/Position'
                 }"
         selectionChange="onSelectedItem"
         fixedLayout="false"
@@ -50,22 +50,6 @@
                 demandPopin="true"
             >
                 <header>
-                    <Text text="{i18n>labelImpLiquidato}" />
-                </header>
-            </Column>
-            <Column
-                minScreenWidth="Desktop"
-                demandPopin="true"
-            >
-                <header>
-                    <Text text="{i18n>labelImpOrdinato}" />
-                </header>
-            </Column>
-            <Column
-                minScreenWidth="Desktop"
-                demandPopin="true"
-            >
-                <header>
                     <Text text="{i18n>labelImpDaOrd}" />
                 </header>
             </Column>
@@ -81,18 +65,6 @@
                     <Text text="{Sop>Zposizione}" />
                     <Text text="{Sop>ZdescProsp}" />
                     <Text text="{Sop>Belnr}" />
-                    <Text
-                        text="{
-                                  path: 'Sop>Zimpliq',
-                                  formatter: '.formatter.convertImport'
-                                }"
-                    />
-                    <Text
-                        text="{
-                                  path: 'Sop>Zimppag',
-                                  formatter: '.formatter.convertImport'
-                                }"
-                    />
                     <Text
                         id="iptImpDaOrd"
                         text="{

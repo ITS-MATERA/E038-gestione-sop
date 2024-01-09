@@ -393,6 +393,7 @@ sap.ui.define(
         var oTable = self.getView().byId("tblPosizioniScen1")
         var oModelPosizioni = self.getModel("PosizioniScen1");
         var oModelUtility = self.getModel("Utility");
+        var oModelSop = self.getModel("Sop")
         //Load Component
         var oButtonCalculate = self.getView().byId("btnCalculate");
 

@@ -262,7 +262,7 @@
                 text="{i18n>btnRichiestaDocAgg}"
                 icon="sap-icon://edit"
                 type="Emphasized"
-                enabled="{= ${Utility>/Function} === 'VerificaConferma' }"
+                enabled="{= ${Utility>/Function} === 'VerificaConferma' &amp;&amp; ${StepScenario>/Wizard7} ? true : false}"
                 press="onRichiestaDocAgg"
                 visible="{= ${Utility>/RemoveFunctionButtons} === true &amp;&amp; ${Utility>/EnableDocAggiuntiva} === true ? false : true}"
             >

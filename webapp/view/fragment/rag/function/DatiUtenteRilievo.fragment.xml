@@ -15,7 +15,7 @@
             <OverflowToolbar>
                 <Title
                     text="{= 
-					${Utility>/EnableRegitraRilievo} ? ${i18n>titleDatiUtenteRegRilievo} : 
+					${Utility>/EnableRegistraRilievo} ? ${i18n>titleDatiUtenteRegRilievo} : 
                     ${Utility>/EnableRettificaRilievo} ? ${i18n>titleDatiUtenteRetRilievo} :
                     ${Utility>/EnableCancellaRilievo} ? ${i18n>titleDatiRilievo} : 
                     ${Utility>/EnableValidaRilievo} ? ${i18n>titleDatiUtenteValRilievo} : ''
@@ -61,7 +61,7 @@
                     </layoutData>
                 </Input>
                 <Text
-                    text="{i18n>labelDataRegRilievo}:"
+                    text="{= ${Utility>/Function} === 'RegistraRilievo' ? ${i18n>labelDataRegRilievo} : ${i18n>labelDataValRilievo} }:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>

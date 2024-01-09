@@ -90,10 +90,22 @@
         text="{i18n>btnRegistraRilievo}"
         visible="{= 
             ${Utility>/RemoveFunctionButtons} === false || 
-            ${Utility>/Function} === 'VerificaConferma' ||
-            ${Utility>/Function} === 'RegistraRilievo'? true : false 
+            ${Utility>/Function} === 'RegistraRilievo' ? true : false 
         }"
         enabled="{= ${Sop>/ZcodStatosop} === '04' ? true : false}"
+        press="onRegistraRilievo"
+    >
+        <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow" />
+        </layoutData>
+    </Button>
+    <Button
+        type="Emphasized"
+        text="{i18n>btnRegistraRilievo}"
+        visible="{= 
+            ${Utility>/Function} === 'VerificaConferma' ? true : false 
+        }"
+        enabled="{= ${Sop>/ZcodStatosop} === '04' &amp;&amp; ${StepScenario>/Wizard7} ? true : false}"
         press="onRegistraRilievo"
     >
         <layoutData>
@@ -116,7 +128,7 @@
     </Button>
     <Button
         type="Emphasized"
-        text="{i18n>btnCancellazioneRilievo}"
+        text="{= ${Utility>/EnableCancellaRilievo} ? ${i18n>btnCancellaRilievo} : ${i18n>btnCancellazioneRilievo}}"
         enabled="{= ${Sop>/ZcodStatosop} === '06' ? true : false}"
         visible="{= 
             ${Utility>/RemoveFunctionButtons} === false || 

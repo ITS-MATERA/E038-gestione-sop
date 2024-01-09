@@ -23,7 +23,7 @@
                 </Text>
                 <Input
                     value="{DatiRichiesta>/ZuffDocagg}"
-                    editable="false"
+                    change="onUffRichDocAggiuntiva"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />

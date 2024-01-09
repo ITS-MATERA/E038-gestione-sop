@@ -223,6 +223,10 @@ sap.ui.define(
         var sSceltaOperativa = self.getView().byId("rbSceltaOperativa").getSelectedIndex();
         var oFirstSop = self.getModel("FirstSop").getData();
 
+        if (oFirstSop.Zfunzdel) {
+          sSceltaOperativa = 1
+        }
+
         var oParameters = {
           Gjahr: oFirstSop.Gjahr,
           Zragdest: oFirstSop.Zragdest,

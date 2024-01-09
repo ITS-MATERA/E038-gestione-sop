@@ -31,7 +31,7 @@
         press="onFirma"
     />
     <Button
-        text="{i18n>btnRichiamo}"
+        text="{= ${Utility>/EnableRichiamo} ? ${i18n>btnRichiama} : ${i18n>btnRichiamo} }"
         type="Emphasized"
         enabled="{= 
             ( ${Sop>/ZcodStatosop} === '03' ||

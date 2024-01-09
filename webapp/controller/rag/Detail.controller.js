@@ -26,6 +26,7 @@ sap.ui.define(
         var bWizard7 = oModelStepScenario.getProperty("/Wizard7");
 
         if (bWizard1) {
+          self.unlockSop()
           self.getRouter().navTo("rag.home");
         } else if (bWizard2) {
           oModelStepScenario.setProperty("/Wizard2", false);
@@ -259,7 +260,6 @@ sap.ui.define(
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
           Position: await self._getPositions(oParameters, oSop.ZspecieSop, oSop.Ztipopag),
-          PositionAssociate: await self._getPositionsAssociate(oParameters, oSop.ZspecieSop),
           Classificazione: await self._getClassificazione(oParameters),
 
           DescZmissione: oSop.DescZmissione,
@@ -327,6 +327,7 @@ sap.ui.define(
         self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read("/PosizioniSopSet", {
+            urlParameters: { ragioneria: "X" },
             filters: aFilters,
             success: function (data, oResponse) {
               self.getView().setBusy(false)
@@ -339,34 +340,6 @@ sap.ui.define(
                   oData.ImpQuotaDoc = oData.Zimpliq
                 }
               })
-              resolve(aData)
-            },
-            error: function () {
-              self.getView().setBusy(false)
-            }
-          })
-        })
-
-      },
-
-      _getPositionsAssociate: async function (oParameters, sZspecieSop) {
-        var self = this;
-        var oModel = self.getModel();
-        var aFilters = []
-
-        self.setFilterEQ(aFilters, "Bukrs", oParameters.Bukrs)
-        self.setFilterEQ(aFilters, "Zchiavesop", oParameters.Zchiavesop)
-        self.setFilterEQ(aFilters, "Ztipososp", oParameters.Ztipososp)
-
-        self.getView().setBusy(true)
-        return new Promise(async function (resolve, reject) {
-          await oModel.read("/QuoteDocumentoAssociateSet", {
-            urlParameters: { isCopy: "" },
-            filters: aFilters,
-            success: function (data, oResponse) {
-              self.getView().setBusy(false)
-              self.hasResponseError(oResponse)
-              var aData = data.results;
               resolve(aData)
             },
             error: function () {
@@ -561,7 +534,7 @@ sap.ui.define(
         var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData();
 
-        MessageBox.warning("Procedere con la Revoca della conferma del SOP selezionato?", {
+        MessageBox.warning("Procedere con la revoca della conferma del SOP " + oSop.Zchiavesop + " selezionato?", {
           title: "Revoca Conferma",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -585,7 +558,8 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  self.managementLogFunction(data, "Revoca Conferma")
+                  self.managementLogFunction(data, "Revoca Conferma",
+                    "Operazione correttamente eseguita. Per il SOP N. " + oSop.Zchiavesop + " è stata correttamente revocata la conferma")
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -644,7 +618,7 @@ sap.ui.define(
         var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData();
 
-        MessageBox.warning("Procedere con la Revoca della validazione del SOP selezionato?", {
+        MessageBox.warning("Procedere con la Revoca della validazione del SOP N. " + oSop.Zchiavesop + " selezionato?", {
           title: "Revoca Validazione",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -668,7 +642,8 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  self.managementLogFunction(data, "Revoca Validazione")
+                  self.managementLogFunction(data, "Revoca Validazione",
+                    "Operazione correttamente eseguita. Per il SOP N. " + oSop.Zchiavesop + " è stata revocata la validazione")
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -697,7 +672,7 @@ sap.ui.define(
           return
         }
 
-        MessageBox.warning("Procedere con la Registrazione del rilievo per il SOP selezionato?", {
+        MessageBox.warning("Procedere con la Registrazione del rilievo per il SOP N. " + oSop.Zchiavesop + " selezionato?", {
           title: "Registrazione Rilievo",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -723,7 +698,9 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  self.managementLogFunction(data, "Registrazione Rilievo")
+                  self.managementLogFunction(data, "Registrazione Rilievo",
+                    "Operazione correttamente eseguita. Per il SOP N. " + oSop.Zchiavesop + " è stato registrato un rilievo"
+                  )
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -752,33 +729,43 @@ sap.ui.define(
           return
         }
 
+        MessageBox.warning("Procedere con la rettifica del Rilievo per il SOP N. " + oSop.Zchiavesop + " selezionato?", {
+          title: "Rettifica Rilievo",
+          actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+            if (oAction === 'OK') {
 
-        var oDatiUtente = self.getModel("DatiUtente").getData()
-        var oSopDeep = {
-          Operazione: "RETTIFICA_RILIEVO",
-          Bukrs: "",
-          Zchiavesop: "",
-          SopAmministrazioneSet: {
-            Bukrs: oSop.Bukrs,
-            Gjahr: oSop.Gjahr,
-            Zchiavesop: oSop.Zchiavesop,
-            Zmotrilievo: oDatiUtente.Zmotrilievo
-          },
-          PosizioniSopSet: [],
-          ClassificazioneSopSet: [],
-          SopMessageSet: []
-        }
+              var oDatiUtente = self.getModel("DatiUtente").getData()
+              var oSopDeep = {
+                Operazione: "RETTIFICA_RILIEVO",
+                Bukrs: "",
+                Zchiavesop: "",
+                SopAmministrazioneSet: {
+                  Bukrs: oSop.Bukrs,
+                  Gjahr: oSop.Gjahr,
+                  Zchiavesop: oSop.Zchiavesop,
+                  Zmotrilievo: oDatiUtente.Zmotrilievo
+                },
+                PosizioniSopSet: [],
+                ClassificazioneSopSet: [],
+                SopMessageSet: []
+              }
 
-        self.getView().setBusy(true)
-        oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
-          success: function (data) {
-            self.getView().setBusy(false)
-            self.managementLogFunction(data, "Registrazione Rilievo")
+              self.getView().setBusy(true)
+              oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
+                success: function (data) {
+                  self.getView().setBusy(false)
+                  self.managementLogFunction(data, "Rettifica Rilievo",
+                    "Operazione correttamente eseguita. Rilievo rettificato per il SOP N. " + oSop.Zchiavesop)
+                },
+                error: function () {
+                  self.getView().setBusy(false)
+                },
+              });
+              return
+            }
           },
-          error: function () {
-            self.getView().setBusy(false)
-          },
-        });
+        })
       },
 
       onCancellaRilievo: function () {
@@ -798,7 +785,7 @@ sap.ui.define(
           return
         }
 
-        MessageBox.warning("Procedere con la cancellazione del rilievo per il SOP selezionato?", {
+        MessageBox.warning("Procedere con la Cancellazione del rilievo per il SOP N. " + oSop.Zchiavesop + " selezionato?", {
           title: "Cancellazione Rilievo",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -853,7 +840,7 @@ sap.ui.define(
         var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData()
 
-        MessageBox.warning("Procedere con la validazione del rilievo per il SOP selezionato?", {
+        MessageBox.warning("Procedere con la Validazione del rilievo per il SOP N. " + oSop.Zchiavesop + " selezionato?", {
           title: "Validazione Rilievo",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -876,7 +863,8 @@ sap.ui.define(
               oModel.create("/DeepSopAmministrazioneSet", oSopDeep, {
                 success: function (data) {
                   self.getView().setBusy(false)
-                  self.managementLogFunction(data, "Validazione Rilievo")
+                  self.managementLogFunction(data, "Validazione Rilievo",
+                    "Operazione correttamente eseguita. Rilievo validato per il SOP N. " + oSop.Zchiavesop)
                 },
                 error: function () {
                   self.getView().setBusy(false)
@@ -905,8 +893,13 @@ sap.ui.define(
       onSaveDocAggiuntiva: function () {
         var self = this;
         var oModel = self.getModel()
-        var oDatiRichiesta = self.getModel("DatiRichiesta")
+        var oDatiRichiesta = self.getModel("DatiRichiesta").getData()
         var oSop = self.getModel("Sop").getData()
+
+        if (!oDatiRichiesta.DocumentRich) {
+          MessageBox.error("Alimentare tutti i campi obbligatori")
+          return
+        }
 
         var oSopDeep = {
           Operazione: "RICHIESTA_DOCUMENTAZIONE",
@@ -982,11 +975,11 @@ sap.ui.define(
         self.unloadFragment();
       },
 
-      managementLogFunction: function (data, sTitle) {
+      managementLogFunction: function (data, sTitle, sMessage = null) {
         var self = this;
         var aMessage = data?.SopMessageSet?.results;
         var oModelUtility = self.getModel("Utility")
-        var aMessageFormatted = []
+        var sSuccessMessage = sMessage ? sMessage : aMessage[0]?.Body?.Message
 
         if (aMessage.length > 0) {
           if (aMessage.length === 1) {
@@ -996,7 +989,7 @@ sap.ui.define(
               });
             }
             else if (aMessage[0]?.Body?.Msgty === 'S') {
-              MessageBox.success(aMessage[0]?.Body?.Message, {
+              MessageBox.success(sSuccessMessage, {
                 title: sTitle,
                 actions: [MessageBox.Action.CLOSE],
                 onClose: function () {
@@ -1020,7 +1013,7 @@ sap.ui.define(
             });
           });
 
-          oModelUtility.setProperty("/isLogVisible");
+          oModelUtility.setProperty("/isLogVisible", true);
           self.setModel(new JSONModel(aMessageFormatted), "Log");
           MessageBox.error("Operazione non eseguita correttamente");
         }
@@ -1129,6 +1122,16 @@ sap.ui.define(
             },
           });
         })
+      },
+
+      onUffRichDocAggiuntiva: async function () {
+        var self = this;
+        var oModelDatiRichiesta = self.getModel("DatiRichiesta")
+        var oDatiRichiesta = oModelDatiRichiesta.getData()
+        var sDescUfficio = await self._getDescUfficio(oDatiRichiesta.ZuffDocagg)
+
+        oModelDatiRichiesta.setProperty("/ZvimDescrufficio", sDescUfficio)
+
       }
 
       //#endregion ------------------------Methods------------------------------

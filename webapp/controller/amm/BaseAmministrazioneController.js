@@ -385,6 +385,7 @@ sap.ui.define(
               var aData = data.results;
               aData?.map((oData) => {
                 oData.AnnoRegDoc = oData.GjahrDc
+                oData.ZimpdaordOld = oData.Zimpdaord
               })
               resolve(aData)
             },
@@ -1042,6 +1043,15 @@ sap.ui.define(
           oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
         }
 
+        if (oInput.getSelectedKey() === 'S1') {
+          oModelSop.setProperty("/ZzCebenra", "3");
+          oModelSop.setProperty("/ZzDescebe", "TESORO DELLO STATO");
+        }
+        else {
+          oModelSop.setProperty("/ZzCebenra", "");
+          oModelSop.setProperty("/ZzDescebe", "");
+        }
+
         oModelSop.setProperty("/ZzCeberna", "");
       },
 
@@ -1283,7 +1293,8 @@ sap.ui.define(
             Zimpdaord: oPosition.Zimpdaord,
             Zimppag: oPosition.Zimppag,
             Zimpres: oPosition.Zimpres,
-            Zimpliq: oPosition.Zimpliq
+            Zimpliq: oPosition.Zimpliq,
+            ZimpdaordOld: oPosition?.ZimpdaordOld ? oPosition?.ZimpdaordOld : null
           });
         });
 
@@ -4334,7 +4345,7 @@ sap.ui.define(
           return;
         }
 
-        MessageBox.warning("Procedere con il Richiamo Ordine di Pagamento?", {
+        MessageBox.warning("Procedere con il richiamo del SOP N. " + oSop.Zchiavesop + " selezionato?", {
           title: "Richiamo Speciale Ordine di Pagamento",
           actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
           onClose: function (oAction) {
@@ -4583,7 +4594,7 @@ sap.ui.define(
             });
           });
 
-          oModelUtility.setProperty("/isLogVisible");
+          oModelUtility.setProperty("/isLogVisible", true);
           self.setModel(new JSONModel(aMessageFormatted), "Log");
           MessageBox.error("Operazione non eseguita correttamente");
         }
@@ -4610,6 +4621,7 @@ sap.ui.define(
             var aData = data?.results;
             aData?.map((oPosition, iIndex) => {
               oPosition.Index = iIndex + 1;
+              oPosition.ZimpdaordOld = oPosition.Zimpdaord
             });
 
             oModelSop.setProperty("/Position", aData)
@@ -4666,6 +4678,7 @@ sap.ui.define(
             var aData = data?.results;
             aData?.map((oPosition, iIndex) => {
               oPosition.Index = iIndex + 1;
+
             });
 
             self.setModel(new JSONModel(aData), sModelName)

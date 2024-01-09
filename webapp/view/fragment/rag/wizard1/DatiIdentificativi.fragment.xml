@@ -41,7 +41,7 @@
                 hSpacing="0.5"
             >
                 <Text
-                    text="{i18n>labelEsercizioGestione}:"
+                    text="{i18n>labelEsercizioFinanziario}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
