@@ -91,9 +91,7 @@ sap.ui.define(
           }
         }
         else if (bWizard2) {
-          oModelStepScenario.setProperty("/wizard2", false);
-          oModelStepScenario.setProperty("/wizard3", true);
-          oWizard.nextStep();
+          self.checkWizard2(oWizard);
         } else if (bWizard3) {
           if (self.checkClassificazione()) {
             oModelStepScenario.setProperty("/wizard3", false);
