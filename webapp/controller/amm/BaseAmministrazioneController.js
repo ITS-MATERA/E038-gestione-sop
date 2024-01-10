@@ -108,9 +108,6 @@ sap.ui.define(
           Zcodvers: "",
           Zcfvers: "",
           Zdescvers: "",
-          Zdatavers: null,
-          Zprovvers: "",
-          Zsedevers: "",
           Zibanb: "",
           Zbicb: "",
           Zcoordestb: "",
@@ -160,6 +157,7 @@ sap.ui.define(
           Classificazione: [],
           DescKostl: "",
           DescHkont: "",
+          Zcatpurpose: "",
 
           DescZspecieSop: "",
           //Primo quietanzante
@@ -271,9 +269,6 @@ sap.ui.define(
           Zcodvers: oSop.Zcodvers,
           Zcfvers: oSop.Zcfvers,
           Zdescvers: oSop.Zdescvers,
-          Zdatavers: oSop.Zdatavers,
-          Zprovvers: oSop.Zprovvers,
-          Zsedevers: oSop.Zsedevers,
           Zibanb: oSop.Zibanb,
           Zbicb: oSop.Zbicb,
           Zcoordestb: oSop.Zcoordestb,
@@ -322,6 +317,7 @@ sap.ui.define(
           DescKostl: oSop.DescKostl,
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop.DescZspecie,
+          Zcatpurpose: oSop.Zcatpurpose,
           Position: await self._getPositions(oParameters),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -1789,6 +1785,12 @@ sap.ui.define(
             },
           });
         }
+
+        if (sZwels === 'ID1' || sZwels === 'ID2' || sZwels === 'ID5' || sZwels === 'ID6' || sZwels === 'ID9') {
+          oModelSop.setProperty("/Zcatpurpose", "OTHR")
+        } else {
+          oModelSop.setProperty("/Zcatpurpose", "")
+        }
       },
 
       onCoordinateEstereChange: function () {
@@ -1823,6 +1825,8 @@ sap.ui.define(
           Iban: oSop.Iban,
           Zcoordest: oSop.Zcoordest,
           Lifnr: oSop.Lifnr,
+          Witht: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra
         });
         self.getView().setBusy(true);
 
@@ -1990,12 +1994,11 @@ sap.ui.define(
           success: function (data) {
             oModelSop.setProperty("/Zwels", data?.Zwels)
             oModelSop.setProperty("/DescZwels", data?.Zdesczwels)
-            // var aData = []
-            // aData.push({
-            //   Zwels: data?.Zwels,
-            //   Zdesczwels: data?.Zdesczwels
-            // })
-            // self.setModel(new JSONModel(aData), "ModalitaPagamento")
+            if (data?.Zwels === 'ID1' || data?.Zwels === 'ID2' || data?.Zwels === 'ID5' || data?.Zwels === 'ID6' || data?.Zwels === 'ID9') {
+              oModelSop.setProperty("/Zcatpurpose", "OTHR")
+            } else {
+              oModelSop.setProperty("/Zcatpurpose", "")
+            }
             self.getView().setBusy(false);
           },
           error: function () {
@@ -2528,9 +2531,7 @@ sap.ui.define(
           oModelSop.setProperty("/Zperiodrifa", null);
           oModelSop.setProperty("/Zcodinps", "");
           oModelSop.setProperty("/Zdescvers", "");
-          oModelSop.setProperty("/Zdatavers", null);
-          oModelSop.setProperty("/Zprovvers", "");
-          oModelSop.setProperty("/Zsedevers", "");
+          oModelSop.setProperty("/Zcatpurpose", "");
           return
         }
 
@@ -2587,9 +2588,6 @@ sap.ui.define(
           oModelSop.setProperty("/Zperiodrifa", null);
           oModelSop.setProperty("/Zcodinps", "");
           oModelSop.setProperty("/Zdescvers", "");
-          oModelSop.setProperty("/Zdatavers", null);
-          oModelSop.setProperty("/Zprovvers", "");
-          oModelSop.setProperty("/Zsedevers", "");
         }
       },
 
@@ -2606,6 +2604,10 @@ sap.ui.define(
 
         if (oSop.Zwels !== "ID6" && oSop.Zwels !== "ID10") {
           return;
+        }
+
+        if (oSop.Ztipopag === '4' || oSop.Iban) {
+          return
         }
 
         self.getView().setBusy(true);
@@ -2781,7 +2783,13 @@ sap.ui.define(
           Zimptot: oSop?.Zimptot,
           Zpurpose: oSop?.Zpurpose,
           Banks: oSop?.Banks,
-          ZCausaleval: oSop?.ZCausaleval
+          ZCausaleval: oSop?.ZCausaleval,
+          Zcodinps: oSop?.Zcodinps,
+          Zperiodrifa: self.setBlank(oSop.Zperiodrifa),
+          Zperiodrifda: self.setBlank(oSop.Zperiodrifda),
+          Zcodtrib: oSop.Zcodtrib,
+          Zcfcommit: oSop.Zcfcommit,
+          Lifnr: oSop.Lifnr
         };
 
         self.getView().setBusy(true);
@@ -3438,43 +3446,43 @@ sap.ui.define(
 
       onSave: async function () {
         var self = this;
-        var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData()
-        var sBukrs = await self.getBukrs()
+        var sMsgty
+        var sWarningMessage
 
-        self.getView().setBusy(true)
-        oModel.callFunction("/CheckDispCassa", {
-          urlParameters: {
-            Bukrs: sBukrs,
-            Fipos: oSop.Fipos,
-            Fistl: oSop.Fistl,
-            Gjahr: oSop.Gjahr,
-            Zgeber: oSop.Zgeber,
-            Zimptot: oSop.Zimptot
-          },
-          success: function (data) {
-            self.getView().setBusy(false)
-            var aMessage = data?.results;
-            self.getView().setBusy(false);
-            if (aMessage.length > 0) {
-              MessageBox.warning("La disponibilità di cassa è sufficiente per l’emissione di un Mandato Informatico. Si vuole procedere con l’emissione del SOP?", {
-                actions: [MessageBox.Action.CLOSE, MessageBox.Action.OK],
-                onClose: function (oAction) {
-                  if (oAction === 'OK') {
-                    self._registerSop()
-                    return
-                  }
-                },
-              })
-            }
-            else {
-              self._registerSop()
-            }
-          },
-          error: function () {
-            self.getView().setBusy(false)
+        switch (oSop.ZztipologiaSop) {
+          case "1": {
+            sMsgty = await self.checkDispCassa();
+            sWarningMessage = "Mandato Informatico"
+            break
           }
-        })
+          case "2": {
+            sMsgty = await self.checkDispOA();
+            sWarningMessage = "Ordinativo Secondario"
+            break
+          }
+        }
+
+        switch (sMsgty) {
+          case "W": {
+            MessageBox.warning(
+              "La disponibilità di cassa è sufficiente per l'emissione di un " + sWarningMessage + ". Si vuole procedere con l'emissione del SOP?", {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+              onClose: function (oAction) {
+                if (oAction = "OK") {
+                  self._registerSop()
+                }
+              },
+            })
+            break;
+          }
+          case "S": {
+            self._registerSop()
+            break;
+          }
+        }
+
+
       },
 
       _registerSop: function () {
@@ -3675,9 +3683,6 @@ sap.ui.define(
             Zcodvers: oSop.Zcodvers,
             Zcfvers: oSop.Zcfvers,
             Zdescvers: oSop.Zdescvers,
-            Zdatavers: formatter.UTCRome(oSop.Zdatavers),
-            Zprovvers: oSop.Zprovvers,
-            Zsedevers: oSop.Zsedevers,
             Zibanb: oSop.Zibanb,
             Zbicb: oSop.Zbicb,
             Zcoordestb: oSop.Zcoordestb,
@@ -3738,20 +3743,25 @@ sap.ui.define(
             var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
-                if (aMessage[0]?.Body?.Msgty === 'E') {
+                if (aMessage[0]?.Body?.Msgty === 'E' || aMessage[0]?.Body?.Msgty === 'A') {
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }
                 else if (aMessage[0]?.Body?.Msgty === 'S') {
                   var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
                   self.downloadFile(sZchiavesop)
                   MessageBox.success(aMessage[0]?.Body?.Message, {
-                    actions: [MessageBox.Action.CLOSE],
-                    onClose: function () {
-                      self.unlockSop()
+                    actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+                    onClose: function (oAction) {
                       self.resetPreWizard()
-                      self.getRouter().navTo("amm.home", {
-                        Reload: true,
-                      });
+                      if (oAction === "CLOSE") {
+                        self.getRouter().navTo("amm.home", {
+                          Reload: true,
+                        });
+                      }
+                      else if (oAction === "OK") {
+                        self.getRouter().navTo("amm.selectType")
+                      }
+
                     },
                   });
 
@@ -3768,7 +3778,7 @@ sap.ui.define(
                 });
               });
 
-              oModelUtility.setProperty("/isLogVisible");
+              oModelUtility.setProperty("/isLogVisible", true);
               self.setModel(new JSONModel(aMessageFormatted), "Log");
               MessageBox.error("Operazione non eseguita correttamente");
               return;
@@ -3779,6 +3789,63 @@ sap.ui.define(
             self.getView().setBusy(false)
           },
         });
+      },
+
+      checkDispCassa: async function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var sBukrs = await self.getBukrs()
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          oModel.callFunction("/CheckDispCassa", {
+            urlParameters: {
+              Bukrs: sBukrs,
+              Fipos: oSop.Fipos,
+              Fistl: oSop.Fistl,
+              Gjahr: oSop.Gjahr,
+              Zgeber: oSop.Zgeber,
+              Zimptot: oSop.Zimptot
+            },
+            success: function (data) {
+              self.getView().setBusy(false)
+              var sType = data?.results[0]?.Msgty;
+              resolve(sType)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+      },
+
+      checkDispOA: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        self.getView().setBusy(true)
+        return new Promise(async function (resolve, reject) {
+          oModel.callFunction("/CheckDispOA", {
+            urlParameters: {
+              Zfunzdel: oSop.Zfunzdel,
+              Fipos: oSop.Fipos,
+              Fistl: oSop.Fistl,
+              Gjahr: oSop.Gjahr,
+              Zgeber: oSop.Zgeber,
+              Zimptot: oSop.Zimptot
+            },
+            success: function (data) {
+              self.getView().setBusy(false)
+              var sType = data?.results[0]?.Msgty;
+              resolve(sType)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
       },
 
       onSaveEdit: function () {
@@ -4001,9 +4068,6 @@ sap.ui.define(
             Zcodvers: oSop.Zcodvers,
             Zcfvers: oSop.Zcfvers,
             Zdescvers: oSop.Zdescvers,
-            Zdatavers: formatter.UTCRome(oSop.Zdatavers),
-            Zprovvers: oSop.Zprovvers,
-            Zsedevers: oSop.Zsedevers,
             Zibanb: oSop.Zibanb,
             Zbicb: oSop.Zbicb,
             Zcoordestb: oSop.Zcoordestb,
@@ -4064,7 +4128,7 @@ sap.ui.define(
             var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
-                if (aMessage[0]?.Body?.Msgty === 'E') {
+                if (aMessage[0]?.Body?.Msgty === 'E' || aMessage[0]?.Body?.Msgty === 'A') {
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }
                 else if (aMessage[0]?.Body?.Msgty === 'S') {
@@ -4499,20 +4563,27 @@ sap.ui.define(
       getDescUfficio: async function (sUfficio) {
         var self = this;
         var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+
+        if (!sUfficio) {
+          self.getModel("DatiFirmatario").setProperty("/ZvimDescrufficio", "")
+          return
+        }
 
         var sKey = oModel.createKey("/UfficioDirigenteSet", {
-          ZuffcontFirm: sUfficio
+          ZuffcontFirm: sUfficio,
+          Gjahr: oSop.Gjahr
         })
 
         self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read(sKey, {
             success: function (data) {
-              self.getView().setBusy()
+              self.getView().setBusy(false)
               resolve(data.ZvimDescrufficio)
             },
             error: function () {
-
+              self.getView().setBusy(false)
             }
           })
         })
@@ -4560,44 +4631,49 @@ sap.ui.define(
 
         if (aMessage.length > 0) {
           if (aMessage.length === 1) {
-            if (aMessage[0]?.Body?.Msgty === 'E') {
-              MessageBox.error(aMessage[0]?.Body?.Message, {
-                title: sTitle,
-              });
-            }
-            else if (aMessage[0]?.Body?.Msgty === 'S') {
-              if (bPrint) {
-                var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
-                self.downloadFile(sZchiavesop)
+            var oMessage = aMessage[0]?.Body;
+
+            switch (oMessage.Msgty) {
+              case "E" || "A": {
+                MessageBox.error(aMessage[0]?.Body?.Message, {
+                  title: sTitle,
+                });
+                break;
               }
-              MessageBox.success(aMessage[0]?.Body?.Message, {
-                title: sTitle,
-                actions: [MessageBox.Action.CLOSE],
-                onClose: function () {
-                  self.unlockSop()
-                  self.getRouter().navTo("amm.home", {
-                    Reload: true,
-                  });
-                },
-              });
-
+              case "S": {
+                if (bPrint) {
+                  var sZchiavesop = data?.SopAmministrazioneSet?.Zchiavesop
+                  self.downloadFile(sZchiavesop)
+                }
+                MessageBox.success(aMessage[0]?.Body?.Message, {
+                  title: sTitle,
+                  actions: [MessageBox.Action.CLOSE],
+                  onClose: function () {
+                    self.unlockSop()
+                    self.getRouter().navTo("amm.home", {
+                      Reload: true,
+                    });
+                  },
+                });
+                break;
+              }
             }
-            return;
           }
-
-          aMessage.map((oMessage) => {
-            aMessageFormatted.push({
-              Msgid: oMessage?.Body?.Msgid,
-              Msgty: oMessage?.Body?.Msgty,
-              Msgno: oMessage?.Body?.Msgno,
-              Message: oMessage?.Body?.Message,
-            });
-          });
-
-          oModelUtility.setProperty("/isLogVisible", true);
-          self.setModel(new JSONModel(aMessageFormatted), "Log");
-          MessageBox.error("Operazione non eseguita correttamente");
+          return;
         }
+
+        aMessage.map((oMessage) => {
+          aMessageFormatted.push({
+            Msgid: oMessage?.Body?.Msgid,
+            Msgty: oMessage?.Body?.Msgty,
+            Msgno: oMessage?.Body?.Msgno,
+            Message: oMessage?.Body?.Message,
+          });
+        });
+
+        oModelUtility.setProperty("/isLogVisible", true);
+        self.setModel(new JSONModel(aMessageFormatted), "Log");
+        MessageBox.error("Operazione non eseguita correttamente");
       },
 
       createModelEditPositions: function () {

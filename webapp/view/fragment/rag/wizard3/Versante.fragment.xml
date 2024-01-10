@@ -185,65 +185,6 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
-                <Text
-                    text="{i18n>labelDataVersamento}:"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="true"
-                        />
-                    </layoutData>
-                </Text>
-                <DatePicker
-                    valueFormat="yyyy-MM-dd"
-                    displayFormat="dd.MM.yyyy"
-                    editable="{Utility>/EnableEdit}"
-                    value="{
-                      path: 'Sop>/Zdatavers',
-                      type: 'sap.ui.model.type.Date',
-                      formatOptions: {
-                        pattern: 'dd.MM.yyyy'
-                      }
-                    }"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </DatePicker>
-                <Text
-                    text="{i18n>labelProvVersante}:"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Text>
-                <Input
-                    editable="false"
-                    value="{Sop>/Zprovvers}"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Input>
-                <Text
-                    text="{i18n>labelSedeVersante}:"
-                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Text>
-                <Input
-                    value="{Sop>/Zsedevers}"
-                    editable="false"
-                >
-                    <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
-                    </layoutData>
-                </Input>
             </l:Grid>
         </content>
     </Panel>

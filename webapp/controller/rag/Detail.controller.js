@@ -208,9 +208,6 @@ sap.ui.define(
           Zcodvers: oSop.Zcodvers,
           Zcfvers: oSop.Zcfvers,
           Zdescvers: oSop.Zdescvers,
-          Zdatavers: oSop.Zdatavers,
-          Zprovvers: oSop.Zprovvers,
-          Zsedevers: oSop.Zsedevers,
           Zibanb: oSop.Zibanb,
           Zbicb: oSop.Zbicb,
           Zcoordestb: oSop.Zcoordestb,
@@ -259,6 +256,7 @@ sap.ui.define(
           DescKostl: oSop.DescKostl,
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
+          Zcatpurpose: oSop.Zcatpurpose,
           Position: await self._getPositions(oParameters, oSop.ZspecieSop, oSop.Ztipopag),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -983,7 +981,7 @@ sap.ui.define(
 
         if (aMessage.length > 0) {
           if (aMessage.length === 1) {
-            if (aMessage[0]?.Body?.Msgty === 'E') {
+            if (aMessage[0]?.Body?.Msgty === 'E' || aMessage[0]?.Body?.Msgty === 'A') {
               MessageBox.error(aMessage[0]?.Body?.Message, {
                 title: sTitle,
               });
@@ -1075,29 +1073,31 @@ sap.ui.define(
       _getDescUfficio: async function (sUfficio) {
         var self = this;
         var oModel = self.getModel()
-        var oModelDatiRichiesta = self.getModel("DatiRichiesta")
+        var oSop = self.getModel("Sop").getData()
 
         if (!sUfficio) {
-          oModelDatiRichiesta.setProperty("/ZvimDescrufficio")
+          self.getModel("DatiRichiesta").setProperty("/ZuffDocagg", "")
           return
         }
 
-        var sKey = oModel.createKey("/DescrizioneUfficioSet", {
-          ZvimUfficio: sUfficio
+        var sKey = oModel.createKey("/UfficioDirigenteSet", {
+          ZuffcontFirm: sUfficio,
+          Gjahr: oSop.Gjahr
         })
 
         self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read(sKey, {
-            success: async function (data) {
+            success: function (data) {
+              self.getView().setBusy(false)
               resolve(data.ZvimDescrufficio)
-              self.getView().setBusy(false)
             },
-            error: function (error) {
+            error: function () {
               self.getView().setBusy(false)
-            },
-          });
+            }
+          })
         })
+
       },
 
       _getNomeCognome: async function () {
@@ -1128,9 +1128,8 @@ sap.ui.define(
         var self = this;
         var oModelDatiRichiesta = self.getModel("DatiRichiesta")
         var oDatiRichiesta = oModelDatiRichiesta.getData()
-        var sDescUfficio = await self._getDescUfficio(oDatiRichiesta.ZuffDocagg)
 
-        oModelDatiRichiesta.setProperty("/ZvimDescrufficio", sDescUfficio)
+        oModelDatiRichiesta.setProperty("/ZvimDescrufficio", await self._getDescUfficio(oDatiRichiesta.ZuffDocagg))
 
       }
 

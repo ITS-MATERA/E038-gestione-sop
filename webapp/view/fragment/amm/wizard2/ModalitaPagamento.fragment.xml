@@ -317,6 +317,23 @@
                     </layoutData>
                 </Input>
                 <Text
+                    text="{i18n>labelCategoryPurpose}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{Sop>/Zcatpurpose}"
+                    editable="false"
+                    maxLength="5"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
+                <Text
                     text="{i18n>labelFlagFruttInfrutt}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                     visible="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
