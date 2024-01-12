@@ -17,15 +17,6 @@
   align-items: end;
 }
 
-.sapMITH {
-  box-shadow: none;
-  padding-left: 8px !important;
-}
-
-.sapMPanelContent {
-  overflow: hidden;
-}
-
 .sapMWizardStepTitle{
   display: none !important;
 }

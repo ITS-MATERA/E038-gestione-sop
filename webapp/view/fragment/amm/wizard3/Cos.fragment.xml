@@ -130,7 +130,7 @@
                             />
                             <Input
                                 editable="false"
-                                value="{Classificazione>ZcosDesc}"
+                                value="{Classificazione>ZcosDescFull}"
                             />
                             <Input
                                 id="iptImpDaAssociareCos"
