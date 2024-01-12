@@ -471,7 +471,7 @@ sap.ui.define(
         var aCols = [
           {
             label: oBundle.getText("labelMessageType"),
-            property: "Msgid",
+            property: "Msgty",
             type: EDM_TYPE.String,
           },
           {

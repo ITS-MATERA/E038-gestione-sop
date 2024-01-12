@@ -381,7 +381,6 @@ sap.ui.define(
               var aData = data.results;
               aData?.map((oData) => {
                 oData.AnnoRegDoc = oData.GjahrDc
-                oData.ZimpdaordOld = oData.Zimpdaord
               })
               resolve(aData)
             },
@@ -1047,8 +1046,6 @@ sap.ui.define(
           oModelSop.setProperty("/ZzCebenra", "");
           oModelSop.setProperty("/ZzDescebe", "");
         }
-
-        oModelSop.setProperty("/ZzCeberna", "");
       },
 
       onUffLiquidatoreChange: function (oEvent) {
@@ -2053,281 +2050,6 @@ sap.ui.define(
         });
       },
 
-      resetQuietanzante1: function () {
-        var self = this;
-        var oModelSop = self.getModel("Sop");
-
-        oModelSop.setProperty("/ZpersNomeQuiet1", "");
-        oModelSop.setProperty("/ZpersCognomeQuiet1", "");
-        oModelSop.setProperty("/Zstcd1", "");
-        oModelSop.setProperty("/ZpersNomeVaglia", "");
-        oModelSop.setProperty("/ZpersCognomeVaglia", "");
-        oModelSop.setProperty("/Zqindiriz", "");
-        oModelSop.setProperty("/Zqcitta", "");
-        oModelSop.setProperty("/Zqcap", "");
-        oModelSop.setProperty("/Zqprovincia", "");
-        oModelSop.setProperty("/Zstcd14", "");
-        oModelSop.setProperty("/Land1", "");
-        oModelSop.setProperty("/ZqragSoc", "");
-        oModelSop.setProperty("/Znumquiet", "");
-        oModelSop.setProperty("/NumquietInitial1", false);
-      },
-
-      resetQuietanzante2: function () {
-        var self = this;
-        var oModelSop = self.getModel("Sop");
-
-        oModelSop.setProperty("/ZpersCognomeQuiet2", "");
-        oModelSop.setProperty("/ZpersNomeQuiet2", "");
-        oModelSop.setProperty("/Zstcd12", "");
-        oModelSop.setProperty("/Zqindiriz2", "");
-        oModelSop.setProperty("/Zqcitta2", "");
-        oModelSop.setProperty("/Zqcap2", "");
-        oModelSop.setProperty("/Zqprovincia2", "");
-        oModelSop.setProperty("/Zstcd15", "");
-        oModelSop.setProperty("/Land2", "");
-        oModelSop.setProperty("/Znumquiet2", "");
-      },
-
-      _setDataQuietanzante1: function (sCodiceFiscale) {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oSop = oModelSop.getData();
-
-        if (!sCodiceFiscale) {
-          return;
-        }
-
-        var sKey = oModel.createKey("/Quietanzante1Set", {
-          Zstcd1: sCodiceFiscale,
-          Zwels: oSop.Zwels,
-          Lifnr: oSop.Lifnr,
-          NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
-          Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra,
-          Ztipofirma: oSop.Ztipofirma
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            oModelSop.setProperty("/Zstcd1", data.Zstcd1);
-            oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
-            oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
-            oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
-            oModelSop.setProperty("/ZpersNomeVaglia", data.ZpersNomeVaglia);
-            oModelSop.setProperty("/Land1", data.Land1);
-            oModelSop.setProperty("/Zqcap", data.Zqcap);
-            oModelSop.setProperty("/Zqcitta", data.Zqcitta);
-            oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
-            oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
-            oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
-            oModelSop.setProperty("/Znumquiet", data.Znumquiet);
-            if (self.hasResponseError(oResponse)) {
-              oModelSop.setProperty("/Zstcd1", "")
-            };
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      setQuietanzante1: function () {
-        var self = this;
-        var oDataModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oModelUtility = self.getModel("Utility");
-        var oSop = oModelSop.getData();
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
-        self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
-        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
-        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
-
-        self.getView().setBusy(true);
-        oDataModel.read("/Quietanzante1Set", {
-          filters: aFilters,
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            var aData = data.results;
-            var oFirstRecord = aData[0];
-            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
-              self.getView().setBusy(false);
-              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
-              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
-              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
-              if (oSop.Zwels === "ID1") {
-                oModelSop.setProperty("/Zstcd1", oFirstRecord.Zstcd1);
-              } else {
-                oModelSop.setProperty("/Zstcd3", oFirstRecord.Zstcd1);
-              }
-
-              self._setDataQuietanzante1(oFirstRecord.Zstcd1);
-            }
-          },
-          error: function (error) {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      setQuietanzante2: function () {
-        var self = this;
-        var oDataModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oModelUtility = self.getModel("Utility");
-        var aFilters = [];
-
-        self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
-        self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
-        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
-        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
-
-        self.getView().setBusy(true);
-        oDataModel.read("/Quietanzante2Set", {
-          filters: aFilters,
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            var aData = data.results;
-            var oFirstRecord = aData[0];
-            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
-              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
-              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
-              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
-              oModelSop.setProperty("/Zstcd12", oFirstRecord.Zstcd12);
-
-              self._setDataQuietanzante2();
-            }
-          },
-          error: function (error) {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      _setDataQuietanzante2: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oSop = oModelSop.getData();
-
-        if (!oSop.Zstcd12) {
-          return;
-        }
-
-        var sKey = oModel.createKey("/Quietanzante2Set", {
-          Zstcd12: oSop.Zstcd12,
-          Lifnr: oSop.Lifnr,
-          NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
-          Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra,
-          Ztipofirma: oSop.Ztipofirma
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            oModelSop.setProperty("/Zstcd12", data.Zstcd12);
-            oModelSop.setProperty("/ZpersCognomeQuiet2", data.ZpersCognomeQuiet2);
-            oModelSop.setProperty("/ZpersNomeQuiet2", data.ZpersNomeQuiet2);
-            oModelSop.setProperty("/Land2", data.Land1);
-            oModelSop.setProperty("/Zqcap2", data.Zqcap);
-            oModelSop.setProperty("/Zqcitta2", data.Zqcitta);
-            oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
-            oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
-            oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
-            if (self.hasResponseError(oResponse)) {
-              oModelSop.setProperty("/Zstcd12", "")
-            };
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      _setDataQuietEstero1: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oSop = oModelSop.getData();
-
-        var sKey = oModel.createKey("/Quietanzante1EsteroSet", {
-          Zstcd14: oSop.Zstcd14,
-          Lifnr: oSop.Lifnr,
-          NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
-          Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra,
-          Ztipofirma: oSop.Ztipofirma
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            oModelSop.setProperty("/Zstcd14", data.Zstcd14);
-            oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
-            oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
-            oModelSop.setProperty("/Land1", data.Land1);
-            oModelSop.setProperty("/Zqcap", data.Zqcap);
-            oModelSop.setProperty("/Zqcitta", data.Zqcitta);
-            oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
-            oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
-            oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
-            oModelSop.setProperty("/Znumquiet", data.Znumquiet);
-            if (self.hasResponseError(oResponse)) {
-              oModelSop.setProperty("/Zstcd14", "");
-            };
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      _setDataQuietEstero2: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelSop = self.getModel("Sop");
-        var oSop = oModelSop.getData();
-
-        var sKey = oModel.createKey("/Quietanzante2EsteroSet", {
-          Zstcd15: oSop.Zstcd15,
-          Lifnr: oSop.Lifnr,
-          NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
-          Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra,
-          Ztipofirma: oSop.Ztipofirma
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            oModelSop.setProperty("/Zstcd15", data.Zstcd15);
-            oModelSop.setProperty("/ZpersCognomeQuiet2", data.ZpersCognomeQuiet2);
-            oModelSop.setProperty("/ZpersNomeQuiet2", data.ZpersNomeQuiet2);
-            oModelSop.setProperty("/Land2", data.Land1);
-            oModelSop.setProperty("/Zqcap2", data.Zqcap);
-            oModelSop.setProperty("/Zqcitta2", data.Zqcitta);
-            oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
-            oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
-            oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
-            if (self.hasResponseError(oResponse)) {
-              oModelSop.setProperty("/Zstcd15", "");
-            };
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
       setBancaAccredito: function () {
         var self = this;
         var oModel = self.getModel();
@@ -2814,6 +2536,283 @@ sap.ui.define(
         });
       },
 
+      //Quietanzante
+
+      resetQuietanzante1: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+
+        oModelSop.setProperty("/ZpersNomeQuiet1", "");
+        oModelSop.setProperty("/ZpersCognomeQuiet1", "");
+        oModelSop.setProperty("/Zstcd1", "");
+        oModelSop.setProperty("/ZpersNomeVaglia", "");
+        oModelSop.setProperty("/ZpersCognomeVaglia", "");
+        oModelSop.setProperty("/Zqindiriz", "");
+        oModelSop.setProperty("/Zqcitta", "");
+        oModelSop.setProperty("/Zqcap", "");
+        oModelSop.setProperty("/Zqprovincia", "");
+        oModelSop.setProperty("/Zstcd14", "");
+        oModelSop.setProperty("/Land1", "");
+        oModelSop.setProperty("/ZqragSoc", "");
+        oModelSop.setProperty("/Znumquiet", "");
+        oModelSop.setProperty("/NumquietInitial1", false);
+      },
+
+      resetQuietanzante2: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop");
+
+        oModelSop.setProperty("/ZpersCognomeQuiet2", "");
+        oModelSop.setProperty("/ZpersNomeQuiet2", "");
+        oModelSop.setProperty("/Zstcd12", "");
+        oModelSop.setProperty("/Zqindiriz2", "");
+        oModelSop.setProperty("/Zqcitta2", "");
+        oModelSop.setProperty("/Zqcap2", "");
+        oModelSop.setProperty("/Zqprovincia2", "");
+        oModelSop.setProperty("/Zstcd15", "");
+        oModelSop.setProperty("/Land2", "");
+        oModelSop.setProperty("/Znumquiet2", "");
+      },
+
+      _setDataQuietanzante1: function (sCodiceFiscale) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        if (!sCodiceFiscale) {
+          return;
+        }
+
+        var sKey = oModel.createKey("/Quietanzante1Set", {
+          Zstcd1: sCodiceFiscale,
+          Zwels: oSop.Zwels,
+          Lifnr: oSop.Lifnr,
+          NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            oModelSop.setProperty("/Zstcd1", data.Zstcd1);
+            oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
+            oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
+            oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
+            oModelSop.setProperty("/ZpersNomeVaglia", data.ZpersNomeVaglia);
+            oModelSop.setProperty("/Land1", data.Land1);
+            oModelSop.setProperty("/Zqcap", data.Zqcap);
+            oModelSop.setProperty("/Zqcitta", data.Zqcitta);
+            oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
+            oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
+            oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
+            oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd1", "")
+            };
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      setQuietanzante1: function () {
+        var self = this;
+        var oDataModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oModelUtility = self.getModel("Utility");
+        var oSop = oModelSop.getData();
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
+        self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
+
+        self.getView().setBusy(true);
+        oDataModel.read("/Quietanzante1Set", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            var aData = data.results;
+            var oFirstRecord = aData[0];
+            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
+              self.getView().setBusy(false);
+              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
+              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
+              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
+              if (oSop.Zwels === "ID1") {
+                oModelSop.setProperty("/Zstcd1", oFirstRecord.Zstcd1);
+              } else {
+                oModelSop.setProperty("/Zstcd3", oFirstRecord.Zstcd1);
+              }
+
+              self._setDataQuietanzante1(oFirstRecord.Zstcd1);
+            }
+          },
+          error: function (error) {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      setQuietanzante2: function () {
+        var self = this;
+        var oDataModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oModelUtility = self.getModel("Utility");
+        var aFilters = [];
+
+        self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
+        self.setFilterEQ(aFilters, "Ztipofirma", oModelSop?.getProperty("/Ztipofirma"));
+        self.setFilterEQ(aFilters, "Qsskz", oModelSop?.getProperty("/Witht"));
+        self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
+
+        self.getView().setBusy(true);
+        oDataModel.read("/Quietanzante2Set", {
+          filters: aFilters,
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            var aData = data.results;
+            var oFirstRecord = aData[0];
+            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
+              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
+              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
+              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
+              oModelSop.setProperty("/Zstcd12", oFirstRecord.Zstcd12);
+
+              self._setDataQuietanzante2();
+            }
+          },
+          error: function (error) {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      _setDataQuietEstero1: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        var sKey = oModel.createKey("/Quietanzante1EsteroSet", {
+          Zstcd14: oSop.Zstcd14,
+          Lifnr: oSop.Lifnr,
+          NumquietInitial: oSop.NumquietInitial1 ? oSop.NumquietInitial1 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            oModelSop.setProperty("/Zstcd14", data.Zstcd14);
+            oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
+            oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
+            oModelSop.setProperty("/Land1", data.Land1);
+            oModelSop.setProperty("/Zqcap", data.Zqcap);
+            oModelSop.setProperty("/Zqcitta", data.Zqcitta);
+            oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
+            oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
+            oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
+            oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd14", "");
+            };
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      _setDataQuietEstero2: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        var sKey = oModel.createKey("/Quietanzante2EsteroSet", {
+          Zstcd15: oSop.Zstcd15,
+          Lifnr: oSop.Lifnr,
+          NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            oModelSop.setProperty("/Zstcd15", data.Zstcd15);
+            oModelSop.setProperty("/ZpersCognomeQuiet2", data.ZpersCognomeQuiet2);
+            oModelSop.setProperty("/ZpersNomeQuiet2", data.ZpersNomeQuiet2);
+            oModelSop.setProperty("/Land2", data.Land1);
+            oModelSop.setProperty("/Zqcap2", data.Zqcap);
+            oModelSop.setProperty("/Zqcitta2", data.Zqcitta);
+            oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
+            oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
+            oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd15", "");
+            };
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      _setDataQuietanzante2: function () {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelSop = self.getModel("Sop");
+        var oSop = oModelSop.getData();
+
+        if (!oSop.Zstcd12) {
+          return;
+        }
+
+        var sKey = oModel.createKey("/Quietanzante2Set", {
+          Zstcd12: oSop.Zstcd12,
+          Lifnr: oSop.Lifnr,
+          NumquietInitial: oSop.NumquietInitial2 ? oSop.NumquietInitial2 : false,
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
+          Ztipofirma: oSop.Ztipofirma
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            oModelSop.setProperty("/Zstcd12", data.Zstcd12);
+            oModelSop.setProperty("/ZpersCognomeQuiet2", data.ZpersCognomeQuiet2);
+            oModelSop.setProperty("/ZpersNomeQuiet2", data.ZpersNomeQuiet2);
+            oModelSop.setProperty("/Land2", data.Land1);
+            oModelSop.setProperty("/Zqcap2", data.Zqcap);
+            oModelSop.setProperty("/Zqcitta2", data.Zqcitta);
+            oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
+            oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
+            oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Zstcd12", "")
+            };
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //#endregion --------------------------METHODS------------------------------
 
       //#endregion --------------------------WIZARD 2-----------------------------
@@ -2879,68 +2878,6 @@ sap.ui.define(
 
         //Resetto l'importo totale da associare
         this._setImpTotAssociare(oSourceData?.etichetta);
-      },
-
-      onCosChange: function (oEvent) {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelClassificazione = self.getModel("Classificazione");
-        var oSop = self.getModel("Sop").getData();
-        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
-
-        var oSource = oEvent.getSource();
-        var sIndex = oSource.data().index;
-
-        var sKey = oModel.createKey("/CosSet", {
-          Gjahr: oSop.Gjahr,
-          Zcos: aListClassificazione[sIndex].Zcos,
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
-            oModelClassificazione.setProperty("/Cos", aListClassificazione);
-            self.hasResponseError(oResponse);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
-
-      onCpvChange: function (oEvent) {
-        var self = this;
-        var oModel = self.getModel();
-        var oModelClassificazione = self.getModel("Classificazione");
-        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
-
-        var oSource = oEvent.getSource();
-        var sIndex = oSource.data().index;
-
-        if (!aListClassificazione[sIndex].Zcpv) {
-          aListClassificazione[sIndex].ZcpvDesc = "";
-          oModelClassificazione.setProperty("/Cpv", aListClassificazione);
-          return;
-        }
-
-        var sKey = oModel.createKey("/CpvSet", {
-          Zcpv: aListClassificazione[sIndex].Zcpv,
-        });
-
-        self.getView().setBusy(true);
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
-            oModelClassificazione.setProperty("/Cpv", aListClassificazione);
-            self.hasResponseError(oResponse);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
       },
 
       //#region ----------------------------VALUE HELP--------------------------
@@ -3142,6 +3079,68 @@ sap.ui.define(
         oModelClassificazione.setProperty("/" + oSourceData?.etichetta, aListClassificazione);
 
         this._setImpTotAssociare(oSourceData?.etichetta);
+      },
+
+      onCosChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var oSop = self.getModel("Sop").getData();
+        var aListClassificazione = oModelClassificazione.getProperty("/Cos");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        var sKey = oModel.createKey("/CosSet", {
+          Gjahr: oSop.Gjahr,
+          Zcos: aListClassificazione[sIndex].Zcos,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
+            oModelClassificazione.setProperty("/Cos", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
+      onCpvChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cpv");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!aListClassificazione[sIndex].Zcpv) {
+          aListClassificazione[sIndex].ZcpvDesc = "";
+          oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+          return;
+        }
+
+        var sKey = oModel.createKey("/CpvSet", {
+          Zcpv: aListClassificazione[sIndex].Zcpv,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcpvDesc = data.ZcpvDesc;
+            oModelClassificazione.setProperty("/Cpv", aListClassificazione);
+            self.hasResponseError(oResponse);
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
       },
 
       //#endregion -------------------------SELECTION CHANGE--------------------
@@ -3481,8 +3480,6 @@ sap.ui.define(
             break;
           }
         }
-
-
       },
 
       _registerSop: function () {
@@ -3726,7 +3723,8 @@ sap.ui.define(
             Zautemit: oSop.Zautemit,
             Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
-            Seqnr: oSop.Seqnr
+            Seqnr: oSop.Seqnr,
+            Zcatpurpose: oSop.Zcatpurpose
           },
 
           PosizioniSopSet: aPosizioniDeep,
@@ -3998,7 +3996,7 @@ sap.ui.define(
             ZcodStatosop: oSop.ZcodStatosop,
             ZspecieSop: oSop.ZspecieSop,
             Zricann: oSop.Zricann,
-            Zdatarichann: oSop.Zdatarichann,
+            Zdatarichann: formatter.UTCRome(oSop.Zdatarichann),
             Capitolo: oSop.Capitolo,
             DescWitht: oSop.DescWitht,
             ZzDescebe: oSop.ZzDescebe,
@@ -4111,7 +4109,8 @@ sap.ui.define(
             Zautemit: oSop.Zautemit,
             Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
-            Seqnr: oSop.Seqnr
+            Seqnr: oSop.Seqnr,
+            Zcatpurpose: oSop.Zcatpurpose
           },
 
           PosizioniSopSet: aPosizioniDeep,
@@ -4754,7 +4753,7 @@ sap.ui.define(
             var aData = data?.results;
             aData?.map((oPosition, iIndex) => {
               oPosition.Index = iIndex + 1;
-
+              oPosition.ZimpdaordOld = oPosition.Zimpdaord
             });
 
             self.setModel(new JSONModel(aData), sModelName)
@@ -4821,7 +4820,6 @@ sap.ui.define(
 
       lockQuoteBeneficiario: async function (oData) {
         var oResponse = { data: { Type: 'S' } }
-        return oResponse
         await this.oDataCreateLock("/StartSoftState", "GET");
 
         var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
@@ -5141,7 +5139,7 @@ sap.ui.define(
         oModelSop.setProperty("/Ort01Banca", oData.Ort01);
         oModelSop.setProperty("/RegioBanca", oData.Regio);
         oModelSop.setProperty("/PstlzBanca", oData.Stlz);
-        oModelSop.setProperty("/Land1Banca", oData.Land1);
+        oModelSop.setProperty("/Land1", oData.Land1);
 
         //Intermediario 1
         oModelSop.setProperty("/Zibani", oData.Zibani);
@@ -5204,7 +5202,7 @@ sap.ui.define(
             oModelSop.setProperty("/Ort01Banca", oData.Ort01);
             oModelSop.setProperty("/RegioBanca", oData.Regio);
             oModelSop.setProperty("/PstlzBanca", oData.Stlz);
-            oModelSop.setProperty("/Land1Banca", oData.Land1);
+            oModelSop.setProperty("/Land1", oData.Land1);
 
             //Intermediario 1
             oModelSop.setProperty("/Zibani", oData.Zibani);
@@ -5222,7 +5220,7 @@ sap.ui.define(
             //Se D = Destinatario
             oModelSop.setProperty("/ZpersNomeVaglia", oData.ZQNome);
             oModelSop.setProperty("/ZpersCognomeVaglia", oData.ZQCognome);
-            oModelSop.setProperty("/Zstcd11", oData.Stcd3);
+            oModelSop.setProperty("/Zstcd1", oData.Stcd3);
             oModelSop.setProperty("/Zqindiriz", oData.ZQIndiriz);
             oModelSop.setProperty("/Zqcitta", oData.ZQCitta);
             oModelSop.setProperty("/Zqcap", oData.ZQCAP);
