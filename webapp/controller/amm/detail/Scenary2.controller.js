@@ -295,6 +295,8 @@ sap.ui.define(
                 );
                 var aPositions = oModelSop.getProperty("/Position");
 
+                oTable.removeSelections();
+
                 aSelectedItems.map((oSelectedItem) => {
                   if (oSelectedItem.Zchiavesop) {
                     oSelectedItem.Tiporiga = 'D'
@@ -326,7 +328,6 @@ sap.ui.define(
                 });
 
                 oModelSop.setProperty("/Zimptot", fTotal.toFixed(2));
-                oTable.removeSelections();
               }
             },
           }

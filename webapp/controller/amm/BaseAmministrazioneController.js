@@ -2951,6 +2951,7 @@ sap.ui.define(
         }
 
         aListClassificazione[sIndex].Zcos = oSelectedItem.getTitle();
+        aListClassificazione[sIndex].ZcosDescFull = oSelectedItem.getDescription();
         aListClassificazione[sIndex].ZcosDesc = oSelectedItem.getDescription();
         oModelClassificazione.setProperty("/Cos", aListClassificazione);
 
@@ -3100,6 +3101,7 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data, oResponse) {
             self.getView().setBusy(false);
+            aListClassificazione[sIndex].ZcosDescFull = data.ZcosDesc;
             aListClassificazione[sIndex].ZcosDesc = data.ZcosDesc;
             oModelClassificazione.setProperty("/Cos", aListClassificazione);
             self.hasResponseError(oResponse);
