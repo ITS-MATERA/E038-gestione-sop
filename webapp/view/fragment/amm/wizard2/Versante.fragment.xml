@@ -48,6 +48,7 @@
                       ${Utility>/EnableEdit} ? true : false
                     }"
                     value="{Sop>/Zcfcommit}"
+                    maxLength="11"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -72,7 +73,7 @@
                       ${Utility>/EnableEdit} ? true : false
                     }"
                     change="onCausaleTributoChange"
-                    maxLength="200"
+                    maxLength="4"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -135,7 +136,10 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input value="{Sop>/Zcodinps}">
+                <Input
+                    value="{Sop>/Zcodinps}"
+                    maxLength="17"
+                >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>

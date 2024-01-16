@@ -45,6 +45,7 @@
                 <Input
                     editable="false"
                     value="{Sop>/Zcfcommit}"
+                    maxLength="11"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

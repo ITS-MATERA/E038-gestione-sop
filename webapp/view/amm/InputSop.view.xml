@@ -176,7 +176,7 @@
                         </Label>
                         <Input
                             value="{FirstSop>/Zgeber}"
-                            maxLength="1333"
+                            maxLength="18"
                             valueHelpRequest="onValueHelpIdAutorizzazione"
                             showValueHelp="true"
                         >
