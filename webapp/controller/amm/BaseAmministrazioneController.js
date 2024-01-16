@@ -9,7 +9,6 @@ sap.ui.define(
 
     return BaseController.extend("gestionesop.controller.amm.BaseAmministrazioneController", {
       formatter: formatter,
-
       createModelSop: async function (sZtipopag) {
         var self = this;
 
@@ -1804,6 +1803,13 @@ sap.ui.define(
 
       onCausaleValutariaChange: function () {
         this.checkCasualeValutaria();
+      },
+
+      onCausaleTributoChange: function (oEvent) {
+        var self = this;
+        var oModelSop = self.getModel("Sop")
+
+        oModelSop.setProperty("/Zcodtrib", oEvent.getParameter("value"))
       },
 
       //#endregion --------------------------SELECTION CHANGE---------------------

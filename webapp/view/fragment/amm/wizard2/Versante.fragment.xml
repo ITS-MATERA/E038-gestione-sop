@@ -43,6 +43,7 @@
                     </layoutData>
                 </Text>
                 <Input
+                    id="iptCFCommit"
                     editable="{= 
                       ${Utility>/isVersanteEditable} &amp;&amp; 
                       ${Utility>/EnableEdit} ? true : false
@@ -72,7 +73,7 @@
                       ${Utility>/isVersanteEditable} &amp;&amp; 
                       ${Utility>/EnableEdit} ? true : false
                     }"
-                    change="onCausaleTributoChange"
+                    liveChange="onCausaleTributoChange"
                     maxLength="4"
                 >
                     <zcontrolmccross:layoutData>
@@ -137,6 +138,7 @@
                     </layoutData>
                 </Text>
                 <Input
+                    id="iptCodInps"
                     value="{Sop>/Zcodinps}"
                     maxLength="17"
                 >
