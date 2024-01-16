@@ -376,7 +376,7 @@
                     editable="false"
                     visible="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
                     value="{Sop>/Zcausben}"
-                    maxLength="100"
+                    maxLength="140"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

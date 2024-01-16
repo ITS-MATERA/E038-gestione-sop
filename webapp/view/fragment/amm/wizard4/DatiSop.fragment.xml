@@ -76,6 +76,7 @@
                     value="{Sop>/Zlocpag}"
                     editable="{Utility>/EnableEdit}"
                     change="onLocPagamentoChange"
+                    maxLength="100"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L2 M8 S12" />
