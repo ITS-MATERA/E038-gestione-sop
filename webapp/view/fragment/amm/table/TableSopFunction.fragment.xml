@@ -223,7 +223,7 @@
 									path: 'DatiFirmatario>Znumprot'
 								}"
                                 visible="{= ${Utility>/Function} === 'InvioFirma' || ${Utility>/Function} === 'Firma' ? true : false}"
-                                maxLength="6"
+                                maxLength="7"
                                 change="onNumProtocolloChange"
                             />
                             <DatePicker

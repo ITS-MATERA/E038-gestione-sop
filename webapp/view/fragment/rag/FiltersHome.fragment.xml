@@ -238,7 +238,7 @@
                     <Label text="{i18n>labelNProtocolloRGS}:" />
                     <Input
                         value="{FiltersHome>/Znumprotrgs}"
-                        maxLength="6"
+                        maxLength="7"
                     />
                 </items>
             </VBox>

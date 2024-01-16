@@ -280,7 +280,7 @@
                     <Label text="{i18n>labelNProtocolloAmm}:" />
                     <Input
                         value="{FiltersSop>/Znumprot}"
-                        maxLength="6"
+                        maxLength="7"
                     />
                 </items>
             </VBox>
