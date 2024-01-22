@@ -8,7 +8,6 @@
     xmlns:l="sap.ui.layout"
     xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
     xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
-    xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
 >
     <f:DynamicPage
         showFooter="true"
@@ -120,6 +119,7 @@
                             </layoutData>
                         </Label>
                         <zcontrol:InputPosizioneFinanziaria
+                            id="iptPosizioneFinanziaria"
                             fase="GEST"
                             spesa="X"
                             reale="R"
@@ -145,6 +145,7 @@
                             </layoutData>
                         </Label>
                         <zcontrolMatchSar:GestioneLogUser
+                            id="iptFistl"
                             eos="S"
                             fase="GEST"
                             entrata="X"

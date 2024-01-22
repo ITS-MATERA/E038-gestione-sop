@@ -103,6 +103,7 @@
                     </layoutData>
                 </Text>
                 <zcontrolMatchSar:GestioneLogUser
+                    id="iptFistl"
                     eos="S"
                     fase="GEST"
                     entrata="X"

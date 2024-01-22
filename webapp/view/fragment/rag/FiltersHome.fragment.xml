@@ -339,6 +339,7 @@
                 <items>
                     <Label text="{i18n>labelFistl}:" />
                     <zcontrolMatchSar:GestioneLogUser
+                        id="iptFistl"
                         eos="S"
                         fase="GEST"
                         entrata="X"

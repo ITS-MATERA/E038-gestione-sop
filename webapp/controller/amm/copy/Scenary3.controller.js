@@ -22,6 +22,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptImpDaAssociareCup");
         self.acceptOnlyNumber("iptCodInps")
         self.acceptOnlyNumber("iptCodiceTributo")
+        self.acceptOnlyImport("iptCFCommit")
 
         this.getRouter().getRoute("amm.copy.scenary3").attachPatternMatched(this._onObjectMatched, this);
       },
