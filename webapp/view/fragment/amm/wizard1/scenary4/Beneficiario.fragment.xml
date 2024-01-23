@@ -37,7 +37,7 @@
                     </layoutData>
                 </Label>
                 <zcontrolmccross:MatchcodeCross
-                    id="iptBeneficiarioWizard1"
+                    id="iptBeneficiarioScen4"
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
                     value="{Sop>/Lifnr}"
@@ -195,6 +195,7 @@
                     </layoutData>
                 </Label>
                 <ComboBox
+                    id="cbxModalitaPagamento"
                     width="100%"
                     items="{
                       path: 'ModalitaPagamento>/'

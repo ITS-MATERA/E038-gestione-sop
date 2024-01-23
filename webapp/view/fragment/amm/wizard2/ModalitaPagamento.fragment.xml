@@ -24,6 +24,7 @@
                     </layoutData>
                 </Text>
                 <ComboBox
+                    id="cbxModalitaPagamentoWizard2"
                     width="100%"
                     items="{
                           path: 'ModalitaPagamento>/'
