@@ -4585,8 +4585,13 @@ sap.ui.define(
         self.getView().setBusy(true)
         return new Promise(async function (resolve, reject) {
           await oModel.read(sKey, {
-            success: function (data) {
+            success: function (data, oResponse) {
               self.getView().setBusy(false)
+              if (self.hasResponseError(oResponse)) {
+                self.getModel("DatiFirmatario").setProperty("/ZvimDescrufficio", "")
+                self.getModel("DatiFirmatario").setProperty("/ZuffcontFirm", "")
+                return
+              }
               resolve(data.ZvimDescrufficio)
             },
             error: function () {
@@ -4603,6 +4608,11 @@ sap.ui.define(
         var sUfficio = oEvent.getParameter("value")
 
         oModelDatiFirmatario.setProperty("/ZvimDescrufficio", await self.getDescUfficio(sUfficio))
+
+        // var oModel = self.getModel()
+        // var 
+
+
       },
 
       onFistlChange: function (oEvent) {

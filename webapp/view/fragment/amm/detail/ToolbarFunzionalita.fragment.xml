@@ -10,7 +10,7 @@
         press="onAnnulla"
     />
     <Button
-        text="{i18n>btnInvioFirma}"
+        text="{= ${Utility>/EnableInvioFirma} ? ${i18n>btnInviaFirma} : ${i18n>btnInvioFirma} }"
         type="Emphasized"
         enabled="{= ${Sop>/ZcodStatosop} === '00' &amp;&amp; ${AuthorityCheck>/InvioFirma} ? true : false}"
         visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'InvioFirma' ? true : false}"
