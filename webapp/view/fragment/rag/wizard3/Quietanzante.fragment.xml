@@ -209,7 +209,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/Land1}"
+                    value="{Sop>/Land1Quietanzante}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

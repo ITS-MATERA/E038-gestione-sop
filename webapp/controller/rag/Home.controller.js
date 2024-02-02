@@ -153,6 +153,82 @@ sap.ui.define(
         self.unloadFragment();
       },
 
+      onValueHelpCapitolo: function () {
+        var self = this
+        var oModelRagioneria = self.getModel("ZSS4_CO_GEST_TIPOLOGICHE_SRV");
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.Capitolo");
+
+        self.getView().setBusy(true)
+
+        oModelRagioneria.read("/ZES_CAPITOLO_SET", {
+          success: function (data) {
+            var aData = data.results;
+            var aCapitolo = [];
+            aData.map((oData) =>
+              aCapitolo.push({
+                Capitolo: oData.CODICE_CAPITOLO,
+              })
+            );
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aCapitolo);
+            var oSelectDialog = sap.ui.getCore().byId("sdCapitolo");
+            oSelectDialog?.setModel(oModelJson, "Capitolo");
+            oDialog.open();
+            self.getView().setBusy(false)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onValueHelpCapitoloClose: function (oEvent) {
+        var self = this;
+        var oModelFilters = self.getModel("FiltersHome");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        oModelFilters.setProperty("/Capitolo", self.setBlank(oSelectedItem?.getTitle()));
+        self.unloadFragment();
+      },
+
+      onValueHelpAmministrazione: function () {
+        var self = this
+        var oModelRagioneria = self.getModel("ZSS4_CO_GEST_TIPOLOGICHE_SRV");
+        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.Amministrazione");
+
+        self.getView().setBusy(true)
+
+        oModelRagioneria.read("/ZES_AMMINISTRAZIONE_SET", {
+          success: function (data) {
+            var aData = data.results;
+            var aAmministrazione = [];
+            aData.map((oData) =>
+              aAmministrazione.push({
+                Zzamministr: oData.PRCTR,
+              })
+            );
+            var oModelJson = new JSONModel();
+            oModelJson.setData(aAmministrazione);
+            var oSelectDialog = sap.ui.getCore().byId("sdAmministrazione");
+            oSelectDialog?.setModel(oModelJson, "Amministrazione");
+            oDialog.open();
+            self.getView().setBusy(false)
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
+      onValueHelpAmministrazioneClose: function (oEvent) {
+        var self = this;
+        var oModelFilters = self.getModel("FiltersHome");
+        var oSelectedItem = oEvent.getParameter("selectedItem");
+
+        oModelFilters.setProperty("/Zzamministr", self.setBlank(oSelectedItem?.getTitle()));
+        self.unloadFragment();
+      },
+
       //#endregion ------------------VALUE HELP---------------------------------
 
       //#region ---------------------SELECTION CHANGE---------------------------

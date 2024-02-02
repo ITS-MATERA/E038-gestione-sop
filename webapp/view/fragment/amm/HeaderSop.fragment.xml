@@ -84,7 +84,7 @@
                     text="{i18n>labelNomeBen}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/NameFirst}" />
+                <Text text="{Sop>/Znomebensosp}" />
                 <layoutData>
                     <l:GridData
                         span="XL2 L4 M6 S12"
@@ -97,7 +97,7 @@
                     text="{i18n>labelCognomeBen}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/NameLast}" />
+                <Text text="{Sop>/Zcognomebensosp}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>
@@ -107,7 +107,7 @@
                     text="{i18n>labelRagSoc}:"
                     class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                 />
-                <Text text="{Sop>/ZzragSoc}" />
+                <Text text="{Sop>/Zragsocbensosp}" />
                 <layoutData>
                     <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>

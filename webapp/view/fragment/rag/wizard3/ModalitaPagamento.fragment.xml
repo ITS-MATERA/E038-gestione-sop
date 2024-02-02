@@ -167,6 +167,7 @@
                 <Text
                     text="{i18n>labelBic}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -178,6 +179,7 @@
                 <Input
                     editable="false"
                     value="{Sop>/Swift}"
+                    visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -220,6 +222,58 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
+                <Text
+                    text="{i18n>labelEsercizio}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID4'}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                          path: '/GjahrPfMcSet'
+                        }"
+                    selectedKey="{Sop>/ZgjahrPf}"
+                    visible="{= ${Sop>/Zwels} === 'ID4'}"
+                    editable="false"
+                >
+                    <c:Item
+                        key="{Anno}"
+                        text="{Anno}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
+                <Text
+                    text="{i18n>labelCompetenzaResidui}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/Zwels} === 'ID4'}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <ComboBox
+                    width="100%"
+                    items="{
+                          path: '/CompetenzaResiduiSet'
+                        }"
+                    selectedKey="{Sop>/Zcompres}"
+                    visible="{= ${Sop>/Zwels} === 'ID4'}"
+                    editable="false"
+                >
+                    <c:Item
+                        key="{Zcompres}"
+                        text="{Descrizione}"
+                    />
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </ComboBox>
                 <Text
                     text="{i18n>labelPurpose}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"

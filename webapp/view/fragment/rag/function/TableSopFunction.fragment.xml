@@ -117,7 +117,7 @@
 							}"
                         />
                         <Text
-                            text="{Utility>NameFirst} {Utility>NameLast}"
+                            text="{Utility>Znomebensosp} {Utility>Zcognomebensosp}"
                             visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                         />
                         <Text

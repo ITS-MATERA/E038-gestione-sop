@@ -168,7 +168,7 @@
 							}"
                             />
                             <Text
-                                text="{DatiFirmatario>NameFirst} {DatiFirmatario>NameLast}"
+                                text="{DatiFirmatario>Znomebensosp} {DatiFirmatario>Zcognomebensosp}"
                                 visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                             />
                             <Text

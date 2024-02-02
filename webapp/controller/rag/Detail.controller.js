@@ -150,9 +150,9 @@ sap.ui.define(
           Znumliq: oSop.Znumliq,
           ZdescProsp: oSop.ZdescProsp,
           Zprovgiud: oSop.Zprovgiud,
-          NameFirst: oSop.NameFirst,
-          NameLast: oSop.NameLast,
-          ZzragSoc: oSop.ZzragSoc,
+          Znomebensosp: oSop.Znomebensosp,
+          Zcognomebensosp: oSop.Zcognomebensosp,
+          Zragsocbensosp: oSop.Zragsocbensosp,
           Taxnumcf: oSop.Taxnumcf,
           Taxnum: oSop.Taxnum,
           Type: oSop.Type,
@@ -257,6 +257,21 @@ sap.ui.define(
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop?.DescZspecie,
           Zcatpurpose: oSop.Zcatpurpose,
+          ZgjahrPf: oSop.ZgjahrPf,
+          Zcompres: oSop.Zcompres,
+          ZversioneZfmodiban: oSop.ZversioneZfmodiban,
+          SeqnrZffermoAmmin: oSop.SeqnrZffermoAmmin,
+          Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
+          ZversioneZfquietanz: oSop.ZversioneZfquietanz,
+          ZversioneZfsedi: oSop.ZversioneZfsedi,
+          Land1Quietanzante: oSop.Land1Quietanzante,
+          ZqcapQuietanzante: oSop.ZqcapQuietanzante,
+          ZqcittaQuietanzante: oSop.ZqcittaQuietanzante,
+          ZqindirizQuietanzante: oSop.ZqindirizQuietanzante,
+          ZqprovinciaQuietanzante: oSop.ZqprovinciaQuietanzante,
+          Zbdap: oSop.Zbdap,
+          Zlifnrric: oSop.Zlifnrric,
+          ZzTipoent: oSop.ZzTipoent,
           Position: await self._getPositions(oParameters, oSop.ZspecieSop, oSop.Ztipopag),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -279,7 +294,8 @@ sap.ui.define(
           ZuffRag: oSop.ZuffRag,
           Znotpag: oSop.Znotpag,
           DescZautemit: oSop.DescZautemit,
-          DescZtipoprovv: oSop.DescZtipoprovv
+          DescZtipoprovv: oSop.DescZtipoprovv,
+          ZdispOa: oSop.ZdispOa
         });
 
         self.setModel(oModelSop, "Sop");

@@ -55,7 +55,7 @@
                                             type="XML"
                                         />
                                         <c:Fragment
-                                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.Beneficiario"
+                                            fragmentName="gestionesop.view.fragment.amm.wizard1.filters.BeneficiarioRettifica"
                                             type="XML"
                                         />
                                         <c:Fragment

@@ -48,6 +48,8 @@
                     <Input
                         value="{FiltersHome>/Zzamministr}"
                         maxLength="4"
+                        valueHelpRequest="onValueHelpAmministrazione"
+                        showValueHelp="true"
                     />
                 </items>
             </VBox>
@@ -86,6 +88,8 @@
                     <Input
                         maxLength="4"
                         value="{FiltersHome>/Capitolo}"
+                        valueHelpRequest="onValueHelpCapitolo"
+                        showValueHelp="true"
                     />
                 </items>
             </VBox>
@@ -310,6 +314,7 @@
                         maxSuggestionWidth="100%"
                         width="100%"
                         value="{FiltersHome>/FiposFrom}"
+                        enabled="{= ${FiltersHome>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -329,6 +334,7 @@
                         maxSuggestionWidth="100%"
                         width="100%"
                         value="{FiltersHome>/FiposTo}"
+                        enabled="{= ${FiltersHome>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -339,7 +345,7 @@
                 <items>
                     <Label text="{i18n>labelFistl}:" />
                     <zcontrolMatchSar:GestioneLogUser
-                        id="iptFistl"
+                        id="idFilterStruttAmmResp"
                         eos="S"
                         fase="GEST"
                         entrata="X"
@@ -350,6 +356,7 @@
                         width="100%"
                         placeholder="Scegli struttura amministrativa"
                         value="{FiltersHome>/Fistl}"
+                        enabled="{= ${FiltersHome>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>

@@ -120,7 +120,6 @@ sap.ui.define(
         self.createModelFiltersWizard1();
         self.createModelUtilityReg("gestionesop.view.amm.copy.Scenary1");
         self.getView().byId("pnlCalculatorList").setVisible(true)
-
       },
 
       onImpDaOrdinareChange: function (oEvent) {

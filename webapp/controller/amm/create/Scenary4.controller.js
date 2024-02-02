@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
+  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter", "sap/m/MessageBox"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, MessageBox) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.create.Scenary4", {
@@ -84,17 +84,7 @@ sap.ui.define(
 
         if (bWizard1Step1) {
           if (await self.checkWizard1()) {
-            oModelStepScenario.setProperty("/wizard1Step1", false);
-            oModelStepScenario.setProperty("/wizard1Step2", true);
-            oModelStepScenario.setProperty("/visibleBtnForward", false);
-            oModelStepScenario.setProperty(
-              "/visibleBtnInserisciProspLiquidazione",
-              true
-            );
-            self.createModelModPagamento();
-            self.createModelSedeBeneficiario();
-            self.setSedeBeneficiario();
-            self.setPosizioneScen4()
+            self.checkExistDocumentForUser();
           }
         }
         else if (bWizard2) {
@@ -166,6 +156,64 @@ sap.ui.define(
           });
         });
       },
+
+      checkExistDocumentForUser: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var oModelStepScenario = self.getModel("StepScenario")
+
+        self.getView().setBusy(true)
+        oModel.callFunction("/CheckExisitingDocument", {
+          urlParameters: {
+            Lifnr: oSop.Lifnr
+          },
+          success: function (data) {
+            self.getView().setBusy(false)
+            if (data.results.length > 0) {
+              MessageBox.warning(
+                "Per il Beneficiario selezionato esistono Documenti di costo. Verificare se è necessario procedere con la registrazione di un SOP da documenti di costo",
+                {
+                  actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+                  onClose: function (oAction) {
+                    if (oAction === 'OK') {
+                      oModelStepScenario.setProperty("/wizard1Step1", false);
+                      oModelStepScenario.setProperty("/wizard1Step2", true);
+                      oModelStepScenario.setProperty("/visibleBtnForward", false);
+                      oModelStepScenario.setProperty(
+                        "/visibleBtnInserisciProspLiquidazione",
+                        true
+                      );
+                      self.createModelModPagamento();
+                      self.createModelSedeBeneficiario();
+                      self.setSedeBeneficiario();
+                      self.setPosizioneScen4()
+                      return
+                    }
+                  },
+                }
+              )
+            }
+            else {
+              oModelStepScenario.setProperty("/wizard1Step1", false);
+              oModelStepScenario.setProperty("/wizard1Step2", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty(
+                "/visibleBtnInserisciProspLiquidazione",
+                true
+              );
+              self.createModelModPagamento();
+              self.createModelSedeBeneficiario();
+              self.setSedeBeneficiario();
+              self.setPosizioneScen4()
+            }
+          },
+          error: function () {
+            self.getView().setBusy(false)
+          }
+        })
+      },
+
     });
   }
 );

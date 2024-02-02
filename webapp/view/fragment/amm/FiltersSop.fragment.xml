@@ -48,7 +48,8 @@
                     <Input
                         value="{FiltersSop>/Zzamministr}"
                         maxLength="4"
-                        liveChange="onAmministrazioneChange"
+                        showValueHelp="true"
+                        valueHelpRequest="onValueHelpAmministrazione"
                     />
                 </items>
             </VBox>
@@ -87,6 +88,8 @@
                     <Input
                         maxLength="4"
                         value="{FiltersSop>/Capitolo}"
+                        valueHelpRequest="onValueHelpCapitolo"
+                        showValueHelp="true"
                     />
                 </items>
             </VBox>
@@ -352,6 +355,7 @@
                         value="{FiltersSop>/FiposFrom}"
                         app:property="FiposFrom"
                         liveChange="onFiposChange"
+                        enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -373,6 +377,7 @@
                         value="{FiltersSop>/FiposTo}"
                         app:property="FiposTo"
                         liveChange="onFiposChange"
+                        enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -383,7 +388,7 @@
                 <items>
                     <Label text="{i18n>labelFistl}:" />
                     <zcontrolMatchSar:GestioneLogUser
-                        id="iptFistl"
+                        id="idFilterStruttAmmResp"
                         eos="S"
                         fase="GEST"
                         entrata="X"
@@ -395,6 +400,7 @@
                         placeholder="Scegli struttura amministrativa"
                         value="{FiltersSop>/Fistl}"
                         liveChange="onFistlChange"
+                        enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
                     />
                 </items>
             </VBox>
@@ -414,6 +420,10 @@
                         value="{FiltersSop>/ZnumliqFrom}"
                         app:property="ZnumliqFrom"
                         liveChange="onNProspLiquidazioneChange"
+                        whichProsp="26"
+                        Fikrs="{AuthorityCheck>/Fikrs}"
+                        Prctr="{AuthorityCheck>/Prctr}"
+                        AgrName="{AuthorityCheck>/AgrName}"
                     />
                 </items>
             </VBox>
@@ -430,6 +440,10 @@
                         value="{FiltersSop>/ZnumliqTo}"
                         app:property="ZnumliqTo"
                         liveChange="onNProspLiquidazioneChange"
+                        whichProsp="26"
+                        Fikrs="{AuthorityCheck>/Fikrs}"
+                        Prctr="{AuthorityCheck>/Prctr}"
+                        AgrName="{AuthorityCheck>/AgrName}"
                     />
                 </items>
             </VBox>

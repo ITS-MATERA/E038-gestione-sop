@@ -103,7 +103,7 @@
                     </layoutData>
                 </Text>
                 <zcontrolMatchSar:GestioneLogUser
-                    id="iptFistl"
+                    id="idFilterStruttAmmResp"
                     eos="S"
                     fase="GEST"
                     entrata="X"
@@ -115,6 +115,7 @@
                     value="{DatiFirmatario>/Fistl}"
                     change="onFistlChange"
                     visible="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
+                    enabled="{= ${Sop>/Gjahr} ? true : false}"
                 >
                     <zcontrolMatchSar:layoutData>
                         <l:GridData span="XL2 L2 M12 S12" />

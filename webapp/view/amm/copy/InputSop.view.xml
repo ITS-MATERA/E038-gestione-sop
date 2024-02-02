@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="gestionesop.controller.amm.InputSop"
+    controllerName="gestionesop.controller.amm.copy.InputSop"
     displayBlock="true"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -45,8 +45,7 @@
                             items="{
                           path: '/GjahrMcSet'
                         }"
-                            selectedKey="{FirstSop>/Gjahr}"
-                            selectionChange="onEsercizioChange"
+                            selectedKey="{Sop>/Gjahr}"
                         >
                             <c:Item
                                 key="{Gjahr}"
@@ -67,10 +66,8 @@
                             </layoutData>
                         </Label>
                         <Input
-                            value="{FirstSop>/Zragdest}"
-                            valueHelpRequest="onValueHelpRagioneria"
-                            showValueHelp="true"
-                            maxLength="4"
+                            value="{Sop>/Zragdest}"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -87,9 +84,8 @@
                             </layoutData>
                         </Label>
                         <Input
-                            value="{FirstSop>/Zzamministr}"
-                            maxLength="4"
-                            liveChange="onAmministrazioneChange"
+                            value="{Sop>/Zzamministr}"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -118,23 +114,14 @@
                                 <l:GridData span="XL2 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <zcontrol:InputPosizioneFinanziaria
-                            id="iptPosizioneFinanziaria"
-                            fase="GEST"
-                            spesa="X"
-                            reale="R"
-                            anno="{FirstSop>/Gjahr}"
-                            versione="D"
-                            maxSuggestionWidth="100%"
-                            width="100%"
-                            value="{FirstSop>/Fipos}"
-                            liveChange="onFiposChange"
-                            enabled="{= ${FirstSop>/Gjahr} ? true : false}"
+                        <Input
+                            value="{Sop>/Fipos}"
+                            editable="false"
                         >
-                            <zcontrol:layoutData>
+                            <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
-                            </zcontrol:layoutData>
-                        </zcontrol:InputPosizioneFinanziaria>
+                            </layoutData>
+                        </Input>
 
                         <Label
                             text="{i18n>labelFistl}:"
@@ -145,25 +132,14 @@
                                 <l:GridData span="XL3 L3 M5 S12" />
                             </layoutData>
                         </Label>
-                        <zcontrolMatchSar:GestioneLogUser
-                            id="iptFistl"
-                            eos="S"
-                            fase="GEST"
-                            entrata="X"
-                            reale="R"
-                            anno="{FirstSop>/Gjahr}"
-                            SEM_OBJ="Z_TEST_LIB"
-                            versione="D"
-                            width="100%"
-                            placeholder="Scegli struttura amministrativa"
-                            value="{FirstSop>/Fistl}"
-                            liveChange="onFistlChange"
-                            enabled="{= ${FirstSop>/Gjahr} ? true : false}"
+                        <Input
+                            value="{Sop>/Fistl}"
+                            editable="false"
                         >
-                            <zcontrolMatchSar:layoutData>
+                            <layoutData>
                                 <l:GridData span="XL3 L3 M5 S12" />
-                            </zcontrolMatchSar:layoutData>
-                        </zcontrolMatchSar:GestioneLogUser>
+                            </layoutData>
+                        </Input>
 
                         <Label
                             text="{i18n>labelIdAutorizzazione}:"
@@ -178,10 +154,8 @@
                             </layoutData>
                         </Label>
                         <Input
-                            value="{FirstSop>/Zgeber}"
-                            maxLength="1333"
-                            valueHelpRequest="onValueHelpIdAutorizzazione"
-                            showValueHelp="true"
+                            value="{Sop>/Zgeber}"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -211,8 +185,8 @@
                             </layoutData>
                         </Label>
                         <Input
-                            value="{FirstSop>/ZufficioCont}"
-                            change="onUfficioChange"
+                            value="{Sop>/ZufficioCont}"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -232,7 +206,7 @@
                         </Label>
                         <Input
                             editable="false"
-                            value="{FirstSop>/Descufficio}"
+                            value="{Sop>/Descufficio}"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -252,7 +226,7 @@
                         </Label>
                         <Input
                             editable="false"
-                            value="{FirstSop>/Zfunzdel}"
+                            value="{Sop>/Zfunzdel}"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -272,7 +246,7 @@
                         </Label>
                         <Input
                             editable="false"
-                            value="{FirstSop>/Zdescriz}"
+                            value="{Sop>/Zdescriz}"
                         >
                             <layoutData>
                                 <l:GridData span="XL2 L3 M5 S12" />
@@ -308,8 +282,8 @@
                             items="{
                           path: '/TipoProvvedimentoMcSet'
                         }"
-                            selectedKey="{FirstSop>/Ztipoprovv}"
-                            selectionChange="onCreateCausale"
+                            selectedKey="{Sop>/Ztipoprovv}"
+                            editable="false"
                         >
                             <c:Item
                                 key="{Ztipoprov}"
@@ -336,8 +310,8 @@
                             items="{
                           path: '/AutoritaEmittenteMcSet'
                         }"
-                            selectedKey="{FirstSop>/Zautemit}"
-                            selectionChange="onCreateCausale"
+                            selectedKey="{Sop>/Zautemit}"
+                            editable="false"
                         >
                             <c:Item
                                 key="{Zautemit}"
@@ -362,13 +336,13 @@
                             valueFormat="yyyy-MM-dd"
                             displayFormat="dd.MM.yyyy"
                             value="{
-                                path: 'FirstSop>/Zdataprovv',
+                                path: 'Sop>/Zdataprovv',
                                 type: 'sap.ui.model.type.Date',
                                 formatOptions: {
                                     pattern: 'dd.MM.yyyy'
                                 }
                             }"
-                            change="onCreateCausale"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
@@ -386,9 +360,11 @@
                         </Label>
                         <Input
                             id="iptNumProvvedimento"
-                            maxLength="10"
-                            value="{FirstSop>/Znprovv}"
-                            change="onCreateCausale"
+                            value="{
+                                path: 'Sop>/Znprovv',
+                                formatter: '.formatter.deleteFirstZeros'
+                            }"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL1 L3 M5 S12" />
@@ -405,8 +381,8 @@
                             </layoutData>
                         </Label>
                         <Input
-                            value="{FirstSop>/Zcausale}"
-                            maxLength="255"
+                            value="{Sop>/Zcausale}"
+                            editable="false"
                         >
                             <layoutData>
                                 <l:GridData span="XL4 L6 M12 S12" />
@@ -429,14 +405,13 @@
                         <RadioButtonGroup
                             id="rbSceltaOperativa"
                             columns="2"
-                            editable="{= ${FirstSop>/Zfunzdel} !== '' ? false : true}"
+                            editable="false"
                         >
                             <RadioButton
                                 text="{i18n>labelDocumentiLiquidati}"
                             />
                             <RadioButton
                                 text="{i18n>labelDocumentiNonLiquidati}"
-                                selected="{= ${FirstSop>/Zfunzdel} !== '' ? true : false}"
                             />
                         </RadioButtonGroup>
                     </l:Grid>

@@ -277,24 +277,29 @@
           "target": ["amm.detail.scenary4"]
         },
         {
-          "pattern": "amm.copy.scenary1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "pattern": "amm.copy.scenary1/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp},{NewGjahr}",
           "name": "amm.copy.scenary1",
           "target": ["amm.copy.scenary1"]
         },
         {
-          "pattern": "amm.copy.scenary2/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "pattern": "amm.copy.scenary2/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp},{NewGjahr}",
           "name": "amm.copy.scenary2",
           "target": ["amm.copy.scenary2"]
         },
         {
-          "pattern": "amm.copy.scenary3/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "pattern": "amm.copy.scenary3/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp},{NewGjahr}",
           "name": "amm.copy.scenary3",
           "target": ["amm.copy.scenary3"]
         },
         {
-          "pattern": "amm.copy.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "pattern": "amm.copy.scenary4/{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp},{NewGjahr}",
           "name": "amm.copy.scenary4",
           "target": ["amm.copy.scenary4"]
+        },
+        {
+          "pattern": "amm.copy.inputSop/{Ztipopag},{Gjahr},{Zchiavesop},{Bukrs},{Zstep},{Ztipososp}",
+          "name": "amm.copy.inputSop",
+          "target": ["amm.copy.inputSop"]
         },
         {
           "pattern": "rag.home/:Reload:",
@@ -386,6 +391,11 @@
         "amm.copy.scenary4": {
           "viewName": "amm.copy.Scenary4",
           "viewId": "amm.copy.scenary4",
+          "viewLevel": 2
+        },
+        "amm.copy.inputSop": {
+          "viewName": "amm.copy.InputSop",
+          "viewId": "amm.copy.inputSop",
           "viewLevel": 2
         },
         "rag.home": {

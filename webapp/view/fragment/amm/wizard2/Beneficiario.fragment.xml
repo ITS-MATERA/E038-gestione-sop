@@ -133,7 +133,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/NameFirst}"
+                    value="{Sop>/Znomebensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -152,7 +152,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/NameLast}"
+                    value="{Sop>/Zcognomebensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -171,7 +171,7 @@
                 </Text>
                 <Input
                     editable="false"
-                    value="{Sop>/ZzragSoc}"
+                    value="{Sop>/Zragsocbensosp}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

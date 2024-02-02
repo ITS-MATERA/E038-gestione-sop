@@ -357,13 +357,14 @@ sap.ui.define(
 
         oModelUtility.setProperty("/SelectedPositions", [])
         oModelUtility.setProperty("/AddZimptot", "0.00")
+        self.createModelBeneficiarioRettifica()
       },
 
       onStart: function () {
         var self = this;
         var oModel = self.getModel();
         var oModelStepScenario = self.getModel("StepScenario");
-        var aFilters = self.setFiltersWizard1();
+        var aFilters = self.setFiltersWizard1(true);
         var oPanelCalculator = self.getView().byId("pnlCalculatorList");
         var oModelUtility = self.getModel("Utility")
         var aPositionsSop = self.getModel("Sop").getProperty("/Position")

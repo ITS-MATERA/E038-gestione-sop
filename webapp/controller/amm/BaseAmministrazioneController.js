@@ -49,9 +49,9 @@ sap.ui.define(
           Znumliq: "",
           ZdescProsp: "",
           Zprovgiud: "",
-          NameFirst: "",
-          NameLast: "",
-          ZzragSoc: "",
+          Znomebensosp: "",
+          Zcognomebensosp: "",
+          Zragsocbensosp: "",
           Taxnumcf: "",
           Taxnum: "",
           Type: "",
@@ -157,6 +157,21 @@ sap.ui.define(
           DescKostl: "",
           DescHkont: "",
           Zcatpurpose: "",
+          ZgjahrPf: "",
+          Zcompres: "",
+          ZversioneZfmodiban: "",
+          SeqnrZffermoAmmin: "",
+          Zversione2Zfquietanz: "",
+          ZversioneZfquietanz: "",
+          ZversioneZfsedi: "",
+          Land1Quietanzante: "",
+          ZqcapQuietanzante: "",
+          ZqcittaQuietanzante: "",
+          ZqindirizQuietanzante: "",
+          ZqprovinciaQuietanzante: "",
+          Zbdap: "",
+          Zlifnrric: "",
+          ZzTipoent: "",
 
           DescZspecieSop: "",
           //Primo quietanzante
@@ -210,9 +225,9 @@ sap.ui.define(
           Znumliq: oSop.Znumliq,
           ZdescProsp: oSop.ZdescProsp,
           Zprovgiud: oSop.Zprovgiud,
-          NameFirst: oSop.NameFirst,
-          NameLast: oSop.NameLast,
-          ZzragSoc: oSop.ZzragSoc,
+          Znomebensosp: oSop.Znomebensosp,
+          Zcognomebensosp: oSop.Zcognomebensosp,
+          Zragsocbensosp: oSop.Zragsocbensosp,
           Taxnumcf: oSop.Taxnumcf,
           Taxnum: oSop.Taxnum,
           Type: oSop.Type,
@@ -317,6 +332,23 @@ sap.ui.define(
           DescHkont: oSop.DescHkont,
           DescZspecieSop: oSop.DescZspecie,
           Zcatpurpose: oSop.Zcatpurpose,
+          ZgjahrPf: oSop.ZgjahrPf,
+          Zcompres: oSop.Zcompres,
+          ZversioneZfmodiban: oSop.ZversioneZfmodiban,
+          SeqnrZffermoAmmin: oSop.SeqnrZffermoAmmin,
+          Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
+          ZversioneZfquietanz: oSop.ZversioneZfquietanz,
+          ZversioneZfsedi: oSop.ZversioneZfsedi,
+          Land1Quietanzante: oSop.Land1Quietanzante,
+          ZqcapQuietanzante: oSop.ZqcapQuietanzante,
+          ZqcittaQuietanzante: oSop.ZqcittaQuietanzante,
+          ZqindirizQuietanzante: oSop.ZqindirizQuietanzante,
+          ZqprovinciaQuietanzante: oSop.ZqprovinciaQuietanzante,
+          Zbdap: oSop.Zbdap,
+          Zlifnrric: oSop.Zlifnrric,
+          ZzTipoent: oSop.ZzTipoent,
+          Zdescriz: oSop.Zdescriz,
+          Descufficio: oSop.DescZvimufficio,
           Position: await self._getPositions(oParameters),
           Classificazione: await self._getClassificazione(oParameters),
 
@@ -332,6 +364,8 @@ sap.ui.define(
           self.createModelQuoteAssociate(sModelName)
           self.createModelModPagamento()
           self.deleteDataForCopy()
+          oModelSop.setProperty("/Gjahr", oParameters.NewGjahr)
+          self.setModel(oModelSop, "Sop");
         }
         return oModelSop
       },
@@ -546,6 +580,7 @@ sap.ui.define(
         oModelSop.setProperty("/Zcausale", oParamenters?.Zcausale);
         oModelSop.setProperty("/ZztipologiaSop", oParamenters?.ZztipologiaSop);
         oModelSop.setProperty("/DescTipologia", oParamenters?.DescTipologia);
+        oModelSop.setProperty("/ZgjahrPf", oParamenters?.Gjahr)
         oModelSop.setProperty("/Bukrs", await self.getBukrs());
       },
 
@@ -1199,18 +1234,24 @@ sap.ui.define(
         });
       },
 
-      setFiltersWizard1: function () {
+      setFiltersWizard1: function (bRettifica = false) {
         var self = this;
         var oFiltersWizard1 = self.getModel("FiltersWizard1").getData();
         var oSop = self.getModel("Sop").getData();
         var aFilters = [];
+
+        if (bRettifica) {
+          self.setFilterEQ(aFilters, "Lifnr", oSop.Zlifnrric)
+        } else {
+          self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
+        }
 
         self.setFilterEQ(aFilters, "Ztipopag", oSop.Ztipopag);
         self.setFilterEQ(aFilters, "Witht", oSop.Witht);
         self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.setFilterEQ(aFilters, "Zquoteesi", oSop.Zquoteesi);
         self.setFilterBT(aFilters, "Zdateesi", oFiltersWizard1.ZdatesiFrom, oFiltersWizard1.ZdatesiTo);
-        self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
+
         self.setFilterEQ(aFilters, "Fipos", oSop.Fipos);
         self.setFilterEQ(aFilters, "Fistl", oSop.Fistl);
         self.setFilterEQ(aFilters, "Zgeber", oSop.Zgeber);
@@ -1236,6 +1277,8 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "Cig", oFiltersWizard1.Cig);
         self.setFilterEQ(aFilters, "Cup", oFiltersWizard1.Cup);
         self.setFilterBT(aFilters, "Netdt", oFiltersWizard1.NetdtFrom, oFiltersWizard1.NetdtTo);
+        self.setFilterEQ(aFilters, "ZzDescebe", oSop.ZzDescebe);
+        self.setFilterEQ(aFilters, "ZzTipoent", oSop?.ZzTipoent);
 
         return aFilters;
       },
@@ -1278,14 +1321,14 @@ sap.ui.define(
         }
 
         aPosizioni.map((oPosition, index) => {
-          oPosition.Index = index + 1
+          oPosition.Index = oPosition.Index ? oPosition.Index : index + 1
           aPosizioniFormatted.push({
             HeaderIndex: "1",
             Index: oPosition.Index.toString(),
             Zimpdaord: oPosition.Zimpdaord,
-            Zimppag: oPosition.Zimppag,
+            Zimppag: oPosition.ZimppagOld ? oPosition.ZimppagOld : oPosition.Zimppag,
             Zimpres: oPosition.Zimpres,
-            Zimpliq: oPosition.Zimpliq,
+            Zimpliq: oPosition.ZimpliqOld ? oPosition.ZimpliqOld : oPosition.Zimpliq,
             ZimpdaordOld: oPosition?.ZimpdaordOld ? oPosition?.ZimpdaordOld : null
           });
         });
@@ -1647,6 +1690,8 @@ sap.ui.define(
           oModelSop.setProperty("/RegioConto", "");
           oModelSop.setProperty("/ZaccText", "");
           oModelSop.setProperty("/Iban", "");
+          self.setSedeBeneficiario();
+          self.createModelSedeBeneficiario();
           return;
         }
 
@@ -1740,6 +1785,9 @@ sap.ui.define(
         }
         await this._resetDataModalitaPagamento();
 
+        self.createModelSedeBeneficiario()
+        self.setSedeBeneficiario()
+
         if (!sZwels) {
           return;
         }
@@ -1767,13 +1815,14 @@ sap.ui.define(
               oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
               oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
               oModelSop.setProperty("/ZpersNomeVaglia", data.ZpersNomeVaglia);
-              oModelSop.setProperty("/Land1", data.Land1);
+              oModelSop.setProperty("/Land1Quietanzante", data.Land1);
               oModelSop.setProperty("/Zqcap", data.Zqcap);
               oModelSop.setProperty("/Zqcitta", data.Zqcitta);
               oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
               oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
               oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
               oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+              oModelSop.setProperty("/ZversioneZfquietanz", data.ZversioneZfquietanz);
               self.hasResponseError(oResponse);
             },
             error: function () {
@@ -1812,6 +1861,51 @@ sap.ui.define(
         oModelSop.setProperty("/Zcodtrib", oEvent.getParameter("value"))
       },
 
+      onPosFinEntrataChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var oModelSop = self.getModel("Sop")
+
+        if (!oEvent.getParameter("value")) {
+          oModelSop.setProperty("/Iban", "")
+          oModelSop.setProperty("/Banks", "")
+          return
+        }
+
+        self.getView().setBusy(true);
+        var sKey = oModel.createKey("/PosFinEntrataSet", {
+          ZgjahrPf: oSop.ZgjahrPf,
+          Zzposfinent: oEvent.getParameter("value")
+        })
+
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            if (self.hasResponseError(oResponse)) {
+              oModelSop.setProperty("/Iban", "")
+              oModelSop.setProperty("/Banks", "")
+              oModelSop.setProperty("/Zzposfinent", "")
+              return
+            }
+
+            self.setIban()
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          }
+        })
+      },
+
+      onCompResChange: function (oEvent) {
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+
+        if (oSop.Zzposfinent) {
+          self.setIban()
+        }
+      },
+
       //#endregion --------------------------SELECTION CHANGE---------------------
 
       //#region -----------------------------METHODS------------------------------
@@ -1842,6 +1936,7 @@ sap.ui.define(
             }
             oModelSop.setProperty("/Banks", data.Banks);
             oModelSop.setProperty("/Seqnr", data.Seqnr);
+            oModelSop.setProperty("/ZversioneZfmodiban", data.ZversioneZfmodiban);
           },
           error: function () {
             self.getView().setBusy(false);
@@ -1863,7 +1958,9 @@ sap.ui.define(
           Json: "",
           Lifnr: oSop.Lifnr,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Zzposfinent: oSop.Zzposfinent,
+          Zcompres: oSop.Zcompres
         });
 
         self.getView().setBusy(true);
@@ -1887,6 +1984,11 @@ sap.ui.define(
                 }
                 break;
               }
+            }
+
+            if (oSop.Zwels === 'ID3') {
+              self.createModelSedeBeneficiario()
+              self.setSedeBeneficiario()
             }
 
             self.checkIban(bModalitaPagamento);
@@ -1930,7 +2032,9 @@ sap.ui.define(
           Json: JSON.stringify(aPosizioniFormatted),
           Lifnr: oSop.Lifnr,
           Qsskz: "",
-          ZzCebenra: ""
+          ZzCebenra: "",
+          Zzposfinent: "",
+          Zcompres: ""
         });
 
         self.getView().setBusy(true);
@@ -2024,7 +2128,9 @@ sap.ui.define(
           Json: "",
           Lifnr: oSop.Lifnr,
           Qsskz: oSop.Witht,
-          ZzCebenra: oSop.ZzCebenra
+          ZzCebenra: oSop.ZzCebenra,
+          Zzposfinent: "",
+          Zcompres: ""
         });
 
         self.getView().setBusy(true);
@@ -2423,6 +2529,12 @@ sap.ui.define(
           Zidsede: oModelSop.getProperty("/Zidsede"),
           Witht: oSop.Witht,
           ZzCebenra: oSop.ZzCebenra,
+          Zbdap: oSop.Zbdap,
+          ZversioneZfsedi: oSop.ZversioneZfsedi,
+          Iban: oSop.Iban,
+          Zalias: oSop.Zalias,
+          Zwels: oSop.Zwels,
+
         });
 
         self.getView().setBusy(true);
@@ -2435,6 +2547,8 @@ sap.ui.define(
             oModelSop.setProperty("/Pstlz", data.Pstlz);
             oModelSop.setProperty("/Ort01", data.Ort01);
             oModelSop.setProperty("/Land1Sede", data.Land1);
+            oModelSop.setProperty("/Zbdap", data.Zbdap);
+            oModelSop.setProperty("/ZversioneZfsedi", data.ZversioneZfsedi);
             self.getView().setBusy(false);
           },
           error: function () {
@@ -2453,6 +2567,9 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "ZspecieSop", oSop.ZspecieSop);
         self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.setFilterEQ(aFilters, "Witht", oSop.Witht);
+        self.setFilterEQ(aFilters, "Zwels", oSop.Zwels);
+        self.setFilterEQ(aFilters, "Iban", oSop.Iban);
+        self.setFilterEQ(aFilters, "Zalias", oSop.Zalias);
 
         self.getView().setBusy(true);
         oModel.read("/SedeBeneficiarioSet", {
@@ -2517,7 +2634,9 @@ sap.ui.define(
           Zperiodrifda: self.setBlank(oSop.Zperiodrifda),
           Zcodtrib: oSop.Zcodtrib,
           Zcfcommit: oSop.Zcfcommit,
-          Lifnr: oSop.Lifnr
+          Lifnr: oSop.Lifnr,
+          ZgjahrPf: oSop.ZgjahrPf,
+          Zdescvers: oSop.Zdescvers
         };
 
         self.getView().setBusy(true);
@@ -2558,7 +2677,7 @@ sap.ui.define(
         oModelSop.setProperty("/Zqcap", "");
         oModelSop.setProperty("/Zqprovincia", "");
         oModelSop.setProperty("/Zstcd14", "");
-        oModelSop.setProperty("/Land1", "");
+        oModelSop.setProperty("/Land1Quietanzante", "");
         oModelSop.setProperty("/ZqragSoc", "");
         oModelSop.setProperty("/Znumquiet", "");
         oModelSop.setProperty("/NumquietInitial1", false);
@@ -2609,13 +2728,14 @@ sap.ui.define(
             oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
             oModelSop.setProperty("/ZpersCognomeVaglia", data.ZpersCognomeVaglia);
             oModelSop.setProperty("/ZpersNomeVaglia", data.ZpersNomeVaglia);
-            oModelSop.setProperty("/Land1", data.Land1);
+            oModelSop.setProperty("/Land1Quietanzante", data.Land1);
             oModelSop.setProperty("/Zqcap", data.Zqcap);
             oModelSop.setProperty("/Zqcitta", data.Zqcitta);
             oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
             oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
             oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+            oModelSop.setProperty("/ZversioneZfquietanz", data.ZversioneZfquietanz);
             if (self.hasResponseError(oResponse)) {
               oModelSop.setProperty("/Zstcd1", "")
             };
@@ -2722,13 +2842,14 @@ sap.ui.define(
             oModelSop.setProperty("/Zstcd14", data.Zstcd14);
             oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
             oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
-            oModelSop.setProperty("/Land1", data.Land1);
+            oModelSop.setProperty("/Land1Quietanzante", data.Land1);
             oModelSop.setProperty("/Zqcap", data.Zqcap);
             oModelSop.setProperty("/Zqcitta", data.Zqcitta);
             oModelSop.setProperty("/Zqindiriz", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia", data.Zqprovincia);
             oModelSop.setProperty("/ZqragSoc", data.ZzragSoc);
             oModelSop.setProperty("/Znumquiet", data.Znumquiet);
+            oModelSop.setProperty("/ZversioneZfquietanz", data.ZversioneZfquietanz);
             if (self.hasResponseError(oResponse)) {
               oModelSop.setProperty("/Zstcd14", "");
             };
@@ -2767,6 +2888,7 @@ sap.ui.define(
             oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
             oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
+            oModelSop.setProperty("/Zversione2Zfquietanz", data.Zversione2Zfquietanz);
             if (self.hasResponseError(oResponse)) {
               oModelSop.setProperty("/Zstcd15", "");
             };
@@ -2809,6 +2931,7 @@ sap.ui.define(
             oModelSop.setProperty("/Zqindiriz2", data.Zqindiriz);
             oModelSop.setProperty("/Zqprovincia2", data.Zqprovincia);
             oModelSop.setProperty("/Znumquiet2", data.Znumquiet);
+            oModelSop.setProperty("/Zversione2Zfquietanz", data.Zversione2Zfquietanz);
             if (self.hasResponseError(oResponse)) {
               oModelSop.setProperty("/Zstcd12", "")
             };
@@ -3437,6 +3560,10 @@ sap.ui.define(
         var sKey = oModel.createKey("/LocPagamentoSet", {
           Regio: oSop.RegioSede,
           Zlocpag: "",
+          Zwels: oSop.Zwels,
+          Gjahr: oSop.Gjahr,
+          Zalias: oSop.Zalias,
+          Iban: oSop.Iban
         });
 
         self.getView().setBusy(true);
@@ -3476,7 +3603,7 @@ sap.ui.define(
               "La disponibilità di cassa è sufficiente per l'emissione di un " + sWarningMessage + ". Si vuole procedere con l'emissione del SOP?", {
               actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
               onClose: function (oAction) {
-                if (oAction = "OK") {
+                if (oAction === "OK") {
                   self._registerSop()
                 }
               },
@@ -3630,9 +3757,9 @@ sap.ui.define(
             Znumliq: oSop.Znumliq,
             ZdescProsp: oSop.ZdescProsp,
             Zprovgiud: oSop.Zprovgiud,
-            NameFirst: oSop.NameFirst,
-            NameLast: oSop.NameLast,
-            ZzragSoc: oSop.ZzragSoc,
+            Znomebensosp: oSop.Znomebensosp,
+            Zcognomebensosp: oSop.Zcognomebensosp,
+            Zragsocbensosp: oSop.Zragsocbensosp,
             Taxnumcf: oSop.Taxnumcf,
             Taxnum: oSop.Taxnum,
             Type: oSop.Type,
@@ -3732,7 +3859,21 @@ sap.ui.define(
             Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
             Seqnr: oSop.Seqnr,
-            Zcatpurpose: oSop.Zcatpurpose
+            Zcatpurpose: oSop.Zcatpurpose,
+            ZgjahrPf: oSop.ZgjahrPf,
+            Zcompres: oSop.Zcompres,
+            ZversioneZfmodiban: oSop.ZversioneZfmodiban,
+            SeqnrZffermoAmmin: oSop.SeqnrZffermoAmmin,
+            Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
+            ZversioneZfquietanz: oSop.ZversioneZfquietanz,
+            ZversioneZfsedi: oSop.ZversioneZfsedi,
+            Land1Quietanzante: oSop.Land1Quietanzante,
+            ZqcapQuietanzante: oSop.Zqcap,
+            ZqcittaQuietanzante: oSop.Zqcitta,
+            ZqindirizQuietanzante: oSop.Zqindiriz,
+            ZqprovinciaQuietanzante: oSop.Zqprovincia,
+            Zbdap: oSop.Zbdap,
+            Zlifnrric: oSop.Zlifnrric,
           },
 
           PosizioniSopSet: aPosizioniDeep,
@@ -4016,9 +4157,9 @@ sap.ui.define(
             Znumliq: oSop.Znumliq,
             ZdescProsp: oSop.ZdescProsp,
             Zprovgiud: oSop.Zprovgiud,
-            NameFirst: oSop.NameFirst,
-            NameLast: oSop.NameLast,
-            ZzragSoc: oSop.ZzragSoc,
+            Znomebensosp: oSop.Znomebensosp,
+            Zcognomebensosp: oSop.Zcognomebensosp,
+            Zragsocbensosp: oSop.Zragsocbensosp,
             Taxnumcf: oSop.Taxnumcf,
             Taxnum: oSop.Taxnum,
             Type: oSop.Type,
@@ -4118,7 +4259,21 @@ sap.ui.define(
             Zdataprovv: formatter.UTCRome(oSop.Zdataprovv),
             Znprovv: oSop.Znprovv,
             Seqnr: oSop.Seqnr,
-            Zcatpurpose: oSop.Zcatpurpose
+            Zcatpurpose: oSop.Zcatpurpose,
+            ZgjahrPf: oSop.ZgjahrPf,
+            Zcompres: oSop.Zcompres,
+            ZversioneZfmodiban: oSop.ZversioneZfmodiban,
+            SeqnrZffermoAmmin: oSop.SeqnrZffermoAmmin,
+            Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
+            ZversioneZfquietanz: oSop.ZversioneZfquietanz,
+            ZversioneZfsedi: oSop.ZversioneZfsedi,
+            Land1Quietanzante: oSop.Land1Quietanzante,
+            ZqcapQuietanzante: oSop.Zqcap,
+            ZqcittaQuietanzante: oSop.Zqcitta,
+            ZqindirizQuietanzante: oSop.Zqindiriz,
+            ZqprovinciaQuietanzante: oSop.Zqprovincia,
+            Zbdap: oSop.Zbdap,
+            Zlifnrric: oSop.Zlifnrric,
           },
 
           PosizioniSopSet: aPosizioniDeep,
@@ -4184,7 +4339,11 @@ sap.ui.define(
 
         var sKey = oModel.createKey("/LocPagamentoSet", {
           Regio: "",
-          Zlocpag: oEvent.getParameter("value")
+          Zlocpag: oEvent.getParameter("value"),
+          Zwels: oSop.Zwels,
+          Gjahr: oSop.Gjahr,
+          Zalias: oSop.Zalias,
+          Iban: oSop.Iban
         })
 
         self.getView().setBusy(true)
@@ -4608,36 +4767,6 @@ sap.ui.define(
         var sUfficio = oEvent.getParameter("value")
 
         oModelDatiFirmatario.setProperty("/ZvimDescrufficio", await self.getDescUfficio(sUfficio))
-
-        // var oModel = self.getModel()
-        // var 
-
-
-      },
-
-      onFistlChange: function (oEvent) {
-        var self = this;
-        var oModel = self.getModel()
-        var oSop = self.getModel("Sop").getData()
-        var oModelDatiFirmatario = self.getModel("DatiFirmatario")
-
-        var sKey = oModel.createKey("/Cdr", {
-          Zcdr: oEvent.getParameter("value"),
-          Gjahr: oSop.Gjahr
-        })
-
-        self.getView().setBusy(true)
-        oModel.read(sKey, {
-          success: function (data, oResponse) {
-            self.getView().setBusy(false)
-            if (self.hasResponseError(oResponse)) {
-              oModelDatiFirmatario.setProperty("/Fistl", "")
-            }
-          },
-          error: function () {
-            self.getView().setBusy(false)
-          }
-        })
       },
 
       managementLogFunction: function (data, sTitle, bPrint = false) {
@@ -4726,6 +4855,49 @@ sap.ui.define(
 
       },
 
+      createModelBeneficiarioRettifica: async function () {
+        var self = this;
+
+        var oBeneficiario = await self.setDataBenRettifica()
+
+        var oModelBeneficiarioRettifica = new JSONModel({
+          Lifnr: oBeneficiario.Lifnr,
+          Type: oBeneficiario.Type,
+          Znomebensosp: oBeneficiario.NameFirst,
+          Zcognomebensosp: oBeneficiario.NameLast,
+          Zragsocbensosp: oBeneficiario.ZzragSoc,
+          Taxnumcf: oBeneficiario.TaxnumCf,
+          Taxnumxl: oBeneficiario.TaxnumxlCfe,
+          Taxnum: oBeneficiario.TaxnumPiva
+        })
+
+        self.setModel(oModelBeneficiarioRettifica, "BeneficiarioRettifica")
+
+      },
+
+      setDataBenRettifica: function () {
+        var self = this;
+        var oModel = self.getModel()
+        var oSop = self.getModel("Sop").getData()
+        var sKey = oModel.createKey("/BeneficiarioSet", {
+          Lifnr: oSop.Zlifnrric
+        })
+
+        self.getView().setBusy(true)
+
+        return new Promise(async function (resolve, reject) {
+          oModel.read(sKey, {
+            success: function (data) {
+              self.getView().setBusy(false)
+              resolve(data)
+            },
+            error: function () {
+              self.getView().setBusy(false)
+            }
+          })
+        })
+      },
+
       //#endregion ---------------------------METHODS---------------------------
 
       //#endregion -------------------------DETAIL------------------------------
@@ -4808,28 +4980,14 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData()
         self.unlockSop()
 
-        var oParameters = {
+        self.getRouter().navTo("amm.copy.inputSop", {
+          Ztipopag: oSop?.Ztipopag,
           Gjahr: oSop.Gjahr,
           Zchiavesop: oSop.Zchiavesop,
           Bukrs: oSop.Bukrs,
           Zstep: oSop.Zstep,
           Ztipososp: oSop.Ztipososp,
-        };
-
-        switch (oSop?.Ztipopag) {
-          case "1":
-            self.getRouter().navTo("amm.copy.scenary1", oParameters);
-            break;
-          case "2":
-            self.getRouter().navTo("amm.copy.scenary2", oParameters);
-            break;
-          case "3":
-            self.getRouter().navTo("amm.copy.scenary3", oParameters);
-            break;
-          case "4":
-            self.getRouter().navTo("amm.copy.scenary4", oParameters);
-            break;
-        }
+        })
       },
 
       //#endregion -------------------------COPY--------------------------------
@@ -4837,7 +4995,6 @@ sap.ui.define(
       //#region ----------------------------LOCK--------------------------------
 
       lockQuoteBeneficiario: async function (oData) {
-        var oResponse = { data: { Type: 'S' } }
         await this.oDataCreateLock("/StartSoftState", "GET");
 
         var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
@@ -4893,8 +5050,8 @@ sap.ui.define(
 
         if (!sLifnr) {
           oModelSop.setProperty("/Type", "");
-          oModelSop.setProperty("/NameFirst", "");
-          oModelSop.setProperty("/NameLast", "");
+          oModelSop.setProperty("/Znomebensosp", "");
+          oModelSop.setProperty("/Zcognomebensosp", "");
           oModelSop.setProperty("/Taxnumcf", "");
           oModelSop.setProperty("/Taxnum", "");
           oModelSop.setProperty("/Taxnumxl", "");
@@ -4904,6 +5061,7 @@ sap.ui.define(
           oModelSop.setProperty("/ZfermAmm", "");
           oModelSop.setProperty("/Zsede", "");
           oModelSop.setProperty("/Zdenominazione", "");
+          oModelSop.setProperty("/SeqnrZffermoAmmin", "")
           return;
         }
 
@@ -4921,8 +5079,8 @@ sap.ui.define(
               oModelSop.setProperty("/DescZspecieSop", "");
             }
             oModelSop.setProperty("/Type", data?.Type);
-            oModelSop.setProperty("/NameFirst", data?.NameFirst);
-            oModelSop.setProperty("/NameLast", data?.NameLast);
+            oModelSop.setProperty("/Znomebensosp", data?.NameFirst);
+            oModelSop.setProperty("/Zcognomebensosp", data?.NameLast);
             oModelSop.setProperty("/Taxnumcf", data?.TaxnumCf);
             oModelSop.setProperty("/Taxnum", data?.TaxnumPiva);
             oModelSop.setProperty("/Taxnumxl", data?.TaxnumxlCfe);
@@ -4932,6 +5090,7 @@ sap.ui.define(
             oModelSop.setProperty("/ZfermAmm", data?.ZfermAmm);
             oModelSop.setProperty("/Zsede", data?.Zsede);
             oModelSop.setProperty("/Zdenominazione", data?.Zdenominazione);
+            oModelSop.setProperty("/SeqnrZffermoAmmin", data?.SeqnrZffermoAmmin)
           },
           error: function () {
             self.getView().setBusy(false);
@@ -5064,7 +5223,7 @@ sap.ui.define(
           oModelSop.setProperty("/ZaccText", obj.ZaccText);
           oModelSop.setProperty("/AccTypeId", obj.AccTypeId);
           oModelSop.setProperty("/RegioConto", obj.Zregio);
-          this.setIban();
+          self.setIban();
           return;
         }
 
@@ -5129,9 +5288,9 @@ sap.ui.define(
         oModelSop.setProperty("/Taxnumcf", oData.Stcd1);
         oModelSop.setProperty("/Taxnum", oData.Stcd2);
         oModelSop.setProperty("/Taxnumxl", oData.Stcd3);
-        oModelSop.setProperty("/NameFirst", oData.Name);
-        oModelSop.setProperty("/NameLast", oData.Surname);
-        oModelSop.setProperty("/ZzragSoc", oData.Ragsoc);
+        oModelSop.setProperty("/Znomebensosp", oData.Name);
+        oModelSop.setProperty("/Zcognomebensosp", oData.Surname);
+        oModelSop.setProperty("/Zragsocbensosp", oData.Ragsoc);
         oModelSop.setProperty("/Zdurc", oData.Durc);
         oModelSop.setProperty("/Zdstatodes", oData.Statodurc);
         oModelSop.setProperty("/Zdscadenza", oData.Scadenzadurc);
@@ -5243,7 +5402,7 @@ sap.ui.define(
             oModelSop.setProperty("/Zqcitta", oData.ZQCitta);
             oModelSop.setProperty("/Zqcap", oData.ZQCAP);
             oModelSop.setProperty("/Zqprovincia", oData.ZQProvincia);
-            oModelSop.setProperty("/Land1", oData.Land1);
+            oModelSop.setProperty("/Land1Quietanzante", oData.Land1);
             oModelSop.setProperty("/ZqragSoc", oData.Zzrag_soc);
           } else if (oData.TipVis === "Q") {
             //Se Q = Quietanzante
@@ -5258,7 +5417,7 @@ sap.ui.define(
               oModelSop.setProperty("/Zqcitta", oData.ZQCitta);
               oModelSop.setProperty("/Zqcap", oData.ZQCAP);
               oModelSop.setProperty("/Zqprovincia", oData.ZQProvincia);
-              oModelSop.setProperty("/Land1", oData.Zzrag_soc);
+              oModelSop.setProperty("/Land1Quietanzante", oData.Zzrag_soc);
               oModelSop.setProperty("/ZqragSoc", oData.Land1);
             } else {
               oModelSop.setProperty("/ZpersCognomeQuiet2", oData.ZQCognome);

@@ -121,6 +121,28 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
+
+                <Text
+                    text="{i18n>labelDispOA}:"
+                    class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZztipologiaSop} === '2' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Text>
+                <Input
+                    value="{
+                      path: 'Sop>/ZdispOa',
+                      formatter: '.formatter.convertImport'
+					}"
+                    editable="false"
+                    visible="{= ${Sop>/ZztipologiaSop} === '2' ? true : false}"
+                >
+                    <layoutData>
+                        <l:GridData span="XL2 L3 M5 S12" />
+                    </layoutData>
+                </Input>
             </l:Grid>
         </content>
     </Panel>

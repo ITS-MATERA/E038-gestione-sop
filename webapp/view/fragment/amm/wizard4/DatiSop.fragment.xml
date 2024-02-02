@@ -74,9 +74,16 @@
                     viewId="{Utility>/ViewId}"
                     whichMC="LocalitaPagamento"
                     value="{Sop>/Zlocpag}"
-                    editable="{Utility>/EnableEdit}"
+                    editable="{= 
+                      ${Utility>/EnableEdit} === true &amp;&amp; 
+                      ${Sop>/Zwels} !== 'ID1' &amp;&amp; 
+                      ${Sop>/Zwels} !== 'ID2' &amp;&amp;
+                      ${Sop>/Zwels} !== 'ID5' &amp;&amp;
+                      ${Sop>/Zwels} !== 'ID6' ? true : false
+                    }"
                     change="onLocPagamentoChange"
                     maxLength="100"
+                    valueHelpOnly="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L2 M8 S12" />

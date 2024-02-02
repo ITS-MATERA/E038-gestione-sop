@@ -24,22 +24,12 @@
                     </layoutData>
                 </Text>
                 <ComboBox
-                    id="idTipoBeneficiario"
                     width="100%"
                     items="{
-						path: '/TipoBeneficiarioMcSet'
-					}"
-                    selectedKey="{Sop>/Type}"
-                    editable="{= 
-                        ${Sop>/Witht} ||
-						${Sop>/ZzDescebe} ||
-						${FiltersWizard1>/Zquoteesi} === false ||
-						${FiltersWizard1>/ZdatesiFrom} ||
-						${FiltersWizard1>/ZdatesiTo} ||
-                        ${Utility>/EnableEditMode}
-						? false : true
-					}"
-                    selectionChange="onTipoBeneficiarioChange"
+                      path: '/TipoBeneficiarioMcSet'
+                    }"
+                    selectedKey="{BeneficiarioRettifica>/Type}"
+                    editable="false"
                 >
                     <c:Item
                         key="{Type}"
@@ -57,27 +47,14 @@
                         <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <zcontrolmccross:MatchcodeCross
-                    id="iptBeneficiarioWizard1"
-                    whichMC="Beneficiario"
-                    viewId="{Utility>/ViewId}"
-                    value="{Sop>/Lifnr}"
-                    maxLength="10"
-                    change="onBeneficiarioChange"
-                    editable="{= 
-                        ${Sop>/Witht} ||
-						${Sop>/ZzDescebe} ||
-						${FiltersWizard1>/Zquoteesi} === false ||
-						${FiltersWizard1>/ZdatesiFrom} ||
-						${FiltersWizard1>/ZdatesiTo} ||
-                        ${Utility>/EnableEditMode}
-						? false : true
-					}"
+                <Input
+                    value="{BeneficiarioRettifica>/Lifnr}"
+                    editable="false"
                 >
-                    <zcontrolmccross:layoutData>
+                    <layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
-                    </zcontrolmccross:layoutData>
-                </zcontrolmccross:MatchcodeCross>
+                    </layoutData>
+                </Input>
             </l:Grid>
         </content>
         <content>
@@ -94,7 +71,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Znomebensosp}"
+                    value="{BeneficiarioRettifica>/Znomebensosp}"
                     editable="false"
                 >
                     <layoutData>
@@ -110,7 +87,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zcognomebensosp}"
+                    value="{BeneficiarioRettifica>/Zcognomebensosp}"
                     editable="false"
                 >
                     <layoutData>
@@ -126,7 +103,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zragsocbensosp}"
+                    value="{BeneficiarioRettifica>/Zragsocbensosp}"
                     editable="false"
                 >
                     <layoutData>
@@ -149,7 +126,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnumcf}"
+                    value="{BeneficiarioRettifica>/Taxnumcf}"
                     editable="false"
                 >
                     <layoutData>
@@ -165,7 +142,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnumxl}"
+                    value="{BeneficiarioRettifica>/Taxnumxl}"
                     editable="false"
                 >
                     <layoutData>
@@ -181,7 +158,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnum}"
+                    value="{BeneficiarioRettifica>/Taxnum}"
                     editable="false"
                 >
                     <layoutData>
