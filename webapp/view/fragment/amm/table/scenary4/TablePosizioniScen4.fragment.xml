@@ -8,7 +8,7 @@
     >
         <headerToolbar>
             <OverflowToolbar>
-                <Title text="{i18n>titleWizard1NewProspLiquidazione}" />
+                <Title text="{i18n>titleWizard1RiepScen4}" />
                 <ToolbarSpacer />
                 <Button
                     id="btnExport"

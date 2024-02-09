@@ -361,7 +361,9 @@ sap.ui.define(
         self.setModel(oModelSop, "Sop");
         self.getView().byId("idToolbarDetail")?.setVisible(true)
         if (bCopy) {
-          self.createModelQuoteAssociate(sModelName)
+          if (oSop.Ztipopag !== '4') {
+            self.createModelQuoteAssociate(sModelName)
+          }
           self.createModelModPagamento()
           self.deleteDataForCopy()
           oModelSop.setProperty("/Gjahr", oParameters.NewGjahr)
@@ -462,7 +464,7 @@ sap.ui.define(
           isVersanteEditable: false,
           isLogVisible: false,
           CurrentDate: new Date(),
-          CurrentDateFormatted: formatter.dateToString(new Date()),
+          CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: true,
           EnableEditMode: false
         });
@@ -487,7 +489,7 @@ sap.ui.define(
           EnableCancellazioneRichAnn: false,
           EnableEditMode: false,
           CurrentDate: new Date(),
-          CurrentDateFormatted: formatter.dateToString(new Date()),
+          CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: false,
           Function: "Dettaglio",
           Table: "Edit",
@@ -498,7 +500,7 @@ sap.ui.define(
           isQuiet1Prevalorizzato: false,
           isZcoordEsterPrevalorizzato: false,
           isIbanPrevalorizzato: false,
-          isVersanteEditable: false,
+          isVersanteEditable: false
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -3025,8 +3027,8 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "ANNO", oModelSop?.Gjahr);
         self.setFilterEQ(aFilters, "FASE", "GEST");
-        aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
-        aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
+        // aFilters.push(new Filter("DATBIS", FilterOperator.GE, sCurrentDate));
+        // aFilters.push(new Filter("DATAB", FilterOperator.LE, sCurrentDate));
         self.setFilterEQ(aFilters, "MC", "X");
         self.setFilterEQ(aFilters, "REALE", "R");
 
@@ -3097,9 +3099,12 @@ sap.ui.define(
 
         self.setFilterEQ(aFilters, "Matchcode", "CODICE_CUP");
 
+        self.getView().setBusy(true)
+
         oModelCup.read("/MatchCodeContrattoSet", {
           filters: aFilters,
           success: function (data) {
+            self.getView().setBusy(false)
             var aCup = [];
             var aData = data.results;
             aData.map((oData) =>
@@ -3115,7 +3120,9 @@ sap.ui.define(
             oSelectDialog?.data("index", oSourceData.index);
             oDialog.open();
           },
-          error: function () { },
+          error: function () {
+            self.getView().setBusy(false)
+          },
         });
       },
 
@@ -3873,7 +3880,7 @@ sap.ui.define(
             ZqindirizQuietanzante: oSop.Zqindiriz,
             ZqprovinciaQuietanzante: oSop.Zqprovincia,
             Zbdap: oSop.Zbdap,
-            Zlifnrric: oSop.Zlifnrric,
+            Zlifnrric: oSop.Lifnr,
           },
 
           PosizioniSopSet: aPosizioniDeep,
@@ -4995,6 +5002,8 @@ sap.ui.define(
       //#region ----------------------------LOCK--------------------------------
 
       lockQuoteBeneficiario: async function (oData) {
+        // var oResponse = { data: { Type: 'S' } }
+        // return oResponse
         await this.oDataCreateLock("/StartSoftState", "GET");
 
         var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
@@ -5237,6 +5246,11 @@ sap.ui.define(
           oModelSop.setProperty("/Zcodinps", obj.Zcodinps);
           oModelSop.setProperty("/Zperiodrifa", obj.Zperiodrifa ? obj.Zperiodrifa : null);
           oModelSop.setProperty("/Zperiodrifda", obj.Zperiodrifda ? obj.Zperiodrifda : null);
+          return;
+        }
+
+        if (obj.ZshortxtNew) {
+          oModelSop.setProperty("/DescHkont", obj.ZtxtNew)
           return;
         }
       },
