@@ -29,7 +29,7 @@
                     items="{
 						path: '/TipoBeneficiarioMcSet'
 					}"
-                    selectedKey="{Sop>/Type}"
+                    selectedKey="{Sop>/TypeRic}"
                     editable="{= 
                         ${Sop>/Witht} ||
 						${Sop>/ZzDescebe} ||
@@ -61,7 +61,7 @@
                     id="iptBeneficiarioWizard1"
                     whichMC="Beneficiario"
                     viewId="{Utility>/ViewId}"
-                    value="{Sop>/Lifnr}"
+                    value="{Sop>/Zlifnrric}"
                     maxLength="10"
                     change="onBeneficiarioChange"
                     editable="{= 
@@ -94,7 +94,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Znomebensosp}"
+                    value="{Sop>/ZnomebensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -110,7 +110,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zcognomebensosp}"
+                    value="{Sop>/ZcognomebensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -126,7 +126,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zragsocbensosp}"
+                    value="{Sop>/ZragsocbensospRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -149,7 +149,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnumcf}"
+                    value="{Sop>/TaxnumcfRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -165,7 +165,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnumxl}"
+                    value="{Sop>/TaxnumxlRic}"
                     editable="false"
                 >
                     <layoutData>
@@ -181,7 +181,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Taxnum}"
+                    value="{Sop>/TaxnumRic}"
                     editable="false"
                 >
                     <layoutData>

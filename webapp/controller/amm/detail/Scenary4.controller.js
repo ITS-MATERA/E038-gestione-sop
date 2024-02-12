@@ -78,7 +78,6 @@ sap.ui.define(
         var self = this;
         var oWizard = self.getView().byId("wizScenario4");
         var oModelStepScenario = self.getModel("StepScenario");
-
         var bWizard1Step2 = oModelStepScenario.getProperty("/wizard1Step2");
         var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");

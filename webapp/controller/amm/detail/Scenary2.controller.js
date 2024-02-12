@@ -180,7 +180,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelStepScenario = self.getModel("StepScenario");
-        var aFilters = self.setFiltersWizard1(true);
+        var aFilters = self.setFiltersWizard1();
         var oPanelCalculator = self.getView().byId("pnlCalculatorList");
         var aPositionsSop = self.getModel("Sop").getProperty("/Position")
         var oModelUtility = self.getModel("Utility")
@@ -401,6 +401,7 @@ sap.ui.define(
         var oModelUtility = self.getModel("Utility");
         //Load Component
         var oButtonCalculate = self.getView().byId("btnCalculate");
+        var oModelSop = self.getModel("Sop")
 
         var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
         var aListItems = oEvent.getParameter("listItems");

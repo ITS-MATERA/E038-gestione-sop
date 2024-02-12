@@ -264,7 +264,6 @@
                     editable="{= 
 						(${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10') &amp;&amp; 
 						${Utility>/EnableEdit} &amp;&amp; 
-                        ${Utility>/isZcoordEsterPrevalorizzato} === false &amp;&amp;
                         ${Sop>/Iban} === ''? true : false}"
                     value="{Sop>/Zcoordest}"
                     visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"

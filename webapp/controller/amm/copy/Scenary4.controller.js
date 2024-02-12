@@ -78,6 +78,7 @@ sap.ui.define(
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
 
+
         if (bWizard1Step1) {
           if (await self.checkWizard1()) {
             oModelStepScenario.setProperty("/wizard1Step1", false);
@@ -91,76 +92,76 @@ sap.ui.define(
             self.createModelSedeBeneficiario();
             self.setSedeBeneficiario();
             self.setPosizioneScen4()
+
           }
-        }
-        else if (bWizard2) {
-          self.checkWizard2(oWizard);
-        } else if (bWizard3) {
-          if (self.checkClassificazione()) {
-            oModelStepScenario.setProperty("/wizard3", false);
-            oModelStepScenario.setProperty("/wizard4", true);
-            oModelStepScenario.setProperty("/visibleBtnForward", false);
-            oModelStepScenario.setProperty("/visibleBtnSave", true);
-            self.setLocPagamento()
-            oWizard.nextStep();
+          else if (bWizard2) {
+            self.checkWizard2(oWizard);
+          } else if (bWizard3) {
+            if (self.checkClassificazione()) {
+              oModelStepScenario.setProperty("/wizard3", false);
+              oModelStepScenario.setProperty("/wizard4", true);
+              oModelStepScenario.setProperty("/visibleBtnForward", false);
+              oModelStepScenario.setProperty("/visibleBtnSave", true);
+              self.setLocPagamento()
+              oWizard.nextStep();
+            }
           }
-        }
-      },
+        },
 
-      _onObjectMatched: function (oEvent) {
-        var self = this;
-        var oArguments = oEvent.getParameter("arguments");
-        self.checkPermissions("A", "Copia")
+        _onObjectMatched: function (oEvent) {
+          var self = this;
+          var oArguments = oEvent.getParameter("arguments");
+          self.checkPermissions("A", "Copia")
 
-        this._sTypeSop = oArguments.TypeSop;
+          this._sTypeSop = oArguments.TypeSop;
 
-        self.resetWizard("wizScenario4")
-        self.setModelSop(oArguments, true, "PosizioniScen4");
-        self.createModelUtilityReg("gestionesop.view.amm.copy.Scenary4");
+          self.resetWizard("wizScenario4")
+          self.setModelSop(oArguments, true, "PosizioniScen4");
+          self.createModelUtilityReg("gestionesop.view.amm.copy.Scenary4");
 
-        var oModelStepScenario = new JSONModel({
-          wizard1Step1: true,
-          wizard1Step2: false,
-          wizard2: false,
-          wizard3: false,
-          wizard4: false,
-          visibleBtnForward: true,
-          visibleBtnInserisciProspLiquidazione: false,
-          visibleBtnSave: false,
-          visibleBtnStart: false
-        })
+          var oModelStepScenario = new JSONModel({
+            wizard1Step1: true,
+            wizard1Step2: false,
+            wizard2: false,
+            wizard3: false,
+            wizard4: false,
+            visibleBtnForward: true,
+            visibleBtnInserisciProspLiquidazione: false,
+            visibleBtnSave: false,
+            visibleBtnStart: false
+          })
 
-        self.setModel(oModelStepScenario, "StepScenario")
-      },
+          self.setModel(oModelStepScenario, "StepScenario")
+        },
 
-      checkWizard1: function () {
-        var self = this;
-        var oModel = self.getModel()
-        var oSop = self.getModel("Sop").getData()
+        checkWizard1: function () {
+          var self = this;
+          var oModel = self.getModel()
+          var oSop = self.getModel("Sop").getData()
 
-        return new Promise(async function (resolve, reject) {
-          self.getView().setBusy(true);
-          await oModel.callFunction("/CheckWizard1Scen4Amm", {
-            method: "GET",
-            urlParameters: {
-              Iban: oSop.Iban,
-              Lifnr: oSop.Lifnr,
-              Zwels: oSop.Zwels,
-              Zimptot: oSop.Zimptot,
-              Hkont: oSop.Hkont,
-              Kostl: oSop.Kostl
-            },
-            success: function (data) {
-              self.getView().setBusy(false);
-              resolve(self.hasMessageError(data) ? false : true);
-            },
-            error: function (error) {
-              self.getView().setBusy(false);
-              reject(error);
-            },
+          return new Promise(async function (resolve, reject) {
+            self.getView().setBusy(true);
+            await oModel.callFunction("/CheckWizard1Scen4Amm", {
+              method: "GET",
+              urlParameters: {
+                Iban: oSop.Iban,
+                Lifnr: oSop.Lifnr,
+                Zwels: oSop.Zwels,
+                Zimptot: oSop.Zimptot,
+                Hkont: oSop.Hkont,
+                Kostl: oSop.Kostl
+              },
+              success: function (data) {
+                self.getView().setBusy(false);
+                resolve(self.hasMessageError(data) ? false : true);
+              },
+              error: function (error) {
+                self.getView().setBusy(false);
+                reject(error);
+              },
+            });
           });
-        });
-      },
-    });
+        },
+      });
   }
 );
