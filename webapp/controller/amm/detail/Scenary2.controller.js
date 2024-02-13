@@ -205,6 +205,7 @@ sap.ui.define(
             var aPosizioni = data?.results;
             aPosizioni?.map((oPosition, iIndex) => {
               oPosition.Index = iIndex + 1;
+              oPosition.Zimptot = oPosition.Wrbtr
             });
 
             //Rimuovo le posizioni già aggiunte al SOA

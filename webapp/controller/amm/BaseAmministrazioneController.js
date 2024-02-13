@@ -285,8 +285,8 @@ sap.ui.define(
           Zcodprov: oSop.Zcodprov,
           Zcfcommit: oSop.Zcfcommit,
           Zcodtrib: oSop.Zcodtrib,
-          Zperiodrifda: oSop.Zperiodrifa,
-          Zperiodrifa: oSop.Zperiodrifda,
+          Zperiodrifda: oSop.Zperiodrifda,
+          Zperiodrifa: oSop.Zperiodrifa,
           Zcodinps: oSop.Zcodinps,
           Zcodvers: oSop.Zcodvers,
           Zcfvers: oSop.Zcfvers,
@@ -5071,6 +5071,8 @@ sap.ui.define(
       },
 
       lockQuoteRitenute: async function (oData) {
+        // var oResponse = { data: { Type: 'S' } }
+        // return oResponse
         await this.oDataCreateLock("/StartSoftState", "GET");
 
         var sConcat = oData.Docid + oData.Fipos + oData.Fistl + oData.Lifnr
@@ -5103,6 +5105,7 @@ sap.ui.define(
         var bWizard1 = oModelStepScenario.getProperty("/wizard1Step1")
 
         if (!sLifnr) {
+          oModelSop.setProperty("/Lifnr", "");
           oModelSop.setProperty("/Type", "");
           oModelSop.setProperty("/Znomebensosp", "");
           oModelSop.setProperty("/Zcognomebensosp", "");

@@ -34,8 +34,8 @@
                     selectedKey="{Sop>/Witht}"
                     selectionChange="onRitenutaChange"
                     editable="{=
-						${Sop>/Lifnr} ||
-						${Sop>/Type} ||
+						${Sop>/ZlifnrRic} ||
+						${Sop>/TypeRic} ||
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"
@@ -64,8 +64,8 @@
                     maxLength="40"
                     editable="{=
                         ${Sop>/Witht} === 'S1' ||
-						${Sop>/Lifnr} ||
-						${Sop>/Type} ||
+						${Sop>/ZlifnrRic} ||
+						${Sop>/TypeRic} ||
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"
@@ -92,8 +92,8 @@
                 <CheckBox
                     selected="{Sop>/Zquoteesi}"
                     editable="{=
-						${Sop>/Lifnr} ||
-						${Sop>/Type} ||
+						${Sop>/ZlifnrRic} ||
+						${Sop>/TypeRic} ||
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"
@@ -130,8 +130,8 @@
 					}"
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
-						${Sop>/Lifnr} ||
-						${Sop>/Type} ||
+						${Sop>/ZlifnrRic} ||
+						${Sop>/TypeRic} ||
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"
@@ -160,8 +160,8 @@
 					}"
                     editable="{=
 						${Sop>/Zquoteesi} === false ||
-						${Sop>/Lifnr} ||
-						${Sop>/Type} ||
+						${Sop>/ZlifnrRic} ||
+						${Sop>/TypeRic} ||
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"

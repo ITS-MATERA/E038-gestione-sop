@@ -24,3 +24,7 @@
 .sapMWizardStep{
   padding-bottom: 0px !important
 }
+
+.sapUiRespGridSpanInvisible {
+  display: none;
+}

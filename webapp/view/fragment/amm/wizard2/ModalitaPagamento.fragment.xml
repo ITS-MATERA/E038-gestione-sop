@@ -63,6 +63,7 @@
                 <Text
                     text="{i18n>labelCausaleValutaria}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                 >
                     <layoutData>
                         <l:GridData
@@ -82,6 +83,7 @@
 								${Utility>/EnableEdit} ? true : false
 							}"
                     change="onCausaleValutariaChange"
+                    visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                 >
                     <zcontrolmccross:layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -93,7 +95,10 @@
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M5 S12" />
+                        <l:GridData
+                            span="XL2 L3 M5 S12"
+                            indentXL="{= ${Sop>/ZspecieSop} === '1' ? 0 : 1}"
+                        />
                     </layoutData>
                 </Text>
                 <zcontrolmccross:MatchcodeCross
@@ -150,10 +155,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="true"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <zcontrolmccross:MatchcodeCross
@@ -213,10 +215,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="true"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -234,10 +233,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10' ? true : false}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="{= ${Sop>/Zwels} === 'ID3' ? false : true}"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -279,10 +275,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID4'}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="true"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -354,10 +347,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10'}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10'}"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -393,10 +383,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID3' ? true : false}"
                 >
                     <layoutData>
-                        <l:GridData
-                            span="XL2 L3 M5 S12"
-                            linebreak="{= ${Sop>/Zwels} === 'ID3'}"
-                        />
+                        <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
                 <ComboBox

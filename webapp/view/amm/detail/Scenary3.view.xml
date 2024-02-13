@@ -40,7 +40,6 @@
                                 id="wizScenario3"
                                 showNextButton="false"
                                 visible="{= ${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica' ? true : false}"
-                                class=".sapMWizardStepTitle sapMWizardStep"
                             >
                                 <WizardStep
                                     title="{i18n>titleWizard1ProspLiquidazione}"

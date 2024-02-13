@@ -39,7 +39,6 @@
                             <Wizard
                                 id="wizDetail"
                                 showNextButton="false"
-                                class=".sapMWizardStepTitle sapMWizardStep"
                                 visible="{= 
                                             ${Utility>/Function} === 'Dettaglio' ||
                                             ${Utility>/Function} === 'VerificaConferma'

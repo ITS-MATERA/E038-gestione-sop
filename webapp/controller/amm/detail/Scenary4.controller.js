@@ -96,6 +96,7 @@ sap.ui.define(
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
           self.createModelSedeBeneficiario();
+          self.createModelModPagamento();
           oWizard.nextStep();
         } else if (bWizard2) {
           self.checkWizard2(oWizard);
