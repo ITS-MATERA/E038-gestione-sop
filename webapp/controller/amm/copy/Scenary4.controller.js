@@ -92,22 +92,22 @@ sap.ui.define(
             self.createModelSedeBeneficiario();
             self.setSedeBeneficiario();
             self.setPosizioneScen4()
-
           }
-          else if (bWizard2) {
-            self.checkWizard2(oWizard);
-          } else if (bWizard3) {
-            if (self.checkClassificazione()) {
-              oModelStepScenario.setProperty("/wizard3", false);
-              oModelStepScenario.setProperty("/wizard4", true);
-              oModelStepScenario.setProperty("/visibleBtnForward", false);
-              oModelStepScenario.setProperty("/visibleBtnSave", true);
-              self.setLocPagamento()
-              oWizard.nextStep();
-            }
+        }
+        else if (bWizard2) {
+          self.checkWizard2(oWizard);
+        } else if (bWizard3) {
+          if (self.checkClassificazione()) {
+            oModelStepScenario.setProperty("/wizard3", false);
+            oModelStepScenario.setProperty("/wizard4", true);
+            oModelStepScenario.setProperty("/visibleBtnForward", false);
+            oModelStepScenario.setProperty("/visibleBtnSave", true);
+            self.setLocPagamento()
+            oWizard.nextStep();
           }
         }
       },
+
 
       _onObjectMatched: function (oEvent) {
         var self = this;
