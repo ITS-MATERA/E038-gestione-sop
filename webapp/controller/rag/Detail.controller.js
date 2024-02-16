@@ -535,6 +535,7 @@ sap.ui.define(
         oModelUtility.setProperty("/Function", "VerificaConferma")
         oModelUtility.setProperty("/EnableVerificaConferma", true)
         oModelUtility.setProperty("/RemoveFunctionButtons", true)
+        oModelUtility.setProperty("/EnableEdit", true)
       },
 
       onConferma: function () {

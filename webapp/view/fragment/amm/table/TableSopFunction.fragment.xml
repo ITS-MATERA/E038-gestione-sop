@@ -191,6 +191,7 @@
                                 datbis="99991231"
                                 text="{DatiFirmatario>Fipos}"
                                 semanticObject="ESAMINAMODIFICA"
+                                wrapping="true"
                             />
                             <zcontrollinkSar:LinkSar
                                 id="linkSarBilancioFunz"
@@ -205,6 +206,7 @@
                                 fictr="{DatiFirmatario>Fistl}"
                                 datbis="99991231"
                                 text="{DatiFirmatario>Fistl}"
+                                wrapping="true"
                             />
                             <Text
                                 text="{

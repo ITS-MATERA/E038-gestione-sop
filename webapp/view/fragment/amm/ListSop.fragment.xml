@@ -159,6 +159,7 @@
                                     datbis="99991231"
                                     text="{ListSop>Fipos}"
                                     semanticObject="ESAMINAMODIFICA"
+                                    wrapping="true"
                                 />
                                 <zcontrollinkSar:LinkSar
                                     id="linkSarBilancio"
@@ -173,6 +174,7 @@
                                     fictr="{ListSop>Fistl}"
                                     datbis="99991231"
                                     text="{ListSop>Fistl}"
+                                    wrapping="true"
                                 />
                                 <Text
                                     text="{
