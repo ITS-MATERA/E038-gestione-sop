@@ -478,6 +478,7 @@ sap.ui.define(
       createModelUtilityReg: function (sViewId) {
         var self = this;
         var oModelUtility = new JSONModel({
+          Mode: "Registrazione",
           ViewId: sViewId,
           EnableEdit: true,
           isQuiet1Prevalorizzato: false,
@@ -499,6 +500,7 @@ sap.ui.define(
 
 
         var oModelUtility = new JSONModel({
+          Mode: "Rettifica",
           ViewId: sViewId,
           EnableEdit: false,
           isLogVisible: false,
@@ -566,6 +568,12 @@ sap.ui.define(
         var self = this;
         var oSop = self.getModel("Sop")?.getData()
         var sZuffcontFirm = await self.getUfficio()
+
+        var oModelSop = self.getModel("Sop")
+        var oUtility = self.getModel("Utility").getData()
+        if (oUtility.Function === 'RegistrazioneRichAnn') {
+          oModelSop.setProperty("/ZdirigenteAmm", "")
+        }
 
         var oModelDatiFirmatario = new JSONModel({
           ZuffcontFirm: sZuffcontFirm,
@@ -1332,6 +1340,7 @@ sap.ui.define(
         var self = this;
         var oModel = self.getModel();
         var oModelStepScenario = self.getModel("StepScenario");
+        var oUtility = self.getModel("Utility").getData()
         var oSop = self.getModel("Sop").getData();
         var aPosizioni = oSop.Position;
         var aPosizioniFormatted = [];
@@ -1346,10 +1355,10 @@ sap.ui.define(
             HeaderIndex: "1",
             Index: oPosition.Index.toString(),
             Zimpdaord: oPosition.Zimpdaord,
-            Zimppag: oPosition.ZimppagOld ? oPosition.ZimppagOld : oPosition.Zimppag,
+            Zimppag: oUtility.Mode === 'Rettifica' ? oPosition.ZimppagOld : oPosition.Zimppag,
             Zimpres: oPosition.Zimpres,
-            Zimpliq: oPosition.ZimpliqOld ? oPosition.ZimpliqOld : oPosition.Zimpliq,
-            ZimpdaordOld: oPosition?.ZimpdaordOld ? oPosition?.ZimpdaordOld : null
+            Zimpliq: oUtility.Mode === 'Rettifica' ? oPosition.ZimpliqOld : oPosition.Zimpliq,
+            ZimpdaordOld: oUtility.Mode === 'Rettifica' ? oPosition?.ZimpdaordOld : null
           });
         });
 
@@ -5052,6 +5061,11 @@ sap.ui.define(
 
       createModelBeneficiarioRettifica: async function () {
         var self = this;
+        var oSop = self.getModel("Sop").getData()
+
+        if (oSop.ZspecieSop === "2") {
+          return
+        }
 
         var oBeneficiario = await self.setDataBenRettifica()
 

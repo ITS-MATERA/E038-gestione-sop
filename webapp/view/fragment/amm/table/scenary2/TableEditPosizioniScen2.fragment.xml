@@ -180,7 +180,9 @@
                               }"
                                 />
                                 <Text text="{Sop>Xblnr}" />
-                                <Text text="{Sop>ZbenaltName}" />
+                                <Text
+                                    text="{= ${Sop>ZzragSoc} ? ${Sop>ZzragSoc} : ${Sop>ZbenaltName}}"
+                                />
                                 <Text
                                     text="{
                                   path: 'Sop>Zimptot',

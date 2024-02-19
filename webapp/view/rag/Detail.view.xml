@@ -198,11 +198,11 @@
                                 type="XML"
                             />
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.rag.function.DatiUtenteRilievo"
+                                fragmentName="gestionesop.view.fragment.rag.function.TableUp"
                                 type="XML"
                             />
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.rag.function.TableSopFunction"
+                                fragmentName="gestionesop.view.fragment.rag.function.TableDown"
                                 type="XML"
                             />
                             <c:Fragment

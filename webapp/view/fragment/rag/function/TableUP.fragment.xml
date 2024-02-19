@@ -1,0 +1,17 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <VBox
+        visible="{= ${Utility>/Function} !== 'RegistraRilievo' ? true : false}"
+    >
+        <c:Fragment
+            fragmentName="gestionesop.view.fragment.rag.function.TableSopFunction"
+            type="XML"
+        />
+        <c:Fragment
+            fragmentName="gestionesop.view.fragment.rag.function.DatiUtenteRilievo"
+            type="XML"
+        />
+    </VBox>
+</c:FragmentDefinition>

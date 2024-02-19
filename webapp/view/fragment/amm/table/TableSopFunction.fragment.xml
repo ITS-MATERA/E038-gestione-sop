@@ -147,7 +147,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' ? true : false}"
+                        visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' || ${Utility>/Function} === 'CancellazioneRichAnn'? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelStatoSop}" />
@@ -258,7 +258,7 @@
                             />
                             <Text
                                 text="{DatiFirmatario>DescStatosop}"
-                                visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' ? true : false}"
+                                visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' || ${Utility>/Function} === 'CancellazioneRichAnn' ? true : false}"
                             />
                         </cells>
                     </ColumnListItem>

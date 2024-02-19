@@ -187,6 +187,7 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData()
 
         self.setFilterEQ(aFilters, "ZzTipoent", oSop.ZzTipoent)
+        self.setFilterEQ(aFilters, "Zchiavesop", oSop.Zchiavesop)
 
         self.getView().setBusy(true);
 
