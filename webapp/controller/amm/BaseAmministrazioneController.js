@@ -1105,7 +1105,7 @@ sap.ui.define(
         }
 
         if (oInput.getSelectedKey() === 'S1') {
-          oModelSop.setProperty("/ZzCebenra", "3");
+          oModelSop.setProperty("/ZzCebenra", "");
           oModelSop.setProperty("/ZzDescebe", "TESORO DELLO STATO");
         }
         else {
@@ -1344,6 +1344,7 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData();
         var aPosizioni = oSop.Position;
         var aPosizioniFormatted = [];
+        var sZimppag, sZimpliq
         if (oSop.Zimptot <= 0) {
           MessageBox.error("L'importo non può essere minore o uguale a 0");
           return;
@@ -1351,14 +1352,28 @@ sap.ui.define(
 
         aPosizioni.map((oPosition, index) => {
           oPosition.Index = oPosition.Index ? oPosition.Index : index + 1
+          if (oUtility.Mode === 'Rettifica' && oPosition.ZimppagOld) {
+            sZimppag = oPosition.ZimppagOld;
+          }
+          else {
+            sZimppag = oPosition.Zimppag
+          }
+
+          if (oUtility.Mode === 'Rettifica' && oPosition.ZimpliqOld) {
+            sZimpliq = oPosition.ZimpliqOld;
+          }
+          else {
+            sZimpliq = oPosition.Zimpliq
+          }
+
           aPosizioniFormatted.push({
             HeaderIndex: "1",
             Index: oPosition.Index.toString(),
             Zimpdaord: oPosition.Zimpdaord,
-            Zimppag: oUtility.Mode === 'Rettifica' ? oPosition.ZimppagOld : oPosition.Zimppag,
+            Zimppag: sZimppag,
             Zimpres: oPosition.Zimpres,
-            Zimpliq: oUtility.Mode === 'Rettifica' ? oPosition.ZimpliqOld : oPosition.Zimpliq,
-            ZimpdaordOld: oUtility.Mode === 'Rettifica' ? oPosition?.ZimpdaordOld : null
+            Zimpliq: sZimpliq,
+            ZimpdaordOld: oPosition?.ZimpdaordOld ? oPosition?.ZimpdaordOld : null
           });
         });
 
