@@ -54,7 +54,8 @@
                     value="{Sop>/Lifnr}"
                     editable="{= 
                               ${Sop>/Ztipopag} === '2' &amp;&amp; 
-                              ${Utility>/EnableEdit} ? true : false
+                              ${Utility>/EnableEdit} &amp;&amp;
+                              ${Sop>/ZspecieSop} === '1'? true : false
                             }"
                     change="onBeneficiarioChangeWiz2"
                     maxLength="10"

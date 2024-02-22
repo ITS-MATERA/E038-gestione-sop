@@ -179,7 +179,9 @@
                                 }
                               }"
                                 />
-                                <Text text="{Sop>Xblnr}" />
+                                <Text
+                                    text="{= ${Sop>Xblnr} ? ${Sop>Xblnr} : ${Sop>Lxblnr}}"
+                                />
                                 <Text
                                     text="{= ${Sop>ZzragSoc} ? ${Sop>ZzragSoc} : ${Sop>ZbenaltName}}"
                                 />

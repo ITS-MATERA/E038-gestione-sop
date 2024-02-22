@@ -348,15 +348,16 @@
                         id="idFilterStruttAmmResp"
                         eos="S"
                         fase="GEST"
-                        entrata="X"
+                        spesa="X"
                         reale="R"
                         anno="{FiltersHome>/Gjahr}"
-                        SEM_OBJ="Z_TEST_LIB"
+                        SEM_OBJ="ZS4_SOP_SRV"
                         versione="D"
                         width="100%"
                         placeholder="Scegli struttura amministrativa"
                         value="{FiltersHome>/Fistl}"
                         enabled="{= ${FiltersHome>/Gjahr} ? true : false}"
+                        NO_SEGREG="X"
                     />
                 </items>
             </VBox>

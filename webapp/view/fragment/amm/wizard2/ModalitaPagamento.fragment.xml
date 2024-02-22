@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
 >
     <Panel backgroundDesign="Transparent">
         <headerToolbar>
@@ -278,18 +279,24 @@
                         <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <Input
+                <zcontrol:InputPosizioneFinanziaria
+                    id="iptFiposEntrata"
+                    fase="GEST"
+                    entrata="X"
+                    reale="R"
+                    anno="{Sop>/Gjahr}"
+                    versione="D"
+                    maxSuggestionWidth="100%"
+                    width="100%"
+                    value="{Sop>/Zzposfinent}"
+                    change="onPosFinEntrataChange"
                     visible="{= ${Sop>/Zwels} === 'ID4'}"
                     editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Sop>/Zcompres} ? true : false}"
-                    value="{Sop>/Zzposfinent}"
-                    maxLength="24"
-                    change="onPosFinEntrataChange"
                 >
-                    <layoutData>
+                    <zcontrol:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
-                    </layoutData>
-                </Input>
-
+                    </zcontrol:layoutData>
+                </zcontrol:InputPosizioneFinanziaria>
                 <Text
                     text="{i18n>labelEsercizio}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"

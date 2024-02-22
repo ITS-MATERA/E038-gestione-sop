@@ -119,8 +119,12 @@
                                 }
                               }"
                                 />
-                                <Text text="{Sop>Xblnr}" />
-                                <Text text="{Sop>ZbenaltName}" />
+                                <Text
+                                    text="{= ${Sop>Xblnr} ? ${Sop>Xblnr} : ${Sop>Lxblnr}}"
+                                />
+                                <Text
+                                    text="{= ${Sop>ZbenaltName} ? ${Sop>ZbenaltName} : ${Sop>ZzragSoc}}"
+                                />
                                 <Text
                                     text="{
                                   path: 'Sop>Zimpdaord',

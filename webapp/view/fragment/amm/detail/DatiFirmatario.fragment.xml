@@ -106,16 +106,17 @@
                     id="idFilterStruttAmmResp"
                     eos="S"
                     fase="GEST"
-                    entrata="X"
+                    spesa="X"
                     reale="R"
                     anno="{Sop>/Gjahr}"
-                    SEM_OBJ="Z_TEST_LIB"
+                    SEM_OBJ="ZS4_SOP_SRV"
                     versione="D"
                     width="100%"
                     value="{DatiFirmatario>/Fistl}"
                     change="onFistlChange"
                     visible="{= ${Utility>/Function} === 'Richiamo' ? false : true}"
                     enabled="{= ${Sop>/Gjahr} ? true : false}"
+                    NO_SEGREG="X"
                 >
                     <zcontrolMatchSar:layoutData>
                         <l:GridData span="XL2 L2 M12 S12" />
