@@ -3875,11 +3875,11 @@ sap.ui.define(
                 Zimpres: oPosition.Zimpres,
                 Belnr: oPosition.Belnr,
                 GjahrDc: oPosition.AnnoRegDoc,
-                Xblnr: oPosition.Xblnr,
+                Xblnr: oPosition.Xblnr ? oPosition.Xblnr : oPosition.Lxblnr,
                 Blart: oPosition.Blart,
                 Bldat: oPosition.Bldat,
                 Zbenalt: oPosition.Zbenalt,
-                ZbenaltName: oPosition.ZbenaltName,
+                ZbenaltName: oPosition.ZbenaltName ? oPosition.ZbenaltName : oPosition.ZzragSoc,
                 Wrbtr: oPosition.Wrbtr,
                 Zimpdaord: oPosition.Zimpdaord,
                 Zdurc: oPosition.Zdurc,
@@ -5514,7 +5514,7 @@ sap.ui.define(
         var oStepScenario = self.getModel("StepScenario").getData()
         var oSop = oModelSop.getData()
 
-        if (obj?.Iban && obj?.Banks) {
+        if (obj?.Iban && (obj?.Banks || obj.Witht)) {
           if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
             var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
             oDialogMotivazione.open();
