@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter"],
-  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter) {
+  ["./../BaseAmministrazioneController", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/json/JSONModel", "../../../model/formatter", "sap/m/MessageBox"],
+  function (BaseAmministrazioneController, Filter, FilterOperator, JSONModel, formatter, MessageBox) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.copy.Scenary4", {

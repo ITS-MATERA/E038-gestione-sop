@@ -106,6 +106,9 @@ sap.ui.define(
             oModelStepScenario.setProperty("/wizard4", true);
             oModelStepScenario.setProperty("/visibleBtnForward", false);
             oModelStepScenario.setProperty("/visibleBtnSave", true);
+            if (oModelUtility.getProperty("/EnableEdit")) {
+              self.setLocPagamento()
+            }
             oWizard.nextStep();
           }
         }

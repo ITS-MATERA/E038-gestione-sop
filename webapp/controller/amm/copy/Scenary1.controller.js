@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["./../BaseAmministrazioneController", "sap/ui/model/json/JSONModel", "../../../model/formatter"],
-  function (BaseAmministrazioneController, JSONModel, formatter) {
+  ["./../BaseAmministrazioneController", "sap/ui/model/json/JSONModel", "../../../model/formatter", "sap/m/MessageBox"],
+  function (BaseAmministrazioneController, JSONModel, formatter, MessageBox) {
     "use strict";
 
     return BaseAmministrazioneController.extend("gestionesop.controller.amm.copy.Scenary1", {
@@ -142,6 +142,7 @@ sap.ui.define(
         var self = this;
         var bSelected = oEvent.getParameter("selected");
         //Load Model
+        var oTable = self.getView().byId("tblPosizioniScen1")
         var oModelPosizioni = self.getModel("PosizioniScen1");
         var oModelSop = self.getModel("Sop");
         //Load Component
@@ -150,11 +151,27 @@ sap.ui.define(
         var aSelectedItems = oModelSop.getProperty("/Position");
         var aListItems = oEvent.getParameter("listItems");
 
-        aListItems.map((oListItem) => {
+        aListItems.map(async function (oListItem) {
           var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
           if (bSelected) {
-            aSelectedItems.push(oSelectedItem);
+            var oResponse
+            if (oModelSop.getProperty("/ZspecieSop") === '1') {
+              oResponse = await self.lockQuoteBeneficiario(oSelectedItem)
+            } else {
+              oResponse = await self.lockQuoteRitenute(oSelectedItem)
+            }
+
+            if (oResponse.data.Type === 'S') {
+              aSelectedItems.push(oSelectedItem);
+              oModelSop.setProperty("/Position", aSelectedItems);
+              oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+              oModelSop.setProperty("/Zimptot", "0.00");
+            } else {
+              MessageBox.error(oResponse.data.Message)
+              oTable.setSelectedItem(oListItem, false)
+            }
+
           } else {
             var iIndex = aSelectedItems.findIndex((obj) => {
               return (
@@ -169,12 +186,17 @@ sap.ui.define(
             if (iIndex > -1) {
               aSelectedItems.splice(iIndex, 1);
             }
+            if (oModelSop.getProperty("/ZspecieSop") === '1') {
+              self.unlockQuoteBeneficiario(oSelectedItem)
+            } else {
+              self.unlockQuoteRitenute(oSelectedItem)
+            }
+
+            oModelSop.setProperty("/Position", aSelectedItems);
+            oButtonCalculate.setVisible(aSelectedItems.length !== 0);
+            oModelSop.setProperty("/Zimptot", "0.00");
           }
         });
-
-        oModelSop.setProperty("/Position", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelSop.setProperty("/Zimptot", "0.00");
       },
 
       onStart: function () {

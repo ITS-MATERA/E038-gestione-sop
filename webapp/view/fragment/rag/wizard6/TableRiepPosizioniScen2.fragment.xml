@@ -121,8 +121,12 @@
                                   path: 'Sop>Zdurc',
                                   formatter: '.formatter.deleteFirstZeros'
                               }"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
                     />
-                    <Text text="{Sop>ZfermAmm}" />
+                    <Text
+                        text="{Sop>ZfermAmm}"
+                        visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                    />
                 </cells>
             </ColumnListItem>
         </items>

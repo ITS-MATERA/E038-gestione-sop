@@ -377,6 +377,13 @@ sap.ui.define(
           NumquietInitial1: false,
           //Secondo quietanzante
           NumquietInitial2: false,
+
+          RegioCopy: oSop.RegioSede,
+          ZwelsCopy: oSop.Zwels,
+          GjahrCopy: oSop.Gjahr,
+          ZaliasCopy: oSop.Zalias,
+          IbanCopy: oSop.Iban,
+          ZlocpagCopy: oSop.Zlocpag
         });
 
         self.setModel(oModelSop, "Sop");
@@ -387,7 +394,12 @@ sap.ui.define(
           }
           self.createModelModPagamento()
           self.deleteDataForCopy()
-          self.setDataBeneficiarioRic()
+          if (oSop.ZspecieSop === '1') {
+            self.setDataBeneficiarioRic()
+          }
+          else {
+            oModelSop.setProperty("/Zlifnrric", "")
+          }
           oModelSop.setProperty("/Gjahr", oParameters.NewGjahr)
           self.setModel(oModelSop, "Sop");
         }
@@ -3695,6 +3707,10 @@ sap.ui.define(
         var aPosition = oSop.Position;
         var aFilters = [];
 
+        if (oSop.ZspecieSop === "2") {
+          return
+        }
+
         aPosition.map((oPosition) => {
           self.setFilterEQ(aFilters, "Belnr", oPosition.Belnr);
         });
@@ -3775,6 +3791,12 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
+
+        if (oSop?.Zchiavesop) {
+          if (oSop?.Zwels === 'ID3' && oSop?.Zalias === oSop?.ZaliasCopy && oSop?.Iban === oSop?.IbanCopy) {
+            return
+          }
+        }
 
         var sKey = oModel.createKey("/LocPagamentoSet", {
           Regio: oSop.RegioSede,
@@ -3883,7 +3905,11 @@ sap.ui.define(
                 Wrbtr: oPosition.Wrbtr,
                 Zimpdaord: oPosition.Zimpdaord,
                 Zdurc: oPosition.Zdurc,
-                ZfermAmm: oPosition.ZfermAmm
+                ZfermAmm: oPosition.ZfermAmm,
+                Geber: self.setBlank(oPosition?.Geber),
+                Docid: self.setBlank(oPosition?.Docid),
+                Hkont: self.setBlank(oPosition?.Hkont),
+                Kostl: self.setBlank(oPosition?.Kostl),
               })
             })
             break;
@@ -4224,6 +4250,7 @@ sap.ui.define(
         var aDeletedPositions = oUtility.DeletedPositions
         var aClassificazione = oSop.Classificazione
         var aDeletedClassificazioni = oUtility.DeletedClassificazioni
+        var oModelUtility = self.getModel("Utility")
 
         aDeletedPositions.map((oPosition) => {
           aPosition.push(oPosition)
@@ -4275,7 +4302,11 @@ sap.ui.define(
                 Zimpdaord: oPosition.Zimpdaord,
                 Zdurc: oPosition.Zdurc,
                 ZfermAmm: oPosition.ZfermAmm,
-                Tiporiga: oPosition.Tiporiga
+                Tiporiga: oPosition.Tiporiga,
+                Geber: self.setBlank(oPosition?.Geber),
+                Docid: self.setBlank(oPosition?.Docid),
+                Hkont: self.setBlank(oPosition?.Hkont),
+                Kostl: self.setBlank(oPosition?.Kostl),
               })
             })
             break;
