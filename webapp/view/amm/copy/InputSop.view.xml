@@ -41,6 +41,7 @@
                             </layoutData>
                         </Label>
                         <ComboBox
+                            id="cbxGjahr"
                             width="100%"
                             items="{
                           path: '/GjahrMcSet'
@@ -119,7 +120,7 @@
                             editable="false"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M5 S12" />
                             </layoutData>
                         </Input>
 
@@ -158,7 +159,7 @@
                             editable="false"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M5 S12" />
                             </layoutData>
                         </Input>
                     </l:Grid>
@@ -209,7 +210,7 @@
                             value="{Sop>/Descufficio}"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL6 L12 M12 S12" />
                             </layoutData>
                         </Input>
 
@@ -249,7 +250,7 @@
                             value="{Sop>/Zdescriz}"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL6 L12 M12 S12" />
                             </layoutData>
                         </Input>
                     </l:Grid>
@@ -272,7 +273,7 @@
                             required="true"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL2 L2 M6 S12" />
                             </layoutData>
                         </Label>
 
@@ -290,7 +291,7 @@
                                 text="{Descrizione}"
                             />
                             <layoutData>
-                                <l:GridData span="XL1 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M6 S12" />
                             </layoutData>
                         </ComboBox>
 
@@ -300,7 +301,7 @@
                             required="true"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL2 L2 M6 S12" />
                             </layoutData>
                         </Label>
 
@@ -318,7 +319,7 @@
                                 text="{Descrizione}"
                             />
                             <layoutData>
-                                <l:GridData span="XL1 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M6 S12" />
                             </layoutData>
                         </ComboBox>
 
@@ -328,7 +329,10 @@
                             required="true"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData
+                                    span="XL2 L2 M6 S12"
+                                    linebreak="true"
+                                />
                             </layoutData>
                         </Label>
                         <DatePicker
@@ -345,7 +349,7 @@
                             editable="false"
                         >
                             <layoutData>
-                                <l:GridData span="XL1 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M6 S12" />
                             </layoutData>
                         </DatePicker>
 
@@ -355,7 +359,7 @@
                             required="true"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData span="XL2 L2 M6 S12" />
                             </layoutData>
                         </Label>
                         <Input
@@ -367,7 +371,7 @@
                             editable="false"
                         >
                             <layoutData>
-                                <l:GridData span="XL1 L3 M5 S12" />
+                                <l:GridData span="XL3 L4 M6 S12" />
                             </layoutData>
                         </Input>
 
@@ -377,17 +381,24 @@
                             required="true"
                         >
                             <layoutData>
-                                <l:GridData span="XL2 L3 M5 S12" />
+                                <l:GridData
+                                    span="XL2 L3 M5 S12"
+                                    linebreak="true"
+                                />
                             </layoutData>
                         </Label>
-                        <Input
+                        <TextArea
                             value="{Sop>/Zcausale}"
+                            maxLength="255"
+                            width="100%"
+                            rows="3"
+                            wrapping="Hard"
                             editable="false"
                         >
                             <layoutData>
-                                <l:GridData span="XL4 L6 M12 S12" />
+                                <l:GridData span="XL10 L12 M12 S12" />
                             </layoutData>
-                        </Input>
+                        </TextArea>
                     </l:Grid>
                 </Panel>
                 <!-- #endregion -->

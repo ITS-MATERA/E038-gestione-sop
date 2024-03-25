@@ -19,9 +19,9 @@
                     </layoutData>
                 </Text>
                 <Input
+                    id="iptZnumprot"
                     value="{Sop>/Znumprot}"
                     maxLength="7"
-                    type="Number"
                     editable="{Utility>/EnableEdit}"
                 >
                     <layoutData>
@@ -103,7 +103,7 @@
                     </layoutData>
                 </Label>
                 <TextArea
-                    maxLength="100"
+                    maxLength="255"
                     value="{Sop>/Zcausale}"
                     width="100%"
                     cols="100"

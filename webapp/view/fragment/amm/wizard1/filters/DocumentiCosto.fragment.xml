@@ -138,6 +138,7 @@
 						path: 'AnnoDocBeneficiario>/'
 					}"
                     selectedKeys="{FiltersWizard1>/AnnoDocBen}"
+                    enabled="{= ${Sop>/Zlifnrric} ? true : false}"
                 >
                     <c:Item
                         key="{AnnoDocBeneficiario>Gjahr}"

@@ -487,7 +487,7 @@ sap.ui.define(
         })
       },
 
-      createModelUtilityReg: function (sViewId) {
+      createModelUtilityReg: async function (sViewId) {
         var self = this;
         var oModelUtility = new JSONModel({
           Mode: "Registrazione",
@@ -501,13 +501,14 @@ sap.ui.define(
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: true,
-          EnableEditMode: false
+          EnableEditMode: false,
+          LifnrInps: await self.getTvarvcValue("COSP-R3-FIORI-E018_INPS")
         });
 
         self.setModel(oModelUtility, "Utility");
       },
 
-      createModelUtilityDet: function (sViewId) {
+      createModelUtilityDet: async function (sViewId) {
         var self = this;
 
 
@@ -524,6 +525,7 @@ sap.ui.define(
           EnableRegistrazioneRichAnn: false,
           EnableCancellazioneRichAnn: false,
           EnableEditMode: false,
+          LifnrInps: await self.getTvarvcValue("COSP-R3-FIORI-E018_INPS"),
           CurrentDate: new Date(),
           CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: false,
@@ -626,6 +628,7 @@ sap.ui.define(
         oModelSop.setProperty("/DescTipologia", oParamenters?.DescTipologia);
         oModelSop.setProperty("/ZgjahrPf", oParamenters?.Gjahr)
         oModelSop.setProperty("/Bukrs", await self.getBukrs());
+        oModelSop.setProperty("/Zprovgiud", oParamenters?.Zprovgiud)
       },
 
       createModelFiltersWizard1: async function () {
@@ -902,7 +905,7 @@ sap.ui.define(
         oSelectDialog.data("PropertyModel", oEvent.getSource().data().PropertyModel);
 
         var aFilters = [];
-        var aGjahr = oModelFilters.getProperty("/AnnoRegDocumento");
+        var aGjahr = oModelFilters.getProperty("/AnnoRegDoc");
 
         aGjahr?.map((sGjahr) => {
           self.setFilterEQ(aFilters, "Gjahr", sGjahr);
@@ -939,7 +942,7 @@ sap.ui.define(
         var oModelFilters = self.getModel("FiltersWizard1");
         var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.NDocBeneficiario");
         var aFilters = [];
-        var aGjahr = oModelFilters.getProperty("/AnnoRegDoc");
+        var aGjahr = oModelFilters.getProperty("/AnnoDocBen");
 
         aGjahr?.map((sGjahr) => {
           self.setFilterEQ(aFilters, "Gjahr", sGjahr);
@@ -1252,6 +1255,35 @@ sap.ui.define(
         var oModelFiltersWizard1 = self.getModel("FiltersWizard1")
         oModelFiltersWizard1.setProperty("/" + sProperty, oEvent.getParameter("value"))
       },
+
+      onModalitaPagamentoInsert: function (oEvent) {
+        var self = this;
+        var sValue = oEvent.getParameter("value")
+        var oModelSop = self.getModel("Sop")
+        var aModPagamento = self.getModel("ModalitaPagamento")?.getData()
+
+        if (!sValue) {
+          oModelSop.setProperty("/Zwels", "")
+          oModelSop.setProperty("/Zdescwels", "")
+          return
+        }
+
+        var aRecord = aModPagamento.filter((oModPagamento) =>
+          oModPagamento.Zdescwels === sValue.toUpperCase()
+        )
+
+        if (aRecord.length === 1) {
+          oModelSop.setProperty("/Zwels", aRecord[0].Zwels)
+          oModelSop.setProperty("/Zdescwels", aRecord[0].Zdescwels)
+          return
+        }
+
+        MessageBox.error("La modalità di pagamento non è valida")
+        oModelSop.setProperty("/Zwels", "")
+        oModelSop.setProperty("/Zdescwels", "")
+        self.getView().byId("cbxModalitaPagamentoWizard2").setValue("")
+        this._resetDataModalitaPagamento()
+      },
       //#endregion ----------------SELECTION CHANGE-------------------------------
 
       //#region ----------------------------METHODS-------------------------------
@@ -1262,7 +1294,7 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData();
         var aFilters = [];
 
-        self.setFilterEQ(aFilters, "Lifnr", oSop.Lifnr);
+        self.setFilterEQ(aFilters, "Lifnr", oSop.Zlifnrric);
         self.getView().setBusy(true);
 
         oModel.read("/AnnoDocBeneficiarioMcSet", {
@@ -1290,7 +1322,7 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "Witht", oSop.Witht);
         self.setFilterEQ(aFilters, "ZzCebenra", oSop.ZzCebenra);
         self.setFilterEQ(aFilters, "Zquoteesi", oSop.Zquoteesi);
-        self.setFilterBT(aFilters, "Zdateesi", oFiltersWizard1.ZdatesiFrom, oFiltersWizard1.ZdatesiTo);
+        self.setFilterBT(aFilters, "Zdatesi", formatter.UTCRome(oFiltersWizard1.ZdatesiFrom), formatter.UTCRome(oFiltersWizard1.ZdatesiTo));
 
         self.setFilterEQ(aFilters, "Fipos", oSop.Fipos);
         self.setFilterEQ(aFilters, "Fistl", oSop.Fistl);
@@ -1358,7 +1390,7 @@ sap.ui.define(
         var aPosizioniFormatted = [];
         var sZimppag, sZimpliq
         if (oSop.Zimptot <= 0) {
-          MessageBox.error("L'importo non può essere minore o uguale a 0");
+          MessageBox.error("Inserire un Importo da Ordinare valido");
           return;
         }
 
@@ -1426,7 +1458,7 @@ sap.ui.define(
         var aPosizioni = oUtility.SelectedPositions;
         var aPosizioniFormatted = [];
         if (oUtility.AddZimptot <= 0) {
-          MessageBox.error("L'importo non può essere minore o uguale a 0");
+          MessageBox.error("Inserire un Importo da Ordinare valido");
           return;
         }
 
@@ -2005,17 +2037,36 @@ sap.ui.define(
       },
 
       setIban: function (bModalitaPagamento = false) {
-        var self = this;
+        var self = this, aPosizioniFormatted = []
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
         var sZspecieSop = oSop.ZspecieSop
 
+
+        if (oSop.Zwels === 'ID5' || oSop.Ztipopag === "1") {
+          if (oSop?.Position) {
+            aPosizioniFormatted = oSop?.Position?.map((oPosition) => {
+              var oPosizioneFormatted = {
+                Bukrs: oPosition?.Bukrs,
+                Znumliq: oPosition?.Znumliq,
+                Zposizione: oPosition?.Zposizione,
+                Zversione: oPosition?.Zversione,
+                ZversioneOrig: oPosition?.ZversioneOrig,
+                Docid: oPosition?.Docid,
+              };
+
+              return oPosizioneFormatted;
+            });
+          }
+        }
+
+
         var sKey = oModel.createKey("/IbanBeneficiarioSet", {
           ZspecieSop: oSop.ZspecieSop,
           Zwels: oSop.Zwels,
           Iban: "",
-          Json: "",
+          Json: JSON.stringify(aPosizioniFormatted),
           Lifnr: oSop.Lifnr,
           Qsskz: oSop.Witht,
           ZzCebenra: oSop.ZzCebenra,
@@ -2091,8 +2142,8 @@ sap.ui.define(
           Iban: "",
           Json: JSON.stringify(aPosizioniFormatted),
           Lifnr: oSop.Lifnr,
-          Qsskz: "",
-          ZzCebenra: "",
+          Qsskz: oSop.Witht,
+          ZzCebenra: oSop.ZzCebenra,
           Zzposfinent: "",
           Zcompres: ""
         });
@@ -2153,7 +2204,7 @@ sap.ui.define(
           ZspecieSop: oSop.ZspecieSop,
           Zwels: "",
           Json: JSON.stringify(aPosizioniFormatted),
-
+          //TODO - Aggiungere WITHT
         });
 
         self.getView().setBusy(true);
@@ -2381,6 +2432,8 @@ sap.ui.define(
         var sZwels = oModelSop.getProperty("/Zwels");
 
         if (bAll) {
+          oModelSop.setProperty("/Iban", "")
+          oModelSop.setProperty("/Banks", "")
           oModelSop.setProperty("/Zwels", "")
           oModelSop.setProperty("/DescZwels", "")
           oModelSop.setProperty("/Zalias", "");
@@ -2432,6 +2485,8 @@ sap.ui.define(
           oModelSop.setProperty("/RegioSede", "");
           oModelSop.setProperty("/Pstlz", "");
           oModelSop.setProperty("/Land1Sede", "");
+          oModelSop.setProperty("/Zcompres", "");
+          oModelSop.setProperty("/ZgjahrPf", "")
           return
         }
 
@@ -2445,6 +2500,8 @@ sap.ui.define(
         }
         if (sZwels !== "ID4") {
           oModelSop.setProperty("/Zzposfinent", "");
+          oModelSop.setProperty("/Zcompres", "");
+          oModelSop.setProperty("/ZgjahrPf", "")
         }
         if (sZwels !== "ID6" && sZwels !== "ID10") {
           oModelSop.setProperty("/Swift", "");
@@ -2488,6 +2545,10 @@ sap.ui.define(
           oModelSop.setProperty("/Zperiodrifa", null);
           oModelSop.setProperty("/Zcodinps", "");
           oModelSop.setProperty("/Zdescvers", "");
+        }
+
+        if (sZwels !== 'ID1' || sZwels !== 'ID2' || sZwels !== 'ID5' || sZwels !== 'ID6' || sZwels !== 'ID9') {
+          oModelSop.setProperty("/Zcatpurpose", "");
         }
       },
 
@@ -3402,7 +3463,6 @@ sap.ui.define(
 
         oVHD.getTableAsync().then(function (oTable) {
           if (oTable.bindRows) {
-            console.log()
             oTable.getBinding("rows").filter(oFilter);
           }
           if (oTable.bindItems) {
@@ -3527,7 +3587,7 @@ sap.ui.define(
       createModelClassificazione: function () {
         var self = this;
 
-        var oModelClassificazione = new JSONModel({
+        var oClassificazione = {
           Cos: [],
           Cpv: [],
           Cig: [],
@@ -3536,9 +3596,14 @@ sap.ui.define(
           ImpTotAssociareCpv: "0.00",
           ImpTotAssociareCig: "0.00",
           ImpTotAssociareCup: "0.00",
-        });
+        };
 
-        self.setModel(oModelClassificazione, "Classificazione");
+        oClassificazione.Cos.push(this._createNewRow("COS"))
+        oClassificazione.Cpv.push(this._createNewRow("CPV"))
+        oClassificazione.Cig.push(this._createNewRow("CIG"))
+        oClassificazione.Cup.push(this._createNewRow("CUP"))
+
+        self.setModel(new JSONModel(oClassificazione), "Classificazione");
       },
 
       _getCigDescription: async function (sCig) {
@@ -3575,7 +3640,7 @@ sap.ui.define(
         var aListCup = oModelClassificazione.getProperty("/Cup");
 
         //Controllo se sono stati inseriti i Codici Gestionali
-        if (aListCos?.length === 0) {
+        if (aListCos?.length <= 1 && !aListCos[0].Zcos) {
           sap.m.MessageBox.error(oBundle.getText("msgCosRequired"));
           return false;
         }
@@ -3605,19 +3670,28 @@ sap.ui.define(
         }
 
         //Controllo gli importi
-        var aListClassificazione = this._getClassificazioneList();
 
-        var bImpZero = false;
-        aListClassificazione.map((oClassificazione) => {
-          if (oClassificazione.ZimptotClass === "0.00") {
-            bImpZero = true;
-          }
-        });
-
-        if (bImpZero) {
+        if (this._checkImportoClassificazione(aListCos, "Zcos")) {
           sap.m.MessageBox.error(oBundle.getText("msgImportiZero"));
           return false;
         }
+
+        if (this._checkImportoClassificazione(aListCpv, "Zcpv")) {
+          sap.m.MessageBox.error(oBundle.getText("msgImportiZero"));
+          return false;
+        }
+
+        if (this._checkImportoClassificazione(aListCig, "Zzcig")) {
+          sap.m.MessageBox.error(oBundle.getText("msgImportiZero"));
+          return false;
+        }
+
+        if (this._checkImportoClassificazione(aListCup, "Zzcup")) {
+          sap.m.MessageBox.error(oBundle.getText("msgImportiZero"));
+          return false;
+        }
+
+        var aListClassificazione = this._getClassificazioneList();
 
         //Controllo il totale degli importi con l'importo associato
         var iZimptot = parseFloat(oModelSop.getProperty("/Zimptot"));
@@ -3658,14 +3732,31 @@ sap.ui.define(
       _checkCodiceClassificazione: function (aList, sCodice) {
         var bCodiceEmpty = false;
         if (aList.length !== 0) {
-          aList.map((oItem) => {
-            if (!oItem[sCodice]) {
+          aList.map((oItem, index) => {
+            if (!oItem[sCodice] && index !== 0) {
+              bCodiceEmpty = true;
+            }
+            if (!oItem[sCodice] && index === 0 && oItem.ZimptotClass !== '0.00') {
               bCodiceEmpty = true;
             }
           });
         }
 
         return bCodiceEmpty;
+      },
+
+      _checkImportoClassificazione: function (aList, sCodice) {
+        var bImpZero = false;
+        aList.map((oItem) => {
+          if (oItem.ZimptotClass === "0.00" && oItem.Index !== 0) {
+            bImpZero = true;
+          }
+          if (oItem.ZimptotClass === "0.00" && oItem.Index === 0 && oItem[sCodice]) {
+            bImpZero = true;
+          }
+        });
+
+        return bImpZero
       },
 
       _getClassificazioneList: function () {
@@ -3679,19 +3770,31 @@ sap.ui.define(
 
         var aListClassificazione = [];
 
-        aListCos.map((oCos) => {
+        aListCos.map((oCos, index) => {
+          if (!oCos.Zcos && index === 0) {
+            return
+          }
           aListClassificazione.push(oCos);
         });
 
-        aListCpv.map((oCpv) => {
+        aListCpv.map((oCpv, index) => {
+          if (!oCpv.Zcpv && index === 0) {
+            return
+          }
           aListClassificazione.push(oCpv);
         });
 
-        aListCig.map((oCig) => {
+        aListCig.map((oCig, index) => {
+          if (!oCig.Zzcig && index === 0) {
+            return
+          }
           aListClassificazione.push(oCig);
         });
 
-        aListCup.map((oCup) => {
+        aListCup.map((oCup, index) => {
+          if (!oCup.Zzcup && index === 0) {
+            return
+          }
           aListClassificazione.push(oCup);
         });
 
@@ -3743,7 +3846,11 @@ sap.ui.define(
               });
             });
 
-            oModelClassificazione.setProperty("/Cig", aCos);
+
+            if (aCos.length >= 1) {
+              oModelClassificazione.setProperty("/Cig", aCos);
+            }
+
           },
           error: function () {
             self.getView().setBusy(false);
@@ -3769,6 +3876,27 @@ sap.ui.define(
         oModelSop.setProperty("/Zimptot", (fZimptot + fAddZimptot).toFixed(2))
         oModelUtility.setProperty("/SelectedPositions", [])
 
+      },
+
+      _createNewRow: function (sEtichetta) {
+        return {
+          Zchiavesop: "",
+          Bukrs: "",
+          Zetichetta: sEtichetta,
+          Zposizione: "",
+          ZstepSop: "",
+          Zzcig: "",
+          Zzcup: "",
+          Zcpv: "",
+          ZcpvDesc: "",
+          Zcos: "",
+          ZcosDesc: "",
+          Belnr: "",
+          ZimptotClass: "0.00",
+          Zflagcanc: "",
+          ZstatoClass: "",
+          Index: 0,
+        }
       },
 
       //#endregion -------------------------METHODS------------------------------
@@ -5534,6 +5662,20 @@ sap.ui.define(
           oDataClassificazione.ImpTotAssociareCig.toFixed(2);
         oDataClassificazione.ImpTotAssociareCup =
           oDataClassificazione.ImpTotAssociareCup.toFixed(2);
+
+
+        if (oDataClassificazione.Cos.length === 0) {
+          oDataClassificazione.Cos.push(this._createNewRow("COS"))
+        }
+        if (oDataClassificazione.Cpv.length === 0) {
+          oDataClassificazione.Cpv.push(this._createNewRow("CPV"))
+        }
+        if (oDataClassificazione.Cig.length === 0) {
+          oDataClassificazione.Cig.push(this._createNewRow("CIG"))
+        }
+        if (oDataClassificazione.Cup.length === 0) {
+          oDataClassificazione.Cup.push(this._createNewRow("CUP"))
+        }
 
         self.setModel(new JSONModel(oDataClassificazione), "Classificazione");
       },

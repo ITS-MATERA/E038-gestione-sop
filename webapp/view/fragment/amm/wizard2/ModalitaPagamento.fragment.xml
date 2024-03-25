@@ -33,13 +33,14 @@
                     selectedKey="{Sop>/Zwels}"
                     editable="{= ${Sop>/Ztipopag} !== '4' &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
                     selectionChange="onModalitaPagamentoChange"
+                    change="onModalitaPagamentoInsert"
                 >
                     <c:Item
                         key="{ModalitaPagamento>Zwels}"
                         text="{ModalitaPagamento>Zdescwels}"
                     />
                     <layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL3 L4 M6 S12" />
                     </layoutData>
                 </ComboBox>
                 <Text
@@ -97,7 +98,7 @@
                 >
                     <layoutData>
                         <l:GridData
-                            span="XL2 L3 M6 S12"
+                            span="XL1 L3 M6 S12"
                             indentXL="{= ${Sop>/ZspecieSop} === '1' ? 0 : 1}"
                         />
                     </layoutData>
@@ -123,7 +124,7 @@
                     change="onIbanChange"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL3 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
                 <zcontrolmccross:MatchcodeCross
@@ -147,7 +148,7 @@
                     change="onIbanChange"
                 >
                     <zcontrolmccross:layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL3 L3 M6 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
                 <Text
@@ -289,7 +290,9 @@
                     maxSuggestionWidth="100%"
                     width="100%"
                     value="{Sop>/Zzposfinent}"
-                    change="onPosFinEntrataChange"
+                    livechange="onPosFinEntrataChange"
+                    liveChange="onPosFinEntrataChange"
+                    submit="onPosFinEntrataChange"
                     visible="{= ${Sop>/Zwels} === 'ID4'}"
                     editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Sop>/Zcompres} ? true : false}"
                 >
@@ -354,7 +357,7 @@
                     visible="{= ${Sop>/Zwels} === 'ID6' || ${Sop>/Zwels} === 'ID10'}"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL1 L3 M6 S12" />
                     </layoutData>
                 </Text>
                 <Input
@@ -364,7 +367,7 @@
                     maxLength="35"
                 >
                     <layoutData>
-                        <l:GridData span="XL2 L3 M6 S12" />
+                        <l:GridData span="XL3 L3 M6 S12" />
                     </layoutData>
                 </Input>
                 <Text

@@ -213,6 +213,7 @@
                                     id="iptImpDaOrdEdit"
                                     change="onImpDaOrdinareChangeEdit"
                                     type="Number"
+                                    enabled="false"
                                     value="{
                                   path: 'Sop>Zimpdaord'
                                 }"

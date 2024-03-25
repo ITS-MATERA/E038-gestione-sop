@@ -237,22 +237,22 @@
           "target": ["amm.inputSop"]
         },
         {
-          "pattern": "amm.create.scenary1/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia:",
+          "pattern": "amm.create.scenary1/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia::Zprovgiud:",
           "name": "amm.create.scenary1",
           "target": ["amm.create.scenary1"]
         },
         {
-          "pattern": "amm.create.scenary2/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia:",
+          "pattern": "amm.create.scenary2/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia::Zprovgiud:",
           "name": "amm.create.scenary2",
           "target": ["amm.create.scenary2"]
         },
         {
-          "pattern": "amm.create.scenary3/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia:",
+          "pattern": "amm.create.scenary3/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia::Zprovgiud:",
           "name": "amm.create.scenary3",
           "target": ["amm.create.scenary3"]
         },
         {
-          "pattern": "amm.create.scenary4/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia:",
+          "pattern": "amm.create.scenary4/:Gjahr::Zragdest::Zzamministr::Fipos::Fistl::Zgeber::ZufficioCont::Zfunzdel::Ztipoprovv::Zautemit::Zdataprovv::Znprovv::Zcausale::TypeSop::ZztipologiaSop::DescTipologia::Zprovgiud:",
           "name": "amm.create.scenary4",
           "target": ["amm.create.scenary4"]
         },

@@ -17,6 +17,10 @@
                 >
                     <headerToolbar>
                         <OverflowToolbar>
+                            <SearchField
+                                liveChange="onSearchField"
+                                width="50%"
+                            />
                             <ToolbarSpacer />
                             <Button
                                 text="{i18n>btnExport}"

@@ -103,7 +103,7 @@ sap.ui.define(
         self.createModelStepScenario();
         self.setModelSop(oParameters)
         self.createModelStepScenario()
-        self.createModelUtility()
+        await self.createModelUtility()
         self.getView().byId("idToolbarDetail")?.setVisible(false)
         self.lockSop(oParameters);
       },

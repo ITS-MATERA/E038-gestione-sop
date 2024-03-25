@@ -22,6 +22,8 @@ sap.ui.define(
         self.acceptOnlyNumber("iptCodInps")
         self.acceptOnlyNumber("iptCodiceTributo")
         self.acceptOnlyImport("iptCFCommit")
+        self.acceptOnlyNumber("iptCos")
+        self.acceptOnlyNumber("iptZnumprot")
 
         this.getRouter().getRoute("amm.detail.scenary4").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -82,6 +84,7 @@ sap.ui.define(
         var bWizard1Step1 = oModelStepScenario.getProperty("/wizard1Step1");
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
+        var oModelUtility = self.getModel("Utility")
 
         if (bWizard1Step1) {
           if (await self.checkWizard1()) {
@@ -125,7 +128,7 @@ sap.ui.define(
         self.resetWizard("wizScenario4");
         self.setModelSop(oParameters);
         self.createModelClassificazione();
-        self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
+        await self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
         self.createModelStepScenarioDet();
         self.lockSop(oParameters);
       },
@@ -259,7 +262,7 @@ sap.ui.define(
         //Rimuovo i record selezionati
         aPathSelectedItems.map((sPath) => {
           var oItem = oModelClassificazione.getObject(sPath);
-          if (oItem.Zchiavesop) {
+          if (oItem?.Zchiavesop) {
             oItem.Zflagcanc = 'X'
             aDeletedClassificazioni.push(oItem)
           }

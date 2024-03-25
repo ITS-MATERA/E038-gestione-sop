@@ -22,6 +22,8 @@ sap.ui.define(
         self.acceptOnlyNumber("iptCodInps")
         self.acceptOnlyNumber("iptCodiceTributo")
         self.acceptOnlyImport("iptCFCommit")
+        self.acceptOnlyNumber("iptCos")
+        self.acceptOnlyNumber("iptZnumprot")
 
         this.getRouter().getRoute("amm.create.scenary4").attachPatternMatched(this._onObjectMatched, this);
       },

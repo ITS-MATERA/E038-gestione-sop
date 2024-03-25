@@ -28,3 +28,22 @@
 .sapUiRespGridSpanInvisible {
   display: none;
 }
+
+.iconTab{
+  width: auto !important;
+  background-color: yellow;
+}
+
+.sapMITBFilter .sapMITBText {
+  position: relative;
+  color: #666666;
+  text-shadow: 0 0.0625rem 0 rgba(255,255,255,0.5);
+  padding: 0.7rem 0.5rem 0.8rem;
+  line-height: 0.9375rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  width: auto;
+}

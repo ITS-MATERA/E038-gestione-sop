@@ -70,6 +70,28 @@ sap.ui.define(
         });
       },
 
+      acceptOnlyYear: function (sId) {
+        var oInput = this.getView().byId(sId);
+        oInput.attachBrowserEvent("keypress", function (oEvent) {
+          var iLength = sap.ui.getCore().byId(oEvent.currentTarget.id).getValue().length
+          if (iLength >= 4) {
+            oEvent.preventDefault();
+          }
+          if (isNaN(oEvent.key)) {
+            oEvent.preventDefault();
+          }
+        });
+      },
+
+      noWrite: function (sId) {
+        var oInput = this.getView().byId(sId);
+        oInput.attachBrowserEvent("keypress", function (oEvent) {
+          if (oEvent.key) {
+            oEvent.preventDefault();
+          }
+        });
+      },
+
       setModelCustom: function (sNameModel, oData) {
         var oView = this.getView();
         var oModelJson = new JSONModel();
@@ -445,6 +467,27 @@ sap.ui.define(
         });
       },
 
+      getTvarvcValue: function (sName) {
+        var self = this;
+        var oModel = self.getModel();
+        var sKey = oModel.createKey("/TvarvcValueSet", {
+          Name: sName,
+        });
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read(sKey, {
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              resolve(data.Low);
+            },
+            error: function (e) {
+              self.getView().setBusy(false);
+              reject(e);
+            },
+          });
+        });
+      },
+
       //#region ------------------------------LOG-------------------------------
 
       onLog: function () {
@@ -495,7 +538,7 @@ sap.ui.define(
           workbook: {
             columns: aCols,
           },
-          dataSource: oTableModel.getData()?.Messaggio,
+          dataSource: oTableModel.getData(),
           fileName: "Lista Log.xlsx",
         };
 
@@ -533,6 +576,12 @@ sap.ui.define(
         var self = this;
         var oModelUtility = self.getModel("Utility");
 
+        aMessage.map((oMessage) => {
+          if (oMessage.Msgno === "084") {
+            oMessage.Message = "Valorizzare almeno un campo tra Codice fiscale e Identificativo fiscale estero"
+          }
+        })
+
         if (aMessage.length === 1) {
           MessageBox.error(aMessage[0]?.Message);
           return;
@@ -541,6 +590,19 @@ sap.ui.define(
         oModelUtility.setProperty("/isLogVisible");
         self.setModel(new JSONModel(aMessage), "Log");
         MessageBox.error("Operazione non eseguita correttamente");
+      },
+
+      onSearchField: function (oEvent) {
+        var aFilters = [];
+        var sQuery = oEvent.getSource().getValue();
+        if (sQuery && sQuery.length > 0) {
+          var filter = new Filter("Message", FilterOperator.Contains, sQuery);
+          aFilters.push(filter);
+        }
+
+        var oTable = sap.ui.getCore().byId("tblLog")
+        var oBinding = oTable.getBinding("items");
+        oBinding.filter(aFilters, "Application");
       },
       //#endregion ---------------------------LOG---------------------------------
 

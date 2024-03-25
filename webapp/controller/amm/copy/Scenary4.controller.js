@@ -22,6 +22,8 @@ sap.ui.define(
         self.acceptOnlyNumber("iptCodInps")
         self.acceptOnlyNumber("iptCodiceTributo")
         self.acceptOnlyImport("iptCFCommit")
+        self.acceptOnlyNumber("iptCos")
+        self.acceptOnlyNumber("iptZnumprot")
 
         this.getRouter().getRoute("amm.copy.scenary4").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -107,7 +109,6 @@ sap.ui.define(
           }
         }
       },
-
 
       _onObjectMatched: function (oEvent) {
         var self = this;

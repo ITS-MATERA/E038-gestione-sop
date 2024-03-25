@@ -23,6 +23,8 @@ sap.ui.define(
         self.acceptOnlyNumber("iptCodInps")
         self.acceptOnlyNumber("iptCodiceTributo")
         self.acceptOnlyImport("iptCFCommit")
+        self.acceptOnlyNumber("iptCos")
+        self.acceptOnlyNumber("iptZnumprot")
 
         this.getRouter().getRoute("amm.copy.scenary3").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -137,23 +139,27 @@ sap.ui.define(
         }
       },
 
-      onSelectedItem: function (oEvent) {
+      onSelectedItem: async function (oEvent) {
         var self = this;
+        var aError = []
         var bSelected = oEvent.getParameter("selected");
         //Load Model
         var oTable = self.getView().byId("tblPosizioniScen3")
         var oModelPosizioni = self.getModel("PosizioniScen3");
         var oModelSop = self.getModel("Sop");
+        var oModelUtility = self.getModel("Utility")
         //Load Component
         var oButtonCalculate = self.getView().byId("btnCalculate");
 
         var aSelectedItems = oModelSop.getProperty("/Position");
         var aListItems = oEvent.getParameter("listItems");
 
-        aListItems.map(async function (oListItem) {
+        for (var i = 0; i < aListItems.length; i++) {
+          var oListItem = aListItems[i];
           var oSelectedItem = oModelPosizioni.getObject(oListItem.getBindingContextPath());
 
           if (bSelected) {
+            aListItems[i].getAggregation("cells")[6].setEnabled(true)
             var oResponse = await self.lockQuoteBeneficiario(oSelectedItem)
 
             if (oResponse.data.Type === 'S') {
@@ -161,12 +167,19 @@ sap.ui.define(
               oModelSop.setProperty("/Position", aSelectedItems);
               oButtonCalculate.setVisible(aSelectedItems.length !== 0);
               oModelSop.setProperty("/Zimptot", "0.00");
+              continue
             }
-            else {
-              MessageBox.error(oResponse.data.Message)
-              oTable.setSelectedItem(oListItem, false)
-            }
+
+            aError.push({
+              Msgid: "",
+              Msgty: oResponse?.data?.Type,
+              Msgno: "",
+              Message: oResponse?.data?.Message,
+            })
+            oTable.setSelectedItem(oListItem, false)
+            aListItems[i].getAggregation("cells")[6].setEnabled(false)
           } else {
+            aListItems[i].getAggregation("cells")[6].setEnabled(false)
             var iIndex = aSelectedItems.findIndex((obj) => {
               return (
                 obj.Bukrs === oSelectedItem.Bukrs &&
@@ -181,16 +194,21 @@ sap.ui.define(
               aSelectedItems.splice(iIndex, 1);
             }
 
-            self.unlockQuoteBeneficiario(oSelectedItem)
+            await self.unlockQuoteBeneficiario(oSelectedItem)
             oModelSop.setProperty("/Position", aSelectedItems);
             oButtonCalculate.setVisible(aSelectedItems.length !== 0);
             oModelSop.setProperty("/Zimptot", "0.00");
           }
-        });
+        }
 
-        oModelSop.setProperty("/Position", aSelectedItems);
-        oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-        oModelSop.setProperty("/Zimptot", "0.00");
+        if (aError.length === 1) {
+          MessageBox.error(aError[0].Message)
+        }
+        else if (aError.length > 1) {
+          MessageBox.error("Operazione non eseguita correttamente")
+          self.setModel(new JSONModel(aError), "Log")
+          oModelUtility.setProperty("/isLogVisible", true)
+        }
       },
 
       onStart: function () {

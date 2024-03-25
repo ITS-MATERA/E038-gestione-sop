@@ -101,7 +101,7 @@
                         pattern: 'dd.MM.yyyy'
                       }
                     }"
-                    editable="{Utility>/EnableEdit}"
+                    editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Utility>/LifnrInps} === ${Sop>/Lifnr} ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -125,7 +125,7 @@
                         pattern: 'dd.MM.yyyy'
                       }
                     }"
-                    editable="{Utility>/EnableEdit}"
+                    editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Utility>/LifnrInps} === ${Sop>/Lifnr} ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -143,7 +143,7 @@
                     id="iptCodInps"
                     value="{Sop>/Zcodinps}"
                     maxLength="17"
-                    editable="{Utility>/EnableEdit}"
+                    editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Utility>/LifnrInps} === ${Sop>/Lifnr} ? true : false}"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />

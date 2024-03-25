@@ -109,6 +109,7 @@
                                     id="iptImpDaOrd"
                                     change="onImpDaOrdinareChange"
                                     type="Number"
+                                    enabled="false"
                                     value="{
                                   path: 'PosizioniScen3>Zimpdaord'
                                 }"

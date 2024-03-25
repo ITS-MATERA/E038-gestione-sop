@@ -10,6 +10,9 @@ sap.ui.define(
         var self = this;
 
         self.acceptOnlyNumber("iptNumProvvedimento");
+        self.acceptOnlyYear("cbxGjahr");
+        self.noWrite("cbxZtipoprovv")
+        self.noWrite("cbxZautemit")
 
         this.getRouter().getRoute("amm.inputSop").attachPatternMatched(this._onObjectMatched, this);
 
@@ -189,6 +192,7 @@ sap.ui.define(
         var oSelectedItem = oEvent.getParameter("selectedItem");
 
         oModelFirstSop.setProperty("/Zgeber", self.setBlank(oSelectedItem?.getTitle()));
+        self.unloadFragment();
       },
 
       onCreateCausale: function () {
@@ -210,7 +214,7 @@ sap.ui.define(
         }
       },
 
-      onEsercizioChange: function () {
+      onEsercizioChange: function (oEvent) {
         this._setDataUfficio();
       },
 
@@ -222,6 +226,8 @@ sap.ui.define(
         var self = this;
         var sSceltaOperativa = self.getView().byId("rbSceltaOperativa").getSelectedIndex();
         var oFirstSop = self.getModel("FirstSop").getData();
+
+        this._setProvvedimento()
 
         if (oFirstSop.Zfunzdel) {
           sSceltaOperativa = 1
@@ -243,7 +249,8 @@ sap.ui.define(
           Zcausale: oFirstSop.Zcausale,
           TypeSop: this._sTypeSop,
           ZztipologiaSop: oFirstSop.ZztipologiaSop,
-          DescTipologia: oFirstSop.DescTipologia
+          DescTipologia: oFirstSop.DescTipologia,
+          Zprovgiud: this._setProvvedimento()
         };
 
         var bCheck = await this._checkFirstSop();
@@ -273,6 +280,12 @@ sap.ui.define(
         var oFirstSop = oModelFirstSop.getData();
 
         if (!oFirstSop.Gjahr) {
+          oModelFirstSop.setProperty("/ZufficioCont", "");
+          oModelFirstSop.setProperty("/Descufficio", "");
+          oModelFirstSop.setProperty("/Zfunzdel", "");
+          oModelFirstSop.setProperty("/Zdescriz", "");
+          oModelFirstSop.setProperty("/ZztipologiaSop", "");
+          oModelFirstSop.setProperty("/DescTipologia", "");
           return;
         }
 
@@ -296,7 +309,15 @@ sap.ui.define(
             oModelFirstSop.setProperty("/ZztipologiaSop", self.setBlank(data.ZztipologiaSop));
             oModelFirstSop.setProperty("/DescTipologia", self.setBlank(data.DescTipologia));
             if (bMessageError) {
-              self.hasResponseError(oResponse);
+              if (self.hasResponseError(oResponse)) {
+                oModelFirstSop.setProperty("/ZufficioCont", "");
+                oModelFirstSop.setProperty("/Descufficio", "");
+                oModelFirstSop.setProperty("/Zfunzdel", "");
+                oModelFirstSop.setProperty("/Zdescriz", "");
+                oModelFirstSop.setProperty("/ZztipologiaSop", "");
+                oModelFirstSop.setProperty("/DescTipologia", "");
+              }
+
             }
 
           },
@@ -365,6 +386,18 @@ sap.ui.define(
 
         var oModelFirstSop = self.getModel("FirstSop")
         oModelFirstSop.setProperty("/Zzamministr", oEvent.getParameter("value"))
+      },
+
+      _setProvvedimento: function () {
+        var self = this;
+        var oFirstSop = self.getModel("FirstSop").getData();
+
+        var sDescZtipoprovv = self.getView().byId("cbxZtipoprovv")?.getSelectedItem()?.getText();
+        var sDescZautemit = self.getView().byId("cbxZautemit")?.getSelectedItem()?.getText();
+        var sZdataprovv = formatter.dateToString(oFirstSop.Zdataprovv);
+
+        var sProvvedimento = sDescZtipoprovv + " " + sDescZautemit + " " + sZdataprovv + " " + oFirstSop.Znprovv
+        return sProvvedimento
       }
     });
   }
