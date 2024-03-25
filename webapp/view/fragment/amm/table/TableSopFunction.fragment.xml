@@ -11,7 +11,8 @@
             ${Utility>/Function} === 'Firma' || 
             ${Utility>/Function} === 'Richiamo' || 
             ${Utility>/Function} === 'RegistrazioneRichAnn' ||
-            ${Utility>/Function} === 'CancellazioneRichAnn' ? true : false}"
+            ${Utility>/Function} === 'CancellazioneRichAnn' ||
+            ${Utility>/Function} === 'Workflow' ? true : false}"
     >
         <ScrollContainer
             height="100%"
@@ -147,7 +148,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' || ${Utility>/Function} === 'CancellazioneRichAnn'? true : false}"
+                        visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' || ${Utility>/Function} === 'CancellazioneRichAnn' || ${Utility>/Function} === 'Workflow'? true : false}"
                     >
                         <header>
                             <Text text="{i18n>labelStatoSop}" />
@@ -258,7 +259,11 @@
                             />
                             <Text
                                 text="{DatiFirmatario>DescStatosop}"
-                                visible="{=  ${Utility>/Function} === 'Richiamo' || ${Utility>/Function} === 'RegistrazioneRichAnn' || ${Utility>/Function} === 'CancellazioneRichAnn' ? true : false}"
+                                visible="{=  
+                                    ${Utility>/Function} === 'Richiamo' || 
+                                    ${Utility>/Function} === 'RegistrazioneRichAnn' || 
+                                    ${Utility>/Function} === 'CancellazioneRichAnn' ||
+                                    ${Utility>/Function} === 'Workflow' ? true : false}"
                             />
                         </cells>
                     </ColumnListItem>

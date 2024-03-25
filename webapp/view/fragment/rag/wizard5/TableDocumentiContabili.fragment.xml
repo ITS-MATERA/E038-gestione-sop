@@ -64,6 +64,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        hAlign="End"
                     >
                         <header>
                             <Text text="{i18n>labelImpQuotaDoc}" />
@@ -72,6 +73,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        hAlign="End"
                     >
                         <header>
                             <Text text="{i18n>labelImpAssociato}" />

@@ -48,10 +48,12 @@ sap.ui.define(
         var sTable = oModelUtility.getProperty("/Table")
 
         if (bWizard1Step1) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard1Step1", false);
           oModelStepScenario.setProperty("/wizard1Step2", true);
           oModelUtility.setProperty("/Table", "Edit")
         } else if (bWizard1Step2) {
+          self.resetLog()
           switch (sTable) {
             case "Edit": {
               self.unlockSop()
@@ -70,6 +72,7 @@ sap.ui.define(
             }
           }
         } else if (bWizard1Step3) {
+          self.resetLog()
           if (bEnableEditMode) {
             oModelStepScenario.setProperty("/wizard1Step3", false);
             oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -81,14 +84,17 @@ sap.ui.define(
             Reload: false,
           });
         } else if (bWizard2) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard1Step3", true);
           oWizard.previousStep();
         } else if (bWizard3) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard2", true);
           oWizard.previousStep();
         } else if (bWizard4) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard4", false);
           oModelStepScenario.setProperty("/wizard3", true);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
@@ -179,6 +185,7 @@ sap.ui.define(
 
         switch (sKey) {
           case "Dettaglio": {
+            self.resetLog()
             self.resetWizard("wizScenario1");
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
@@ -187,11 +194,13 @@ sap.ui.define(
             break;
           }
           case "Workflow": {
+            self.resetLog()
             self.createModelWF()
-            self.getView().byId("idToolbarDetail").setVisible(false)
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
           case "Rettifica": {
+            self.resetLog()
             self.resetWizard("wizScenario1");
             oModelStepScenario.setProperty("/wizard1Step3", false)
             oModelStepScenario.setProperty("/wizard1Step2", true)
@@ -204,7 +213,8 @@ sap.ui.define(
             break;
           }
           case "FascicoloElettronico": {
-            self.getView().byId("idToolbarDetail").setVisible(false)
+            self.resetLog()
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
         }

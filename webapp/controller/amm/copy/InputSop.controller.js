@@ -10,7 +10,7 @@ sap.ui.define(
         var self = this;
         this.getRouter().getRoute("amm.copy.inputSop").attachPatternMatched(this._onObjectMatched, this);
 
-        self.acceptOnlyYear("cbxGjahr");
+        self.acceptOnlyTotChar("cbxGjahr", 4);
       },
 
       onNavBack: function () {

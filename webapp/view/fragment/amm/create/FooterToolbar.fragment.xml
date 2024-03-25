@@ -15,7 +15,10 @@
         type="Emphasized"
         text="{i18n>btnForward}"
         press="onNavForward"
-        visible="{StepScenario>/visibleBtnForward}"
+        visible="{= 
+                    ${StepScenario>/visibleBtnForward} &amp;&amp;
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false 
+                }"
     >
         <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow" />

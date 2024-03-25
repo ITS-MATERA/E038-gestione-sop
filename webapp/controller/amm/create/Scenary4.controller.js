@@ -41,11 +41,13 @@ sap.ui.define(
         var bWizard4 = oModelStepScenario.getProperty("/wizard4");
 
         if (bWizard1Step1) {
+          self.resetLog()
           self.getRouter().navTo("amm.inputSop", {
             type: this._sTypeSop,
             Reset: false
           });
         } else if (bWizard1Step2) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard1Step1", true);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
@@ -54,6 +56,7 @@ sap.ui.define(
             false
           );
         } else if (bWizard2) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard1Step2", true);
           oModelStepScenario.setProperty("/visibleBtnForward", false);
@@ -64,10 +67,12 @@ sap.ui.define(
           self._resetDataModalitaPagamento(true)
           oWizard.previousStep();
         } else if (bWizard3) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard2", true);
           oWizard.previousStep();
         } else if (bWizard4) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard4", false);
           oModelStepScenario.setProperty("/wizard3", true);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
@@ -86,13 +91,16 @@ sap.ui.define(
 
         if (bWizard1Step1) {
           if (await self.checkWizard1()) {
+            self.resetLog()
             self.checkExistDocumentForUser();
           }
         }
         else if (bWizard2) {
+          self.resetLog()
           self.checkWizard2(oWizard);
         } else if (bWizard3) {
           if (self.checkClassificazione()) {
+            self.resetLog()
             oModelStepScenario.setProperty("/wizard3", false);
             oModelStepScenario.setProperty("/wizard4", true);
             oModelStepScenario.setProperty("/visibleBtnForward", false);

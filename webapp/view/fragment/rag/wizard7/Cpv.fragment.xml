@@ -70,6 +70,7 @@
                                 width="30%"
                                 value="{Classificazione>ZimptotClass}"
                                 editable="false"
+                                textAlign="End"
                             />
                         </cells>
                     </ColumnListItem>

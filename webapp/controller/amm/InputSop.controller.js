@@ -10,7 +10,7 @@ sap.ui.define(
         var self = this;
 
         self.acceptOnlyNumber("iptNumProvvedimento");
-        self.acceptOnlyYear("cbxGjahr");
+        self.acceptOnlyTotChar("cbxGjahr", 4);
         self.noWrite("cbxZtipoprovv")
         self.noWrite("cbxZautemit")
 

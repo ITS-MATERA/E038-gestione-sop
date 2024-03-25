@@ -85,6 +85,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpLiquidato}" />
@@ -93,6 +94,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpOrdinato}" />
@@ -138,6 +140,7 @@
                                     value="{
                                   path: 'Sop>Zimpdaord'
                                 }"
+                                    textAlign="End"
                                 />
                             </cells>
                         </ColumnListItem>

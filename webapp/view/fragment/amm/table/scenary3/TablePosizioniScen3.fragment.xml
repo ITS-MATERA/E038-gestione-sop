@@ -60,6 +60,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpLiquidato}" />
@@ -68,6 +69,7 @@
                         <Column
                             minScreenWidth="Desktop"
                             demandPopin="true"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpOrdinato}" />
@@ -113,6 +115,7 @@
                                     value="{
                                   path: 'PosizioniScen3>Zimpdaord'
                                 }"
+                                    textAlign="End"
                                 />
                             </cells>
                         </ColumnListItem>

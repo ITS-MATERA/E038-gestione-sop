@@ -78,6 +78,7 @@
                             minScreenWidth="Desktop"
                             demandPopin="true"
                             visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpLiquidato}" />
@@ -87,6 +88,7 @@
                             minScreenWidth="Desktop"
                             demandPopin="true"
                             visible="{= ${Sop>/ZspecieSop} === '1' ? true : false}"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpOrdinato}" />
@@ -96,6 +98,7 @@
                             minScreenWidth="Desktop"
                             demandPopin="true"
                             visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelImpLiqNonOrdinata}" />
@@ -105,6 +108,7 @@
                             minScreenWidth="Desktop"
                             demandPopin="true"
                             visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelResiduoVersabile}" />
@@ -114,6 +118,7 @@
                             minScreenWidth="Desktop"
                             demandPopin="true"
                             visible="{= ${Sop>/ZspecieSop} === '2' ? true : false}"
+                            hAlign="End"
                         >
                             <header>
                                 <Text text="{i18n>labelResiduoEsigibile}" />
@@ -203,6 +208,7 @@
                                     value="{
                                 path: 'PosizioniScen1>Zimpdaord'
                               }"
+                                    textAlign="End"
                                 />
                                 <Text text="{PosizioniScen1>Znumliq}" />
                                 <Text text="{PosizioniScen1>Zposizione}" />

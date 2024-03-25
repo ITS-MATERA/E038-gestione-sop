@@ -144,6 +144,7 @@
                                       path: 'Sop>Zimptot',
                                       formatter: '.formatter.convertImport'
                                     }"
+                                    textAlign="End"
                                 />
                             </cells>
                         </ColumnListItem>

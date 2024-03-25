@@ -25,6 +25,7 @@
 					formatter: '.formatter.convertImport'
 				}"
                 editable="false"
+                textAlign="End"
             >
                 <layoutData>
                     <l:GridData span="XL1 L2 M4 S12" />

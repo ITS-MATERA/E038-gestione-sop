@@ -116,6 +116,7 @@
                                 change="onImpDaAssociareChange"
                                 editable="{Utility>/EnableEdit}"
                                 maxLength="40"
+                                textAlign="End"
                             />
                         </cells>
                     </ColumnListItem>

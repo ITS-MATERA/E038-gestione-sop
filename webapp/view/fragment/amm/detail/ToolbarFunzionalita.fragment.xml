@@ -6,28 +6,32 @@
         text="{i18n>btnAnnullamentoSop}"
         type="Emphasized"
         enabled="{= ${Sop>/ZcodStatosop} === '00' &amp;&amp; ${AuthorityCheck>/Annullamento} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false ? true : false}"
+        visible="{= ${Utility>/RemoveFunctionButtons} === false &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onAnnulla"
     />
     <Button
         text="{= ${Utility>/EnableInvioFirma} ? ${i18n>btnInviaFirma} : ${i18n>btnInvioFirma} }"
         type="Emphasized"
         enabled="{= ${Sop>/ZcodStatosop} === '00' &amp;&amp; ${AuthorityCheck>/InvioFirma} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'InvioFirma' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'InvioFirma') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onInviaFirma"
     />
     <Button
         text="{i18n>btnRevocaInvioFirma}"
         type="Emphasized"
         enabled="{= ${Sop>/ZcodStatosop} === '01' &amp;&amp; ${AuthorityCheck>/RevocaInvioFirma} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RevocaInvioFirma' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RevocaInvioFirma') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onRevocaInvioFirma"
     />
     <Button
         text="{i18n>btnFirmaSop}"
         type="Emphasized"
         enabled="{= ${Sop>/ZcodStatosop} === '01' &amp;&amp; ${AuthorityCheck>/Firma} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Firma' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Firma') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onFirma"
     />
     <Button
@@ -40,7 +44,8 @@
             ${Sop>/ZcodStatosop} === '09' ) &amp;&amp; ${AuthorityCheck>/Richiamo}? true : false
 
         }"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Richiamo' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'Richiamo') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onRichiamo"
     />
     <Button
@@ -52,7 +57,8 @@
                 ${Sop>/ZcodStatosop} === '16'
             ) &amp;&amp;
             ${Sop>/Zricann} === '0000000' &amp;&amp; ${AuthorityCheck>/RegRichiestaAnn} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RegistrazioneRichAnn' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'RegistrazioneRichAnn') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onRegistraRichAnn"
     />
     <Button
@@ -64,7 +70,8 @@
                 ${Sop>/ZcodStatosop} === '16'
             ) &amp;&amp;
             ${Sop>/Zricann} !== '0000000' &amp;&amp; ${AuthorityCheck>/CancRichiestaAnn} ? true : false}"
-        visible="{= ${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'CancellazioneRichAnn' ? true : false}"
+        visible="{= (${Utility>/RemoveFunctionButtons} === false || ${Utility>/Function} === 'CancellazioneRichAnn') &amp;&amp; 
+                    (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false}"
         press="onCancellaRichAnn"
     />
 </c:FragmentDefinition>

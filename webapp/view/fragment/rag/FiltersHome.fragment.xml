@@ -26,6 +26,7 @@
                         required="true"
                     />
                     <ComboBox
+                        id="cbxEsercizio"
                         width="100%"
                         items="{
                           path: '/GjahrMcSet'
@@ -124,6 +125,7 @@
                 <items>
                     <Label text="{i18n>labelStatoSop}:" />
                     <ComboBox
+                        id="cbxStatoSop"
                         width="100%"
                         items="{
                           path: '/StatoSopRagioneriaMcSet'
@@ -144,6 +146,7 @@
                 <items>
                     <Label text="{i18n>labelTipoSop}:" />
                     <ComboBox
+                        id="cbxTipoSop"
                         width="100%"
                         items="{
                           path: '/TipologiaSopMcSet'
@@ -164,6 +167,7 @@
                 <items>
                     <Label text="{i18n>labelSpecieSop}:" />
                     <ComboBox
+                        id="cbxSpecieSop"
                         width="100%"
                         items="{
                           path: '/SpecieSopMcSet'
@@ -267,6 +271,7 @@
                 <items>
                     <Label text="{i18n>labelRitenuta}:" />
                     <ComboBox
+                        id="cbxRitenute"
                         width="100%"
                         items="{
                           path: '/RitenutaMCSet'

@@ -35,6 +35,11 @@ sap.ui.define(
 
         this.getRouter().getRoute("rag.home").attachPatternMatched(this._onObjectMatched, this);
         self.setModel(oModelFilters, "FiltersHome");
+        self.noWrite("cbxRitenute")
+        self.noWrite("cbxEsercizio")
+        self.noWrite("cbxStatoSop")
+        self.noWrite("cbxTipoSop")
+        self.noWrite("cbxSpecieSop")
       },
 
       _onObjectMatched: async function (oEvent) {

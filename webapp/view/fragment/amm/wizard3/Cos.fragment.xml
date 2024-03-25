@@ -23,6 +23,7 @@
             <Input
                 value="{Sop>/Zimptot}"
                 editable="false"
+                textAlign="End"
             >
                 <layoutData>
                     <l:GridData span="XL2 L3 M5 S12" />
@@ -142,6 +143,7 @@
                                 change="onImpDaAssociareChange"
                                 editable="{Utility>/EnableEdit}"
                                 maxLength="30"
+                                textAlign="End"
                             />
                         </cells>
                     </ColumnListItem>

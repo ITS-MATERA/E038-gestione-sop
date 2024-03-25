@@ -188,7 +188,8 @@
                     type="Emphasized"
                     text="{i18n>btnEdit}"
                     press="onSaveEdit"
-                    visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
+                    visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Utility>/EnableEdit} &amp;&amp; 
+                        (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false }"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />

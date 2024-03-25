@@ -70,11 +70,11 @@ sap.ui.define(
         });
       },
 
-      acceptOnlyYear: function (sId) {
+      acceptOnlyTotChar: function (sId, iNumber) {
         var oInput = this.getView().byId(sId);
         oInput.attachBrowserEvent("keypress", function (oEvent) {
           var iLength = sap.ui.getCore().byId(oEvent.currentTarget.id).getValue().length
-          if (iLength >= 4) {
+          if (iLength >= iNumber) {
             oEvent.preventDefault();
           }
           if (isNaN(oEvent.key)) {
@@ -117,7 +117,14 @@ sap.ui.define(
               break;
           }
         }
+
         return bError;
+      },
+
+      resetLog: function () {
+        this.setModel(new JSONModel({}), "Log")
+        var oModelUtility = this.getModel("Utility")
+        oModelUtility.setProperty("/isLogVisible", false)
       },
 
       _getMessage: function (oResponse) {
@@ -554,6 +561,7 @@ sap.ui.define(
         var aMessageFormatted = [];
 
         if (aMessage.length === 1) {
+          self.resetLog()
           MessageBox.error(aMessage[0]?.Body?.Message);
           return;
         }
@@ -567,7 +575,7 @@ sap.ui.define(
           });
         });
 
-        oModelUtility.setProperty("/isLogVisible");
+        oModelUtility.setProperty("/isLogVisible", true);
         self.setModel(new JSONModel(aMessageFormatted), "Log");
         MessageBox.error("Operazione non eseguita correttamente");
       },
@@ -583,11 +591,12 @@ sap.ui.define(
         })
 
         if (aMessage.length === 1) {
+          self.resetLog()
           MessageBox.error(aMessage[0]?.Message);
           return;
         }
 
-        oModelUtility.setProperty("/isLogVisible");
+        oModelUtility.setProperty("/isLogVisible", true);
         self.setModel(new JSONModel(aMessage), "Log");
         MessageBox.error("Operazione non eseguita correttamente");
       },

@@ -502,7 +502,8 @@ sap.ui.define(
           CurrentDateFormatted: formatter.formatDateAllType(new Date()),
           RemoveFunctionButtons: true,
           EnableEditMode: false,
-          LifnrInps: await self.getTvarvcValue("COSP-R3-FIORI-E018_INPS")
+          LifnrInps: await self.getTvarvcValue("COSP-R3-FIORI-E018_INPS"),
+          Function: "Dettaglio"
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -1575,7 +1576,12 @@ sap.ui.define(
         oDataModel.read("/Quietanzante1Set", {
           filters: aFilters,
           success: function (data, oResponse) {
+            if (self.hasResponseError(oResponse)) {
+              self.setModelDialog("Quietanzante1", data, "sdQuietanzante1", oDialog);
+              return
+            }
             self.setModelDialog("Quietanzante1", data, "sdQuietanzante1", oDialog);
+
           },
           error: function (error) { },
         });
@@ -1621,6 +1627,7 @@ sap.ui.define(
         oDataModel.read("/Quietanzante2Set", {
           filters: aFilters,
           success: function (data, oResponse) {
+            self.hasResponseError(oResponse)
             self.setModelDialog("Quietanzante2", data, "sdQuietanzante2", oDialog);
           },
           error: function (error) { },
@@ -1802,6 +1809,8 @@ sap.ui.define(
       onTipoFirmaChange: function (oEvent) {
         var self = this;
         var sTipoFirma = oEvent.getSource().getSelectedKey();
+        var oModelUtility = self.getModel("Utility")
+        oModelUtility.setProperty("/isQuiet1Prevalorizzato", false)
 
         this.resetQuietanzante1();
         this.resetQuietanzante2();
@@ -2850,6 +2859,7 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data, oResponse) {
             self.getView().setBusy(false);
+            console.log(data)
             oModelSop.setProperty("/Zstcd1", data.Zstcd1);
             oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
             oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
@@ -2891,6 +2901,9 @@ sap.ui.define(
           filters: aFilters,
           success: function (data, oResponse) {
             self.getView().setBusy(false);
+            if (self.hasResponseError(oResponse)) {
+              return
+            }
             var aData = data.results;
             var oFirstRecord = aData[0];
             if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
@@ -2930,6 +2943,9 @@ sap.ui.define(
           filters: aFilters,
           success: function (data, oResponse) {
             self.getView().setBusy(false);
+            if (self.hasResponseError(oResponse)) {
+              return
+            }
             var aData = data.results;
             var oFirstRecord = aData[0];
             if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
@@ -3974,6 +3990,7 @@ sap.ui.define(
               onClose: function (oAction) {
                 if (oAction === "OK") {
                   self._registerSop()
+
                 }
               },
             })
@@ -3991,6 +4008,7 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility")
+        var bIsQuiet1Prevalorizzato = oModelUtility.getProperty("/isQuiet1Prevalorizzato")
         var oSop = oModelSop.getData()
         var aPosition = oSop.Position
         var aClassificazione = oSop.Classificazione
@@ -4240,11 +4258,11 @@ sap.ui.define(
             Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
             ZversioneZfquietanz: oSop.ZversioneZfquietanz,
             ZversioneZfsedi: oSop.ZversioneZfsedi,
-            Land1Quietanzante: oSop.Land1Quietanzante,
-            ZqcapQuietanzante: oSop.Zqcap,
-            ZqcittaQuietanzante: oSop.Zqcitta,
-            ZqindirizQuietanzante: oSop.Zqindiriz,
-            ZqprovinciaQuietanzante: oSop.Zqprovincia,
+            Land1Quietanzante: bIsQuiet1Prevalorizzato ? oSop.Land1Quietanzante : "",
+            ZqcapQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcap : "",
+            ZqcittaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcitta : "",
+            ZqindirizQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqindiriz : "",
+            ZqprovinciaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqprovincia : "",
             Zbdap: oSop.Zbdap,
             Zlifnrric: oSop.Lifnr,
           },
@@ -4263,6 +4281,7 @@ sap.ui.define(
             var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
+                self.resetLog()
                 if (aMessage[0]?.Body?.Msgty === 'E' || aMessage[0]?.Body?.Msgty === 'A') {
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }
@@ -4373,6 +4392,8 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oUtility = self.getModel("Utility").getData()
+        var oModelUtility = self.getModel("Utility")
+        var bIsQuiet1Prevalorizzato = oModelUtility.getProperty("/isQuiet1Prevalorizzato")
         var oSop = oModelSop.getData()
         var aPosition = oSop.Position
         var aDeletedPositions = oUtility.DeletedPositions
@@ -4645,11 +4666,11 @@ sap.ui.define(
             Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
             ZversioneZfquietanz: oSop.ZversioneZfquietanz,
             ZversioneZfsedi: oSop.ZversioneZfsedi,
-            Land1Quietanzante: oSop.Land1Quietanzante,
-            ZqcapQuietanzante: oSop.Zqcap,
-            ZqcittaQuietanzante: oSop.Zqcitta,
-            ZqindirizQuietanzante: oSop.Zqindiriz,
-            ZqprovinciaQuietanzante: oSop.Zqprovincia,
+            Land1Quietanzante: bIsQuiet1Prevalorizzato ? oSop.Land1Quietanzante : "",
+            ZqcapQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcap : "",
+            ZqcittaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcitta : "",
+            ZqindirizQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqindiriz : "",
+            ZqprovinciaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqprovincia : "",
             Zbdap: oSop.Zbdap,
             Zlifnrric: oSop.Zlifnrric,
           },
@@ -4668,6 +4689,7 @@ sap.ui.define(
             var aMessageFormatted = []
             if (aMessage.length > 0) {
               if (aMessage.length === 1) {
+                self.resetLog()
                 if (aMessage[0]?.Body?.Msgty === 'E' || aMessage[0]?.Body?.Msgty === 'A') {
                   MessageBox.error(aMessage[0]?.Body?.Message);
                 }

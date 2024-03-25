@@ -23,6 +23,7 @@
             <Input
                 value="{Sop>/Zimptot}"
                 editable="false"
+                textAlign="End"
             >
                 <layoutData>
                     <l:GridData span="XL2 L3 M5 S12" />
@@ -95,6 +96,7 @@
                                 width="30%"
                                 value="{Classificazione>ZimptotClass}"
                                 editable="false"
+                                textAlign="End"
                             />
                         </cells>
                     </ColumnListItem>

@@ -43,12 +43,14 @@ sap.ui.define(
         var bEnableEditMode = oModelUtility.getProperty("/EnableEditMode")
 
         if (bWizard1Step1) {
+          self.resetLog()
           self.unlockSop()
           self.setModel(new JSONModel({}), "Sop")
           self.getRouter().navTo("amm.home", {
             Reload: false,
           });
         } else if (bWizard1Step2) {
+          self.resetLog()
           if (bEnableEditMode) {
             oModelStepScenario.setProperty("/wizard1Step2", false);
             oModelStepScenario.setProperty("/wizard1Step1", true);
@@ -60,14 +62,17 @@ sap.ui.define(
             Reload: false,
           });
         } else if (bWizard2) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard2", false);
           oModelStepScenario.setProperty("/wizard1Step2", true);
           oWizard.previousStep();
         } else if (bWizard3) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard3", false);
           oModelStepScenario.setProperty("/wizard2", true);
           oWizard.previousStep();
         } else if (bWizard4) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard4", false);
           oModelStepScenario.setProperty("/wizard3", true);
           oModelStepScenario.setProperty("/visibleBtnForward", true);
@@ -87,6 +92,7 @@ sap.ui.define(
         var oModelUtility = self.getModel("Utility")
 
         if (bWizard1Step1) {
+          self.resetLog()
           if (await self.checkWizard1()) {
             oModelStepScenario.setProperty("/wizard1Step1", false);
             oModelStepScenario.setProperty("/wizard1Step2", true);
@@ -96,15 +102,18 @@ sap.ui.define(
             self.setPosizioneScen4()
           }
         } else if (bWizard1Step2) {
+          self.resetLog()
           oModelStepScenario.setProperty("/wizard1Step2", false);
           oModelStepScenario.setProperty("/wizard2", true);
           self.createModelSedeBeneficiario();
           self.createModelModPagamento();
           oWizard.nextStep();
         } else if (bWizard2) {
+          self.resetLog()
           self.checkWizard2(oWizard);
         } else if (bWizard3) {
           if (self.checkClassificazione()) {
+            self.resetLog()
             oModelStepScenario.setProperty("/wizard3", false);
             oModelStepScenario.setProperty("/wizard4", true);
             oModelStepScenario.setProperty("/visibleBtnForward", false);
@@ -139,6 +148,10 @@ sap.ui.define(
         var sKey = oEvent.getParameter("selectedKey");
         var oModelUtility = self.getModel("Utility");
         var oModelStepScenario = self.getModel("StepScenario")
+        var aSop = {
+          Sop: []
+        }
+        aSop.Sop.push(oSop)
 
         oModelUtility.setProperty("/Function", sKey);
 
@@ -152,6 +165,7 @@ sap.ui.define(
 
         switch (sKey) {
           case "Dettaglio": {
+            self.resetLog()
             self.resetWizard("wizScenario4");
             self.setModelSop(oParameters);
             self.createModelStepScenarioDet();
@@ -160,11 +174,14 @@ sap.ui.define(
             break;
           }
           case "Workflow": {
+            self.resetLog()
             self.createModelWF()
-            self.getView().byId("idToolbarDetail").setVisible(false)
+            self.setModel(new JSONModel(aSop), "DatiFirmatario")
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
           case "Rettifica": {
+            self.resetLog()
             self.resetWizard("wizScenario4");
             oModelStepScenario.setProperty("/wizard1Step2", false)
             oModelStepScenario.setProperty("/wizard1Step1", true)
@@ -173,7 +190,8 @@ sap.ui.define(
             oModelUtility.setProperty("/EnableEdit", true)
             break;
           } case "FascicoloElettronico": {
-            self.getView().byId("idToolbarDetail").setVisible(false)
+            self.resetLog()
+            self.getView().byId("idToolbarDetail").setVisible(true)
             break;
           }
         }

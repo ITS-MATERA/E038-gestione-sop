@@ -185,14 +185,15 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input
+                <TextArea
                     value="{Sop>/DescCapitolo}"
                     editable="false"
+                    width="100%"
                 >
                     <layoutData>
                         <l:GridData span="XL10 L9 M7 S12" />
                     </layoutData>
-                </Input>
+                </TextArea>
 
                 <Text
                     text="{i18n>labelPianoGestione}:"
@@ -202,14 +203,15 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Text>
-                <Input
+                <TextArea
                     value="{Sop>/DescPianoGest}"
                     editable="false"
+                    width="100%"
                 >
                     <layoutData>
                         <l:GridData span="XL10 L9 M7 S12" />
                     </layoutData>
-                </Input>
+                </TextArea>
             </l:Grid>
         </content>
     </Panel>

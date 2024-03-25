@@ -26,6 +26,7 @@
                         required="true"
                     />
                     <ComboBox
+                        id="cbxEsercizio"
                         width="100%"
                         items="{
                           path: '/GjahrMcSet'
@@ -124,6 +125,7 @@
                 <items>
                     <Label text="{i18n>labelStatoSop}:" />
                     <ComboBox
+                        id="cbxStatoSop"
                         width="100%"
                         items="{
                           path: '/StatoSopMcSet'
@@ -144,6 +146,7 @@
                 <items>
                     <Label text="{i18n>labelTipoSop}:" />
                     <ComboBox
+                        id="cbxTipoSop"
                         width="100%"
                         items="{
                           path: '/TipologiaSopMcSet'
@@ -164,6 +167,7 @@
                 <items>
                     <Label text="{i18n>labelTipoTitolo}:" />
                     <ComboBox
+                        id="cbxTipoTipoloSop"
                         width="100%"
                         items="{
                           path: '/TipoTitoloMcSet'
@@ -184,6 +188,7 @@
                 <items>
                     <Label text="{i18n>labelSpecieSop}:" />
                     <ComboBox
+                        id="cbxSpecieSop"
                         width="100%"
                         items="{
                           path: '/SpecieSopMcSet'
@@ -204,6 +209,7 @@
                 <items>
                     <Label text="{i18n>labelRichiestaAnnullamento}:" />
                     <ComboBox
+                        id="cbxRichAnnullamento"
                         width="100%"
                         selectedKey="{FiltersSop>/Zricann}"
                     >
@@ -282,6 +288,7 @@
                 <items>
                     <Label text="{i18n>labelNProtocolloAmm}:" />
                     <Input
+                        id="iptZnumprot"
                         value="{FiltersSop>/Znumprot}"
                         maxLength="7"
                     />
@@ -309,6 +316,7 @@
                 <items>
                     <Label text="{i18n>labelRitenuta}:" />
                     <ComboBox
+                        id="cbxRitenuta"
                         width="100%"
                         items="{
                           path: '/RitenutaMCSet'
@@ -339,7 +347,7 @@
             </VBox>
             <VBox>
                 <layoutData>
-                    <l:GridData span="XL2 L3 M6 S12" />
+                    <l:GridData span="XL3 L3 M6 S12" />
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelPosFinanziariaFrom}:" />
@@ -356,12 +364,13 @@
                         app:property="FiposFrom"
                         liveChange="onFiposChange"
                         enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
+                        maxLength="24"
                     />
                 </items>
             </VBox>
             <VBox>
                 <layoutData>
-                    <l:GridData span="XL2 L3 M6 S12" />
+                    <l:GridData span="XL3 L3 M6 S12" />
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelPosFinanziariaTo}:" />
@@ -378,6 +387,7 @@
                         app:property="FiposTo"
                         liveChange="onFiposChange"
                         enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
+                        maxLength="24"
                     />
                 </items>
             </VBox>
@@ -402,13 +412,14 @@
                         liveChange="onFistlChange"
                         enabled="{= ${FiltersSop>/Gjahr} ? true : false}"
                         NO_SEGREG="X"
+                        maxLength="16"
                     />
                 </items>
             </VBox>
             <VBox>
                 <layoutData>
                     <l:GridData
-                        span="XL2 L3 M6 S12"
+                        span="XL3 L3 M6 S12"
                         linebreak="true"
                     />
                 </layoutData>
@@ -425,12 +436,13 @@
                         Fikrs="{AuthorityCheck>/Fikrs}"
                         Prctr="{AuthorityCheck>/Prctr}"
                         AgrName="{AuthorityCheck>/AgrName}"
+                        maxLength="30"
                     />
                 </items>
             </VBox>
             <VBox>
                 <layoutData>
-                    <l:GridData span="XL2 L4 M6 S12" />
+                    <l:GridData span="XL3 L4 M6 S12" />
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelNProspettoLiquidazioneTo}:" />
@@ -445,16 +457,18 @@
                         Fikrs="{AuthorityCheck>/Fikrs}"
                         Prctr="{AuthorityCheck>/Prctr}"
                         AgrName="{AuthorityCheck>/AgrName}"
+                        maxLength="30"
                     />
                 </items>
             </VBox>
             <VBox>
                 <layoutData>
-                    <l:GridData span="XL3 L4 M6 S12" />
+                    <l:GridData span="XL4 L4 M6 S12" />
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelDescProspettoLiquidazione}:" />
-                    <Input
+                    <TextArea
+                        width="100%"
                         value="{FiltersSop>/ZdescProsp}"
                         maxLength="100"
                     />

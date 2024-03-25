@@ -40,6 +40,16 @@ sap.ui.define(
 
         this.getRouter().getRoute("amm.home").attachPatternMatched(this._onObjectMatched, this);
         self.setModel(oModelFilters, "FiltersSop");
+
+        self.acceptOnlyTotChar("cbxEsercizio", 4)
+        self.acceptOnlyTotChar("cbxStatoSop", 60)
+        self.acceptOnlyTotChar("cbxTipoSop", 60)
+        self.acceptOnlyTotChar("cbxTipoTipoloSop", 255)
+        self.acceptOnlyTotChar("cbxSpecieSop", 60)
+        self.acceptOnlyTotChar("cbxRichAnnullamento", 2)
+        self.acceptOnlyTotChar("cbxRitenuta", 40)
+        self.acceptOnlyNumber("iptZnumprot")
+        self.acceptOnlyNumber("iptBeneficiario")
       },
 
       _onObjectMatched: async function (oEvent) {

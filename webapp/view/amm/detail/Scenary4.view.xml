@@ -146,15 +146,15 @@
                                 </WizardStep>
                             </Wizard>
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.Workflow"
-                                type="XML"
-                            />
-                            <c:Fragment
                                 fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
                                 type="XML"
                             />
                             <c:Fragment
                                 fragmentName="gestionesop.view.fragment.amm.table.TableSopFunction"
+                                type="XML"
+                            />
+                            <c:Fragment
+                                fragmentName="gestionesop.view.fragment.Workflow"
                                 type="XML"
                             />
                         </content>
@@ -175,7 +175,10 @@
                     type="Emphasized"
                     text="{i18n>btnInserisciProspettoLiquidazione}"
                     press="onInserisciProspettoLiquidazione"
-                    visible="{= ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; ${Sop>/Ztipopag} === '4' ? true : false }"
+                    visible="{= 
+                        ${StepScenario>/visibleBtnInserisciProspLiquidazione} === true &amp;&amp; 
+                        ${Sop>/Ztipopag} === '4' &amp;&amp; 
+                        (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false }"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
@@ -189,7 +192,10 @@
                     type="Emphasized"
                     text="{i18n>btnEdit}"
                     press="onSaveEdit"
-                    visible="{= ${StepScenario>/visibleBtnSave} &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
+                    visible="{= 
+                        ${StepScenario>/visibleBtnSave} &amp;&amp; 
+                        ${Utility>/EnableEdit}  &amp;&amp; 
+                        (${Utility>/Function} === 'Dettaglio' || ${Utility>/Function} === 'Rettifica') ? true : false }"
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />

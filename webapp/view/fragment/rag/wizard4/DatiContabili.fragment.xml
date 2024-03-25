@@ -29,6 +29,7 @@
                       formatter: '.formatter.convertImport'
 					}"
                     editable="false"
+                    textAlign="End"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -116,6 +117,7 @@
                       formatter: '.formatter.convertImport'
 					}"
                     editable="false"
+                    textAlign="End"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
@@ -138,6 +140,7 @@
 					}"
                     editable="false"
                     visible="{= ${Sop>/ZztipologiaSop} === '2' ? true : false}"
+                    textAlign="End"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
