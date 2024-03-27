@@ -33,7 +33,8 @@ sap.ui.define(
           Znprovv: "",
           Zcausale: "",
           ZztipologiaSop: "",
-          DescTipologia: ""
+          DescTipologia: "",
+          IdAutorizzazione: {}
         });
 
         self.setModel(oModelFirstSop, "FirstSop");
@@ -161,39 +162,39 @@ sap.ui.define(
         self.unloadFragment();
       },
 
-      onValueHelpIdAutorizzazione: function () {
-        var self = this;
-        var oModel = self.getModel();
-        var oFirstSop = self.getModel("FirstSop").getData();
-        var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.IdAutorizzazione");
+      // onValueHelpIdAutorizzazione: function () {
+      //   var self = this;
+      //   var oModel = self.getModel();
+      //   var oFirstSop = self.getModel("FirstSop").getData();
+      //   var oDialog = self.loadFragment("gestionesop.view.fragment.value-help.IdAutorizzazione");
 
-        var aFilters = [];
+      //   var aFilters = [];
 
-        self.setFilterEQ(aFilters, "Anno", oFirstSop.Gjahr);
-        self.setFilterEQ(aFilters, "Fipos", oFirstSop.Fipos);
-        self.setFilterEQ(aFilters, "Fistl", oFirstSop.Fistl);
+      //   self.setFilterEQ(aFilters, "Anno", oFirstSop.Gjahr);
+      //   self.setFilterEQ(aFilters, "Fipos", oFirstSop.Fipos);
+      //   self.setFilterEQ(aFilters, "Fistl", oFirstSop.Fistl);
 
-        self.getView().setBusy(true);
-        oModel.read("/IdAutorizzazioneSet", {
-          filters: aFilters,
-          success: function (data) {
-            self.getView().setBusy(false);
-            self.setModelDialog("IdAutorizzazione", data, "sdIdAutorizzazione", oDialog);
-          },
-          error: function () {
-            self.getView().setBusy(false);
-          },
-        });
-      },
+      //   self.getView().setBusy(true);
+      //   oModel.read("/IdAutorizzazioneSet", {
+      //     filters: aFilters,
+      //     success: function (data) {
+      //       self.getView().setBusy(false);
+      //       self.setModelDialog("IdAutorizzazione", data, "sdIdAutorizzazione", oDialog);
+      //     },
+      //     error: function () {
+      //       self.getView().setBusy(false);
+      //     },
+      //   });
+      // },
 
-      onValueHelpIdAutorizzazioneClose: function (oEvent) {
-        var self = this;
-        var oModelFirstSop = self.getModel("FirstSop");
-        var oSelectedItem = oEvent.getParameter("selectedItem");
+      // onValueHelpIdAutorizzazioneClose: function (oEvent) {
+      //   var self = this;
+      //   var oModelFirstSop = self.getModel("FirstSop");
+      //   var oSelectedItem = oEvent.getParameter("selectedItem");
 
-        oModelFirstSop.setProperty("/Zgeber", self.setBlank(oSelectedItem?.getTitle()));
-        self.unloadFragment();
-      },
+      //   oModelFirstSop.setProperty("/Zgeber", self.setBlank(oSelectedItem?.getTitle()));
+      //   self.unloadFragment();
+      // },
 
       onCreateCausale: function () {
         var self = this;
@@ -227,8 +228,6 @@ sap.ui.define(
         var sSceltaOperativa = self.getView().byId("rbSceltaOperativa").getSelectedIndex();
         var oFirstSop = self.getModel("FirstSop").getData();
 
-        this._setProvvedimento()
-
         if (oFirstSop.Zfunzdel) {
           sSceltaOperativa = 1
         }
@@ -239,7 +238,7 @@ sap.ui.define(
           Zzamministr: oFirstSop.Zzamministr,
           Fipos: oFirstSop.Fipos,
           Fistl: oFirstSop.Fistl,
-          Zgeber: oFirstSop.Zgeber,
+          Zgeber: this._setZgeber(),
           ZufficioCont: oFirstSop.ZufficioCont,
           Zfunzdel: oFirstSop.Zfunzdel,
           Ztipoprovv: oFirstSop.Ztipoprovv,
@@ -341,7 +340,7 @@ sap.ui.define(
           Zcausale: oFirstSop.Zcausale,
           Zdataprovv: oFirstSop.Zdataprovv ? formatter.dateToString(oFirstSop.Zdataprovv) : "",
           Zfunzdel: oFirstSop.Zfunzdel,
-          Zgeber: oFirstSop.Zgeber,
+          Zgeber: this._setZgeber(),
           Znprovv: oFirstSop.Znprovv,
           Zragdest: oFirstSop.Zragdest,
           Ztipoprovv: oFirstSop.Ztipoprovv,
@@ -398,6 +397,16 @@ sap.ui.define(
 
         var sProvvedimento = sDescZtipoprovv + " " + sDescZautemit + " " + sZdataprovv + " " + oFirstSop.Znprovv
         return sProvvedimento
+      },
+
+      _setZgeber: function () {
+        var self = this;
+        var oFirstSop = self.getModel("FirstSop").getData();
+        var oIdAutorizzazione = oFirstSop.IdAutorizzazione
+
+        if (oIdAutorizzazione.TYPE && oIdAutorizzazione.ZZNUMERO && oIdAutorizzazione.ZZANNO) {
+          return oIdAutorizzazione.TYPE + "-" + oIdAutorizzazione.ZZNUMERO + "-" + oIdAutorizzazione.ZZANNO
+        }
       }
     });
   }

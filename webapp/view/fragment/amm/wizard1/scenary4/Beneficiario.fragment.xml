@@ -5,6 +5,7 @@
     xmlns:zcontrolanagrafica="acn.zlibanagrafica.controls"
     xmlns:zcontrolmodpag="acn.zlibmodpag.controls"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:mcbenef="z_s4_mcacn.mcacn.controls"
 >
     <Panel backgroundDesign="Transparent">
         <headerToolbar>
@@ -36,19 +37,20 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Label>
-                <zcontrolmccross:MatchcodeCross
+                <mcbenef:MCBeneficiarioSingle
                     id="iptBeneficiarioScen4"
-                    whichMC="Beneficiario"
-                    viewId="{Utility>/ViewId}"
+                    showValueHelp="true"
+                    valueHelpOnly="false"
                     value="{Sop>/Lifnr}"
                     maxLength="10"
                     change="onBeneficiarioChangeScen4"
                     editable="{Utility>/EnableEdit}"
+                    onCloseFunction="true"
                 >
-                    <zcontrolmccross:layoutData>
+                    <mcbenef:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
-                    </zcontrolmccross:layoutData>
-                </zcontrolmccross:MatchcodeCross>
+                    </mcbenef:layoutData>
+                </mcbenef:MCBeneficiarioSingle>
                 <RadioButtonGroup
                     columns="2"
                     editable="false"

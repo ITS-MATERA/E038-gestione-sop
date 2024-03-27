@@ -6,6 +6,7 @@
     xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
     xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:mcbenef="z_s4_mcacn.mcacn.controls"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -300,12 +301,14 @@
                 </layoutData>
                 <items>
                     <Label text="{i18n>labelBeneficiario}:" />
-                    <zcontrolmccross:MatchcodeCross
+                    <mcbenef:MCBeneficiarioSingle
                         id="iptBeneficiario"
-                        whichMC="Beneficiario"
+                        showValueHelp="true"
+                        valueHelpOnly="false"
                         value="{FiltersSop>/Lifnr}"
                         maxLength="10"
                         liveChange="onBeneficiarioChange"
+                        onCloseFunction="false"
                     />
                 </items>
             </VBox>

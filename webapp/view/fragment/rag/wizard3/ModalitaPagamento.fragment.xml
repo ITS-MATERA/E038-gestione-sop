@@ -63,7 +63,7 @@
                     </layoutData>
                 </Text>
                 <Input
-                    value="{Sop>/Zcausaleval}"
+                    value="{Sop>/ZCausaleval}"
                     editable="false"
                 >
                     <layoutData>

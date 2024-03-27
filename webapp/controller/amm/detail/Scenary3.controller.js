@@ -26,6 +26,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
+        self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.detail.scenary3").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -48,18 +49,35 @@ sap.ui.define(
 
         if (bWizard1Step1) {
           self.resetLog()
+          if (oModelUtility.getProperty("/pressAddAction")) {
+            this._goToDetail()
+          } else if (!oModelUtility.getProperty("/EnableEdit")) {
+            self.setModel(new JSONModel({}), "Sop")
+            self.getRouter().navTo("amm.home", {
+              Reload: false,
+            });
+          }
           oModelStepScenario.setProperty("/wizard1Step1", false);
           oModelStepScenario.setProperty("/wizard1Step2", true);
           oModelUtility.setProperty("/Table", "Edit")
         } else if (bWizard1Step2) {
           self.resetLog()
+          if (sTable === "Edit" && oModelUtility.getProperty("/pressAddAction")) {
+            oModelUtility.setProperty("/Table", "Add")
+            return
+          }
           switch (sTable) {
             case "Edit": {
               self.unlockSop()
-              self.setModel(new JSONModel({}), "Sop")
-              self.getRouter().navTo("amm.home", {
-                Reload: false,
-              });
+              if (oModelUtility.getProperty("/EnableEdit")) {
+                this._goToDetail()
+              } else {
+                self.setModel(new JSONModel({}), "Sop")
+                self.getRouter().navTo("amm.home", {
+                  Reload: false,
+                });
+              }
+
               break;
             }
             case "Add": {
@@ -113,6 +131,7 @@ sap.ui.define(
         var bWizard2 = oModelStepScenario.getProperty("/wizard2");
         var bWizard3 = oModelStepScenario.getProperty("/wizard3");
         var sTable = oModelUtility.getProperty("/Table")
+        var oSop = self.getModel("Sop").getData()
 
         if (bWizard1Step2) {
           self.resetLog()
@@ -272,6 +291,7 @@ sap.ui.define(
       onDeletePosition: function () {
         var self = this;
         var oTable = self.getView().byId("tblEditPosizioniScen3");
+        var oSop = self.getModel("Sop").getData()
 
         MessageBox.warning(
           "Procedere con la cancellazione delle righe selezionate?",
@@ -279,7 +299,9 @@ sap.ui.define(
             actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
             title: "Rettifica SOP - Cancellazione Righe",
             onClose: function (oAction) {
+
               if (oAction === "OK") {
+                MessageBox.success("Le righe selezionate del SOP " + oSop.Zchiavesop + " sono state cancellate")
                 var oModelUtility = self.getModel("Utility");
                 var oModelSop = self.getModel("Sop");
 
@@ -448,7 +470,7 @@ sap.ui.define(
         //Load Component
         var oButtonCalculate = self.getView().byId("btnCalculate");
 
-        var aSelectedItems = oModelSop.getProperty("/Position");
+        var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
         var aListItems = oEvent.getParameter("listItems");
 
         for (var i = 0; i < aListItems.length; i++) {
@@ -461,9 +483,9 @@ sap.ui.define(
 
             if (oResponse.data.Type === 'S') {
               aSelectedItems.push(oSelectedItem);
-              oModelSop.setProperty("/Position", aSelectedItems);
+              oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
               oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-              oModelSop.setProperty("/Zimptot", "0.00");
+              oModelUtility.setProperty("/AddZimptot", "0.00");
               continue
             }
 
@@ -492,9 +514,9 @@ sap.ui.define(
             }
 
             await self.unlockQuoteBeneficiario(oSelectedItem)
-            oModelSop.setProperty("/Position", aSelectedItems);
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
             oButtonCalculate.setVisible(aSelectedItems.length !== 0);
-            oModelSop.setProperty("/Zimptot", "0.00");
+            oModelUtility.setProperty("/AddZimptot", "0.00");
           }
         }
 
@@ -560,6 +582,24 @@ sap.ui.define(
 
         //Resetto l'importo totale da associare
         this._setImpTotAssociare(oSourceData?.etichetta);
+      },
+
+      _goToDetail: async function () {
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+        var oParameters = {
+          Gjahr: oSop.Gjahr,
+          Zchiavesop: oSop.Zchiavesop,
+          Bukrs: oSop.Bukrs,
+          Zstep: oSop.Zstep,
+          Ztipososp: oSop.Ztipososp
+        }
+
+        self.setModelSop(oParameters);
+        self.createModelClassificazione();
+        self.createModelStepScenarioDet();
+        self.createModelFiltersWizard1();
+        await self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary3")
       },
 
     });

@@ -8,6 +8,7 @@
     xmlns:l="sap.ui.layout"
     xmlns:zcontrol="zsap.com.r3.cobi.s4.custposfin.z_s4_zposfin.controls"
     xmlns:zcontrolMatchSar="zsap.com.r3.cobi.s4.custapiuser.z_s4_userlog.controls"
+    xmlns:zcontrolAuth="zsap.com.r3.cobi.s4.z_s4_auth"
 >
     <f:DynamicPage
         showFooter="true"
@@ -181,7 +182,19 @@
                                 />
                             </layoutData>
                         </Label>
-                        <Input
+                        <zcontrolAuth:InputAutorizzazioni
+                            id="AutorizzazioniMCD"
+                            Eos="S"
+                            value="{FirstSop>/Zgeber}"
+                            maxLength="1333"
+                            enabled="{= ${FirstSop>/Gjahr} ? true : false}"
+                            Autorizzazione="{FirstSop>/IdAutorizzazione}"
+                        >
+                            <zcontrolAuth:layoutData>
+                                <l:GridData span="XL3 L4 M5 S12" />
+                            </zcontrolAuth:layoutData>
+                        </zcontrolAuth:InputAutorizzazioni>
+                        <!-- <Input
                             value="{FirstSop>/Zgeber}"
                             maxLength="1333"
                             valueHelpRequest="onValueHelpIdAutorizzazione"
@@ -191,7 +204,7 @@
                             <layoutData>
                                 <l:GridData span="XL3 L4 M5 S12" />
                             </layoutData>
-                        </Input>
+                        </Input> -->
                     </l:Grid>
                 </Panel>
                 <!-- #endregion -->

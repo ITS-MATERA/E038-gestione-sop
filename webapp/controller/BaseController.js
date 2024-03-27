@@ -19,6 +19,8 @@ sap.ui.define(
     const EDM_TYPE = exportLibrary.EdmType;
 
     return Controller.extend("gestionesop.controller.BaseController", {
+      URLHelper: mobileLibrary.URLHelper,
+
       getRouter: function () {
         return UIComponent.getRouterFor(this);
       },
@@ -103,6 +105,10 @@ sap.ui.define(
         var bError = false;
         if (oResponse?.headers["sap-message"]) {
           var oMessage = this._getMessage(oResponse);
+
+          if (oMessage.code === "ZF_SOP/115") {
+            oMessage.message = "Alcuni documenti del SOP che si intende copiare sono già stati pagati e quindi sono stati esclusi dalla copia"
+          }
 
           switch (oMessage.severity) {
             case "error":
@@ -689,6 +695,35 @@ sap.ui.define(
             self.getView().setBusy(false)
             self.setModel(new JSONModel(data.results), "WFSop");
           },
+        });
+      },
+
+      /**
+       * @param {string} sPath parameter
+       * @param {object} oKey parameter
+       * @param {string} [sExpand] optional parameter
+       */
+      getEntity: function (sPath, oKey, sExpand = "") {
+        var self = this;
+        var oDataModel = this.getModel();
+
+        var sKey = oDataModel.createKey(sPath, oKey);
+
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oDataModel.read(sKey, {
+            urlParameters: {
+              $expand: sExpand,
+            },
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              resolve(data);
+            },
+            error: function (error) {
+              self.getView().setBusy(false);
+              reject(error);
+            },
+          });
         });
       },
     });

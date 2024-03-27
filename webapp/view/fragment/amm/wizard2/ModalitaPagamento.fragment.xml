@@ -291,8 +291,6 @@
                     width="100%"
                     value="{Sop>/Zzposfinent}"
                     livechange="onPosFinEntrataChange"
-                    liveChange="onPosFinEntrataChange"
-                    submit="onPosFinEntrataChange"
                     visible="{= ${Sop>/Zwels} === 'ID4'}"
                     editable="{= ${Utility>/EnableEdit} &amp;&amp; ${Sop>/Zcompres} ? true : false}"
                 >

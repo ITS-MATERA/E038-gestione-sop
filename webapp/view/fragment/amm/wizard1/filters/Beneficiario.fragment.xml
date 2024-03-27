@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
+    xmlns:mcbenef="z_s4_mcacn.mcacn.controls"
 >
     <Panel backgroundDesign="Transparent">
         <headerToolbar>
@@ -57,10 +58,10 @@
                         <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <zcontrolmccross:MatchcodeCross
+                <mcbenef:MCBeneficiarioSingle
                     id="iptBeneficiarioWizard1"
-                    whichMC="Beneficiario"
-                    viewId="{Utility>/ViewId}"
+                    showValueHelp="true"
+                    valueHelpOnly="false"
                     value="{Sop>/Zlifnrric}"
                     maxLength="10"
                     change="onBeneficiarioChange"
@@ -73,11 +74,12 @@
                         ${Utility>/EnableEditMode}
 						? false : true
 					}"
+                    onCloseFunction="true"
                 >
-                    <zcontrolmccross:layoutData>
+                    <mcbenef:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
-                    </zcontrolmccross:layoutData>
-                </zcontrolmccross:MatchcodeCross>
+                    </mcbenef:layoutData>
+                </mcbenef:MCBeneficiarioSingle>
             </l:Grid>
         </content>
         <content>

@@ -25,6 +25,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
+        self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.create.scenary2").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -74,6 +75,7 @@ sap.ui.define(
           oWizard.previousStep();
         } else if (bWizard4) {
           self.resetLog()
+          self.resetWizard4()
           oModelStepScenario.setProperty("/wizard4", false);
           oModelStepScenario.setProperty("/wizard3", true);
           oModelStepScenario.setProperty("/visibleBtnForward", true);

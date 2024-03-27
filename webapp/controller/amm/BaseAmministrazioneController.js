@@ -209,6 +209,8 @@ sap.ui.define(
 
         var oSop = await self._getSop(oParameters)
 
+        this._sZcausale = oSop.Zcausale
+
         var oModelSop = new JSONModel({
           Bukrs: oSop.Bukrs,
           Gjahr: oSop.Gjahr,
@@ -539,7 +541,8 @@ sap.ui.define(
           isQuiet1Prevalorizzato: false,
           isZcoordEsterPrevalorizzato: false,
           isIbanPrevalorizzato: false,
-          isVersanteEditable: false
+          isVersanteEditable: false,
+          pressAddAction: false
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -630,6 +633,8 @@ sap.ui.define(
         oModelSop.setProperty("/ZgjahrPf", oParamenters?.Gjahr)
         oModelSop.setProperty("/Bukrs", await self.getBukrs());
         oModelSop.setProperty("/Zprovgiud", oParamenters?.Zprovgiud)
+
+        this._sZcausale = oParamenters?.Zcausale
       },
 
       createModelFiltersWizard1: async function () {
@@ -1491,6 +1496,8 @@ sap.ui.define(
               self.getView().setBusy(false);
               return;
             }
+            oModelUtility.setProperty("/pressAddAction", true)
+            MessageBox.success("Le righe selezionate sono state aggiunte nel SOP " + oSop.Zchiavesop)
             oModelUtility.setProperty("/Table", "Edit")
             self.addNewPositions()
             self.getView().setBusy(false);
@@ -1806,22 +1813,24 @@ sap.ui.define(
         });
       },
 
-      onTipoFirmaChange: function (oEvent) {
+      onTipoFirmaChange: async function (oEvent) {
         var self = this;
         var sTipoFirma = oEvent.getSource().getSelectedKey();
         var oModelUtility = self.getModel("Utility")
-        oModelUtility.setProperty("/isQuiet1Prevalorizzato", false)
+
+        if (sTipoFirma) {
+          self.checkQuietanzante1TipoFirma()
+        }
+
+        if (oModelUtility.getProperty("/isQuiet1Prevalorizzato")) {
+          return
+        }
 
         this.resetQuietanzante1();
         this.resetQuietanzante2();
 
-
-        if (sTipoFirma) {
-          self.setQuietanzante1();
-        }
-
         if (sTipoFirma === "03" && sTipoFirma === "04") {
-          this.setQuietanzante2();
+          this.checkQuietanzante2TipoFirma();
         }
 
 
@@ -1887,6 +1896,10 @@ sap.ui.define(
 
         if (!sZwels) {
           return;
+        }
+
+        if (sZwels === 'ID1') {
+          this.prevalQuietanzante()
         }
 
         this.setIban(true);
@@ -1968,7 +1981,7 @@ sap.ui.define(
         var oSop = self.getModel("Sop").getData()
         var oModelSop = self.getModel("Sop")
 
-        if (!oEvent.getParameter("value")) {
+        if (!oSop.Zzposfinent) {
           oModelSop.setProperty("/Iban", "")
           oModelSop.setProperty("/Banks", "")
           return
@@ -1977,7 +1990,7 @@ sap.ui.define(
         self.getView().setBusy(true);
         var sKey = oModel.createKey("/PosFinEntrataSet", {
           ZgjahrPf: oSop.ZgjahrPf,
-          Zzposfinent: oEvent.getParameter("value")
+          Zzposfinent: oSop.Zzposfinent
         })
 
         oModel.read(sKey, {
@@ -2496,6 +2509,9 @@ sap.ui.define(
           oModelSop.setProperty("/Land1Sede", "");
           oModelSop.setProperty("/Zcompres", "");
           oModelSop.setProperty("/ZgjahrPf", "")
+          oModelSop.setProperty("/isQuiet1Prevalorizzato", false)
+          oModelSop.setProperty("/Zcodvers", "")
+          oModelSop.setProperty("/Zcfvers", "")
           return
         }
 
@@ -2554,6 +2570,8 @@ sap.ui.define(
           oModelSop.setProperty("/Zperiodrifa", null);
           oModelSop.setProperty("/Zcodinps", "");
           oModelSop.setProperty("/Zdescvers", "");
+          oModelSop.setProperty("/Zcodvers", "")
+          oModelSop.setProperty("/Zcfvers", "")
         }
 
         if (sZwels !== 'ID1' || sZwels !== 'ID2' || sZwels !== 'ID5' || sZwels !== 'ID6' || sZwels !== 'ID9') {
@@ -2797,6 +2815,36 @@ sap.ui.define(
         });
       },
 
+      prevalQuietanzante: async function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+        var oModelUtility = self.getModel("Utility")
+
+        var oQuietanzante = await self.getEntity("/PrevalIdFiscaleSet", {
+          Lifnr: oSop.Lifnr,
+          Zwels: oSop.Zwels
+        })
+
+        if (oQuietanzante.Zstcd1 || oQuietanzante.Zstcd14) {
+          oModelUtility.setProperty("/isQuiet1Prevalorizzato", true)
+        }
+
+        oModelSop.setProperty("/Zstcd1", oQuietanzante.Zstcd1);
+        oModelSop.setProperty("/Zstcd14", oQuietanzante.Zstcd14);
+        oModelSop.setProperty("/ZpersCognomeQuiet1", oQuietanzante.ZpersCognomeQuiet1);
+        oModelSop.setProperty("/ZpersNomeQuiet1", oQuietanzante.ZpersNomeQuiet1);
+        oModelSop.setProperty("/ZpersCognomeVaglia", oQuietanzante.ZpersCognomeVaglia);
+        oModelSop.setProperty("/ZpersNomeVaglia", oQuietanzante.ZpersNomeVaglia);
+        oModelSop.setProperty("/Land1Quietanzante", oQuietanzante.Land1);
+        oModelSop.setProperty("/Zqcap", oQuietanzante.Zqcap);
+        oModelSop.setProperty("/Zqcitta", oQuietanzante.Zqcitta);
+        oModelSop.setProperty("/Zqindiriz", oQuietanzante.Zqindiriz);
+        oModelSop.setProperty("/Zqprovincia", oQuietanzante.Zqprovincia);
+        oModelSop.setProperty("/ZqragSoc", oQuietanzante.ZzragSoc);
+        oModelSop.setProperty("/Znumquiet", "00");
+      },
+
       //Quietanzante
 
       resetQuietanzante1: function () {
@@ -2859,7 +2907,6 @@ sap.ui.define(
         oModel.read(sKey, {
           success: function (data, oResponse) {
             self.getView().setBusy(false);
-            console.log(data)
             oModelSop.setProperty("/Zstcd1", data.Zstcd1);
             oModelSop.setProperty("/ZpersCognomeQuiet1", data.ZpersCognomeQuiet1);
             oModelSop.setProperty("/ZpersNomeQuiet1", data.ZpersNomeQuiet1);
@@ -2883,12 +2930,10 @@ sap.ui.define(
         });
       },
 
-      setQuietanzante1: function () {
+      checkQuietanzante1TipoFirma: function () {
         var self = this;
         var oDataModel = self.getModel();
         var oModelSop = self.getModel("Sop");
-        var oModelUtility = self.getModel("Utility");
-        var oSop = oModelSop.getData();
         var aFilters = [];
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
@@ -2897,40 +2942,27 @@ sap.ui.define(
         self.setFilterEQ(aFilters, "ZzCebenra", oModelSop?.getProperty("/ZzCebenra"));
 
         self.getView().setBusy(true);
-        oDataModel.read("/Quietanzante1Set", {
-          filters: aFilters,
-          success: function (data, oResponse) {
-            self.getView().setBusy(false);
-            if (self.hasResponseError(oResponse)) {
-              return
-            }
-            var aData = data.results;
-            var oFirstRecord = aData[0];
-            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
-              self.getView().setBusy(false);
-              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
-              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
-              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
-              if (oSop.Zwels === "ID1") {
-                oModelSop.setProperty("/Zstcd1", oFirstRecord.Zstcd1);
-              } else {
-                oModelSop.setProperty("/Zstcd3", oFirstRecord.Zstcd1);
-              }
 
-              self._setDataQuietanzante1(oFirstRecord.Zstcd1);
-            }
-          },
-          error: function (error) {
-            self.getView().setBusy(false);
-          },
+        return new Promise(async function (resolve, reject) {
+          await oDataModel.read("/Quietanzante1Set", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+              resolve(self.hasResponseError(oResponse))
+            },
+            error: function (error) {
+              self.getView().setBusy(false);
+              reject(error);
+            },
+          });
         });
       },
 
-      setQuietanzante2: function () {
+      checkQuietanzante2TipoFirma: function () {
         var self = this;
         var oDataModel = self.getModel();
         var oModelSop = self.getModel("Sop");
-        var oModelUtility = self.getModel("Utility");
+        // var oModelUtility = self.getModel("Utility");
         var aFilters = [];
 
         self.setFilterEQ(aFilters, "Lifnr", oModelSop?.getProperty("/Lifnr"));
@@ -2943,19 +2975,17 @@ sap.ui.define(
           filters: aFilters,
           success: function (data, oResponse) {
             self.getView().setBusy(false);
-            if (self.hasResponseError(oResponse)) {
-              return
-            }
-            var aData = data.results;
-            var oFirstRecord = aData[0];
-            if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
-              oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
-              oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
-              oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
-              oModelSop.setProperty("/Zstcd12", oFirstRecord.Zstcd12);
+            self.hasResponseError(oResponse)
+            // var aData = data.results;
+            // var oFirstRecord = aData[0];
+            // if (aData.length === 1 && oFirstRecord.NumquietInitial === true) {
+            //   oModelUtility.setProperty("/isQuiet1Prevalorizzato", true);
+            //   oModelSop.setProperty("/Znumquiet", oFirstRecord.Znumquiet);
+            //   oModelSop.setProperty("/NumquietInitial1", oFirstRecord.NumquietInitial1);
+            //   oModelSop.setProperty("/Zstcd12", oFirstRecord.Zstcd12);
 
-              self._setDataQuietanzante2();
-            }
+            //   self._setDataQuietanzante2();
+            // }
           },
           error: function (error) {
             self.getView().setBusy(false);
@@ -4008,8 +4038,8 @@ sap.ui.define(
         var oModel = self.getModel();
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility")
-        var bIsQuiet1Prevalorizzato = oModelUtility.getProperty("/isQuiet1Prevalorizzato")
         var oSop = oModelSop.getData()
+        var bIsQuietBeneficiario = oModelUtility.getProperty("/isQuiet1Prevalorizzato") || oSop.Znumquiet === '00'
         var aPosition = oSop.Position
         var aClassificazione = oSop.Classificazione
 
@@ -4148,9 +4178,9 @@ sap.ui.define(
             Znumliq: oSop.Znumliq,
             ZdescProsp: oSop.ZdescProsp,
             Zprovgiud: oSop.Zprovgiud,
-            Znomebensosp: oSop.Znomebensosp,
-            Zcognomebensosp: oSop.Zcognomebensosp,
-            Zragsocbensosp: oSop.Zragsocbensosp,
+            Znomebensosp: "",
+            Zcognomebensosp: "",
+            Zragsocbensosp: "",
             Taxnumcf: oSop.Taxnumcf,
             Taxnum: oSop.Taxnum,
             Type: oSop.Type,
@@ -4258,11 +4288,11 @@ sap.ui.define(
             Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
             ZversioneZfquietanz: oSop.ZversioneZfquietanz,
             ZversioneZfsedi: oSop.ZversioneZfsedi,
-            Land1Quietanzante: bIsQuiet1Prevalorizzato ? oSop.Land1Quietanzante : "",
-            ZqcapQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcap : "",
-            ZqcittaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcitta : "",
-            ZqindirizQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqindiriz : "",
-            ZqprovinciaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqprovincia : "",
+            Land1Quietanzante: bIsQuietBeneficiario ? oSop.Land1Quietanzante : "",
+            ZqcapQuietanzante: bIsQuietBeneficiario ? oSop.Zqcap : "",
+            ZqcittaQuietanzante: bIsQuietBeneficiario ? oSop.Zqcitta : "",
+            ZqindirizQuietanzante: bIsQuietBeneficiario ? oSop.Zqindiriz : "",
+            ZqprovinciaQuietanzante: bIsQuietBeneficiario ? oSop.Zqprovincia : "",
             Zbdap: oSop.Zbdap,
             Zlifnrric: oSop.Lifnr,
           },
@@ -4393,8 +4423,8 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oUtility = self.getModel("Utility").getData()
         var oModelUtility = self.getModel("Utility")
-        var bIsQuiet1Prevalorizzato = oModelUtility.getProperty("/isQuiet1Prevalorizzato")
         var oSop = oModelSop.getData()
+        var bIsQuietBeneficiario = oModelUtility.getProperty("/isQuiet1Prevalorizzato") || oSop.Znumquiet === '00'
         var aPosition = oSop.Position
         var aDeletedPositions = oUtility.DeletedPositions
         var aClassificazione = oSop.Classificazione
@@ -4666,11 +4696,11 @@ sap.ui.define(
             Zversione2Zfquietanz: oSop.Zversione2Zfquietanz,
             ZversioneZfquietanz: oSop.ZversioneZfquietanz,
             ZversioneZfsedi: oSop.ZversioneZfsedi,
-            Land1Quietanzante: bIsQuiet1Prevalorizzato ? oSop.Land1Quietanzante : "",
-            ZqcapQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcap : "",
-            ZqcittaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqcitta : "",
-            ZqindirizQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqindiriz : "",
-            ZqprovinciaQuietanzante: bIsQuiet1Prevalorizzato ? oSop.Zqprovincia : "",
+            Land1Quietanzante: bIsQuietBeneficiario ? oSop.Land1Quietanzante : "",
+            ZqcapQuietanzante: bIsQuietBeneficiario ? oSop.Zqcap : "",
+            ZqcittaQuietanzante: bIsQuietBeneficiario ? oSop.Zqcitta : "",
+            ZqindirizQuietanzante: bIsQuietBeneficiario ? oSop.Zqindiriz : "",
+            ZqprovinciaQuietanzante: bIsQuietBeneficiario ? oSop.Zqprovincia : "",
             Zbdap: oSop.Zbdap,
             Zlifnrric: oSop.Zlifnrric,
           },
@@ -4759,6 +4789,18 @@ sap.ui.define(
           }
         })
 
+      },
+
+      resetWizard4: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop")
+
+        oModelSop.setProperty("/Zlocpag", "")
+        oModelSop.setProperty("/ZE2e", "")
+        oModelSop.setProperty("/Zcausale", this._sZcausale)
+        oModelSop.setProperty("/Zzonaint", "")
+        oModelSop.setProperty("/Zdataprot", null)
+        oModelSop.setProperty("/Znumprot", "")
       },
 
       //#endregion -------------------------WIZARD 4----------------------------
@@ -5602,9 +5644,12 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop")
         var oSpecieSop = await self._setSpecieSop("1");
+        var oModelUtility = self.getModel("Utility")
 
         oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
         oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
+
+        oModelUtility.setProperty("/isVersanteEditable", await self.checkLifnrInTvarvc());
 
         self._resetDataModalitaPagamento(true)
         self.createModelSedeBeneficiario();
@@ -5706,8 +5751,6 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
-        var oStepScenario = self.getModel("StepScenario").getData()
-        var oSop = oModelSop.getData()
 
         if (obj?.Iban && (obj?.Banks || obj.Witht)) {
           if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
@@ -5717,22 +5760,6 @@ sap.ui.define(
 
           self.checkIban();
           self.setDataIban();
-          return;
-        }
-
-        if (obj?.Lifnr) {
-          var oSpecieSop = await self._setSpecieSop("1");
-          if (!oStepScenario.wizard2) {
-            self._createModelAnnoDocBen();
-            oModelSop.setProperty("/Zquoteesi", false);
-            oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
-            oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
-          }
-
-          if (oSop.Ztipopag === "4") {
-            self.createModelModPagamento()
-          }
-          this.setDataBeneficiario(obj?.Lifnr);
           return;
         }
 
@@ -5788,6 +5815,29 @@ sap.ui.define(
         });
 
         self.setModel(oModelFirstSop, "FirstSop");
+      },
+
+      onCloseFunctionCustom: async function (context, beneficiario) {
+        var self = this;
+        var oStepScenario = self.getModel("StepScenario").getData()
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+
+        if (beneficiario) {
+          var oSpecieSop = await self._setSpecieSop("1");
+          if (!oStepScenario.wizard2) {
+            self._createModelAnnoDocBen();
+            oModelSop.setProperty("/Zquoteesi", false);
+            oModelSop.setProperty("/ZspecieSop", oSpecieSop.ZspecieSop);
+            oModelSop.setProperty("/DescZspecieSop", oSpecieSop.Descrizione);
+          }
+
+          if (oSop.Ztipopag === "4") {
+            self.createModelModPagamento()
+          }
+          this.setDataBeneficiario(beneficiario);
+          return;
+        }
       },
 
       //#region ---------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
@@ -5957,6 +6007,14 @@ sap.ui.define(
       },
 
       //#endregion ------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
+
+      attachFiposFocusOut: function () {
+        this.byId("iptFiposEntrata").addEventDelegate({
+          onfocusout: $.proxy(function (oEvent) {
+            self.onPosFinEntrataChange()
+          }, this)
+        });
+      }
     });
   }
 );

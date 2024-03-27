@@ -24,6 +24,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
+        self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.detail.scenary4").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -45,10 +46,15 @@ sap.ui.define(
         if (bWizard1Step1) {
           self.resetLog()
           self.unlockSop()
-          self.setModel(new JSONModel({}), "Sop")
-          self.getRouter().navTo("amm.home", {
-            Reload: false,
-          });
+          if (!oModelUtility.getProperty("/EnableEdit")) {
+            self.setModel(new JSONModel({}), "Sop")
+            self.getRouter().navTo("amm.home", {
+              Reload: false,
+            });
+          } else {
+            this._goToDetail()
+          }
+
         } else if (bWizard1Step2) {
           self.resetLog()
           if (bEnableEditMode) {
@@ -57,10 +63,14 @@ sap.ui.define(
             return;
           }
           self.unlockSop()
-          self.setModel(new JSONModel({}), "Sop")
-          self.getRouter().navTo("amm.home", {
-            Reload: false,
-          });
+          if (!oModelUtility.getProperty("/EnableEdit")) {
+            self.setModel(new JSONModel({}), "Sop")
+            self.getRouter().navTo("amm.home", {
+              Reload: false,
+            });
+          } else {
+            this._goToDetail()
+          }
         } else if (bWizard2) {
           self.resetLog()
           oModelStepScenario.setProperty("/wizard2", false);
@@ -299,6 +309,24 @@ sap.ui.define(
 
         //Resetto l'importo totale da associare
         this._setImpTotAssociare(oSourceData?.etichetta);
+      },
+
+      _goToDetail: async function () {
+        var self = this;
+        var oSop = self.getModel("Sop").getData()
+        var oParameters = {
+          Gjahr: oSop.Gjahr,
+          Zchiavesop: oSop.Zchiavesop,
+          Bukrs: oSop.Bukrs,
+          Zstep: oSop.Zstep,
+          Ztipososp: oSop.Ztipososp
+        }
+
+        self.resetWizard("wizScenario4");
+        self.setModelSop(oParameters);
+        self.createModelClassificazione();
+        self.createModelStepScenarioDet();
+        await self.createModelUtilityDet("gestionesop.view.amm.detail.Scenary4")
       },
 
     });
