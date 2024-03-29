@@ -31,7 +31,6 @@
 
 .iconTab{
   width: auto !important;
-  background-color: yellow;
 }
 
 .sapMITBFilter .sapMITBText {
@@ -46,4 +45,9 @@
   word-wrap: break-word;
   word-break: break-all;
   width: auto;
+}
+
+.iconTimelineYellow span[aria-label="favorite"]
+{
+	color: yellow !important;
 }

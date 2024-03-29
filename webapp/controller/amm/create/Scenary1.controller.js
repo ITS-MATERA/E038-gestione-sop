@@ -27,7 +27,6 @@ sap.ui.define(
         self.acceptOnlyNumber("iptZnumprot")
         self.attachFiposFocusOut()
 
-
         this.getRouter().getRoute("amm.create.scenary1").attachPatternMatched(this._onObjectMatched, this);
       },
 

@@ -96,6 +96,7 @@
                     <Column
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        hAlign="End"
                     >
                         <header>
                             <Text text="{i18n>labelImporto}" />

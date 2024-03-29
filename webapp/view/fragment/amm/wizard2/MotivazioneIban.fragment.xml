@@ -7,6 +7,7 @@
         title="{i18n>titleMotivazione}"
         icon="sap-icon://alert"
         contentWidth="50%"
+        escapeHandler="handleEscape"
     >
         <TextArea
             cols="40"
@@ -21,12 +22,12 @@
                 type="Emphasized"
             />
         </beginButton>
-        <endButton>
+        <!-- <endButton>
             <Button
                 text="{i18n>btnClose}"
                 press="onCloseMotivazione"
                 type="Emphasized"
             />
-        </endButton>
+        </endButton> -->
     </Dialog>
 </c:FragmentDefinition>

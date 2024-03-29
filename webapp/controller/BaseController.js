@@ -693,6 +693,14 @@ sap.ui.define(
           filters: aFilters,
           success: function (data) {
             self.getView().setBusy(false)
+            var aData = data.results
+            aData.map((oData) => {
+              var sDescRegistrato = "Registrato dall'utente " + oData.Utente
+              var sDescOperazione = "Operazione completata dall'utente " + oData.Utente
+
+              oData.DescrizioneLunga = oData.ZstatoSop === '00' ? sDescRegistrato : sDescOperazione
+            })
+
             self.setModel(new JSONModel(data.results), "WFSop");
           },
         });

@@ -1542,21 +1542,21 @@ sap.ui.define(
       onOkMotivazione: function () {
         var self = this;
         var oModelSop = self.getModel("Sop");
+        var oModelUtility = self.getModel("Utility")
         var sMotivazione = sap.ui.getCore().byId("txtMotivazione")?.getValue();
         var oDialogMotivazione = sap.ui.getCore().byId("dlgMotivazione");
-
-        oDialogMotivazione.close();
-        self.unloadFragment();
 
         if (!sMotivazione) {
           MessageBox.error("Motivazione cambio IBAN obbligatoria", {
             title: "Errore",
           });
-          oModelSop.setProperty("/Iban", "");
           return;
         }
 
+        oDialogMotivazione.close();
+        self.unloadFragment();
         oModelSop.setProperty("/Zmotivaz", sMotivazione);
+        oModelUtility.setProperty("/isIbanPrevalorizzato", false);
       },
 
       onCloseMotivazione: function () {
@@ -1564,6 +1564,17 @@ sap.ui.define(
         var oDialogMotivazione = sap.ui.getCore().byId("dlgMotivazione");
         oDialogMotivazione.close();
         self.unloadFragment();
+      },
+
+      openPopupMotivazione: function () {
+        var self = this;
+        var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
+
+        oDialogMotivazione.onsapescape = function (oEvent) {
+          oEvent.preventDefault();
+          oEvent.stopPropagation()
+        };
+        oDialogMotivazione.open();
       },
 
       //#region -----------------------------VALUE HELP---------------------------
@@ -1879,14 +1890,22 @@ sap.ui.define(
         var oSop = oModelSop.getData()
         var oModelUtility = self.getModel("Utility");
         var sZwels = oEvent.getSource().getSelectedKey();
-        oModelSop.setProperty("/DescZwels", self.setBlank(oEvent.getSource()?.getSelectedItem()?.getText()))
+        var sDescZwels = self.setBlank(oEvent.getSource()?.getSelectedItem()?.getText())
+        var bIsIbanPrevalorizzato = oModelUtility.getProperty("/isIbanPrevalorizzato")
+        var bIsVersanteEditable = oModelUtility.getProperty("/isVersanteEditable")
 
-        if (!oModelUtility.getProperty("/isIbanPrevalorizzato") || !sZwels) {
+        oModelSop.setProperty("/DescZwels", sDescZwels)
+
+        if (bIsIbanPrevalorizzato) {
+          this.openPopupMotivazione()
+        }
+
+        if (!bIsIbanPrevalorizzato || !sZwels) {
           oModelSop.setProperty("/Iban", "");
           oModelSop.setProperty("/Banks", "");
         }
 
-        if (oModelUtility.getProperty("/isVersanteEditable") && (oModelSop.getProperty("/Zwels") === "ID4" || oModelSop.getProperty("/Zwels") === "ID3")) {
+        if (bIsVersanteEditable && (sZwels === "ID4" || sZwels === "ID3")) {
           this._getCodProvenienza();
         }
         await this._resetDataModalitaPagamento();
@@ -1895,7 +1914,7 @@ sap.ui.define(
         self.setSedeBeneficiario()
 
         if (!sZwels) {
-          return;
+          return
         }
 
         if (sZwels === 'ID1') {
@@ -2283,9 +2302,7 @@ sap.ui.define(
               self._sIbanPrevalorizzato !== oModelSop.getProperty("/Iban") &&
               !bModalitaPagamento
             ) {
-              var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
-              oModelUtility.setProperty("/isIbanPrevalorizzato", false);
-              oDialogMotivazione.open();
+              this.openPopupMotivazione()
             }
             self.setDataIban();
           },
@@ -5754,8 +5771,7 @@ sap.ui.define(
 
         if (obj?.Iban && (obj?.Banks || obj.Witht)) {
           if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
-            var oDialogMotivazione = self.loadFragment("gestionesop.view.fragment.amm.wizard2.MotivazioneIban");
-            oDialogMotivazione.open();
+            this.openPopupMotivazione()
           }
 
           self.checkIban();
@@ -6015,6 +6031,8 @@ sap.ui.define(
           }, this)
         });
       }
+
+
     });
   }
 );
