@@ -542,7 +542,8 @@ sap.ui.define(
           isZcoordEsterPrevalorizzato: false,
           isIbanPrevalorizzato: false,
           isVersanteEditable: false,
-          pressAddAction: false
+          pressAddAction: false,
+          ButtonsVisible: true
         });
 
         self.setModel(oModelUtility, "Utility");
@@ -1287,7 +1288,12 @@ sap.ui.define(
         MessageBox.error("La modalità di pagamento non è valida")
         oModelSop.setProperty("/Zwels", "")
         oModelSop.setProperty("/Zdescwels", "")
-        self.getView().byId("cbxModalitaPagamentoWizard2").setValue("")
+        if (oModelSop.getProperty("/Ztipopag") !== "4") {
+          self.getView().byId("cbxModalitaPagamentoWizard2").setValue("")
+        } else {
+          self.getView().byId("cbxModalitaPagamento").setValue("")
+        }
+
         this._resetDataModalitaPagamento()
       },
       //#endregion ----------------SELECTION CHANGE-------------------------------
@@ -1880,6 +1886,15 @@ sap.ui.define(
       },
 
       onIbanChange: function () {
+        var self = this;
+        var oModelSop = self.getModel("Sop")
+        var oSop = oModelSop.getData()
+
+        if (oSop.Zcoordest) {
+          oModelSop.setProperty("/Zcoordest", "")
+          oModelSop.setProperty("/Swift", "")
+        }
+
         this.checkIban();
       },
 
@@ -1994,7 +2009,7 @@ sap.ui.define(
         oModelSop.setProperty("/Zcodtrib", oEvent.getParameter("value"))
       },
 
-      onPosFinEntrataChange: function (oEvent) {
+      onPosFinEntrataChange: function () {
         var self = this;
         var oModel = self.getModel()
         var oSop = self.getModel("Sop").getData()
@@ -5768,16 +5783,7 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop");
         var oModelUtility = self.getModel("Utility");
-
-        if (obj?.Iban && (obj?.Banks || obj.Witht)) {
-          if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
-            this.openPopupMotivazione()
-          }
-
-          self.checkIban();
-          self.setDataIban();
-          return;
-        }
+        var oSop = oModelSop.getData()
 
         if (obj?.Zalias) {
           oModelSop.setProperty("/Zalias", obj.Zalias);
@@ -5785,6 +5791,21 @@ sap.ui.define(
           oModelSop.setProperty("/AccTypeId", obj.AccTypeId);
           oModelSop.setProperty("/RegioConto", obj.Zregio);
           self.setIban();
+          return;
+        }
+
+        if (obj?.Iban) {
+          if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
+            this.openPopupMotivazione()
+          }
+
+          if (oSop.Zcoordest) {
+            oModelSop.setProperty("/Zcoordest", "")
+            oModelSop.setProperty("/Swift", "")
+          }
+
+          self.checkIban();
+          self.setDataIban();
           return;
         }
 
@@ -6024,13 +6045,14 @@ sap.ui.define(
 
       //#endregion ------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
 
-      attachFiposFocusOut: function () {
-        this.byId("iptFiposEntrata").addEventDelegate({
-          onfocusout: $.proxy(function (oEvent) {
-            self.onPosFinEntrataChange()
-          }, this)
-        });
-      }
+      // attachFiposFocusOut: function () {
+      //   var self = this
+      //   this.byId("iptFiposEntrata").addEventDelegate({
+      //     onfocusout: $.proxy(function (oEvent) {
+      //       self.onPosFinEntrataChange()
+      //     }, this)
+      //   });
+      // }
 
 
     });

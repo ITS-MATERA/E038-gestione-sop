@@ -205,6 +205,7 @@
                     selectedKey="{Sop>/Zwels}"
                     editable="{= ${Sop>/Lifnr} &amp;&amp; ${Utility>/EnableEdit} ? true : false}"
                     selectionChange="onModalitaPagamentoChange"
+                    change="onModalitaPagamentoInsert"
                 >
                     <c:Item
                         key="{ModalitaPagamento>Zwels}"
@@ -217,7 +218,6 @@
                 <Label
                     text="{i18n>labelIban}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
-                    required="true"
                 >
                     <layoutData>
                         <l:GridData

@@ -30,6 +30,7 @@
                     type="Number"
                     change="onImpLiquidazioneChange"
                     editable="{Utility>/EnableEdit}"
+                    textAlign="End"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L2 M5 S12" />

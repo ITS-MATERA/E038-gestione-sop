@@ -24,7 +24,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
-        self.attachFiposFocusOut()
+        // self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.detail.scenary4").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -181,6 +181,7 @@ sap.ui.define(
             self.createModelStepScenarioDet();
             oModelUtility.setProperty("/EnableEdit", false)
             self.getView().byId("idToolbarDetail").setVisible(true)
+            oModelUtility.setProperty("/ButtonsVisible", true)
             break;
           }
           case "Workflow": {
@@ -188,10 +189,12 @@ sap.ui.define(
             self.createModelWF()
             self.setModel(new JSONModel(aSop), "DatiFirmatario")
             self.getView().byId("idToolbarDetail").setVisible(true)
+            oModelUtility.setProperty("/ButtonsVisible", false)
             break;
           }
           case "Rettifica": {
             self.resetLog()
+            oModelUtility.setProperty("/ButtonsVisible", true)
             self.resetWizard("wizScenario4");
             oModelStepScenario.setProperty("/wizard1Step2", false)
             oModelStepScenario.setProperty("/wizard1Step1", true)
@@ -202,6 +205,7 @@ sap.ui.define(
           } case "FascicoloElettronico": {
             self.resetLog()
             self.getView().byId("idToolbarDetail").setVisible(true)
+            oModelUtility.setProperty("/ButtonsVisible", false)
             break;
           }
         }

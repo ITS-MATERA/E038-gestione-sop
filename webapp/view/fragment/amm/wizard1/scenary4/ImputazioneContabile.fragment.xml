@@ -15,14 +15,15 @@
                 defaultSpan="XL12 L12 M12 S12"
                 hSpacing="0.5"
             >
-                <Text
+                <Label
                     text="{i18n>labelCentroCosto}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
                 >
                     <layoutData>
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
-                </Text>
+                </Label>
                 <Input
                     valueHelpRequest="onValueHelpCentroCosto"
                     showValueHelp="true"
@@ -34,7 +35,7 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
-                <Text
+                <Label
                     text="{i18n>labelDescrizione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
@@ -44,7 +45,7 @@
                             indent="XL1"
                         />
                     </layoutData>
-                </Text>
+                </Label>
                 <Input
                     editable="false"
                     value="{Sop>/DescKostl}"
@@ -53,9 +54,10 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </layoutData>
                 </Input>
-                <Text
+                <Label
                     text="{i18n>labelContoCoGe}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
+                    required="true"
                 >
                     <layoutData>
                         <l:GridData
@@ -63,7 +65,7 @@
                             linebreak="true"
                         />
                     </layoutData>
-                </Text>
+                </Label>
                 <zcontrolmccross:MatchcodeCross
                     id="iptContoCoge"
                     whichMC="ContoCoge"
@@ -78,7 +80,7 @@
                         <l:GridData span="XL2 L3 M5 S12" />
                     </zcontrolmccross:layoutData>
                 </zcontrolmccross:MatchcodeCross>
-                <Text
+                <Label
                     text="{i18n>labelDescrizione}:"
                     class="sapUiTinyMarginTop sapUiLargeMarginEnd"
                 >
@@ -88,7 +90,7 @@
                             indent="XL1"
                         />
                     </layoutData>
-                </Text>
+                </Label>
                 <Input
                     value="{Sop>/DescHkont}"
                     editable="false"

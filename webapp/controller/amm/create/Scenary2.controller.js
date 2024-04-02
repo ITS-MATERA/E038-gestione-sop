@@ -25,7 +25,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
-        self.attachFiposFocusOut()
+        // self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.create.scenary2").attachPatternMatched(this._onObjectMatched, this);
       },
