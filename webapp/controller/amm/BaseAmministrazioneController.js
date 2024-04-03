@@ -1506,6 +1506,7 @@ sap.ui.define(
             MessageBox.success("Le righe selezionate sono state aggiunte nel SOP " + oSop.Zchiavesop)
             oModelUtility.setProperty("/Table", "Edit")
             self.addNewPositions()
+            self.resetRecords()
             self.getView().setBusy(false);
           },
           error: function () {
@@ -1513,6 +1514,93 @@ sap.ui.define(
           },
         });
       },
+
+      resetRecords: async function () {
+        var self = this, sModelName;
+        var oSop = self.getModel("Sop").getData()
+        var aPositionsSop = oSop.Position
+
+        switch (oSop.Ztipopag) {
+          case "1": {
+            sModelName = "PosizioniScen1"
+            break;
+          }
+          case "2": {
+            sModelName = "PosizioniScen2"
+            break;
+          }
+          case "3": {
+            sModelName = "PosizioniScen3"
+            break;
+          }
+        }
+
+        // var aPosizioni = self.getModel(sModelName).getData()
+        // if (aPosizioni.length !== 0) {
+        //   aPositionsSop.map((oPosizione) => {
+        //     var iIndex = aPosizioni.findIndex((obj) => {
+        //       return (
+        //         obj.Belnr === oPosizione.Belnr &&
+        //         obj.Znumliq23 === oPosizione.Znumliq23 &&
+        //         obj.Zposizione === oPosizione.Zposizione
+        //       );
+        //     });
+
+        //     if (iIndex > -1) {
+        //       aPosizioni.splice(iIndex, 1);
+        //     }
+        //   });
+        // }
+
+        self.setModel(new JSONModel(await this._getQuote()), sModelName);
+
+      },
+
+      _getQuote: async function () {
+        var self = this;
+        var oModel = self.getModel()
+        var aFilters = self.setFiltersWizard1();
+        var oSop = self.getModel("Sop").getData()
+        var aPositionsSop = oSop.Position
+
+        self.getView().setBusy(true);
+        return new Promise(async function (resolve, reject) {
+          await oModel.read("/QuoteDocumentoSet", {
+            filters: aFilters,
+            success: function (data, oResponse) {
+              self.getView().setBusy(false);
+
+              var aPosizioni = data?.results;
+              aPosizioni?.map((oPosition, iIndex) => {
+                oPosition.Index = iIndex + 1;
+              });
+
+              //Rimuovo le posizioni già aggiunte al SOA
+              if (aPosizioni.length !== 0) {
+                aPositionsSop.map((oPosizione) => {
+                  var iIndex = aPosizioni.findIndex((obj) => {
+                    return (
+                      obj.Belnr === oPosizione.Belnr &&
+                      obj.Znumliq23 === oPosizione.Znumliq23 &&
+                      obj.Zposizione === oPosizione.Zposizione
+                    );
+                  });
+
+                  if (iIndex > -1) {
+                    aPosizioni.splice(iIndex, 1);
+                  }
+                });
+              }
+              resolve(aPosizioni);
+            },
+            error: function (error) {
+              self.getView().setBusy(false);
+              reject(error);
+            },
+          });
+        });
+      },
+
       //#endregion -------------------------METHODS-------------------------------
 
       //#endregion -------------------------WIZARD 1------------------------------
@@ -1889,6 +1977,12 @@ sap.ui.define(
         var self = this;
         var oModelSop = self.getModel("Sop")
         var oSop = oModelSop.getData()
+        var oModelUtility = self.getModel("Utility")
+
+
+        if (oModelUtility.getProperty("/isIbanPrevalorizzato")) {
+          this.openPopupMotivazione()
+        }
 
         if (oSop.Zcoordest) {
           oModelSop.setProperty("/Zcoordest", "")
@@ -1910,10 +2004,6 @@ sap.ui.define(
         var bIsVersanteEditable = oModelUtility.getProperty("/isVersanteEditable")
 
         oModelSop.setProperty("/DescZwels", sDescZwels)
-
-        if (bIsIbanPrevalorizzato) {
-          this.openPopupMotivazione()
-        }
 
         if (!bIsIbanPrevalorizzato || !sZwels) {
           oModelSop.setProperty("/Iban", "");
@@ -2098,7 +2188,8 @@ sap.ui.define(
         var oModelSop = self.getModel("Sop");
         var oSop = oModelSop.getData();
         var sZspecieSop = oSop.ZspecieSop
-
+        var oModelUtility = self.getModel("Utility")
+        var bIsIbanPrevalorizzato = oModelUtility.getProperty("/isIbanPrevalorizzato")
 
         if (oSop.Zwels === 'ID5' || oSop.Ztipopag === "1") {
           if (oSop?.Position) {
@@ -2142,12 +2233,18 @@ sap.ui.define(
               case "1": {
                 if (oSop.Zwels === "ID1" || oSop.Zwels === "ID2" || oSop.Zwels === "ID3" || oSop.Zwels === "ID4") {
                   oModelSop.setProperty("/Iban", data?.Iban);
+                  if (bIsIbanPrevalorizzato && data?.Iban) {
+                    self.openPopupMotivazione()
+                  }
                 }
                 break;
               }
               case "2": {
                 if (oSop.Zwels === "ID3" || oSop.Zwels === "ID4" || oSop.Zwels === "ID5") {
                   oModelSop.setProperty("/Iban", data?.Iban);
+                  if (bIsIbanPrevalorizzato && data?.Iban) {
+                    self.openPopupMotivazione()
+                  }
                 }
                 break;
               }

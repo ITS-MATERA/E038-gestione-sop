@@ -10,6 +10,7 @@
 			path: 'WFSop>/'
 		}"
         visible="{= ${Utility>/Function} === 'Workflow' ? true : false }"
+        sort="false"
     >
         <c:content>
             <c:TimelineItem

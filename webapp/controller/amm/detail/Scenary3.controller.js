@@ -64,6 +64,7 @@ sap.ui.define(
           self.resetLog()
           if (sTable === "Edit" && oModelUtility.getProperty("/pressAddAction")) {
             oModelUtility.setProperty("/Table", "Add")
+            self.resetRecords()
             return
           }
           switch (sTable) {
@@ -440,11 +441,9 @@ sap.ui.define(
               aPositionsSop.map((oPosizione) => {
                 var iIndex = aPosizioni.findIndex((obj) => {
                   return (
-                    obj.Bukrs === oPosizione.Bukrs &&
-                    obj.Znumliq === oPosizione.Znumliq &&
-                    obj.Zposizione === oPosizione.Zposizione &&
-                    obj.Zversione === oPosizione.Zversione &&
-                    obj.ZversioneOrig === oPosizione.ZversioneOrig
+                    obj.Belnr === oPosizione.Belnr &&
+                    obj.Znumliq23 === oPosizione.Znumliq23 &&
+                    obj.Zposizione === oPosizione.Zposizione
                   );
                 });
 
