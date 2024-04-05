@@ -3740,6 +3740,43 @@ sap.ui.define(
         });
       },
 
+      onCupChange: function (oEvent) {
+        var self = this;
+        var oModel = self.getModel();
+        var oModelClassificazione = self.getModel("Classificazione");
+        var aListClassificazione = oModelClassificazione.getProperty("/Cup");
+
+        var oSource = oEvent.getSource();
+        var sIndex = oSource.data().index;
+
+        if (!aListClassificazione[sIndex].Zzcup) {
+          aListClassificazione[sIndex].Belnr = "";
+          oModelClassificazione.setProperty("/Cup", aListClassificazione);
+          return
+        }
+
+        var sKey = oModel.createKey("/CupSet", {
+          Zzcup: aListClassificazione[sIndex].Zzcup,
+        });
+
+        self.getView().setBusy(true);
+        oModel.read(sKey, {
+          success: function (data, oResponse) {
+            self.getView().setBusy(false);
+            aListClassificazione[sIndex].Belnr = data.Belnr;
+            oModelClassificazione.setProperty("/Cup", aListClassificazione);
+            if (self.hasResponseError(oResponse)) {
+              aListClassificazione[sIndex].Belnr = "";
+              aListClassificazione[sIndex].Zzcup = "";
+              oModelClassificazione.setProperty("/Cup", aListClassificazione);
+            };
+          },
+          error: function () {
+            self.getView().setBusy(false);
+          },
+        });
+      },
+
       //#endregion -------------------------SELECTION CHANGE--------------------
 
       //#region ----------------------------METHODS-----------------------------
@@ -6142,14 +6179,16 @@ sap.ui.define(
 
       //#endregion ------------CREAZIONE ANAGRAFICA/PAGAMENTO------------------/
 
-      // attachFiposFocusOut: function () {
-      //   var self = this
-      //   this.byId("iptFiposEntrata").addEventDelegate({
-      //     onfocusout: $.proxy(function (oEvent) {
-      //       self.onPosFinEntrataChange()
-      //     }, this)
-      //   });
-      // }
+      attachFiposFocusOut: function () {
+        var self = this
+        this.byId("iptFiposEntrata").addEventDelegate({
+          onfocusout: $.proxy(function (oEvent) {
+            if (!oEvent?.originalEvent?.relatedTarget?.id) {
+              self.onPosFinEntrataChange()
+            }
+          }, this)
+        });
+      }
 
 
     });

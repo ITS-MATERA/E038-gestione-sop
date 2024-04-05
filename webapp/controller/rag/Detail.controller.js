@@ -16,6 +16,7 @@ sap.ui.define(
         var oView = self.getView();
         var oWizard = oView.byId("wizDetail");
         var oModelStepScenario = self.getModel("StepScenario");
+        var oUtility = self.getModel("Utility").getData()
 
         var bWizard1 = oModelStepScenario.getProperty("/Wizard1");
         var bWizard2 = oModelStepScenario.getProperty("/Wizard2");
@@ -26,6 +27,10 @@ sap.ui.define(
         var bWizard7 = oModelStepScenario.getProperty("/Wizard7");
 
         if (bWizard1) {
+          if (oUtility.Function === "DocAggiuntiva") {
+            self.onBackRichiestaDocAgg()
+            return
+          }
           self.unlockSop()
           self.getRouter().navTo("rag.home");
         } else if (bWizard2) {
@@ -475,6 +480,7 @@ sap.ui.define(
             break;
           }
           case "Workflow": {
+            oModelUtility.setProperty("/Sop", [oSop])
             self.createModelWF()
             break;
           }
@@ -895,7 +901,7 @@ sap.ui.define(
         var oModelUtility = self.getModel("Utility");
 
 
-        self.resetWizard("wizDetail");
+        // self.resetWizard("wizDetail");
         self.createModelStepScenario();
         oModelUtility.setProperty("/Function", "DocAggiuntiva")
         oModelUtility.setProperty("/EnableDocAggiuntiva", true)
@@ -903,6 +909,28 @@ sap.ui.define(
         oModelUtility.setProperty("/RemoveFunctionButtons", true)
         self.createModelDatiRichiesta()
 
+      },
+
+      onBackRichiestaDocAgg: function () {
+        var self = this;
+        var oModelUtility = self.getModel("Utility");
+
+        var oModelStepScenario = new JSONModel({
+          Wizard1: false,
+          Wizard2: false,
+          Wizard3: false,
+          Wizard4: false,
+          Wizard5: false,
+          Wizard6: false,
+          Wizard7: true,
+        })
+
+        self.setModel(oModelStepScenario, "StepScenario")
+
+        oModelUtility.setProperty("/Function", "VerificaConferma")
+        oModelUtility.setProperty("/EnableDocAggiuntiva", false)
+        oModelUtility.setProperty("/EnableVerificaConferma", true)
+        oModelUtility.setProperty("/RemoveFunctionButtons", false)
       },
 
       onSaveDocAggiuntiva: function () {

@@ -158,15 +158,15 @@
                                 </WizardStep>
                             </Wizard>
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.Workflow"
-                                type="XML"
-                            />
-                            <c:Fragment
                                 fragmentName="gestionesop.view.fragment.amm.detail.DatiFirmatario"
                                 type="XML"
                             />
                             <c:Fragment
                                 fragmentName="gestionesop.view.fragment.amm.table.TableSopFunction"
+                                type="XML"
+                            />
+                            <c:Fragment
+                                fragmentName="gestionesop.view.fragment.Workflow"
                                 type="XML"
                             />
                         </content>

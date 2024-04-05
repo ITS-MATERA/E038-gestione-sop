@@ -26,7 +26,7 @@ sap.ui.define(
         self.acceptOnlyImport("iptCFCommit")
         self.acceptOnlyNumber("iptCos")
         self.acceptOnlyNumber("iptZnumprot")
-        // self.attachFiposFocusOut()
+        self.attachFiposFocusOut()
 
         this.getRouter().getRoute("amm.detail.scenary2").attachPatternMatched(this._onObjectMatched, this);
       },
@@ -276,6 +276,10 @@ sap.ui.define(
         var sKey = oEvent.getParameter("selectedKey");
         var oModelUtility = self.getModel("Utility");
         var oModelStepScenario = self.getModel("StepScenario")
+        var aSop = {
+          Sop: []
+        }
+        aSop.Sop.push(oSop)
 
         oModelUtility.setProperty("/Function", sKey);
 
@@ -302,6 +306,7 @@ sap.ui.define(
             self.resetLog()
             self.getView().byId("idToolbarDetail").setVisible(true)
             self.createModelWF()
+            self.setModel(new JSONModel(aSop), "DatiFirmatario")
             oModelUtility.setProperty("/ButtonsVisible", false)
             break;
           }
@@ -406,25 +411,73 @@ sap.ui.define(
 
       },
 
-      onSelectedItemEdit: function (oEvent) {
+      onSelectedItemEdit: async function (oEvent) {
         var self = this;
+        var aError = [];
         var oModelUtility = self.getModel("Utility")
         var bSelected = oEvent.getParameter("selected");
 
         var oTable = self.getView().byId("tblEditPosizioniScen2");
         var oModelTable = oTable.getModel("Sop");
+        var oModelSop = self.getModel("Sop");
 
         var aSelectedItems = oModelUtility.getProperty("/SelectedPositions");
         var aListItems = oEvent.getParameter("listItems");
 
-        aListItems.map((oListItem) => {
+        // aListItems.map((oListItem) => {
+        //   var oSelectedItem = oModelTable.getObject(oListItem.getBindingContextPath());
+
+        //   if (bSelected) {
+        //     oListItem.getAggregation("cells")[10].setEnabled(true)
+        //     aSelectedItems.push(oSelectedItem);
+        //   } else {
+        //     oListItem.getAggregation("cells")[10].setEnabled(false)
+        //     var iIndex = aSelectedItems.findIndex((obj) => {
+        //       return (
+        //         obj.Bukrs === oSelectedItem.Bukrs &&
+        //         obj.Zposizione === oSelectedItem.Zposizione &&
+        //         obj.Znumliq === oSelectedItem.Znumliq &&
+        //         obj.Zversione === oSelectedItem.Zversione &&
+        //         obj.ZversioneOrig === oSelectedItem.ZversioneOrig
+        //       );
+        //     });
+
+        //     if (iIndex > -1) {
+        //       aSelectedItems.splice(iIndex, 1);
+        //     }
+        //   }
+        //   oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+        // });
+
+        for (var i = 0; i < aListItems.length; i++) {
+          var oListItem = aListItems[i];
           var oSelectedItem = oModelTable.getObject(oListItem.getBindingContextPath());
 
           if (bSelected) {
-            oListItem.getAggregation("cells")[10].setEnabled(true)
-            aSelectedItems.push(oSelectedItem);
+            aListItems[i].getAggregation("cells")[10].setEnabled(true)
+            var oResponse
+            if (oModelSop.getProperty("/ZspecieSop") === '1') {
+              oResponse = await self.lockQuoteBeneficiario(oSelectedItem)
+            } else {
+              oResponse = await self.lockQuoteRitenute(oSelectedItem)
+            }
+
+            if (oResponse.data.Type === 'S') {
+              aSelectedItems.push(oSelectedItem);
+              oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
+              continue
+            }
+
+            aError.push({
+              Msgid: "",
+              Msgty: oResponse?.data?.Type,
+              Msgno: "",
+              Message: oResponse?.data?.Message,
+            })
+            oTable.setSelectedItem(oListItem, false)
+            aListItems[i].getAggregation("cells")[10].setEnabled(false)
           } else {
-            oListItem.getAggregation("cells")[10].setEnabled(false)
+            aListItems[i].getAggregation("cells")[10].setEnabled(false)
             var iIndex = aSelectedItems.findIndex((obj) => {
               return (
                 obj.Bukrs === oSelectedItem.Bukrs &&
@@ -438,9 +491,24 @@ sap.ui.define(
             if (iIndex > -1) {
               aSelectedItems.splice(iIndex, 1);
             }
+            if (oModelSop.getProperty("/ZspecieSop") === '1') {
+              await self.unlockQuoteBeneficiario(oSelectedItem)
+            } else {
+              await self.unlockQuoteRitenute(oSelectedItem)
+            }
+
+            oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
           }
-          oModelUtility.setProperty("/SelectedPositions", aSelectedItems);
-        });
+        }
+
+        if (aError.length === 1) {
+          MessageBox.error(aError[0].Message)
+        }
+        else if (aError.length > 1) {
+          MessageBox.error("Operazione non eseguita correttamente")
+          self.setModel(new JSONModel(aError), "Log")
+          oModelUtility.setProperty("/isLogVisible", true)
+        }
       },
 
       onSelectedItem: async function (oEvent) {

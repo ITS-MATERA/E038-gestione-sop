@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:inputRicercaCup="z_s4_zsearchcodcup.z_s4_zsearchcodcup.controls"
 >
     <Panel
         class="sapUiNoContentPadding"
@@ -94,7 +95,7 @@
                 <items>
                     <ColumnListItem vAlign="Middle">
                         <cells>
-                            <Input
+                            <!-- <Input
                                 valueHelpRequest="onValueHelpCupClassificazione"
                                 showValueHelp="true"
                                 app:index="{Classificazione>Index}"
@@ -102,6 +103,14 @@
                                 value="{Classificazione>Zzcup}"
                                 editable="{Utility>/EnableEdit}"
                                 maxLength="15"
+                            /> -->
+                            <inputRicercaCup:inputRicercaCup
+                                value="{Classificazione>Zzcup}"
+                                editable="{Utility>/EnableEdit}"
+                                width="65%"
+                                maxLength="15"
+                                app:index="{Classificazione>Index}"
+                                change="onCupChange"
                             />
                             <Input
                                 editable="false"

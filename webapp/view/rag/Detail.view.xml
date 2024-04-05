@@ -194,11 +194,15 @@
                                 </WizardStep>
                             </Wizard>
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.Workflow"
+                                fragmentName="gestionesop.view.fragment.rag.function.TableUp"
                                 type="XML"
                             />
                             <c:Fragment
-                                fragmentName="gestionesop.view.fragment.rag.function.TableUp"
+                                fragmentName="gestionesop.view.fragment.rag.function.TableSopFunctionWorkflow"
+                                type="XML"
+                            />
+                            <c:Fragment
+                                fragmentName="gestionesop.view.fragment.Workflow"
                                 type="XML"
                             />
                             <c:Fragment

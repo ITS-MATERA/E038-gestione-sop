@@ -3,6 +3,7 @@
     xmlns:c="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:inputRicercaCup="z_s4_zsearchcodcup.z_s4_zsearchcodcup.controls"
 >
     <Panel
         class="sapUiNoContentPadding"

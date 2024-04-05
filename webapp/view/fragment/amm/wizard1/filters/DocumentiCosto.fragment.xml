@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
     xmlns:zcontrolmccross="acn.zmatchcodecross.controls"
     xmlns:mcbenef="z_s4_mcacn.mcacn.controls"
+    xmlns:inputRicercaCup="z_s4_zsearchcodcup.z_s4_zsearchcodcup.controls"
 >
     <Panel
         backgroundDesign="Transparent"
@@ -222,17 +223,16 @@
                         <l:GridData span="XL2 L3 M6 S12" />
                     </layoutData>
                 </Text>
-                <Input
-                    showValueHelp="true"
+                <inputRicercaCup:inputRicercaCup
                     value="{FiltersWizard1>/Cup}"
-                    maxLength="15"
-                    valueHelpRequest="onValueHelpCupFilter"
                     editable="{= ${Sop>/ZspecieSop} === '2' ? false : true}"
+                    maxLength="15"
+                    valueHelpOnly="true"
                 >
-                    <layoutData>
+                    <inputRicercaCup:layoutData>
                         <l:GridData span="XL2 L3 M6 S12" />
-                    </layoutData>
-                </Input>
+                    </inputRicercaCup:layoutData>
+                </inputRicercaCup:inputRicercaCup>
             </l:Grid>
         </content>
         <content>

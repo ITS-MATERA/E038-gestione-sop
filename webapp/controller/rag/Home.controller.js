@@ -40,6 +40,8 @@ sap.ui.define(
         self.noWrite("cbxStatoSop")
         self.noWrite("cbxTipoSop")
         self.noWrite("cbxSpecieSop")
+        self.acceptOnlyNumber("iptZnumsopFrom")
+        self.acceptOnlyNumber("iptZnumsopTo")
       },
 
       _onObjectMatched: async function (oEvent) {

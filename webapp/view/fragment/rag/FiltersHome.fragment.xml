@@ -102,6 +102,7 @@
                 <items>
                     <Label text="{i18n>labelNSopFrom}:" />
                     <Input
+                        id="iptZnumsopFrom"
                         maxLength="5"
                         value="{FiltersHome>/ZnumsopFrom}"
                     />
@@ -114,6 +115,7 @@
                 <items>
                     <Label text="{i18n>labelNSopTo}:" />
                     <Input
+                        id="iptZnumsopTo"
                         maxLength="5"
                         value="{FiltersHome>/ZnumsopTo}"
                     />

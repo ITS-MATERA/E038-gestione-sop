@@ -50,6 +50,9 @@ sap.ui.define(
         self.acceptOnlyTotChar("cbxRitenuta", 40)
         self.acceptOnlyNumber("iptZnumprot")
         self.acceptOnlyNumber("iptBeneficiario")
+        self.acceptOnlyNumber("iptZnumsopFrom")
+        self.acceptOnlyNumber("iptZnumsopTo")
+
       },
 
       _onObjectMatched: async function (oEvent) {
