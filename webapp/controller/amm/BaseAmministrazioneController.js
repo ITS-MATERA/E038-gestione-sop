@@ -4597,12 +4597,23 @@ sap.ui.define(
         var aDeletedClassificazioni = oUtility.DeletedClassificazioni
         var oModelUtility = self.getModel("Utility")
 
+        var aPositionFormatted = []
+        var aClassificazioneFormatted = []
+
+        aPosition.map((oPosition) => {
+          aPositionFormatted.push(oPosition)
+        })
+
+        aClassificazione.map((oClassificazione) => {
+          aClassificazioneFormatted.push(oClassificazione)
+        })
+
         aDeletedPositions.map((oPosition) => {
-          aPosition.push(oPosition)
+          aPositionFormatted.push(oPosition)
         })
 
         aDeletedClassificazioni.map((oClassificazione) => {
-          aClassificazione.push(oClassificazione)
+          aClassificazioneFormatted.push(oClassificazione)
         })
 
         var aPosizioniDeep = [];
@@ -4610,7 +4621,7 @@ sap.ui.define(
 
         switch (oSop.Ztipopag) {
           case "1": {
-            aPosition.map((oPosition) => {
+            aPositionFormatted.map((oPosition) => {
               aPosizioniDeep.push({
                 Znumliq: oPosition.Znumliq,
                 Zposizione: oPosition.Zposizione,
@@ -4631,7 +4642,7 @@ sap.ui.define(
             break;
           }
           case "2": {
-            aPosition.map((oPosition) => {
+            aPositionFormatted.map((oPosition) => {
               aPosizioniDeep.push({
                 Znumliq: oPosition.Znumliq,
                 Zposizione: oPosition.Zposizione,
@@ -4657,7 +4668,7 @@ sap.ui.define(
             break;
           }
           case "3": {
-            aPosition.map((oPosition) => {
+            aPositionFormatted.map((oPosition) => {
               aPosizioniDeep.push({
                 Znumliq: oPosition.Znumliq,
                 Zposizione: oPosition.Zposizione,
@@ -4674,7 +4685,7 @@ sap.ui.define(
             break;
           }
           case "4": {
-            aPosition.map((oPosition) => {
+            aPositionFormatted.map((oPosition) => {
               aPosizioniDeep.push({
                 Znumliq: oPosition.Znumliq,
                 Zposizione: oPosition.Zposizione,
@@ -4690,7 +4701,7 @@ sap.ui.define(
           }
         }
 
-        aClassificazione.map((oClassificazione) => {
+        aClassificazioneFormatted.map((oClassificazione) => {
           aClassificazioneDeep.push({
             Zchiavesop: oClassificazione.Zchiavesop,
             Bukrs: oClassificazione.Bukrs,
