@@ -404,7 +404,7 @@ sap.ui.define(
         var oFirstSop = self.getModel("FirstSop").getData();
         var oIdAutorizzazione = oFirstSop.IdAutorizzazione
 
-        if (oIdAutorizzazione.TYPE && oIdAutorizzazione.ZZNUMERO && oIdAutorizzazione.ZZANNO) {
+        if (oIdAutorizzazione?.TYPE && oIdAutorizzazione?.ZZNUMERO && oIdAutorizzazione?.ZZANNO) {
           return oIdAutorizzazione.TYPE + "-" + oIdAutorizzazione.ZZNUMERO + "-" + oIdAutorizzazione.ZZANNO
         }
       }
