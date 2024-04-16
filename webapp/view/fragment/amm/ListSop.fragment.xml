@@ -17,7 +17,7 @@
                     <Button
                         text="{i18n>btnDetail}"
                         type="Emphasized"
-                        icon="sap-icon://sys-find"
+                        icon="sap-icon://search"
                         press="onDetail"
                         enabled="{= ${Utility>/EnabledBtnDetail} &amp;&amp; ${AuthorityCheck>/Dettaglio} ? true : false}"
                     />

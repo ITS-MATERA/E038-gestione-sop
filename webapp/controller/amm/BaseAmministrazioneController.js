@@ -4355,7 +4355,7 @@ sap.ui.define(
             Zdenominazione: oSop.Zdenominazione,
             Zdurc: oSop.Zdurc,
             Zdstatodes: oSop.Zdstatodes,
-            Zdscadenza: oSop.Zdscadenza,
+            Zdscadenza: oSop.Zdscadenza ? oSop.Zdscadenza : null,
             ZfermAmm: oSop.ZfermAmm,
             Zwels: oSop.Zwels,
             Zcoordest: oSop.Zcoordest,
@@ -4649,11 +4649,11 @@ sap.ui.define(
                 Zimpres: oPosition.Zimpres,
                 Belnr: oPosition.Belnr,
                 GjahrDc: oPosition.AnnoRegDoc,
-                Xblnr: oPosition.Xblnr,
+                Xblnr: oPosition.Lxblnr,
                 Blart: oPosition.Blart,
                 Bldat: oPosition.Bldat,
                 Zbenalt: oPosition.Zbenalt,
-                ZbenaltName: oPosition.ZbenaltName,
+                ZbenaltName: oPosition.ZzragSoc,
                 Wrbtr: oPosition.Wrbtr,
                 Zimpdaord: oPosition.Zimpdaord,
                 Zdurc: oPosition.Zdurc,
@@ -4774,7 +4774,7 @@ sap.ui.define(
             Zdenominazione: oSop.Zdenominazione,
             Zdurc: oSop.Zdurc,
             Zdstatodes: oSop.Zdstatodes,
-            Zdscadenza: oSop.Zdscadenza,
+            Zdscadenza: oSop.Zdscadenza ? oSop.Zdscadenza : null,
             ZfermAmm: oSop.ZfermAmm,
             Zwels: oSop.Zwels,
             Zcoordest: oSop.Zcoordest,
@@ -5720,7 +5720,7 @@ sap.ui.define(
           oModelSop.setProperty("/Taxnumxl", "");
           oModelSop.setProperty("/Zdurc", "");
           oModelSop.setProperty("/Zdstatodes", "");
-          oModelSop.setProperty("/Zdscadenza", "");
+          oModelSop.setProperty("/Zdscadenza", null);
           oModelSop.setProperty("/ZfermAmm", "");
           oModelSop.setProperty("/Zsede", "");
           oModelSop.setProperty("/Zdenominazione", "");
@@ -5769,7 +5769,7 @@ sap.ui.define(
             oModelSop.setProperty("/Taxnumxl", data?.TaxnumxlCfe);
             oModelSop.setProperty("/Zdurc", data?.Zdurc);
             oModelSop.setProperty("/Zdstatodes", data?.Zdstatodes);
-            oModelSop.setProperty("/Zdscadenza", data?.Zdscadenza);
+            oModelSop.setProperty("/Zdscadenza", data?.Zdscadenza ? data?.Zdscadenza : null);
             oModelSop.setProperty("/ZfermAmm", data?.ZfermAmm);
             oModelSop.setProperty("/Zsede", data?.Zsede);
             oModelSop.setProperty("/Zdenominazione", data?.Zdenominazione);
@@ -5961,7 +5961,7 @@ sap.ui.define(
         }
 
         if (obj?.Zcodtrib) {
-          oModelSop.setProperty("/Zcodinps", obj.Zcodinps);
+          oModelSop.setProperty("/Zcodinps", self.setBlank(obj?.Zcodinps));
           oModelSop.setProperty("/Zperiodrifa", obj.Zperiodrifa ? obj.Zperiodrifa : null);
           oModelSop.setProperty("/Zperiodrifda", obj.Zperiodrifda ? obj.Zperiodrifda : null);
           return;

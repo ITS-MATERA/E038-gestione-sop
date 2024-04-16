@@ -271,7 +271,6 @@
                         ? true : false
                     }"
                     text="{i18n>btnCopy}"
-                    icon="sap-icon://edit"
                     press="onCopy"
                     type="Emphasized"
                     class="sapUiTinyMarginEnd"
